@@ -339,6 +339,31 @@
       },
       "workspace_id": "workspace_538aaf9f4515"
     },
+    "job_b2585f2c24e4": {
+      "context": {
+        "conversation_id": "conversation_f9e766f9579f",
+        "grounding_mode": "strict_lecture_only",
+        "message_text": "what is 1 + 1",
+        "response_style": "standard"
+      },
+      "created_at": "2026-03-30T02:20:29Z",
+      "error": null,
+      "finalized": true,
+      "job_id": "job_b2585f2c24e4",
+      "message": "Grounded answer ready.",
+      "operation": "conversation_message",
+      "poll_count": 2,
+      "progress": 100,
+      "remote_job_id": null,
+      "result_id": "msg_assistant_237c878ddcd7",
+      "result_type": "assistant_message",
+      "service": "local_mock",
+      "stage": "completed",
+      "status": "succeeded",
+      "updated_at": "2026-03-30T02:20:31Z",
+      "user_action": null,
+      "workspace_id": "workspace_538aaf9f4515"
+    },
     "job_b8cea7b7d13b": {
       "context": {
         "conversation_id": "conversation_f9e766f9579f",
@@ -655,6 +680,44 @@
                 }
               ],
               "role": "assistant"
+            },
+            {
+              "created_at": "2026-03-30T02:20:29Z",
+              "job_id": "job_b2585f2c24e4",
+              "message_id": "msg_user_1fd82272bea7",
+              "pending": false,
+              "role": "user",
+              "text": "what is 1 + 1"
+            },
+            {
+              "clarifying_question": {
+                "prompt": null,
+                "reason": null
+              },
+              "created_at": "2026-03-30T02:20:31Z",
+              "message_id": "msg_assistant_237c878ddcd7",
+              "reply_sections": [
+                {
+                  "citations": [
+                    {
+                      "citation_id": "citation_mat_0d4cf2e5271346b2afc8b1a4422e6a0e_mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1_1",
+                      "confidence": "high",
+                      "material_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e",
+                      "material_title": "lecture10-feat-eng-reg.pdf",
+                      "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_538aaf9f4515/materials/mat_0d4cf2e5271346b2afc8b1a4422e6a0e/slides/mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1/preview",
+                      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1",
+                      "slide_number": 1,
+                      "snippet_text": "Preview unavailable.",
+                      "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_538aaf9f4515/materials/mat_0d4cf2e5271346b2afc8b1a4422e6a0e/slides/mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1/source",
+                      "support_type": "explicit"
+                    }
+                  ],
+                  "heading": "Grounded answer",
+                  "support_status": "slide_grounded",
+                  "text": "Here is a grounded response based on the current workspace materials: what is 1 + 1. The shell preserved strict_lecture_only and response style standard while attaching a citation for inspection."
+                }
+              ],
+              "role": "assistant"
             }
           ],
           "title": "Workspace Q&A",
@@ -681,7 +744,7 @@
       ],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-03-30T02:19:39Z",
+      "last_opened_at": "2026-03-30T02:20:31Z",
       "local_edits": {},
       "material_preferences": {
         "mat_0d4cf2e5271346b2afc8b1a4422e6a0e": "default",
@@ -9226,13 +9289,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-03-30T02:19:39Z",
+            "last_checked_at": "2026-03-30T02:20:31Z",
             "mode": "mock"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-03-30T02:19:39Z",
+            "last_checked_at": "2026-03-30T02:20:31Z",
             "mode": "mock"
           }
         },

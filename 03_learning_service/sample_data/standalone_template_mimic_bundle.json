@@ -1,0 +1,165 @@
+{
+  "bundle_id": "bundle_template_mimic_demo",
+  "workspace_id": "ws_linear_models_demo",
+  "material_ids": [
+    "mat_lecture_linear_models_a",
+    "mat_lecture_linear_models_b",
+    "mat_template_midterm_1"
+  ],
+  "query_text": "lecture materials plus template style",
+  "bundle_mode": "full_material",
+  "items": [
+    {
+      "item_id": "item_001",
+      "material_id": "mat_lecture_linear_models_a",
+      "material_title": "Linear Models Lecture 1",
+      "slide_id": "slide_1",
+      "slide_number": 1,
+      "text": "Linear regression fits coefficients by minimizing mean squared error between predictions and targets. The lecture frames this as a supervised learning baseline with interpretable parameters.",
+      "extraction_quality": "high",
+      "citation": {
+        "citation_id": "cit_001",
+        "material_id": "mat_lecture_linear_models_a",
+        "material_title": "Linear Models Lecture 1",
+        "slide_id": "slide_1",
+        "slide_number": 1,
+        "snippet_text": "Linear regression fits coefficients by minimizing mean squared error between predictions and targets.",
+        "support_type": "explicit",
+        "confidence": "high",
+        "preview_url": "http://127.0.0.1:38410/materials/mat_lecture_linear_models_a/slides/1/preview",
+        "source_open_url": "http://127.0.0.1:38410/materials/mat_lecture_linear_models_a/slides/1"
+      }
+    },
+    {
+      "item_id": "item_002",
+      "material_id": "mat_lecture_linear_models_a",
+      "material_title": "Linear Models Lecture 1",
+      "slide_id": "slide_2",
+      "slide_number": 2,
+      "text": "Gradient descent updates parameters in the direction of the negative gradient. A learning rate that is too large can overshoot the minimum, while one that is too small can slow convergence.",
+      "extraction_quality": "high",
+      "citation": {
+        "citation_id": "cit_002",
+        "material_id": "mat_lecture_linear_models_a",
+        "material_title": "Linear Models Lecture 1",
+        "slide_id": "slide_2",
+        "slide_number": 2,
+        "snippet_text": "Gradient descent updates parameters in the direction of the negative gradient.",
+        "support_type": "explicit",
+        "confidence": "high",
+        "preview_url": "http://127.0.0.1:38410/materials/mat_lecture_linear_models_a/slides/2/preview",
+        "source_open_url": "http://127.0.0.1:38410/materials/mat_lecture_linear_models_a/slides/2"
+      }
+    },
+    {
+      "item_id": "item_003",
+      "material_id": "mat_lecture_linear_models_b",
+      "material_title": "Linear Models Lecture 2",
+      "slide_id": "slide_4",
+      "slide_number": 4,
+      "text": "Regularization adds a penalty term to the objective so that very large weights are discouraged. The lecture highlights L2 regularization as a way to reduce overfitting.",
+      "extraction_quality": "high",
+      "citation": {
+        "citation_id": "cit_004",
+        "material_id": "mat_lecture_linear_models_b",
+        "material_title": "Linear Models Lecture 2",
+        "slide_id": "slide_4",
+        "slide_number": 4,
+        "snippet_text": "Regularization adds a penalty term to the objective so that very large weights are discouraged.",
+        "support_type": "explicit",
+        "confidence": "high",
+        "preview_url": "http://127.0.0.1:38410/materials/mat_lecture_linear_models_b/slides/4/preview",
+        "source_open_url": "http://127.0.0.1:38410/materials/mat_lecture_linear_models_b/slides/4"
+      }
+    },
+    {
+      "item_id": "item_004",
+      "material_id": "mat_lecture_linear_models_b",
+      "material_title": "Linear Models Lecture 2",
+      "slide_id": "slide_5",
+      "slide_number": 5,
+      "text": "Validation data is used to tune hyperparameters and detect overfitting. Training error alone can look strong even when generalization is weak.",
+      "extraction_quality": "high",
+      "citation": {
+        "citation_id": "cit_005",
+        "material_id": "mat_lecture_linear_models_b",
+        "material_title": "Linear Models Lecture 2",
+        "slide_id": "slide_5",
+        "slide_number": 5,
+        "snippet_text": "Validation data is used to tune hyperparameters and detect overfitting.",
+        "support_type": "explicit",
+        "confidence": "high",
+        "preview_url": "http://127.0.0.1:38410/materials/mat_lecture_linear_models_b/slides/5/preview",
+        "source_open_url": "http://127.0.0.1:38410/materials/mat_lecture_linear_models_b/slides/5"
+      }
+    },
+    {
+      "item_id": "item_t1",
+      "material_id": "mat_template_midterm_1",
+      "material_title": "Practice Midterm Template",
+      "slide_id": "template_slide_1",
+      "slide_number": 1,
+      "text": "Explain briefly (6 points): Define the estimator and state one assumption that must hold for the argument in class.",
+      "extraction_quality": "high",
+      "citation": {
+        "citation_id": "cit_t1",
+        "material_id": "mat_template_midterm_1",
+        "material_title": "Practice Midterm Template",
+        "slide_id": "template_slide_1",
+        "slide_number": 1,
+        "snippet_text": "Explain briefly (6 points): Define the estimator and state one assumption.",
+        "support_type": "explicit",
+        "confidence": "high",
+        "preview_url": "http://127.0.0.1:38410/materials/mat_template_midterm_1/slides/1/preview",
+        "source_open_url": "http://127.0.0.1:38410/materials/mat_template_midterm_1/slides/1"
+      }
+    },
+    {
+      "item_id": "item_t2",
+      "material_id": "mat_template_midterm_1",
+      "material_title": "Practice Midterm Template",
+      "slide_id": "template_slide_2",
+      "slide_number": 2,
+      "text": "Compare and justify (12 points): Compare two optimization methods and justify which is more appropriate under the stated conditions.",
+      "extraction_quality": "high",
+      "citation": {
+        "citation_id": "cit_t2",
+        "material_id": "mat_template_midterm_1",
+        "material_title": "Practice Midterm Template",
+        "slide_id": "template_slide_2",
+        "slide_number": 2,
+        "snippet_text": "Compare and justify (12 points): Compare two optimization methods.",
+        "support_type": "explicit",
+        "confidence": "high",
+        "preview_url": "http://127.0.0.1:38410/materials/mat_template_midterm_1/slides/2/preview",
+        "source_open_url": "http://127.0.0.1:38410/materials/mat_template_midterm_1/slides/2"
+      }
+    },
+    {
+      "item_id": "item_t3",
+      "material_id": "mat_template_midterm_1",
+      "material_title": "Practice Midterm Template",
+      "slide_id": "template_slide_3",
+      "slide_number": 3,
+      "text": "Describe in a structured paragraph (15 points): Describe the procedure, discuss one failure mode, and propose a remedy.",
+      "extraction_quality": "high",
+      "citation": {
+        "citation_id": "cit_t3",
+        "material_id": "mat_template_midterm_1",
+        "material_title": "Practice Midterm Template",
+        "slide_id": "template_slide_3",
+        "slide_number": 3,
+        "snippet_text": "Describe the procedure, discuss one failure mode, and propose a remedy.",
+        "support_type": "explicit",
+        "confidence": "high",
+        "preview_url": "http://127.0.0.1:38410/materials/mat_template_midterm_1/slides/3/preview",
+        "source_open_url": "http://127.0.0.1:38410/materials/mat_template_midterm_1/slides/3"
+      }
+    }
+  ],
+  "summary": {
+    "total_items": 7,
+    "total_slides": 7,
+    "low_confidence_item_count": 0
+  }
+}

@@ -1,0 +1,11 @@
+01_app_shell integration dependency note
+
+The shell is validated in a single shared localhost Python environment with:
+- Python 3.11+
+- fastapi==0.111.0
+- uvicorn==0.30.1
+- httpx==0.27.0
+- python-multipart==0.0.9
+
+The shell only depends on localhost HTTP contracts exposed by the sibling services.
+It does not require direct filesystem access into Team 2 or Team 3 internals.

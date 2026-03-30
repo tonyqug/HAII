@@ -1,0 +1,648 @@
+{
+  "jobs": {},
+  "metadata": {
+    "mock_fixture_seeded": true
+  },
+  "workspaces": {
+    "workspace_fixture_demo": {
+      "active_material_ids": {
+        "notes": [
+          "material_fixture_notes"
+        ],
+        "practice_template": [
+          "material_fixture_template"
+        ],
+        "slides": [
+          "material_fixture_slides"
+        ]
+      },
+      "active_practice_set_id": "practice_fixture_1",
+      "active_study_plan_id": "study_plan_fixture_1",
+      "annotations": [],
+      "archived": false,
+      "conversations": {
+        "conversation_fixture_1": {
+          "conversation_id": "conversation_fixture_1",
+          "created_at": "2026-03-20T14:20:00Z",
+          "messages": [
+            {
+              "created_at": "2026-03-20T14:20:01Z",
+              "message_id": "msg_user_1",
+              "role": "user",
+              "text": "Why does the update use subtraction instead of addition?"
+            },
+            {
+              "clarifying_question": {
+                "prompt": null,
+                "reason": null
+              },
+              "created_at": "2026-03-20T14:20:10Z",
+              "message_id": "msg_assistant_1",
+              "reply_sections": [
+                {
+                  "citations": [
+                    {
+                      "citation_id": "citation_material_fixture_slides_slide_4_4",
+                      "confidence": "high",
+                      "material_id": "material_fixture_slides",
+                      "material_title": "Week 05 - Backpropagation.pdf",
+                      "preview_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_4/preview",
+                      "slide_id": "slide_4",
+                      "slide_number": 4,
+                      "snippet_text": "Subtract the gradient to reduce the loss.",
+                      "source_open_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_4/source",
+                      "support_type": "explicit"
+                    }
+                  ],
+                  "heading": "Lecture-grounded explanation",
+                  "support_status": "slide_grounded",
+                  "text": "The lecture slide writes the update as w <- w - eta * dL/dw, which means the parameter moves opposite the gradient so the loss decreases rather than increases."
+                }
+              ],
+              "role": "assistant"
+            }
+          ],
+          "title": "Why the minus sign matters",
+          "workspace_id": "workspace_fixture_demo"
+        }
+      },
+      "created_at": "2026-03-20T14:00:00Z",
+      "deleted": false,
+      "display_name": "Backpropagation Midterm Prep",
+      "feedback_history": [],
+      "grounding_mode": "strict_lecture_only",
+      "history": [
+        {
+          "active": true,
+          "artifact_id": "study_plan_fixture_1",
+          "artifact_type": "study_plan",
+          "created_at": "2026-03-20T14:10:00Z",
+          "parent_artifact_id": null,
+          "title": "Backpropagation and gradient descent"
+        },
+        {
+          "active": true,
+          "artifact_id": "conversation_fixture_1",
+          "artifact_type": "conversation",
+          "created_at": "2026-03-20T14:20:00Z",
+          "parent_artifact_id": null,
+          "title": "Why the minus sign matters"
+        },
+        {
+          "active": true,
+          "artifact_id": "practice_fixture_1",
+          "artifact_type": "practice_set",
+          "created_at": "2026-03-20T14:30:00Z",
+          "parent_artifact_id": null,
+          "title": "mixed"
+        }
+      ],
+      "known_conversation_ids": [
+        "conversation_fixture_1"
+      ],
+      "known_practice_set_ids": [
+        "practice_fixture_1"
+      ],
+      "known_study_plan_ids": [
+        "study_plan_fixture_1"
+      ],
+      "last_opened_at": "2026-03-27T18:45:00Z",
+      "local_edits": {},
+      "material_preferences": {
+        "material_fixture_notes": "default",
+        "material_fixture_slides": "default",
+        "material_fixture_template": "default"
+      },
+      "material_sync_annotations": {},
+      "materials": {
+        "material_fixture_notes": {
+          "created_at": "2026-03-20T14:02:00Z",
+          "kind": "pasted_text",
+          "material_id": "material_fixture_notes",
+          "page_count": 1,
+          "processing_status": "ready",
+          "quality_summary": {
+            "notes": "Short student notes with a few paraphrases",
+            "overall": "medium"
+          },
+          "role": "notes",
+          "slides": [
+            {
+              "bullets": [
+                "Cache activations in the forward pass",
+                "Track the sign on the learning update",
+                "Compare each step with the slide deck"
+              ],
+              "slide_id": "note_slide_1",
+              "slide_number": 1,
+              "snippet_text": "Remember to save intermediate activations, keep the minus sign in the update, and check each derivative term.",
+              "title": "Student recap"
+            }
+          ],
+          "source_view_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_notes/slides/note_slide_1/source",
+          "title": "Lecture recap notes",
+          "workspace_id": "workspace_fixture_demo"
+        },
+        "material_fixture_slides": {
+          "created_at": "2026-03-20T14:01:00Z",
+          "kind": "pdf",
+          "material_id": "material_fixture_slides",
+          "page_count": 5,
+          "processing_status": "ready",
+          "quality_summary": {
+            "notes": "Lecture deck imported cleanly in fixture mode",
+            "overall": "high"
+          },
+          "role": "slides",
+          "slides": [
+            {
+              "bullets": [
+                "Explain why gradients are propagated from the loss backward",
+                "Connect local derivatives to global updates",
+                "Identify the role of the learning rate"
+              ],
+              "slide_id": "slide_1",
+              "slide_number": 1,
+              "snippet_text": "Learning objectives: explain the chain rule, compute a backward pass, and apply gradient descent updates.",
+              "title": "Backpropagation Essentials"
+            },
+            {
+              "bullets": [
+                "Write the output as a composition of intermediate functions",
+                "Differentiate one edge at a time",
+                "Multiply local gradients to get the total derivative"
+              ],
+              "slide_id": "slide_2",
+              "slide_number": 2,
+              "snippet_text": "The chain rule breaks a complicated derivative into local derivatives that can be multiplied along the computation path.",
+              "title": "Chain Rule Intuition"
+            },
+            {
+              "bullets": [
+                "Forward pass computes activations and loss",
+                "Backward pass reuses cached activations",
+                "Each layer passes gradient information to the previous layer"
+              ],
+              "slide_id": "slide_3",
+              "slide_number": 3,
+              "snippet_text": "Store intermediate activations during the forward pass so the backward pass can reuse them when computing gradients.",
+              "title": "Forward Pass and Backward Pass"
+            },
+            {
+              "bullets": [
+                "Use the learning rate eta to control step size",
+                "Subtract the gradient to reduce the loss",
+                "Check tensor shapes before applying the update"
+              ],
+              "slide_id": "slide_4",
+              "slide_number": 4,
+              "snippet_text": "Parameter update: w <- w - eta * dL/dw. The minus sign matters because we are descending the loss surface.",
+              "title": "Gradient Descent Update"
+            },
+            {
+              "bullets": [
+                "Do not skip intermediate terms in the chain rule",
+                "Do not add the gradient when the slide uses subtraction",
+                "Verify activation and weight matrix dimensions"
+              ],
+              "slide_id": "slide_5",
+              "slide_number": 5,
+              "snippet_text": "Common errors include dropping an intermediate derivative, reversing the sign of the update, and ignoring dimension checks.",
+              "title": "Common Mistakes"
+            }
+          ],
+          "source_view_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_1/source",
+          "title": "Week 05 - Backpropagation.pdf",
+          "workspace_id": "workspace_fixture_demo"
+        },
+        "material_fixture_template": {
+          "created_at": "2026-03-20T14:03:00Z",
+          "kind": "other supported import",
+          "material_id": "material_fixture_template",
+          "page_count": 2,
+          "processing_status": "ready",
+          "quality_summary": {
+            "notes": "Template favors short prompts followed by concise rubric bullets",
+            "overall": "high"
+          },
+          "role": "practice_template",
+          "slides": [
+            {
+              "bullets": [
+                "Explain / Compare / Derive prompt style",
+                "Compact answer format",
+                "Rubric awards points for named steps"
+              ],
+              "slide_id": "template_slide_1",
+              "slide_number": 1,
+              "snippet_text": "Each question begins with an imperative verb and expects two to three compact supporting points.",
+              "title": "Template structure"
+            }
+          ],
+          "source_view_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_template/slides/template_slide_1/source",
+          "title": "Midterm short-answer template.docx",
+          "workspace_id": "workspace_fixture_demo"
+        }
+      },
+      "pending_user_actions": [],
+      "practice_sets": {
+        "practice_fixture_1": {
+          "coverage_report": {
+            "cited_slide_count": 4,
+            "considered_slide_count": 5,
+            "notes": "The fixture practice set concentrates on the core worked-example slides rather than the title slide.",
+            "uncited_or_skipped_slides": [
+              1
+            ]
+          },
+          "created_at": "2026-03-20T14:30:00Z",
+          "generation_mode": "mixed",
+          "parent_practice_set_id": null,
+          "practice_set_id": "practice_fixture_1",
+          "questions": [
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_fixture_slides_slide_2_2",
+                  "confidence": "high",
+                  "material_id": "material_fixture_slides",
+                  "material_title": "Week 05 - Backpropagation.pdf",
+                  "preview_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_2/preview",
+                  "slide_id": "slide_2",
+                  "slide_number": 2,
+                  "snippet_text": "Multiply local gradients to get the total derivative.",
+                  "source_open_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_2/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                2,
+                3
+              ],
+              "difficulty": "mixed",
+              "expected_answer": "A strong answer states that the total derivative is built by multiplying local derivatives along the computation path, usually mentioning intermediate activations or nodes.",
+              "question_id": "q1",
+              "question_type": "short_answer",
+              "rubric": [
+                {
+                  "criterion": "Chain rule structure",
+                  "description": "Names local derivatives and explains that they are multiplied",
+                  "points": 2
+                },
+                {
+                  "criterion": "Connection to backpropagation",
+                  "description": "Links the chain rule directly to gradient flow through layers",
+                  "points": 2
+                }
+              ],
+              "scoring_guide_text": "Full credit requires both the mathematical idea and the network-specific interpretation.",
+              "stem": "Explain how the chain rule supports backpropagation through a multi-layer network."
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_fixture_slides_slide_3_3",
+                  "confidence": "high",
+                  "material_id": "material_fixture_slides",
+                  "material_title": "Week 05 - Backpropagation.pdf",
+                  "preview_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_3/preview",
+                  "slide_id": "slide_3",
+                  "slide_number": 3,
+                  "snippet_text": "Store intermediate activations during the forward pass so the backward pass can reuse them.",
+                  "source_open_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_3/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                3
+              ],
+              "difficulty": "harder",
+              "expected_answer": "A strong answer describes the forward pass computing activations and the loss, then explains that the backward pass uses those stored activations to compute gradients layer by layer.",
+              "question_id": "q2",
+              "question_type": "long_answer",
+              "rubric": [
+                {
+                  "criterion": "Forward pass description",
+                  "description": "Explains what is computed and saved",
+                  "points": 2
+                },
+                {
+                  "criterion": "Backward pass reuse",
+                  "description": "Explains how saved activations support gradient computation",
+                  "points": 3
+                }
+              ],
+              "scoring_guide_text": "Look for explicit mention of reusing forward-pass information during the backward pass.",
+              "stem": "Walk through a forward pass and backward pass, explaining why cached activations are needed in the backward computation."
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_fixture_slides_slide_4_4",
+                  "confidence": "high",
+                  "material_id": "material_fixture_slides",
+                  "material_title": "Week 05 - Backpropagation.pdf",
+                  "preview_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_4/preview",
+                  "slide_id": "slide_4",
+                  "slide_number": 4,
+                  "snippet_text": "Parameter update: w <- w - eta * dL/dw.",
+                  "source_open_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_4/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                4,
+                5
+              ],
+              "difficulty": "easier",
+              "expected_answer": "The answer should give w <- w - eta * dL/dw and say the minus sign moves parameters opposite the gradient so the loss decreases.",
+              "question_id": "q3",
+              "question_type": "short_answer",
+              "rubric": [
+                {
+                  "criterion": "Correct formula",
+                  "description": "Writes the update rule accurately",
+                  "points": 2
+                },
+                {
+                  "criterion": "Minus-sign explanation",
+                  "description": "Explains that subtraction corresponds to descending the loss",
+                  "points": 2
+                }
+              ],
+              "scoring_guide_text": "Students should connect the sign to optimization, not only memorize the formula.",
+              "stem": "State the gradient descent update rule from the lecture and explain the role of the minus sign."
+            }
+          ],
+          "workspace_id": "workspace_fixture_demo"
+        }
+      },
+      "selected_active_conversation_id": "conversation_fixture_1",
+      "status": {
+        "last_successful_sync": {
+          "content": "2026-03-30T01:12:44Z",
+          "learning": "2026-03-30T01:12:44Z"
+        },
+        "services": {
+          "content": {
+            "available": true,
+            "last_checked_at": "2026-03-30T01:12:44Z",
+            "mode": "mock"
+          },
+          "learning": {
+            "available": true,
+            "last_checked_at": "2026-03-30T01:12:44Z",
+            "mode": "mock"
+          }
+        },
+        "warnings": []
+      },
+      "student_context": {
+        "goals": "Prepare for a closed-book midterm practice section",
+        "known": "Basic derivatives and vectors",
+        "weak_areas": "Keeping the gradient signs straight"
+      },
+      "study_plans": {
+        "study_plan_fixture_1": {
+          "common_mistakes": [
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_fixture_slides_slide_5_5",
+                  "confidence": "high",
+                  "material_id": "material_fixture_slides",
+                  "material_title": "Week 05 - Backpropagation.pdf",
+                  "preview_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_5/preview",
+                  "slide_id": "slide_5",
+                  "slide_number": 5,
+                  "snippet_text": "Do not skip intermediate terms in the chain rule.",
+                  "source_open_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_5/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "item_id": "mistake_1",
+              "pattern": "Skipping an intermediate derivative in the chain rule",
+              "prevention_advice": "Label every edge in the computation path and verify that each local derivative appears exactly once.",
+              "support_status": "slide_grounded",
+              "why_it_happens": "Students jump from the loss directly to a parameter derivative and forget one local edge."
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_fixture_slides_slide_4_4",
+                  "confidence": "high",
+                  "material_id": "material_fixture_slides",
+                  "material_title": "Week 05 - Backpropagation.pdf",
+                  "preview_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_4/preview",
+                  "slide_id": "slide_4",
+                  "slide_number": 4,
+                  "snippet_text": "Parameter update: w <- w - eta * dL/dw. The minus sign matters.",
+                  "source_open_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_4/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "item_id": "mistake_2",
+              "pattern": "Reversing the sign in the gradient descent update",
+              "prevention_advice": "Say out loud that the update subtracts the gradient because the goal is to descend the loss surface.",
+              "support_status": "slide_grounded",
+              "why_it_happens": "The update can look like a formula to memorize instead of a loss-reduction step."
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_fixture_slides_slide_5_5",
+                  "confidence": "high",
+                  "material_id": "material_fixture_slides",
+                  "material_title": "Week 05 - Backpropagation.pdf",
+                  "preview_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_5/preview",
+                  "slide_id": "slide_5",
+                  "slide_number": 5,
+                  "snippet_text": "Verify activation and weight matrix dimensions.",
+                  "source_open_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_5/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "item_id": "mistake_3",
+              "pattern": "Ignoring shape checks during backward updates",
+              "prevention_advice": "Check each tensor shape before the update and compare it to the corresponding weight dimensions.",
+              "support_status": "slide_grounded",
+              "why_it_happens": "A derivative can be numerically plausible even when its dimensions do not match the weight matrix."
+            }
+          ],
+          "created_at": "2026-03-20T14:10:00Z",
+          "grounding_mode": "strict_lecture_only",
+          "parent_study_plan_id": null,
+          "prerequisites": [
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_fixture_slides_slide_2_2",
+                  "confidence": "high",
+                  "material_id": "material_fixture_slides",
+                  "material_title": "Week 05 - Backpropagation.pdf",
+                  "preview_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_2/preview",
+                  "slide_id": "slide_2",
+                  "slide_number": 2,
+                  "snippet_text": "The chain rule breaks a complicated derivative into local derivatives that can be multiplied along the computation path.",
+                  "source_open_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_2/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "concept_name": "Chain rule for composed functions",
+              "item_id": "pre_1",
+              "support_status": "slide_grounded",
+              "why_needed": "Backpropagation multiplies local derivatives along the computation path."
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_fixture_slides_slide_3_3",
+                  "confidence": "high",
+                  "material_id": "material_fixture_slides",
+                  "material_title": "Week 05 - Backpropagation.pdf",
+                  "preview_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_3/preview",
+                  "slide_id": "slide_3",
+                  "slide_number": 3,
+                  "snippet_text": "Store intermediate activations during the forward pass so the backward pass can reuse them.",
+                  "source_open_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_3/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "concept_name": "Intermediate activations",
+              "item_id": "pre_2",
+              "support_status": "slide_grounded",
+              "why_needed": "The backward pass reuses cached values from the forward pass when computing gradients."
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_fixture_slides_slide_4_4",
+                  "confidence": "high",
+                  "material_id": "material_fixture_slides",
+                  "material_title": "Week 05 - Backpropagation.pdf",
+                  "preview_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_4/preview",
+                  "slide_id": "slide_4",
+                  "slide_number": 4,
+                  "snippet_text": "Parameter update: w <- w - eta * dL/dw.",
+                  "source_open_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_4/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "concept_name": "Gradient descent update rule",
+              "item_id": "pre_3",
+              "support_status": "slide_grounded",
+              "why_needed": "You need the update rule to translate the gradient into a parameter change."
+            }
+          ],
+          "study_plan_id": "study_plan_fixture_1",
+          "study_sequence": [
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_fixture_slides_slide_2_2",
+                  "confidence": "high",
+                  "material_id": "material_fixture_slides",
+                  "material_title": "Week 05 - Backpropagation.pdf",
+                  "preview_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_2/preview",
+                  "slide_id": "slide_2",
+                  "slide_number": 2,
+                  "snippet_text": "Differentiate one edge at a time, then multiply local gradients.",
+                  "source_open_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_2/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "depends_on": [
+                "pre_1"
+              ],
+              "objective": "Rewrite the chain rule in your own notation and connect each local derivative to one edge in the computation graph.",
+              "order_index": 1,
+              "recommended_time_minutes": 20,
+              "step_id": "step_1",
+              "support_status": "slide_grounded",
+              "tasks": [
+                "Annotate slide 2 with your own symbols",
+                "Say aloud what each local derivative means",
+                "Write one worked derivative without looking"
+              ],
+              "title": "Rebuild the chain rule from one slide"
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_fixture_slides_slide_3_3",
+                  "confidence": "high",
+                  "material_id": "material_fixture_slides",
+                  "material_title": "Week 05 - Backpropagation.pdf",
+                  "preview_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_3/preview",
+                  "slide_id": "slide_3",
+                  "slide_number": 3,
+                  "snippet_text": "Store intermediate activations during the forward pass so the backward pass can reuse them.",
+                  "source_open_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_3/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "depends_on": [
+                "pre_1",
+                "pre_2"
+              ],
+              "objective": "Use the lecture example to match stored activations from the forward pass to each gradient in the backward pass.",
+              "order_index": 2,
+              "recommended_time_minutes": 35,
+              "step_id": "step_2",
+              "support_status": "slide_grounded",
+              "tasks": [
+                "Draw the forward pass cache",
+                "Label where each gradient is computed",
+                "Check which values are reused"
+              ],
+              "title": "Trace a full forward/backward pass"
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_fixture_slides_slide_4_4",
+                  "confidence": "high",
+                  "material_id": "material_fixture_slides",
+                  "material_title": "Week 05 - Backpropagation.pdf",
+                  "preview_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_4/preview",
+                  "slide_id": "slide_4",
+                  "slide_number": 4,
+                  "snippet_text": "Subtract the gradient to reduce the loss, and check tensor shapes before applying the update.",
+                  "source_open_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_4/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "depends_on": [
+                "pre_2",
+                "pre_3"
+              ],
+              "objective": "Practice checking the minus sign and tensor shapes before applying an update to weights.",
+              "order_index": 3,
+              "recommended_time_minutes": 25,
+              "step_id": "step_3",
+              "support_status": "slide_grounded",
+              "tasks": [
+                "Write the update rule from memory",
+                "Test one example with the wrong sign and explain why it fails",
+                "Check the shape of each gradient term"
+              ],
+              "title": "Audit the update sign and dimensions"
+            }
+          ],
+          "time_budget_minutes": 90,
+          "topic_text": "Backpropagation and gradient descent",
+          "workspace_id": "workspace_fixture_demo"
+        }
+      },
+      "time_budget_minutes": 90,
+      "topic_text": "Backpropagation and gradient descent",
+      "ui_preferences": {
+        "current_tab": "Overview",
+        "last_active_citation": null,
+        "sidebar_open": true,
+        "source_viewer_open": false
+      },
+      "workspace_id": "workspace_fixture_demo"
+    }
+  }
+}

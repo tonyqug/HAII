@@ -1,0 +1,140 @@
+{
+  "bundle_id": "bundle_linear_models_demo",
+  "workspace_id": "ws_linear_models_demo",
+  "material_ids": ["mat_lecture_linear_models_a", "mat_lecture_linear_models_b"],
+  "query_text": "linear regression, gradient descent, regularization, validation",
+  "bundle_mode": "coverage",
+  "items": [
+    {
+      "item_id": "item_001",
+      "material_id": "mat_lecture_linear_models_a",
+      "material_title": "Linear Models Lecture 1",
+      "slide_id": "slide_1",
+      "slide_number": 1,
+      "text": "Linear regression fits coefficients by minimizing mean squared error between predictions and targets. The lecture frames this as a supervised learning baseline with interpretable parameters.",
+      "extraction_quality": "high",
+      "citation": {
+        "citation_id": "cit_001",
+        "material_id": "mat_lecture_linear_models_a",
+        "material_title": "Linear Models Lecture 1",
+        "slide_id": "slide_1",
+        "slide_number": 1,
+        "snippet_text": "Linear regression fits coefficients by minimizing mean squared error between predictions and targets.",
+        "support_type": "explicit",
+        "confidence": "high",
+        "preview_url": "http://127.0.0.1:38410/materials/mat_lecture_linear_models_a/slides/1/preview",
+        "source_open_url": "http://127.0.0.1:38410/materials/mat_lecture_linear_models_a/slides/1"
+      }
+    },
+    {
+      "item_id": "item_002",
+      "material_id": "mat_lecture_linear_models_a",
+      "material_title": "Linear Models Lecture 1",
+      "slide_id": "slide_2",
+      "slide_number": 2,
+      "text": "Gradient descent updates parameters in the direction of the negative gradient. A learning rate that is too large can overshoot the minimum, while one that is too small can slow convergence.",
+      "extraction_quality": "high",
+      "citation": {
+        "citation_id": "cit_002",
+        "material_id": "mat_lecture_linear_models_a",
+        "material_title": "Linear Models Lecture 1",
+        "slide_id": "slide_2",
+        "slide_number": 2,
+        "snippet_text": "Gradient descent updates parameters in the direction of the negative gradient.",
+        "support_type": "explicit",
+        "confidence": "high",
+        "preview_url": "http://127.0.0.1:38410/materials/mat_lecture_linear_models_a/slides/2/preview",
+        "source_open_url": "http://127.0.0.1:38410/materials/mat_lecture_linear_models_a/slides/2"
+      }
+    },
+    {
+      "item_id": "item_003",
+      "material_id": "mat_lecture_linear_models_a",
+      "material_title": "Linear Models Lecture 1",
+      "slide_id": "slide_3",
+      "slide_number": 3,
+      "text": "Feature scaling helps gradient descent converge faster because the optimization path becomes less distorted when features are on similar scales.",
+      "extraction_quality": "medium",
+      "citation": {
+        "citation_id": "cit_003",
+        "material_id": "mat_lecture_linear_models_a",
+        "material_title": "Linear Models Lecture 1",
+        "slide_id": "slide_3",
+        "slide_number": 3,
+        "snippet_text": "Feature scaling helps gradient descent converge faster.",
+        "support_type": "explicit",
+        "confidence": "medium",
+        "preview_url": "http://127.0.0.1:38410/materials/mat_lecture_linear_models_a/slides/3/preview",
+        "source_open_url": "http://127.0.0.1:38410/materials/mat_lecture_linear_models_a/slides/3"
+      }
+    },
+    {
+      "item_id": "item_004",
+      "material_id": "mat_lecture_linear_models_b",
+      "material_title": "Linear Models Lecture 2",
+      "slide_id": "slide_4",
+      "slide_number": 4,
+      "text": "Regularization adds a penalty term to the objective so that very large weights are discouraged. The lecture highlights L2 regularization as a way to reduce overfitting.",
+      "extraction_quality": "high",
+      "citation": {
+        "citation_id": "cit_004",
+        "material_id": "mat_lecture_linear_models_b",
+        "material_title": "Linear Models Lecture 2",
+        "slide_id": "slide_4",
+        "slide_number": 4,
+        "snippet_text": "Regularization adds a penalty term to the objective so that very large weights are discouraged.",
+        "support_type": "explicit",
+        "confidence": "high",
+        "preview_url": "http://127.0.0.1:38410/materials/mat_lecture_linear_models_b/slides/4/preview",
+        "source_open_url": "http://127.0.0.1:38410/materials/mat_lecture_linear_models_b/slides/4"
+      }
+    },
+    {
+      "item_id": "item_005",
+      "material_id": "mat_lecture_linear_models_b",
+      "material_title": "Linear Models Lecture 2",
+      "slide_id": "slide_5",
+      "slide_number": 5,
+      "text": "Validation data is used to tune hyperparameters and detect overfitting. Training error alone can look strong even when generalization is weak.",
+      "extraction_quality": "high",
+      "citation": {
+        "citation_id": "cit_005",
+        "material_id": "mat_lecture_linear_models_b",
+        "material_title": "Linear Models Lecture 2",
+        "slide_id": "slide_5",
+        "slide_number": 5,
+        "snippet_text": "Validation data is used to tune hyperparameters and detect overfitting.",
+        "support_type": "explicit",
+        "confidence": "high",
+        "preview_url": "http://127.0.0.1:38410/materials/mat_lecture_linear_models_b/slides/5/preview",
+        "source_open_url": "http://127.0.0.1:38410/materials/mat_lecture_linear_models_b/slides/5"
+      }
+    },
+    {
+      "item_id": "item_006",
+      "material_id": "mat_lecture_linear_models_b",
+      "material_title": "Linear Models Lecture 2",
+      "slide_id": "slide_6",
+      "slide_number": 6,
+      "text": "A common evaluation mistake is reporting only training performance. The lecture explicitly contrasts training error with validation performance to emphasize generalization.",
+      "extraction_quality": "high",
+      "citation": {
+        "citation_id": "cit_006",
+        "material_id": "mat_lecture_linear_models_b",
+        "material_title": "Linear Models Lecture 2",
+        "slide_id": "slide_6",
+        "slide_number": 6,
+        "snippet_text": "A common evaluation mistake is reporting only training performance.",
+        "support_type": "explicit",
+        "confidence": "high",
+        "preview_url": "http://127.0.0.1:38410/materials/mat_lecture_linear_models_b/slides/6/preview",
+        "source_open_url": "http://127.0.0.1:38410/materials/mat_lecture_linear_models_b/slides/6"
+      }
+    }
+  ],
+  "summary": {
+    "total_items": 6,
+    "total_slides": 6,
+    "low_confidence_item_count": 0
+  }
+}

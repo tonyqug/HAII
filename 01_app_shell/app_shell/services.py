@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import atexit
+import hashlib
 import os
 import subprocess
 import sys
@@ -655,7 +656,7 @@ class ShellService:
         self._sync_history_flags(workspace)
         return workspace
 
-    def _create_job(self, workspace_id: str, operation: str, *, service: str, context: dict, remote_job_id: str | None = None, status: str = "queued", message: str = "Queued", stage: str = "queued", result_type: str | None = None, result_id: str | None = None, error: dict | None = None, user_action: dict | None = None) -> dict:
+    def _create_job(self, workspace_id: str, operation: str, *, service: str, context: dict, remote_job_id: str | None = None, status: str = "queued", message: str = "Queued", stage: str = "queued", result_type: str | None = None, result_id: str | None = None, error: dict | None = None, user_action: dict | None = None, finalized: bool = False) -> dict:
         job = {
             "job_id": make_id("job"),
             "workspace_id": workspace_id,
@@ -674,7 +675,7 @@ class ShellService:
             "created_at": utc_now_iso(),
             "updated_at": utc_now_iso(),
             "poll_count": 0,
-            "finalized": False,
+            "finalized": finalized,
         }
         return self.storage.create_job(job)
 
@@ -690,6 +691,22 @@ class ShellService:
             error={"message": message, "retryable": True},
         )
 
+    def _file_dedup_key(self, *, role: str, file_payload: dict) -> str:
+        digest = hashlib.sha256(file_payload.get("content") or b"").hexdigest()
+        return f"{role}:{digest}"
+
+    def _find_duplicate_material_id(self, workspace: dict, dedup_key: str) -> str | None:
+        dedup_map = workspace.setdefault("file_import_dedup", {})
+        existing_id = dedup_map.get(dedup_key)
+        if existing_id and existing_id in workspace.get("materials", {}):
+            return str(existing_id)
+        return None
+
+    def _remember_file_dedup_material(self, workspace: dict, dedup_key: str | None, material_id: str | None) -> None:
+        if not dedup_key or not material_id:
+            return
+        workspace.setdefault("file_import_dedup", {})[dedup_key] = material_id
+
     def import_material(self, workspace_id: str, form: dict, file_payload: dict | None = None) -> dict:
         workspace = self._workspace_or_error(workspace_id)
         normalized = normalize_material_import(
@@ -700,6 +717,27 @@ class ShellService:
             form.get("text") or form.get("source_text") or form.get("text_body"),
             file_payload.get("filename") if file_payload else None,
         )
+        dedup_key = None
+        if file_payload:
+            dedup_key = self._file_dedup_key(role=normalized["role"], file_payload=file_payload)
+            duplicate_material_id = self._find_duplicate_material_id(workspace, dedup_key)
+            if duplicate_material_id:
+                self.storage.save_workspace(workspace)
+                return self._create_job(
+                    workspace_id,
+                    "import_material",
+                    service="local_dedup",
+                    context={
+                        "normalized_request": normalized,
+                        "deduplication": {"skipped": True, "material_id": duplicate_material_id},
+                    },
+                    status="succeeded",
+                    stage="completed",
+                    message="Duplicate file detected. Reusing the existing imported material.",
+                    result_type="material",
+                    result_id=duplicate_material_id,
+                    finalized=True,
+                )
         if self.effective_mode == "mock":
             return self._create_job(
                 workspace_id,
@@ -707,6 +745,7 @@ class ShellService:
                 service="local_mock",
                 context={
                     "normalized_request": normalized,
+                    "dedup_key": dedup_key,
                     "file_payload": {
                         "filename": file_payload.get("filename") if file_payload else None,
                     },
@@ -735,7 +774,10 @@ class ShellService:
             "import_material",
             service="content",
             remote_job_id=remote_job_id,
-            context={"normalized_request": normalized},
+            context={
+                "normalized_request": normalized,
+                "dedup_key": dedup_key,
+            },
             message="Material import submitted to the content service.",
             stage="submitted",
         )
@@ -756,6 +798,7 @@ class ShellService:
                 filename=file_name,
             )
             self._upsert_material(workspace, material)
+            self._remember_file_dedup_material(workspace, context.get("dedup_key"), material.get("material_id"))
             self.storage.save_workspace(workspace)
             job.update(
                 {
@@ -832,6 +875,8 @@ class ShellService:
                     if message.get("pending") and message.get("job_id") == job["job_id"]:
                         message["pending"] = False
                 workspace["conversations"][conversation_id] = conversation
+        elif operation == "import_material":
+            self._remember_file_dedup_material(workspace, context.get("dedup_key"), result_id)
         self._sync_history_flags(workspace)
         self.storage.save_workspace(workspace)
         job["finalized"] = True
@@ -994,6 +1039,20 @@ class ShellService:
         conversation.setdefault("messages", []).append(user_message)
         self._upsert_conversation(workspace, conversation)
         self.storage.save_workspace(workspace)
+
+        def rollback_pending_user() -> None:
+            latest_workspace = self._workspace_or_error(workspace_id)
+            latest_conversation = latest_workspace.get("conversations", {}).get(conversation_id)
+            if not latest_conversation:
+                return
+            latest_conversation["messages"] = [
+                message
+                for message in latest_conversation.get("messages", [])
+                if message.get("message_id") != user_message["message_id"]
+            ]
+            latest_workspace["conversations"][conversation_id] = latest_conversation
+            self.storage.save_workspace(latest_workspace)
+
         if self.effective_mode == "mock":
             job = self._create_job(
                 workspace_id,
@@ -1014,33 +1073,37 @@ class ShellService:
                 workspace["conversations"][conversation_id] = conversation
                 self.storage.save_workspace(workspace)
             return {"job": job, "conversation": self.serialize_workspace(workspace).get("active_conversation")}
-        snapshot = self.refresh_status(force=True)
-        if not snapshot["services"]["learning"]["available"]:
-            raise ShellError("The learning service is unavailable, so the chat message could not be sent.", status_code=503)
-        payload_out = self._remote_json("learning", "POST", f"/v1/conversations/{conversation_id}/messages", json_body=normalized)
-        remote_job_id = payload_out.get("job_id") or payload_out.get("job", {}).get("job_id")
-        if not remote_job_id:
-            raise ShellError("The learning service did not return a job_id for the conversation message.", status_code=502)
-        job = self._create_job(
-            workspace_id,
-            "conversation_message",
-            service="learning",
-            remote_job_id=remote_job_id,
-            context={
-                "conversation_id": conversation_id,
-                "message_text": normalized["message_text"],
-                "grounding_mode": normalized["grounding_mode"],
-                "response_style": normalized["response_style"],
-            },
-            message="Chat message submitted to the learning service.",
-        )
-        workspace = self._workspace_or_error(workspace_id)
-        conversation = workspace.get("conversations", {}).get(conversation_id)
-        if conversation and conversation.get("messages"):
-            conversation["messages"][-1]["job_id"] = job["job_id"]
-            workspace["conversations"][conversation_id] = conversation
-            self.storage.save_workspace(workspace)
-        return {"job": job, "conversation": self.serialize_workspace(workspace).get("active_conversation")}
+        try:
+            snapshot = self.refresh_status(force=True)
+            if not snapshot["services"]["learning"]["available"]:
+                raise ShellError("The learning service is unavailable, so the chat message could not be sent.", status_code=503)
+            payload_out = self._remote_json("learning", "POST", f"/v1/conversations/{conversation_id}/messages", json_body=normalized)
+            remote_job_id = payload_out.get("job_id") or payload_out.get("job", {}).get("job_id")
+            if not remote_job_id:
+                raise ShellError("The learning service did not return a job_id for the conversation message.", status_code=502)
+            job = self._create_job(
+                workspace_id,
+                "conversation_message",
+                service="learning",
+                remote_job_id=remote_job_id,
+                context={
+                    "conversation_id": conversation_id,
+                    "message_text": normalized["message_text"],
+                    "grounding_mode": normalized["grounding_mode"],
+                    "response_style": normalized["response_style"],
+                },
+                message="Chat message submitted to the learning service.",
+            )
+            workspace = self._workspace_or_error(workspace_id)
+            conversation = workspace.get("conversations", {}).get(conversation_id)
+            if conversation and conversation.get("messages"):
+                conversation["messages"][-1]["job_id"] = job["job_id"]
+                workspace["conversations"][conversation_id] = conversation
+                self.storage.save_workspace(workspace)
+            return {"job": job, "conversation": self.serialize_workspace(workspace).get("active_conversation")}
+        except Exception:
+            rollback_pending_user()
+            raise
 
     def clear_conversation(self, workspace_id: str, conversation_id: str) -> dict:
         workspace = self._workspace_or_error(workspace_id)

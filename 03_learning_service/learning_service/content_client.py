@@ -82,7 +82,9 @@ class ContentServiceClient:
             "/v1/retrieve/evidence-bundle",
             "/v1/materials/evidence-bundle",
         ]
-        request_timeout = max(min(float(self.timeout), 2.0), 0.2)
+        # Respect the configured timeout so evidence retrieval has enough time
+        # on larger workspaces; keep only a small safety floor.
+        request_timeout = max(float(self.timeout), 0.2)
         compatibility_retry_statuses = {400, 404, 405, 409, 415, 422}
         payload_variants = self._payload_variants(
             workspace_id=workspace_id,

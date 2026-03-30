@@ -59,9 +59,17 @@
                 <textarea id="material-text" placeholder="Paste notes here, or leave blank and choose a file below."></textarea>
               </label>
               <label>
-                Upload file
-                <input id="material-file" type="file" />
+                Upload file(s)
+                <input id="material-file" type="file" multiple />
               </label>
+              <div id="material-upload-status" class="upload-status hidden">
+                <div class="row" style="justify-content:space-between;">
+                  <strong id="material-upload-summary">No upload in progress.</strong>
+                  <span id="material-upload-count" class="small muted"></span>
+                </div>
+                <progress id="material-upload-progress" max="100" value="0"></progress>
+                <div id="material-upload-list" class="upload-list small"></div>
+              </div>
               <button type="submit">Import material</button>
             </form>
             <div id="material-jobs" class="stack"></div>
@@ -231,6 +239,8 @@
         </div>
       </section>
     </main>
+    <div id="global-activity" class="global-activity hidden"></div>
+    <div id="global-toast-stack" class="toast-stack"></div>
 
     <script src="/static/app.js"></script>
   </body>

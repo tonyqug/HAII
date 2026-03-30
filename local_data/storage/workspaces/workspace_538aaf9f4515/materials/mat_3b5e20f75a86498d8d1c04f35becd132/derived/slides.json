@@ -1,0 +1,1272 @@
+[
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:1",
+    "slide_number": 1,
+    "title_guess": "Wrap up MAP",
+    "extracted_text": "Wrap up MAP\n+ Convolutional Neural Networks (CNNs)\n+ Recurrent Neural Networks (RNNs)\n1\n10-301/10-601 Introduction to Machine Learning\nPat Virtue & Matt Gormley\nLecture 17\nMar. 16, 2026\nMachine Learning Department\nSchool of Computer Science\nCarnegie Mellon University",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0001.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:2",
+    "slide_number": 2,
+    "title_guess": "REMINDER: MAP",
+    "extracted_text": "REMINDER: MAP\nEXAMPLE: BETA PRIOR FOR BERNOULLI LIKELIHOOD\n4",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0002.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:3",
+    "slide_number": 3,
+    "title_guess": "The MAP Estimation Objective",
+    "extracted_text": "The MAP Estimation Objective\n5\nMLE:\nMAP:\nlikelihood\nposterior\nBayes Rule",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0003.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:4",
+    "slide_number": 4,
+    "title_guess": "Recipe for Closed-form MLE",
+    "extracted_text": "Recipe for Closed-form MLE\n6\n1.\nAssume data was generated iid from some model, i.e., write \nthe generative story\n \n \n \n \n \n \n \n \nx(i) ~ p(x|θ)\n2.\nWrite the log-likelihood\n \nℓ(θ) \n= log p(x(1)|θ) + … + log p(x(N)|θ)\n3.\nCompute partial derivatives, i.e., the gradient\n \n𝜕 ℓ(θ)/𝜕θ1         = …\n \n…\n \n𝜕 ℓ(θ)/𝜕θM \n= …\n4.\nSet derivatives equal to zero and solve for θ\n \n𝜕 ℓ(θ)/𝜕θm = 0 for all m ∈ {1, …, M}\n \nθMLE = solution to system of M equations and M variables\n5.\nCompute the second derivative and check that ℓ(θ) is \nconcave down at θMLE",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0004.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:5",
+    "slide_number": 5,
+    "title_guess": "Assume data was generated iid from some model, i.e., write",
+    "extracted_text": "1.\nAssume data was generated iid from some model, i.e., write \nthe generative story\n \nθ ~ p(θ) and then for all i: x(i) ~ p(x|θ) \n2.\nWrite the log posterior\n \n ℓMAP(θ) = log p(x(1)|θ) + … + log p(x(N)|θ) + log p(θ)\n3.\nCompute partial derivatives, i.e., the gradient\n \n𝜕 ℓMAP(θ)/𝜕θ1 = …\n \n…\n \n𝜕 ℓMAP(θ)/𝜕θM = …\n4.\nSet derivatives to equal zero and solve for θ\n \n𝜕 ℓMAP(θ)/𝜕θm = 0 for all m ∈ {1, …, M}\n \nθMAP = solution to system of M equations and M variables\n5.\nCompute the second derivative and check that ℓMAP(θ) is \nconcave down at θMAP \n7\nRecipe for Closed-form MAP",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0005.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:6",
+    "slide_number": 6,
+    "title_guess": "MAP",
+    "extracted_text": "MAP\nEXAMPLE: BETA PRIOR FOR BERNOULLI LIKELIHOOD\n8",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0006.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:7",
+    "slide_number": 7,
+    "title_guess": "The Prior Distribution",
+    "extracted_text": "The Prior Distribution\n•\nThe prior distribution encodes domain knowledge about the \nproblem.\n•\nQuestion: Why do we use the Beta distribution as the prior \nfor the Bernoulli?\n•\nReason #1: It has the right support, i.e. [0,1].\n9\nExample: Beta prior “fair coin”\nExample: Beta prior “unfair coin”\n0\n1\n0\n10\n0\n1\n0\n10",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0007.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:8",
+    "slide_number": 8,
+    "title_guess": "The Prior Distribution",
+    "extracted_text": "The Prior Distribution\n•\nThe prior distribution encodes domain knowledge about the \nproblem.\n•\nQuestion: Why do we use the Beta distribution as the prior \nfor the Bernoulli?\n•\nReason #2: The Beta is a conjugate prior for the Bernoulli.\n•\nDefinition: A distribution is the conjugate prior of a \nlikelihood if the form of the posterior is the same as the form \nof the prior.\n10\nPosterior\np(θ | D)\nLikelihood\np(D | θ)\nPrior\np(θ)\nConjugate?\nBeta\nBernoulli\nBeta\nyes\nDirichlet\nMultinomial\nMultinomial\nyes\nGaussian\nGuassian\nGuassian\nyes\nGamma\nExponential\nGamma\nyes\n??\nMultinomial\nLogistic Normal\nno",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0008.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:9",
+    "slide_number": 9,
+    "title_guess": "MLE of Bernoulli Model",
+    "extracted_text": "MLE of Bernoulli Model\n11\nLog-likelihood:",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0009.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:10",
+    "slide_number": 10,
+    "title_guess": "MAP of Beta-Bernoulli Model",
+    "extracted_text": "MAP of Beta-Bernoulli Model\n12",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0010.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:11",
+    "slide_number": 11,
+    "title_guess": "MAP of Beta-Bernoulli Model",
+    "extracted_text": "MAP of Beta-Bernoulli Model\n13",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0011.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:12",
+    "slide_number": 12,
+    "title_guess": "MAP of Beta-Bernoulli Model",
+    "extracted_text": "MAP of Beta-Bernoulli Model\n15",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0012.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:13",
+    "slide_number": 13,
+    "title_guess": "MAP of Beta-Bernoulli Model",
+    "extracted_text": "MAP of Beta-Bernoulli Model\n16\n“fair \ncoin”\nprior\n“unfair \ncoin”\nprior",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0013.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:14",
+    "slide_number": 14,
+    "title_guess": "MLE for Linear Regression",
+    "extracted_text": "MLE for Linear Regression\nOptimization Method #2: \nClosed Form\n1.\nEvaluate \n2.\nReturn θMLE\n17\nθ1\nθ2\nθ1\nθ2\nJ(θ1, θ2)\n0.59\n0.43\n0.2\nx\ny\ny = h*(x)\n(unknown)\nt\nMLE\nh(x; θ(MLE))\nJ(θ) = J(θ1, θ2) = (10(θ1 – 0.5))2 + (6(θ1 – 0.4))2 1.\nYou’ll work \nthrough the view \nof linear \nregression as a \nprobabilistic \nmodel in the \nhomework!\n2.\nYou’ll also see \nhow L1 and L2 \nregularization is \nequivalent MAP \nestimation",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0014.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:15",
+    "slide_number": 15,
+    "title_guess": "Takeaways",
+    "extracted_text": "Takeaways\n• One view of what ML is trying to accomplish is function \napproximation\n• The principle of maximum likelihood estimation provides an \nalternate view of learning\n• Synthetic data can help debug ML algorithms\n• Probability distributions can be used to model real data that \noccurs in the world\n(don’t worry we’ll make our distributions more interesting \nsoon!)\n18",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0015.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:16",
+    "slide_number": 16,
+    "title_guess": "Learning Objectives",
+    "extracted_text": "Learning Objectives\nMLE / MAP\nYou should be able to…\n1.\nRecall probability basics, including but not limited to: discrete and \ncontinuous random variables, probability mass functions, probability density \nfunctions, events vs. random variables, expectation and variance, joint \nprobability distributions, marginal probabilities, conditional probabilities, \nindependence, conditional independence\n2.\nDescribe common probability distributions such as the Beta, Dirichlet, \nMultinomial, Categorical, Gaussian, Exponential, etc.\n3.\nState the principle of maximum likelihood estimation and explain what it \ntries to accomplish\n4.\nState the principle of maximum a posteriori estimation and explain why we \nuse it\n5.\nDerive the MLE or MAP parameters of a simple model in closed form\n19",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0016.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:17",
+    "slide_number": 17,
+    "title_guess": "THE BIG PICTURE",
+    "extracted_text": "THE BIG PICTURE\n20",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0017.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:18",
+    "slide_number": 18,
+    "title_guess": "ML Big Picture",
+    "extracted_text": "ML Big Picture\n21\nLearning Paradigms:\nWhat data is available and \nwhen? What form of prediction?\n•\nsupervised learning\n•\nunsupervised learning\n•\nsemi-supervised learning\n•\nreinforcement learning\n•\nactive learning\n•\nimitation learning\n•\ndomain adaptation\n•\nonline learning\n•\ndensity estimation\n•\nrecommender systems\n•\nfeature learning\n•\nmanifold learning\n•\ndimensionality reduction\n•\nensemble learning\n•\ndistant supervision\n•\nhyperparameter optimization\nLearning Paradigms:\nWhat data is available and \nwhen? What form of prediction?\n•\nsupervised learning\n•\nunsupervised learning\n•\nsemi-supervised learning\n•\nreinforcement learning\n•\nactive learning\n•\nimitation learning\n•\ndomain adaptation\n•\nonline learning\n•\ndensity estimation\n•\nrecommender systems\n•\nfeature learning\n•\nmanifold learning\n•\ndimensionality reduction\n•\nensemble learning\n•\ndistant supervision\n•\nhyperparameter optimization\nProblem Formulation:\nWhat is the structure of our output prediction?\n \nProblem Formulation:\nWhat is the structure of our output prediction?\n \nboolean\nBinary Classification\ncategorical\nMulticlass Classification\nordinal\nOrdinal Classification\nreal\nRegression\nordering\nRanking\nmultiple discrete\nStructured Prediction\nmultiple continuous\n(e.g. dynamical systems)\nboth discrete & \ncont.\n(e.g. mixed graphical models)\nTheoretical Foundations:\nWhat principles guide learning?\n❑probabilistic\n❑information theoretic\n❑evolutionary search\n❑ML as optimization\nTheoretical Foundations:\nWhat principles guide learning?\n❑probabilistic\n❑information theoretic\n❑evolutionary search\n❑ML as optimization\nFacets of Building ML \nSystems:\nHow to build systems that are \nrobust, efficient, adaptive, \neffective?\n1.\nData prep \n2.\nModel selection\n3.\nTraining (optimization / \nsearch)\n4.\nHyperparameter tuning on \nvalidation data\n5.\n(Blind) Assessment on test \ndata\nFacets of Building ML \nSystems:\nHow to build systems that are \nrobust, efficient, adaptive, \neffective?\n1.\nData prep \n2.\nModel selection\n3.\nTraining (optimization / \nsearch)\n4.\nHyperparameter tuning on \nvalidation data\n5.\n(Blind) Assessment on test \ndata\nBig Ideas in ML:\nWhich are the ideas driving \ndevelopment of the field?\n•\ninductive bias\n•\ngeneralization / overfitting\n•\nbias-variance decomposition\n•\ngenerative vs. discriminative\n•\ndeep nets, graphical models\n•\nPAC learning\n•\ndistant rewards\nBig Ideas in ML:\nWhich are the ideas driving \ndevelopment of the field?\n•\ninductive bias\n•\ngeneralization / overfitting\n•\nbias-variance decomposition\n•\ngenerative vs. discriminative\n•\ndeep nets, graphical models\n•\nPAC learning\n•\ndistant rewards\nApplication Areas\nKey challenges?\nNLP, Speech, Computer \nVision, Robotics, Medicine, \nSearch\nApplication Areas\nKey challenges?\nNLP, Speech, Computer \nVision, Robotics, Medicine, \nSearch",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0018.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:19",
+    "slide_number": 19,
+    "title_guess": "Classification and Regression: The Big Picture",
+    "extracted_text": "Classification and Regression: The Big Picture\n22",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0019.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:20",
+    "slide_number": 20,
+    "title_guess": "Backpropagation and Deep Learning",
+    "extracted_text": "Backpropagation and Deep Learning\nConvolutional neural networks (CNNs) and recurrent neural \nnetworks (RNNs) are simply fancy computation graphs (aka. \nhypotheses or decision functions).\nOur recipe also applies to these models and (again) relies on \nthe backpropagation algorithm to compute the necessary \ngradients.\n23",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0020.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:21",
+    "slide_number": 21,
+    "title_guess": "BACKGROUND: COMPUTER VISION",
+    "extracted_text": "BACKGROUND: COMPUTER VISION\n24",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0021.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:22",
+    "slide_number": 22,
+    "title_guess": "Example: Image Classification",
+    "extracted_text": "Example: Image Classification\n• ImageNet LSVRC-2011 contest: \n– Dataset: 1.2 million labeled images, 1000 classes\n– Task: Given a new image, label it with the correct class\n– Multiclass classification problem\n• Examples from http://image-net.org/\n25",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0022.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:23",
+    "slide_number": 23,
+    "title_guess": null,
+    "extracted_text": "26",
+    "extraction_quality": "low",
+    "quality_notes": "No readable text was extracted from this page.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0023.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:24",
+    "slide_number": 24,
+    "title_guess": null,
+    "extracted_text": "27",
+    "extraction_quality": "low",
+    "quality_notes": "No readable text was extracted from this page.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0024.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:25",
+    "slide_number": 25,
+    "title_guess": null,
+    "extracted_text": "28",
+    "extraction_quality": "low",
+    "quality_notes": "No readable text was extracted from this page.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0025.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:26",
+    "slide_number": 26,
+    "title_guess": "Feature Engineering for CV",
+    "extracted_text": "Feature Engineering for CV\nEdge detection (Canny)\n29\nFigures from http://opencv.org\nCorner Detection (Harris)\nScale Invariant Feature Transform (SIFT)\nFigure from Lowe (1999) and Lowe (2004)",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0026.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:27",
+    "slide_number": 27,
+    "title_guess": "Example: Image Classification",
+    "extracted_text": "Example: Image Classification\n30\nAlexNet – a CNN for Image Classification\n(Krizhevsky, Sutskever & Hinton, 2012)\n15.3% error on ImageNet LSVRC-2012 contest\nInput \nimage \n(pixels)\n•\nFive convolutional layers \n(w/max-pooling)\n•\nThree fully connected layers\n1000-way \nsoftmax",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0027.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:28",
+    "slide_number": 28,
+    "title_guess": "CNNs for Image Recognition",
+    "extracted_text": "CNNs for Image Recognition\n31\nSlide from Kaiming He",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0028.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:29",
+    "slide_number": 29,
+    "title_guess": "Feed-forward Neural Networks for Computer Vision",
+    "extracted_text": "Feed-forward Neural Networks for Computer Vision\n32",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0029.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:30",
+    "slide_number": 30,
+    "title_guess": "Feed-forward Neural Networks for Computer Vision",
+    "extracted_text": "Feed-forward Neural Networks for Computer Vision\n33",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0030.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:31",
+    "slide_number": 31,
+    "title_guess": "CONVOLUTIONAL NEURAL NETS",
+    "extracted_text": "CONVOLUTIONAL NEURAL NETS\n36",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0031.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:32",
+    "slide_number": 32,
+    "title_guess": "A Recipe for",
+    "extracted_text": "A Recipe for \nMachine Learning\n3. Define goal:\n37\n4. Train with SGD:\n(take small steps \nopposite the gradient)\n1. Given training data:\n2. Choose each of these:\n– Decision function\n– Loss function",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0032.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:33",
+    "slide_number": 33,
+    "title_guess": "A Recipe for",
+    "extracted_text": "A Recipe for \nMachine Learning\n3. Define goal:\n38\n4. Train with SGD:\n(take small steps \nopposite the gradient)\n1. Given training data:\n2. Choose each of these:\n– Decision function\n– Loss function\n• Convolutional Neural Networks (CNNs) provide \nanother form of decision function\n• Let’s see what they look like…\n• Convolutional Neural Networks (CNNs) provide \nanother form of decision function\n• Let’s see what they look like…",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0033.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:34",
+    "slide_number": 34,
+    "title_guess": "Convolutional Layer",
+    "extracted_text": "Convolutional Layer\n39\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n1\n0\n0\n1\n0\n0\n1\n0\n0\n0\n1\n0\n1\n0\n0\n0\n0\n1\n1\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n.4\n.5\n.5\n.5\n.4\n.4\n.2\n.3\n.6\n.3\n.5\n.4\n.4\n.2\n.1\n.5\n.6\n.2\n.1\n0\n.4\n.3\n.1\n0\n0\nθ11 θ12 θ13\nθ21 θ22 θ23\nθ31 θ32 θ33\nLearned\nConvolution\nInput Image\nConvolved Image\nCNN key idea: \nTreat convolution matrix as \nparameters and learn them!\nCNN key idea: \nTreat convolution matrix as \nparameters and learn them!",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0034.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:35",
+    "slide_number": 35,
+    "title_guess": "CONVOLUTION",
+    "extracted_text": "CONVOLUTION\n40",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0035.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:36",
+    "slide_number": 36,
+    "title_guess": "2D Convolution",
+    "extracted_text": "2D Convolution\n•\nBasic idea:\n– Pick a 2x2 matrix F of weights (called a kernel or convolution matrix)\n– Slide this over an image and compute the “inner product” (similarity) of F and the \ncorresponding field of the image, and replace the pixel in the center of the field with the \noutput of the inner product operation\n•\nKey point:\n– Different convolutions extract different types of low-level “features” from an image\n– All that we need to vary to generate these different features is the weights of F\nSlide adapted from William Cohen\nExample: 1 input channel, 1 output channel\nInput\nKernel\nOutput",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0036.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:37",
+    "slide_number": 37,
+    "title_guess": "2D Convolution",
+    "extracted_text": "2D Convolution\n•\nPick a 2x2 matrix F of weights (called a kernel or convolution matrix)\n•\nSlide this over an image and compute the “inner product” (similarity) of F and the corresponding field of the \nimage, and replace the pixel in the center of the field with the output of the inner product operation\n42\n0\n0\n0\n0\n1\n1\n0\n1\n0\nConvolution\nInput Image\nConvolved Image\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n1\n0\n0\n1\n0\n0\n1\n0\n0\n0\n1\n0\n1\n0\n0\n0\n0\n1\n1\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n3\n2\n2\n3\n1\n2\n0\n2\n1\n0\n2\n2\n1\n0\n0\n3\n1\n0\n0\n0\n1\n0\n0\n0\n0",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0037.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:38",
+    "slide_number": 38,
+    "title_guess": "2D Convolution",
+    "extracted_text": "2D Convolution\n43\nConvolution\nInput Image\nConvolved Image\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n1\n0\n0\n1\n0\n0\n1\n0\n0\n0\n1\n0\n1\n0\n0\n0\n0\n1\n1\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n3\n2\n2\n3\n1\n2\n0\n2\n1\n0\n2\n2\n1\n0\n0\n3\n1\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n0\n1\n0\n•\nPick a 2x2 matrix F of weights (called a kernel or convolution matrix)\n•\nSlide this over an image and compute the “inner product” (similarity) of F and the corresponding field of the \nimage, and replace the pixel in the center of the field with the output of the inner product operation",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0038.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:39",
+    "slide_number": 39,
+    "title_guess": "2D Convolution",
+    "extracted_text": "2D Convolution\n44\nConvolution\nInput Image\nConvolved Image\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n1\n0\n0\n1\n0\n0\n1\n0\n0\n0\n1\n0\n1\n0\n0\n0\n0\n1\n1\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n3\n2\n2\n3\n1\n2\n0\n2\n1\n0\n2\n2\n1\n0\n0\n3\n1\n0\n0\n0\n1\n0\n0\n0\n0\n•\nPick a 2x2 matrix F of weights (called a kernel or convolution matrix)\n•\nSlide this over an image and compute the “inner product” (similarity) of F and the corresponding field of the \nimage, and replace the pixel in the center of the field with the output of the inner product operation",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0039.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:40",
+    "slide_number": 40,
+    "title_guess": "2D Convolution",
+    "extracted_text": "2D Convolution\n45\nConvolution\nInput Image\nConvolved Image\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n1\n0\n0\n1\n0\n0\n1\n0\n0\n0\n1\n0\n1\n0\n0\n0\n0\n1\n1\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n3\n2\n2\n3\n1\n2\n0\n2\n1\n0\n2\n2\n1\n0\n0\n3\n1\n0\n0\n0\n1\n0\n0\n0\n0\n•\nPick a 2x2 matrix F of weights (called a kernel or convolution matrix)\n•\nSlide this over an image and compute the “inner product” (similarity) of F and the corresponding field of the \nimage, and replace the pixel in the center of the field with the output of the inner product operation",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0040.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:41",
+    "slide_number": 41,
+    "title_guess": "2D Convolution",
+    "extracted_text": "2D Convolution\n46\nConvolution\nInput Image\nConvolved Image\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n1\n0\n0\n1\n0\n0\n1\n0\n0\n0\n1\n0\n1\n0\n0\n0\n0\n1\n1\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n3\n•\nPick a 2x2 matrix F of weights (called a kernel or convolution matrix)\n•\nSlide this over an image and compute the “inner product” (similarity) of F and the corresponding field of the \nimage, and replace the pixel in the center of the field with the output of the inner product operation",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0041.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:42",
+    "slide_number": 42,
+    "title_guess": "2D Convolution",
+    "extracted_text": "2D Convolution\n47\nConvolution\nInput Image\nConvolved Image\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n1\n0\n0\n1\n0\n0\n1\n0\n0\n0\n1\n0\n1\n0\n0\n0\n0\n1\n1\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n3\n2\n•\nPick a 2x2 matrix F of weights (called a kernel or convolution matrix)\n•\nSlide this over an image and compute the “inner product” (similarity) of F and the corresponding field of the \nimage, and replace the pixel in the center of the field with the output of the inner product operation",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0042.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:43",
+    "slide_number": 43,
+    "title_guess": "2D Convolution",
+    "extracted_text": "2D Convolution\n48\nConvolution\nInput Image\nConvolved Image\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n1\n0\n0\n1\n0\n0\n1\n0\n0\n0\n1\n0\n1\n0\n0\n0\n0\n1\n1\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n3\n2\n2\n•\nPick a 2x2 matrix F of weights (called a kernel or convolution matrix)\n•\nSlide this over an image and compute the “inner product” (similarity) of F and the corresponding field of the \nimage, and replace the pixel in the center of the field with the output of the inner product operation",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0043.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:44",
+    "slide_number": 44,
+    "title_guess": "2D Convolution",
+    "extracted_text": "2D Convolution\n49\nConvolution\nInput Image\nConvolved Image\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n1\n0\n0\n1\n0\n0\n1\n0\n0\n0\n1\n0\n1\n0\n0\n0\n0\n1\n1\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n3\n2\n2\n3\n•\nPick a 2x2 matrix F of weights (called a kernel or convolution matrix)\n•\nSlide this over an image and compute the “inner product” (similarity) of F and the corresponding field of the \nimage, and replace the pixel in the center of the field with the output of the inner product operation",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0044.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:45",
+    "slide_number": 45,
+    "title_guess": "2D Convolution",
+    "extracted_text": "2D Convolution\n50\nConvolution\nInput Image\nConvolved Image\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n1\n0\n0\n1\n0\n0\n1\n0\n0\n0\n1\n0\n1\n0\n0\n0\n0\n1\n1\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n3\n2\n2\n3\n1\n•\nPick a 2x2 matrix F of weights (called a kernel or convolution matrix)\n•\nSlide this over an image and compute the “inner product” (similarity) of F and the corresponding field of the \nimage, and replace the pixel in the center of the field with the output of the inner product operation",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0045.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:46",
+    "slide_number": 46,
+    "title_guess": "2D Convolution",
+    "extracted_text": "2D Convolution\n51\nConvolution\nInput Image\nConvolved Image\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n1\n0\n0\n1\n0\n0\n1\n0\n0\n0\n1\n0\n1\n0\n0\n0\n0\n1\n1\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n3\n2\n2\n3\n1\n2\n•\nPick a 2x2 matrix F of weights (called a kernel or convolution matrix)\n•\nSlide this over an image and compute the “inner product” (similarity) of F and the corresponding field of the \nimage, and replace the pixel in the center of the field with the output of the inner product operation",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0046.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:47",
+    "slide_number": 47,
+    "title_guess": "2D Convolution",
+    "extracted_text": "2D Convolution\n52\nConvolution\nInput Image\nConvolved Image\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n1\n0\n0\n1\n0\n0\n1\n0\n0\n0\n1\n0\n1\n0\n0\n0\n0\n1\n1\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n3\n2\n2\n3\n1\n2\n0\n•\nPick a 2x2 matrix F of weights (called a kernel or convolution matrix)\n•\nSlide this over an image and compute the “inner product” (similarity) of F and the corresponding field of the \nimage, and replace the pixel in the center of the field with the output of the inner product operation",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0047.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:48",
+    "slide_number": 48,
+    "title_guess": "2D Convolution",
+    "extracted_text": "2D Convolution\n53\nConvolution\nInput Image\nConvolved Image\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n1\n0\n0\n1\n0\n0\n1\n0\n0\n0\n1\n0\n1\n0\n0\n0\n0\n1\n1\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n3\n2\n2\n3\n1\n2\n0\n2\n1\n0\n2\n2\n1\n0\n0\n3\n1\n0\n0\n0\n1\n0\n0\n0\n0\n•\nPick a 2x2 matrix F of weights (called a kernel or convolution matrix)\n•\nSlide this over an image and compute the “inner product” (similarity) of F and the corresponding field of the \nimage, and replace the pixel in the center of the field with the output of the inner product operation",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0048.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:49",
+    "slide_number": 49,
+    "title_guess": "PADDING",
+    "extracted_text": "PADDING\n54",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0049.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:50",
+    "slide_number": 50,
+    "title_guess": "Padding",
+    "extracted_text": "Padding\nSuppose you want to preserve the size of the original input image in \nyour convolved image.\nYou can accomplish this by padding your input image with zeros.\n55\nIdentity \nConvolution\nInput Image\nConvolved Image\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n1\n0\n0\n1\n0\n0\n1\n0\n0\n0\n1\n0\n1\n0\n0\n0\n0\n1\n1\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n1\n1\n0\n0\n1\n0\n1\n0\n1\n0\n0\n1\n1\n0\n0\n0\n1\n0\n0\n0\n0",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0050.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:51",
+    "slide_number": 51,
+    "title_guess": "Padding",
+    "extracted_text": "Padding\nSuppose you want to preserve the size of the original input image in \nyour convolved image.\nYou can accomplish this by padding your input image with zeros.\n56\n0\n0\n0\n0\n1\n0\n0\n0\n0\nIdentity \nConvolution\nInput Image\nConvolved Image\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n1\n0\n0\n0\n0\n1\n0\n0\n1\n0\n0\n0\n0\n0\n1\n0\n1\n0\n0\n0\n0\n0\n0\n1\n1\n0\n0\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n1\n0\n0\n1\n0\n0\n1\n0\n0\n0\n1\n0\n1\n0\n0\n0\n0\n1\n1\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0051.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:52",
+    "slide_number": 52,
+    "title_guess": "Kernels for Image Processing",
+    "extracted_text": "Kernels for Image Processing\nA convolution matrix (aka. kernel) is used in image processing for \ntasks such as edge detection, blurring, sharpening, etc.\n57\nIdentity \nConvolution\nInput Image\nConvolved Image\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n1\n0\n0\n0\n0\n1\n0\n0\n1\n0\n0\n0\n0\n0\n1\n0\n1\n0\n0\n0\n0\n0\n0\n1\n1\n0\n0\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n1\n0\n0\n1\n0\n0\n1\n0\n0\n0\n1\n0\n1\n0\n0\n0\n0\n1\n1\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0052.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:53",
+    "slide_number": 53,
+    "title_guess": "Kernels for Image Processing",
+    "extracted_text": "Kernels for Image Processing\nA convolution matrix (aka. kernel) is used in image processing for \ntasks such as edge detection, blurring, sharpening, etc.\n58\nInput Image\nConvolved Image\n.1\n.1\n.1\n.1\n.2\n.1\n.1\n.1\n.1\nBlurring\nConvolution\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n1\n0\n0\n0\n0\n1\n0\n0\n1\n0\n0\n0\n0\n0\n1\n0\n1\n0\n0\n0\n0\n0\n0\n1\n1\n0\n0\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n1\n0\n0\n1\n0\n0\n1\n0\n0\n0\n1\n0\n1\n0\n0\n0\n0\n1\n1\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n.1\n.2\n.3\n.3\n.3\n.2\n.1\n.2\n.4\n.5\n.5\n.5\n.4\n.1\n.3\n.4\n.2\n.3\n.6\n.3\n.1\n.3\n.5\n.4\n.4\n.2\n.1\n0\n.3\n.5\n.6\n.2\n.1\n0\n0\n.2\n.4\n.3\n.1\n0\n0\n0\n.1\n.1\n.1\n0\n0\n0\n0",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0053.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:54",
+    "slide_number": 54,
+    "title_guess": "Kernels for Image Processing",
+    "extracted_text": "Kernels for Image Processing\nA convolution matrix (aka. kernel) is used in image processing for \ntasks such as edge detection, blurring, sharpening, etc.\n59\nVertical \nEdge \nDetector\nInput Image\nConvolved Image\n-1\n0\n1\n-1\n0\n1\n-1\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n1\n0\n0\n0\n0\n1\n0\n0\n1\n0\n0\n0\n0\n0\n1\n0\n1\n0\n0\n0\n0\n0\n0\n1\n1\n0\n0\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n-1\n-1\n0\n0\n0\n1\n1\n-2\n-1\n1\n-1\n0\n2\n1\n-3\n-1\n1\n-1\n1\n2\n1\n-3\n-1\n2\n0\n1\n1\n0\n-3\n-1\n2\n1\n1\n0\n0\n-2\n-1\n2\n1\n0\n0\n0\n-1\n0\n1\n0\n0\n0\n0",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0054.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:55",
+    "slide_number": 55,
+    "title_guess": "Kernels for Image Processing",
+    "extracted_text": "Kernels for Image Processing\nA convolution matrix (aka. kernel) is used in image processing for \ntasks such as edge detection, blurring, sharpening, etc.\n60\nHorizontal \nEdge \nDetector\nInput Image\nConvolved Image\n-1\n-1\n-1\n0\n0\n0\n1\n1\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n1\n0\n0\n0\n0\n1\n0\n0\n1\n0\n0\n0\n0\n0\n1\n0\n1\n0\n0\n0\n0\n0\n0\n1\n1\n0\n0\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n-1\n-2\n-3\n-3\n-3\n-2\n-1\n-1\n-1\n-1\n-1\n-1\n-1\n0\n0\n1\n1\n2\n2\n2\n1\n0\n-1\n-1\n0\n1\n1\n0\n0\n0\n1\n1\n1\n0\n0\n1\n2\n2\n1\n0\n0\n0\n1\n1\n1\n0\n0\n0\n0",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0055.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:56",
+    "slide_number": 56,
+    "title_guess": "Convolution Examples",
+    "extracted_text": "Convolution Examples\n62\nOriginal \nImage",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0056.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:57",
+    "slide_number": 57,
+    "title_guess": "Convolution Examples",
+    "extracted_text": "Convolution Examples\n63\n1/9 1/9 1/9\n1/9 1/9 1/9\n1/9 1/9 1/9\nSmoothing \nConvolution\nPoll Question 1:\nWhat effect do you think the \nfollowing filter will have on an \nimage? \nA. Sharpen the image\nB. Blur the image\nC. Shift the image left\nD. Rotate the image clockwise\nE. Detect edges\nF. Nothing (TOXIC)\nPoll Question 1:\nWhat effect do you think the \nfollowing filter will have on an \nimage? \nA. Sharpen the image\nB. Blur the image\nC. Shift the image left\nD. Rotate the image clockwise\nE. Detect edges\nF. Nothing (TOXIC)\n1/9 1/9 1/9\n1/9 1/9 1/9\n1/9 1/9 1/9",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0057.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:58",
+    "slide_number": 58,
+    "title_guess": "Convolution Examples",
+    "extracted_text": "Convolution Examples\n65\n.01 .04 .06 .04 .01\n.04 .19 .25 .19 .04\n.06 .25 .37 .25 .06\n.04 .19 .25 .19 .04\n.01 .04 .06 .04 .01\nGaussian \nBlur",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0058.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:59",
+    "slide_number": 59,
+    "title_guess": "Convolution Examples",
+    "extracted_text": "Convolution Examples\n66\n0\n-1\n0\n-1\n5\n-1\n0\n-1\n0\nSharpening \nKernel",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0059.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:60",
+    "slide_number": 60,
+    "title_guess": "Convolution Examples",
+    "extracted_text": "Convolution Examples\n67\n-1\n-1\n-1\n-1\n8\n-1\n-1\n-1\n-1\nEdge \nDetector",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0060.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:61",
+    "slide_number": 61,
+    "title_guess": "STRIDE AND DOWNSAMPLING",
+    "extracted_text": "STRIDE AND DOWNSAMPLING\n68",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0061.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:62",
+    "slide_number": 62,
+    "title_guess": "Stride and Downsampling",
+    "extracted_text": "Stride and Downsampling\n• Suppose we use a convolution with stride 2\n• Only 9 patches visited in input, so only 9 pixels in output\n69\nConvolution\nInput Image\nConvolved Image\n1\n1\n1\n1\n1\n0\n1\n0\n0\n1\n0\n0\n1\n0\n1\n0\n0\n0\n1\n1\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0062.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:63",
+    "slide_number": 63,
+    "title_guess": "Stride and Downsampling",
+    "extracted_text": "Stride and Downsampling\n• Suppose we use a convolution with stride 2\n• Only 9 patches visited in input, so only 9 pixels in output\n70\nConvolution\nInput Image\nConvolved Image\n1\n1\n1\n1\n1\n0\n1\n0\n0\n1\n0\n0\n1\n0\n1\n0\n0\n0\n1\n1\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n3\n1\n1\n1\n1",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0063.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:64",
+    "slide_number": 64,
+    "title_guess": "Stride and Downsampling",
+    "extracted_text": "Stride and Downsampling\n• Suppose we use a convolution with stride 2\n• Only 9 patches visited in input, so only 9 pixels in output\n71\nConvolution\nInput Image\nConvolved Image\n1\n1\n1\n1\n1\n0\n1\n0\n0\n1\n0\n0\n1\n0\n1\n0\n0\n0\n1\n1\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n3\n3\n1\n1\n1\n1",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0064.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:65",
+    "slide_number": 65,
+    "title_guess": "Stride and Downsampling",
+    "extracted_text": "Stride and Downsampling\n• Suppose we use a convolution with stride 2\n• Only 9 patches visited in input, so only 9 pixels in output\n72\nConvolution\nInput Image\nConvolved Image\n1\n1\n1\n1\n1\n0\n1\n0\n0\n1\n0\n0\n1\n0\n1\n0\n0\n0\n1\n1\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n3\n3\n1\n1\n1\n1\n1",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0065.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:66",
+    "slide_number": 66,
+    "title_guess": "Stride and Downsampling",
+    "extracted_text": "Stride and Downsampling\n• Suppose we use a convolution with stride 2\n• Only 9 patches visited in input, so only 9 pixels in output\n73\nConvolution\nInput Image\nConvolved Image\n1\n1\n1\n1\n1\n0\n1\n0\n0\n1\n0\n0\n1\n0\n1\n0\n0\n0\n1\n1\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n3\n3\n1\n3\n1\n1\n1\n1",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0066.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:67",
+    "slide_number": 67,
+    "title_guess": "Stride and Downsampling",
+    "extracted_text": "Stride and Downsampling\n• Suppose we use a convolution with stride 2\n• Only 9 patches visited in input, so only 9 pixels in output\n74\nConvolution\nInput Image\nConvolved Image\n1\n1\n1\n1\n1\n0\n1\n0\n0\n1\n0\n0\n1\n0\n1\n0\n0\n0\n1\n1\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n3\n3\n1\n3\n1\n1\n1\n1\n1",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0067.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:68",
+    "slide_number": 68,
+    "title_guess": "Stride and Downsampling",
+    "extracted_text": "Stride and Downsampling\n• Suppose we use a convolution with stride 2\n• Only 9 patches visited in input, so only 9 pixels in output\n75\nConvolution\nInput Image\nConvolved Image\n1\n1\n1\n1\n1\n0\n1\n0\n0\n1\n0\n0\n1\n0\n1\n0\n0\n0\n1\n1\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n3\n3\n1\n3\n1\n0\n1\n1\n1\n1",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0068.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:69",
+    "slide_number": 69,
+    "title_guess": "Stride and Downsampling",
+    "extracted_text": "Stride and Downsampling\n• Suppose we use a convolution with stride 2\n• Only 9 patches visited in input, so only 9 pixels in output\n76\nConvolution\nInput Image\nConvolved Image\n1\n1\n1\n1\n1\n0\n1\n0\n0\n1\n0\n0\n1\n0\n1\n0\n0\n0\n1\n1\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n3\n3\n1\n3\n1\n0\n1\n1\n1\n1\n1",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0069.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:70",
+    "slide_number": 70,
+    "title_guess": "Stride and Downsampling",
+    "extracted_text": "Stride and Downsampling\n• Suppose we use a convolution with stride 2\n• Only 9 patches visited in input, so only 9 pixels in output\n77\nConvolution\nInput Image\nConvolved Image\n1\n1\n1\n1\n1\n0\n1\n0\n0\n1\n0\n0\n1\n0\n1\n0\n0\n0\n1\n1\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n3\n3\n1\n3\n1\n0\n1\n0\n1\n1\n1\n1",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0070.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:71",
+    "slide_number": 71,
+    "title_guess": "Stride and Downsampling",
+    "extracted_text": "Stride and Downsampling\n• Suppose we use a convolution with stride 2\n• Only 9 patches visited in input, so only 9 pixels in output\n78\nConvolution\nInput Image\nConvolved Image\n1\n1\n1\n1\n1\n0\n1\n0\n0\n1\n0\n0\n1\n0\n1\n0\n0\n0\n1\n1\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n3\n3\n1\n3\n1\n0\n1\n0\n0\n1\n1\n1\n1",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0071.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:72",
+    "slide_number": 72,
+    "title_guess": "Downsampling by Averaging",
+    "extracted_text": "Downsampling by Averaging\n•\nDownsampling by averaging is a special case of convolution \nwhere the weights are fixed to a uniform distribution\n•\nThe example below uses a stride of 2\n79\nConvolution\nInput Image\nConvolved Image\n1\n1\n1\n1\n1\n0\n1\n0\n0\n1\n0\n0\n1\n0\n1\n0\n0\n0\n1\n1\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n3/4 3/4 1/4\n3/4 1/4\n0\n1/4\n0\n0\n1/4 1/4\n1/4 1/4",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0072.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:73",
+    "slide_number": 73,
+    "title_guess": "Max-Pooling",
+    "extracted_text": "Max-Pooling\n•\nMax-pooling with a stride > 1 is another form of downsampling\n•\nInstead of averaging, we take the max value within the same range as \nthe equivalently-sized convolution\n•\nThe example below uses a stride of 2\n80\nMax-\npooling\nInput Image\nMax-Pooled \nImage\n1\n1\n1\n1\n1\n0\n1\n0\n0\n1\n0\n0\n1\n0\n1\n0\n0\n0\n1\n1\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n1\n0\n1\n0\n0\nxi,j\nxi,j+1\nxi+1,j xi+1,j+1",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0073.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:74",
+    "slide_number": 74,
+    "title_guess": "TRAINING CNNS",
+    "extracted_text": "TRAINING CNNS\n81",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0074.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:75",
+    "slide_number": 75,
+    "title_guess": "A Recipe for",
+    "extracted_text": "A Recipe for \nMachine Learning\n3. Define goal:\n82\n4. Train with SGD:\n(take small steps \nopposite the gradient)\n1. Given training data:\n2. Choose each of these:\n– Decision function\n– Loss function",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0075.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:76",
+    "slide_number": 76,
+    "title_guess": "A Recipe for",
+    "extracted_text": "A Recipe for \nMachine Learning\n3. Define goal:\n83\n4. Train with SGD:\n(take small steps \nopposite the gradient)\n1. Given training data:\n2. Choose each of these:\n– Decision function\n– Loss function\n• Q: Now that we have the CNN \nas a decision function, how do \nwe compute the gradient?\n• A: Backpropagation of course!\n• Q: Now that we have the CNN \nas a decision function, how do \nwe compute the gradient?\n• A: Backpropagation of course!",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0076.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:77",
+    "slide_number": 77,
+    "title_guess": "SGD for CNNs",
+    "extracted_text": "SGD for CNNs\n84\nExample: Simple CNN Architecture",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0077.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:78",
+    "slide_number": 78,
+    "title_guess": "LAYERS OF A CNN",
+    "extracted_text": "LAYERS OF A CNN\n85",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0078.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:79",
+    "slide_number": 79,
+    "title_guess": "Convolutional Neural Network (CNN)",
+    "extracted_text": "Convolutional Neural Network (CNN)\n•\nTypical layers include:\n–\nConvolutional layer\n–\nMax-pooling layer\n–\nFully-connected (Linear) layer\n–\nReLU layer (or some other nonlinear activation function)\n–\nSoftmax\n•\nThese can be arranged into arbitrarily deep topologies\n86\nArchitecture #1: LeNet-5",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0079.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:80",
+    "slide_number": 80,
+    "title_guess": "ReLU Layer",
+    "extracted_text": "ReLU Layer\n87\nsubderivative\nmax(0,a)",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0080.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:81",
+    "slide_number": 81,
+    "title_guess": "Softmax Layer",
+    "extracted_text": "Softmax Layer\n88\nx1\nz1\nx2\nx3\nxM\ny1\nz2\nzD\n…\n…\nOutput\nInput\nHidden Layer\nyK\n…",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0081.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:82",
+    "slide_number": 82,
+    "title_guess": "Fully-Connected Layer (3D input)",
+    "extracted_text": "Fully-Connected Layer (3D input)\n1.\nsuppose input is a 3D tensor:\n2. flatten out tensor into a vector:\n3. then push that vector through a \nstandard linear layer:\n89\nC\nW\nH",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0082.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:83",
+    "slide_number": 83,
+    "title_guess": "2D Convolution",
+    "extracted_text": "2D Convolution\nExample: 1 input channel, 2 output channels\nInput\nKernel\nOutput\n90",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0083.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:84",
+    "slide_number": 84,
+    "title_guess": "Convolution of a Color Image",
+    "extracted_text": "Convolution of a Color Image\n91\nWout\nHout\nCin\nWin\nHin\n•\nColor images consist of 3 floats per pixel for RGB (red, green \nblue) color values\n•\nThe kernel must also be 3-dimensional\n•\ninput = 3x64x64\n•\nkernel = 3x5x5\n•\noutput = 1x64x64 (assuming padding)\n1",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0084.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:85",
+    "slide_number": 85,
+    "title_guess": "3D Convolutional Layer",
+    "extracted_text": "3D Convolutional Layer\n92\nCin\nWin\nHin\nCin\nKw\nKh\nWout\nHout\nCin\nWin\nHin\nConvolution in 3D\n• Color images consist of 3 floats per pixel for \nRGB (red, green blue) color values\n• Convolution must also be 3-dimensional",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0085.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:86",
+    "slide_number": 86,
+    "title_guess": "3D Convolutional Layer",
+    "extracted_text": "3D Convolutional Layer\n93\n…\nCin\nWin\nHin\nCin\nKw\nKh\nCin\nKw\nKh\nWout\nHout\nWout\nHout\n…\nCout\nWout\nHout\nj’th slice is \nfrom j’th \nkernel\nCin\nWin\nHin\nConvolution in 3D",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0086.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:87",
+    "slide_number": 87,
+    "title_guess": "Max-Pooling Layer",
+    "extracted_text": "Max-Pooling Layer\n95\nExample: 1 input channel, 1 output channel, stride of 1\nInput\nPool Size\nOutput",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0087.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:88",
+    "slide_number": 88,
+    "title_guess": "3D Max-Pooling Layer",
+    "extracted_text": "3D Max-Pooling Layer\n96",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0088.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:89",
+    "slide_number": 89,
+    "title_guess": "CNN ARCHITECTURES",
+    "extracted_text": "CNN ARCHITECTURES\n97",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0089.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:90",
+    "slide_number": 90,
+    "title_guess": "Convolutional Neural Network (CNN)",
+    "extracted_text": "Convolutional Neural Network (CNN)\n•\nTypical layers include:\n–\nConvolutional layer\n–\nMax-pooling layer\n–\nFully-connected (Linear) layer\n–\nReLU layer (or some other nonlinear activation function)\n–\nSoftmax\n•\nThese can be arranged into arbitrarily deep topologies\n98\nArchitecture #1: LeNet-5",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0090.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:91",
+    "slide_number": 91,
+    "title_guess": "Architecture #2: AlexNet",
+    "extracted_text": "Architecture #2: AlexNet\n99\nCNN for Image Classification\n(Krizhevsky, Sutskever & Hinton, 2012)\n15.3% error on ImageNet LSVRC-2012 contest\nInput \nimage \n(pixels)\n•\nFive convolutional layers \n(w/max-pooling)\n•\nThree fully connected layers\n1000-way \nsoftmax",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0091.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:92",
+    "slide_number": 92,
+    "title_guess": "CNNs for Image Recognition",
+    "extracted_text": "CNNs for Image Recognition\n100\nSlide from Kaiming He",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0092.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:93",
+    "slide_number": 93,
+    "title_guess": "Convolutional Neural Network (CNN)",
+    "extracted_text": "Convolutional Neural Network (CNN)\n101\nTypical Architectures\nFigure from https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7327346/",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0093.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:94",
+    "slide_number": 94,
+    "title_guess": "Convolutional Neural Network (CNN)",
+    "extracted_text": "Convolutional Neural Network (CNN)\n102\nTypical Architectures\nFigure from https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7327346/",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0094.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:95",
+    "slide_number": 95,
+    "title_guess": "Convolutional Neural Network (CNN)",
+    "extracted_text": "Convolutional Neural Network (CNN)\n103\nTypical Architectures\n1x1 conv, 64\n3x3 conv, 64\n1x1 conv, 256\n1x1 conv, 64\n3x3 conv, 64\n1x1 conv, 256\n1x1 conv, 64\n3x3 conv, 64\n1x1 conv, 256\n1x1 conv, 128, /2\n3x3 conv, 128\n1x1 conv, 512\n1x1 conv, 128\n3x3 conv, 128\n1x1 conv, 512\n1x1 conv, 128\n3x3 conv, 128\n1x1 conv, 512\n1x1 conv, 128\n3x3 conv, 128\n1x1 conv, 512\n1x1 conv, 128\n3x3 conv, 128\n1x1 conv, 512\n1x1 conv, 128\n3x3 conv, 128\n1x1 conv, 512\n1x1 conv, 128\n3x3 conv, 128\n1x1 conv, 512\n1x1 conv, 128\n3x3 conv, 128\n1x1 conv, 512\n1x1 conv, 256, /2\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 256\n3x3 conv, 256\n1x1 conv, 1024\n1x1 conv, 512, /2\n3x3 conv, 512\n1x1 conv, 2048\n1x1 conv, 512\n3x3 conv, 512\n1x1 conv, 2048\n1x1 conv, 512\n3x3 conv, 512\n1x1 conv, 2048\nave pool, fc 1000\n7x7  conv, 64, /2, pool/2\nAlexNet, 8 layers\n(ILSVRC 2012)\nRevolution of Depth\nResNet, 152 layers\n(ILSVRC 2015)\n3x3 conv, 64\n3x3 conv, 64, pool/2\n3x3 conv, 128\n3x3 conv, 128, pool/2\n3x3 conv, 256\n3x3 conv, 256\n3x3 conv, 256\n3x3 conv, 256, pool/2\n3x3 conv, 512\n3x3 conv, 512\n3x3 conv, 512\n3x3 conv, 512, pool/2\n3x3 conv, 512\n3x3 conv, 512\n3x3 conv, 512\n3x3 conv, 512, pool/2\nfc, 4096\nfc, 4096\nfc, 1000\n11x11 conv, 96, /4, pool/2\n5x5 conv, 256, pool/2\n3x3 conv, 384\n3x3 conv, 384\n3x3 conv, 256, pool/2\nfc, 4096\nfc, 4096\nfc, 1000\nVGG, 19 layers\n(ILSVRC 2014)\nKaiming He, Xiangyu Zhang, Shaoqing Ren, & Jian Sun. “Deep Residual Learning for Image Recognition”. arXiv 2015.",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0095.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:96",
+    "slide_number": 96,
+    "title_guess": "Location-specific Parameters",
+    "extracted_text": "Location-specific Parameters\nPoll Question 2:\nWhy do many layers \nused in computer \nvision not have \nlocation specific \nparameters?\nPoll Question 2:\nWhy do many layers \nused in computer \nvision not have \nlocation specific \nparameters?\n104\nAnswer:\nAnswer:",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0096.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:97",
+    "slide_number": 97,
+    "title_guess": "Convolutional Layer",
+    "extracted_text": "Convolutional Layer\n105\n0\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n1\n0\n0\n1\n0\n0\n1\n0\n0\n0\n1\n0\n1\n0\n0\n0\n0\n1\n1\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\nθ11 θ12\nθ21 θ22\n2x2 \nConvolution\nInput Image\nθ11 θ12 θ13\nθ21 θ22 θ23\nθ31 θ32 θ33\n3x3 \nConvolution\nθ11 θ12 θ13 θ14\nθ21 θ22 θ23 θ24\nθ31 θ32 θ33 θ34\nθ41 θ42 θ43 θ44\n4x4 \nConvolution\nFor a convolutional layer, how do we pick the kernel size \n(aka. the size of the convolution)?\n•\nA small kernel can only see a very small part of the image, \nbut is fast to compute\n•\nA large kernel can see more of the image, but at the \nexpense of speed",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0097.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:98",
+    "slide_number": 98,
+    "title_guess": "CNN VISUALIZATIONS",
+    "extracted_text": "CNN VISUALIZATIONS\n106",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0098.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:99",
+    "slide_number": 99,
+    "title_guess": "Visualization of CNN",
+    "extracted_text": "Visualization of CNN\nhttps://adamharley.com/nn_vis/cnn/2d.html",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0099.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:100",
+    "slide_number": 100,
+    "title_guess": "MNIST Digit Recognition with CNNs",
+    "extracted_text": "MNIST Digit Recognition with CNNs \n(in your browser)\n108\nhttps://cs.stanford.edu/people/karpathy/convnetjs/demo/mnist.html \nFigure from Andrej Karpathy",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0100.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:101",
+    "slide_number": 101,
+    "title_guess": "CNN Summary",
+    "extracted_text": "CNN Summary\nCNNs\n– Are used for all aspects of computer vision, and have won \nnumerous pattern recognition competitions\n– Able learn interpretable features at different levels of abstraction\n– Typically, consist of convolution layers, pooling layers, \nnonlinearities, and fully connected layers\n109",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0101.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:102",
+    "slide_number": 102,
+    "title_guess": "WORD EMBEDDINGS",
+    "extracted_text": "WORD EMBEDDINGS\n110",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0102.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:103",
+    "slide_number": 103,
+    "title_guess": "Word Embeddings",
+    "extracted_text": "Word Embeddings\nKey Idea: \n•\nrepresent each word in your \nvocabulary as a vector\n•\nstore as a V x D matrix where: \nV = number of words in vocab.\nD = vector’s dimension\nModeling:\n•\ndefine a model in which the \nvectors are parameters\n•\neach copy of the word uses \nthe same parameter vector\n•\ntrain model so that similar \nwords have high cosine \nsimilarity\n111\nW11 W12\nW21 W22\nW31 W32\nW41 W42\nW51 W52\nW61 W62\nW71 W72\nW81 W82\nanger\nbat\ncat\ndog\njoy\nsadness\nsurprise\nzebra\nW\nW.,1\nW.,2\nbat\ndog\ncat\nzebra\nsurprise\nsadness\njoy\nanger",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0103.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:104",
+    "slide_number": 104,
+    "title_guess": "Word Embeddings",
+    "extracted_text": "Word Embeddings\nKey Idea: \n•\nrepresent each word in your \nvocabulary as a vector\n•\nstore as a V x D matrix where: \nV = number of words in vocab.\nD = vector’s dimension\nModeling:\n•\ndefine a model in which the \nvectors are parameters\n•\neach copy of the word uses \nthe same parameter vector\n•\ntrain model so that similar \nwords have high cosine \nsimilarity\n112\n-2.3 0.0 -2.8\n…\n-4.5\n-2.8 -0.9 -1.7\n…\n-4.3\n-4.5 -1.3\n0.6\n…\n-1.7\n3.5\n-2.0 -2.3\n…\n-0.4\n…\n3.0 -0.6 -0.6\n…\n4.9\n…\n-4.7 -4.2 -4.5\n…\n4.3\naardvark\nanger\nbat\ncat\n…\njoy\n…\nzebra\nW\nin a real use case, the typical \nembedding dimension is in the \nhundreds, e.g. D = 300\nwe can’t visualize 300 dimensional \nvectors, but we can inspect their \npairwise cosine similarities",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0104.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:105",
+    "slide_number": 105,
+    "title_guess": "Word Embeddings",
+    "extracted_text": "Word Embeddings\nIn all the models we’re about to \nconsider (neural networks, RNNs, \nTransformers) that work with \nsentences…\n…the first step is always to look \nup the t’th word’s embedding \nvector parameters and use said \nvector for the value of xt\n113\nx1\nh1\ny1\nx2\nh2\ny2\nx3\nh3\ny3\nx4\nh4\ny4\nx5\nh5\ny5\nn\nv\np\nd\nn\ny\ntime\nlike\nflies\nan\narrow\nx\nEmbedding Lookup\nfeed-forward neural \nnetworks",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0105.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:106",
+    "slide_number": 106,
+    "title_guess": "Word Embeddings",
+    "extracted_text": "Word Embeddings\nIn all the models we’re about to \nconsider (neural networks, RNNs, \nTransformers) that work with \nsentences…\n…the first step is always to look \nup the t’th word’s embedding \nvector parameters and use said \nvector for the value of xt\n114\nx1\nh1\ny1\nx2\nh2\ny2\nx3\nh3\ny3\nx4\nh4\ny4\nx5\nh5\ny5\nn\nv\np\nd\nn\ny\ntime\nlike\nflies\nan\narrow\nx\nEmbedding Lookup\nRNN",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0106.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:107",
+    "slide_number": 107,
+    "title_guess": "Word Embeddings",
+    "extracted_text": "Word Embeddings\nIn all the models we’re about to \nconsider (neural networks, RNNs, \nTransformers) that work with \nsentences…\n…the first step is always to look \nup the t’th word’s embedding \nvector parameters and use said \nvector for the value of xt\n115\nx1\nh1\ny1\nx2\nh2\ny2\nx3\nh3\ny3\nx4\nh4\ny4\nx5\nh5\ny5\nn\nv\np\nd\nn\ny\ntime\nlike\nflies\nan\narrow\nx\nEmbedding Lookup\nTransformer layer\nTransformer",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0107.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:108",
+    "slide_number": 108,
+    "title_guess": "SEQUENCE TAGGING",
+    "extracted_text": "SEQUENCE TAGGING\n116",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0108.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:109",
+    "slide_number": 109,
+    "title_guess": "Sample 2:",
+    "extracted_text": "n\nn\nv\nd\nn\nSample 2:\ntime\nlike\nflies\nan\narrow\nDataset for Supervised \nPart-of-Speech (POS) Tagging\n117\nn\nv\np\nd\nn\nSample 1:\ntime\nlike\nflies\nan\narrow\np\nn\nn\nv\nv\nSample 4:\nwith\nyou\ntime\nwill\nsee\nn\nv\np\nn\nn\nSample 3:\nflies\nwith\nfly\ntheir\nwings\nData:\ny(1)\nx(1)\ny(2)\nx(2)\ny(3)\nx(3)\ny(4)\nx(4)",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0109.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:110",
+    "slide_number": 110,
+    "title_guess": "Dataset for Supervised",
+    "extracted_text": "Dataset for Supervised \nHandwriting Recognition\n118\nData:\nFigures from (Chatzis & Demiris, 2013)\nu\ne\np\nc\nt\nSample 1:\ny(1)\nx(1)\nn\nx\ne\nd\ne\nv\nl\na\ni\nc\nSample 2:\no\nc\nn\ne\nb\na\ne\ns\nSample 2:\nm\nr\nc\ny(2)\nx(2)\ny(3)\nx(3)",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0110.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:111",
+    "slide_number": 111,
+    "title_guess": "Dataset for Supervised",
+    "extracted_text": "Dataset for Supervised \nPhoneme (Speech) Recognition\n119\nData:\nFigures from (Jansen & Niyogi, 2013)\nh#\nih\nw\nz\niy\nSample 1:\ny(1)\nx(1)\ndh\ns\nuh\niy\nz\nf\nr\ns\nh#\nSample 2:\nao\nah\ns\ny(2)\nx(2)",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0111.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:112",
+    "slide_number": 112,
+    "title_guess": "Poll Question 3: How could we apply the neural networks we’ve seen so far (which",
+    "extracted_text": "Poll Question 3: How could we apply the neural networks we’ve seen so far (which \nexpect fixed size input/output) to a prediction task with variable length input and \noutput?\nAnswer:\nAnswer:\nTime Series Data\n120\nn\nv\np\nd\nn\ntime\nlike\nflies\nan\narrow\ny\nx\nx1\nh1\ny1\nx2\nh2\ny2\nx3\nh3\ny3\nx4\nh4\ny4\nx5\nh5\ny5",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0112.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:113",
+    "slide_number": 113,
+    "title_guess": "RECURRENT NEURAL NETWORKS",
+    "extracted_text": "RECURRENT NEURAL NETWORKS\n123",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0113.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:114",
+    "slide_number": 114,
+    "title_guess": "Recurrent Neural Networks (RNNs)",
+    "extracted_text": "Recurrent Neural Networks (RNNs)\n124\nx1\nh1\ny1\nDefinition of the RNN:\nx2\nh2\ny2\nx3\nh3\ny3\nx4\nh4\ny4\nx5\nh5\ny5",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0114.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:115",
+    "slide_number": 115,
+    "title_guess": "Recurrent Neural Networks (RNNs)",
+    "extracted_text": "Recurrent Neural Networks (RNNs)\n125\nx1\nh1\ny1\nDefinition of the RNN:\nx2\nh2\ny2\nx3\nh3\ny3\nx4\nh4\ny4\nx5\nh5\ny5\nThis form of RNN is \ncalled an \nElman Network\nThis form of RNN is \ncalled an \nElman Network",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0115.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:116",
+    "slide_number": 116,
+    "title_guess": "Recurrent Neural Networks (RNNs)",
+    "extracted_text": "Recurrent Neural Networks (RNNs)\n• If T=1, then we have a standard feed-\nforward neural net with one hidden layer, \nwhich requires fixed size inputs/outputs\n• By contrast, an RNN can handle arbitrary \nlength inputs/outputs because T can vary \nfrom example to example\n• The key idea is that we reuse the same \nparameters at every timestep, always \nbuilding off of the previous hidden state\n126\nx1\nh1\ny1\nDefinition of the RNN:",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0116.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:117",
+    "slide_number": 117,
+    "title_guess": "Recurrent Neural Networks (RNNs)",
+    "extracted_text": "Recurrent Neural Networks (RNNs)\n127\nxt\nh\nyt\nDefinition of the RNN:",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0117.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:118",
+    "slide_number": 118,
+    "title_guess": "Recurrent Neural Networks (RNNs)",
+    "extracted_text": "Recurrent Neural Networks (RNNs)\n• By unrolling the RNN through \ntime, we can share parameters \nand accommodate arbitrary \nlength input/output pairs\n• Applications: time-series data \nsuch as sentences, speech, \nstock-market, signal data, etc.\n128\nDefinition of the RNN:\nxt\nh\nyt",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0118.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:119",
+    "slide_number": 119,
+    "title_guess": "Background: Backprop through time",
+    "extracted_text": "Background: Backprop through time\nRecurrent neural \nnetwork:\nBPTT: \n1. Unroll the \ncomputation \nover time\n129\na\nxt\nbt\nxt+1\nyt+1\na\nx1\nb1\nx2\nb2\nx3\nb3\nx4\ny4\n2. Run \nbackprop \nthrough the \nresulting feed-\nforward \nnetwork",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0119.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:120",
+    "slide_number": 120,
+    "title_guess": "Bidirectional RNN",
+    "extracted_text": "Bidirectional RNN\n130\nxt\nh\nyt\nRecursive Definition:\nh",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0120.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:121",
+    "slide_number": 121,
+    "title_guess": "Bidirectional RNN",
+    "extracted_text": "Bidirectional RNN\n131\nx1\nh1\ny1\nRecursive Definition:\nh1\nx2\nh2\ny2\nh2\nx3\nh3\ny3\nh3\nx4\nh4\ny4\nh4",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0121.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:122",
+    "slide_number": 122,
+    "title_guess": "Deep RNNs",
+    "extracted_text": "Deep RNNs\n132\nRecursive Definition:\nFigure from (Graves et al., 2013)",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0122.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:123",
+    "slide_number": 123,
+    "title_guess": "Deep Bidirectional RNNs",
+    "extracted_text": "Deep Bidirectional RNNs\n133\nFigure from (Graves et al., 2013)\nxt\nh\nyt\nh\nh’\nh’\n• Notice that the upper level \nhidden units have input \nfrom two previous layers \n(i.e. wider input)\n• Likewise for the output \nlayer",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0123.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:124",
+    "slide_number": 124,
+    "title_guess": "RNN / LSTM RESULTS",
+    "extracted_text": "RNN / LSTM RESULTS\n147",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0124.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:125",
+    "slide_number": 125,
+    "title_guess": "Dataset for Supervised",
+    "extracted_text": "Dataset for Supervised \nNamed Entity Recognition (NER)\n•\nGoal: label the spans \nof persons, locations, \norganizations, times, \netc. (aka. entities)\n•\nData Representation: \nto cast as a sequence \ntagging problem, we \nuse Begin-Inside-\nOutside (BIO) tagging\n•\nBIO tags distinguish \nbetween adjacent \nentities of the same \ntype\n148\nData:\nSample 2:\nSample 1:\nSample 4:\nSample 3:\ny(1)\nx(1)\ny(2)\nx(2)\ny(3)\nx(3)\ny(4)\nx(4)\nB-PER\nI-PER\nO\nB-LOC\nI-LOC\nTenzing\nNorgay\nclimbed\nMount\nEverest\nB-PER\nO\nB-LOC\nI-LOC\nObama\nvisits\nParis\nFrance\nB-PER\nI-PER\nB-ORG\nI-ORG\nO\nO\nSteve\nJobs’\nApple\nInc.\nchanged\ntech\nB-LOC\nB-LOC\nO\nO\nSpain\nItaly\nwin\nmedals",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0125.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:126",
+    "slide_number": 126,
+    "title_guess": "LSTM Empirical Results",
+    "extracted_text": "LSTM Empirical Results\n•\nCoNLL-2003 is the most \nprominent dataset for NER\n•\nF1 – higher is better\n•\nblue dots are methods that use \nan LSTM\n•\nan LSTM is the primary model \nbehind the state-of-the-art \n(ACE + document-context)\n149\nFigure from https://paperswithcode.com/sota/named-entity-recognition-ner-on-conll-2003",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0126.png"
+  },
+  {
+    "slide_id": "mat_3b5e20f75a86498d8d1c04f35becd132:slide:127",
+    "slide_number": 127,
+    "title_guess": "CNN & RNN Learning Objectives",
+    "extracted_text": "CNN & RNN Learning Objectives\nYou should be able to…\n• Implement the common layers found in Convolutional Neural \nNetworks (CNNs) such as linear layers, convolution layers, max-\npooling layers, and rectified linear units (ReLU)\n• Explain how the shared parameters of a convolutional layer \ncould learn to detect spatial patterns in an image\n• Describe the backpropagation algorithm for a CNN\n• Identify the parameter sharing used in a basic recurrent neural \nnetwork, e.g. an Elman network\n• Apply a recurrent neural network to model sequence data\n• Differentiate between an RNN and an RNN-LM\n151",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_3b5e20f75a86498d8d1c04f35becd132\\previews\\slide-0127.png"
+  }
+]

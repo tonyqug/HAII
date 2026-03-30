@@ -20,6 +20,7 @@ from .utils import (
     make_id,
     normalize_whitespace,
     safe_excerpt,
+    split_sentences,
     summarize_texts,
     take_sentences,
     top_keywords,
@@ -665,23 +666,116 @@ class GroundedGenerator:
         return message_text
 
     def _compose_grounded_answer(self, question_text: str, relevant_items: Sequence[Dict[str, Any]], response_style: str) -> str:
-        summaries = [take_sentences(item.get("text", ""), 2) for item in relevant_items]
+        summaries = self._summaries_for_chat(question_text, relevant_items)
+        if not summaries:
+            summaries = [safe_excerpt(item.get("text", ""), 180) for item in relevant_items if item.get("text")]
         if response_style == "concise":
             return normalize_whitespace(" ".join(summary for summary in summaries[:2] if summary))
         if response_style == "step_by_step":
             steps = []
             for index, item in enumerate(relevant_items, start=1):
                 concept = infer_concept_label(first_sentence(item.get("text", "")), fallback=f"slide {item.get('slide_number')}")
-                summary = take_sentences(item.get("text", ""), 1) or safe_excerpt(item.get("text", ""), 120)
+                summary = self._best_summary_for_item(question_text, item) or safe_excerpt(item.get("text", ""), 120)
                 steps.append(f"{index}. {concept}: {summary}")
             return "\n".join(steps)
-        joined = []
-        for item in relevant_items[:3]:
-            joined.append(take_sentences(item.get("text", ""), 1) or safe_excerpt(item.get("text", ""), 160))
-        answer = " ".join(joined)
-        if question_text.endswith("?"):
-            return answer
-        return normalize_whitespace(answer)
+        if self._is_definition_question(question_text):
+            focus = self._question_focus(question_text)
+            leading = summaries[0]
+            if focus:
+                answer = f"In these slides, {focus} is described as: {leading}"
+            else:
+                answer = leading
+            if len(summaries) > 1:
+                answer = f"{answer} Related detail: {summaries[1]}"
+            return normalize_whitespace(answer)
+        return normalize_whitespace(" ".join(summaries[:3]))
+
+    def _summaries_for_chat(self, question_text: str, relevant_items: Sequence[Dict[str, Any]]) -> List[str]:
+        fragments: List[tuple[int, str]] = []
+        for item in relevant_items:
+            summary = self._best_summary_for_item(question_text, item)
+            if not summary:
+                continue
+            score = lexical_overlap_score(question_text, summary)
+            if self._looks_like_slide_metadata(summary):
+                score -= 3
+            fragments.append((score, summary))
+        fragments.sort(key=lambda pair: pair[0], reverse=True)
+        ordered: List[str] = []
+        seen: set[str] = set()
+        for _score, summary in fragments:
+            key = summary.lower()
+            if key in seen:
+                continue
+            seen.add(key)
+            ordered.append(summary)
+        return ordered
+
+    def _best_summary_for_item(self, question_text: str, item: Dict[str, Any]) -> str:
+        cleaned = self._clean_evidence_text(item.get("text", ""))
+        if not cleaned:
+            return ""
+        candidates = split_sentences(cleaned) or [cleaned]
+        scored: List[tuple[int, str]] = []
+        for candidate in candidates[:4]:
+            fragment = normalize_whitespace(candidate)
+            if len(fragment) < 18:
+                continue
+            score = lexical_overlap_score(question_text, fragment)
+            if self._looks_like_slide_metadata(fragment):
+                score -= 4
+            scored.append((score, fragment))
+        if not scored:
+            return safe_excerpt(cleaned, 160)
+        scored.sort(key=lambda pair: pair[0], reverse=True)
+        return safe_excerpt(scored[0][1], 180)
+
+    def _is_definition_question(self, question_text: str) -> bool:
+        text = normalize_whitespace(question_text).lower()
+        return bool(re.match(r"^(what is|what's|define|explain)\b", text))
+
+    def _question_focus(self, question_text: str) -> Optional[str]:
+        text = normalize_whitespace(question_text)
+        match = re.search(r"(?i)\b(?:what is|what's|define|explain)\s+(?:an?\s+|the\s+)?(.+?)(?:\?|$)", text)
+        if not match:
+            return None
+        focus = normalize_whitespace(match.group(1))
+        if not focus:
+            return None
+        return focus
+
+    def _clean_evidence_text(self, text: str) -> str:
+        cleaned = normalize_whitespace(text or "")
+        if not cleaned:
+            return ""
+        cleaned = re.sub(r"\b\d{2,3}-\d{3}/\d{2,3}-\d{3}\b", " ", cleaned)
+        cleaned = re.sub(r"\b(?:Pat Virtue|Matt Gormley)\b", " ", cleaned, flags=re.IGNORECASE)
+        cleaned = re.sub(
+            r"\b(?:Machine Learning Department|School of Computer Science|Carnegie Mellon University)\b",
+            " ",
+            cleaned,
+            flags=re.IGNORECASE,
+        )
+        cleaned = re.sub(r"\blecture\s+\d+\b", " ", cleaned, flags=re.IGNORECASE)
+        cleaned = re.sub(r"\s+\d{1,3}\s*$", " ", cleaned)
+        cleaned = re.sub(r"\s*[|/]\s*", " ", cleaned)
+        cleaned = normalize_whitespace(cleaned)
+        return cleaned
+
+    def _looks_like_slide_metadata(self, text: str) -> bool:
+        lowered = normalize_whitespace(text).lower()
+        if not lowered:
+            return True
+        if re.search(r"\b\d{2,3}-\d{3}\b", lowered):
+            return True
+        if "carnegie mellon university" in lowered:
+            return True
+        if "school of computer science" in lowered:
+            return True
+        if "machine learning department" in lowered:
+            return True
+        token_count = len(informative_tokens(lowered))
+        return token_count < 2
 
     def _needs_external_supplement(self, question_text: str, relevant_items: Sequence[Dict[str, Any]]) -> bool:
         question_tokens = set(informative_tokens(question_text))

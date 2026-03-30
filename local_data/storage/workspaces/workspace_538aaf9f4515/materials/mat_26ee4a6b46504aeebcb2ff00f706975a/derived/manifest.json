@@ -1,0 +1,557 @@
+{
+  "material_id": "mat_26ee4a6b46504aeebcb2ff00f706975a",
+  "workspace_id": "workspace_538aaf9f4515",
+  "exported_at": "2026-03-30T02:00:35+00:00",
+  "material": {
+    "page_count": 54,
+    "slide_count": 54,
+    "ready_for_retrieval": true,
+    "previews_available": true,
+    "quality_overall": "medium",
+    "quality_notes": null,
+    "extraction_notes": "PDF text was extracted with PyMuPDF page parsing. No OCR text was fabricated.",
+    "converted_pdf_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\source\\lecture13-backprop-ii.pdf"
+  },
+  "slides": [
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:1",
+      "slide_number": 1,
+      "title_guess": "Backpropagation II",
+      "extracted_text": "Backpropagation II\n1\n10-301/10-601 Introduction to Machine Learning\nPat Virtue & Matt Gormley\nLecture 13\nFeb. 23, 2026\nMachine Learning Department\nSchool of Computer Science\nCarnegie Mellon University",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0001.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:2",
+      "slide_number": 2,
+      "title_guess": "Poll 1",
+      "extracted_text": "Poll 1\nLogistic regression for 28x28=784 pixel hand-written digit images into \n10 classes:\nHow many parameters (including bias terms)?\nA. 10\nB. 10+784\nC. 10*784\nD. 10*784 + 10\nE. 10*784 + 784\nF. I have no idea",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0002.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:3",
+      "slide_number": 3,
+      "title_guess": "Outline",
+      "extracted_text": "Outline\nLast week:\n▪\nNeural Networks\n▪\nBackpropagation\n▪\nMultivariate chain rule\nToday:\n▪\nNeural network optimization            three-neuron network\n▪\nBackpropagation (scalar version)    deeeeeppper\n▪\nA bit more matrix calculus\n▪\nBackpropagation (vector version)   WIDER",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0003.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:4",
+      "slide_number": 4,
+      "title_guess": "Three-neuron Network",
+      "extracted_text": "Three-neuron Network\nNetwork diagram\n∑\n𝑧1,1\n𝑤2,1 \n𝑤2,2\n𝑏2,1\nො𝑦\n𝑦\nℓ\n𝑤1,1 \n𝑤1,2\n𝑏1,1\n𝑎1,1\n𝑔\n𝑧1,2\n𝑏1,2\n𝑔𝑎1,2\n∑\n∑\n𝑥1\nො𝑦= ℎ𝜽𝐱= 𝑏2 + ∑𝑗𝑤2,𝑗 𝑎1,𝑗\n𝑎1,𝑗= 𝑔𝑅𝑒𝐿𝑈𝑏1,𝑗+ 𝑤1,𝑗 𝑥1",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0004.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:5",
+      "slide_number": 5,
+      "title_guess": "Poll 2",
+      "extracted_text": "Poll 2\nHow many total parameters?\n∑\n𝑧1,1\n𝑤2,1 \n𝑤2,2\n𝑏2,1\nො𝑦\n𝑦\nℓ\n𝑤1,1 \n𝑤1,2\n𝑏1,1\n𝑎1,1\n𝑔\n𝑧1,2\n𝑏1,2\n𝑔𝑎1,2\n∑\n∑\n𝑥1",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0005.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:6",
+      "slide_number": 6,
+      "title_guess": "Objective, Loss Functions, Gradient Descent",
+      "extracted_text": "Objective, Loss Functions, Gradient Descent\nObjective\nLoss functions\n▪\nRegression → Squared error:  ℓ𝑦, ො𝑦= 𝑦−ො𝑦2\n▪\nClassfication → Cross entropy: ℓ𝒚, ෝ𝒚= −∑𝑘 𝑦𝑘log ො𝑦𝑘\nGradient descent\nwhile not converged\n \n𝜃←𝜃−𝛼 𝜕𝐽/𝜕𝜃\n𝐽𝜃= 1\n𝑁෍\n𝑖=1\n𝑁\n𝐽(𝑖) 𝜃\n𝐽(𝑖) 𝜃= ℓ𝑦(𝑖), ො𝑦(𝑖)\nො𝑦= ℎ(𝑥; 𝜃)",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0006.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:7",
+      "slide_number": 7,
+      "title_guess": "Poll 3",
+      "extracted_text": "Poll 3\nWhich of the following updates will we execute during gradient descent?\nSelect all that apply\nA. 𝑥←𝑥 −𝛼\n𝜕𝐽\n𝜕𝑥\nB. 𝑤1,1 ←𝑤1,1  −𝛼\n𝜕𝐽\n𝜕𝑤1,1\nC. 𝑏1,1 ←𝑏1,1  −𝛼\n𝜕𝐽\n𝜕𝑏1,1\nD. 𝑎1,1 ←𝑎1,1  −𝛼\n𝜕𝐽\n𝜕𝑎1,1\nE.\nො𝑦←ො𝑦−𝛼\n𝜕𝐽\n𝜕ො𝑦\nF. 𝑦←𝑦−𝛼\n𝜕𝐽\n𝜕𝑦\n∑\n𝑧1,1\n𝑤2,1 \n𝑤2,2\n𝑏2,1\nො𝑦\n𝑦\nℓ\n𝑤1,1 \n𝑤1,2\n𝑏1,1\n𝑎1,1\n𝑔\n𝑧1,2\n𝑏1,2\n𝑔𝑎1,2\n∑\n∑\n𝑥1",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0007.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:8",
+      "slide_number": 8,
+      "title_guess": "Optimization",
+      "extracted_text": "Optimization \nThree-neuron network\n∑\n𝑧1,1\n𝑤2,1 \n𝑤2,2\n𝑏2,1\nො𝑦\n𝑦\nℓ\n𝑤1,1 \n𝑤1,2\n𝑏1,1\n𝑎1,1\n𝑔\n𝑧1,2\n𝑏1,2\n𝑔𝑎1,2\n∑\n∑\n𝑥1\nො𝑦= ℎ𝜽𝐱= 𝑏2 + ∑𝑗𝑤2,𝑗 𝑎1,𝑗\n𝑎1,𝑗= 𝑔𝑏1,𝑗+ 𝑤1,𝑗 𝑥1\n𝜕𝐽\n𝜕𝑤2,1\n=\n𝜕𝐽\n𝜕𝑏2,1\n=",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0008.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:9",
+      "slide_number": 9,
+      "title_guess": "Optimization",
+      "extracted_text": "Optimization \nThree-neuron network\n∑\n𝑧1,1\n𝑤2,1 \n𝑤2,2\n𝑏2,1\nො𝑦\n𝑦\nℓ\n𝑤1,1 \n𝑤1,2\n𝑏1,1\n𝑎1,1\n𝑔\n𝑧1,2\n𝑏1,2\n𝑔𝑎1,2\n∑\n∑\n𝑥1\nො𝑦= ℎ𝜽𝐱= 𝑏2 + ∑𝑗𝑤2,𝑗 𝑎1,𝑗\n𝑎1,𝑗= 𝑔𝑏1,𝑗+ 𝑤1,𝑗 𝑥1\n𝜕𝐽\n𝜕𝑤2,1\n= 𝜕ℓ\n𝜕ො𝑦\n𝜕ො𝑦\n𝜕𝑤2,1\n𝜕𝐽\n𝜕𝑏1,1\n=\n𝜕𝐽\n𝜕𝑏2,1\n= 𝜕ℓ\n𝜕ො𝑦\n𝜕ො𝑦\n𝜕𝑏2,1\n𝜕𝐽\n𝜕𝑤1,1\n=",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0009.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:10",
+      "slide_number": 10,
+      "title_guess": "Optimization",
+      "extracted_text": "Optimization \nThree-neuron network\n∑\n𝑧1,1\n𝑤2,1 \n𝑤2,2\n𝑏2,1\nො𝑦\n𝑦\nℓ\n𝑤1,1 \n𝑤1,2\n𝑏1,1\n𝑎1,1\n𝑔\n𝑧1,2\n𝑏1,2\n𝑔𝑎1,2\n∑\n∑\n𝑥1\nො𝑦= ℎ𝜽𝐱= 𝑏2 + ∑𝑗𝑤2,𝑗 𝑎1,𝑗\n𝑎1,𝑗= 𝑔𝑏1,𝑗+ 𝑤1,𝑗 𝑥1\n𝜕𝐽\n𝜕𝑤2,𝑗\n= 𝜕ℓ\n𝜕ො𝑦\n𝜕ො𝑦\n𝜕𝑤2,𝑗\n𝜕𝐽\n𝜕𝑏1,𝑗\n= 𝜕ℓ\n𝜕ො𝑦\n𝜕ො𝑦\n𝜕𝑎1,𝑗\n𝜕𝑎1,𝑗\n𝜕𝑧1,𝑗\n𝜕𝑧1,𝑗\n𝜕𝑏1,𝑗\n𝜕𝐽\n𝜕𝑏2,1\n= 𝜕ℓ\n𝜕ො𝑦\n𝜕ො𝑦\n𝜕𝑏2,1\n𝜕𝐽\n𝜕𝑤1,𝑗\n= 𝜕ℓ\n𝜕ො𝑦\n𝜕ො𝑦\n𝜕𝑎1,𝑗\n𝜕𝑎1,𝑗\n𝜕𝑧1,𝑗\n𝜕𝑧1,𝑗\n𝜕𝑤1,𝑗",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0010.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:11",
+      "slide_number": 11,
+      "title_guess": "Network Backpropagation",
+      "extracted_text": "Network Backpropagation\nScalar's version    deeeeeppper",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0011.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:12",
+      "slide_number": 12,
+      "title_guess": "Forward Pass",
+      "extracted_text": "Forward Pass\nWidth 1 deep network (no bias) (dumb but will help with calculus)\n𝑥\n𝑎1\n𝑤1\n𝑧1 𝑔\n𝑓\nො𝑦= ℎ𝜽𝐱= 𝑔𝑤5 ⋅𝑔𝑤4 ⋅𝑔𝑤3 ⋅𝑔𝑤2 ⋅𝑔𝑤1 ⋅𝑥\n𝑦\nℓ\n𝑎2\n𝑤2\n𝑧2 𝑔\n𝑓\n𝑎3\n𝑤3\n𝑧3 𝑔\n𝑓\n𝑎4\n𝑤4\n𝑧4 𝑔\n𝑓\n𝑎5 = ො𝑦\n𝑤5\n𝑧5 𝑔\n𝑓\n= 𝑔\n𝑓\n𝑔\n𝑓\n𝑔𝑓𝑔𝑓𝑔𝑓𝑥\n \n𝑧ℓ= 𝑓𝑤ℓ, 𝑎ℓ−1 = 𝑤ℓ⋅𝑎ℓ−1\n𝑎ℓ= 𝑔𝑧ℓ\n𝐽",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0012.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:13",
+      "slide_number": 13,
+      "title_guess": "Backpropagation",
+      "extracted_text": "Backpropagation\nWidth 1 deep network (no bias) (dumb but will help with calculus)\n𝑥\n𝑎1\n𝑤1\n𝑧1 𝑔\n𝑓\n𝑦\nℓ\n𝑎2\n𝑤2\n𝑧2 𝑔\n𝑓\n𝑎3\n𝑤3\n𝑧3 𝑔\n𝑓\n𝑎4\n𝑤4\n𝑧4 𝑔\n𝑓\n𝑎5 = ො𝑦\n𝑤5\n𝑧5 𝑔\n𝑓\nො𝑦= ℎ𝜽𝐱= 𝑔𝑤5 ⋅𝑔𝑤4 ⋅𝑔𝑤3 ⋅𝑔𝑤2 ⋅𝑔𝑤1 ⋅𝑥\nQuestions:\n▪\nWhy do we need to compute all of the 𝜕𝐽/𝜕𝑧ℓ and 𝜕𝐽/𝜕𝑎ℓ?\n▪\nWhy \"backwards\"?\n▪\nHow do we actually compute these?\n▪\n(What else do we need to learn to go beyond this useless network?)\n𝐽\n𝜕𝐽\n𝜕ො𝑦\n𝜕𝐽\n𝜕𝑧5\n𝜕𝐽\n𝜕𝑤5\n𝜕𝐽\n𝜕𝑎4\n𝜕𝐽\n𝜕𝑧4\n𝜕𝐽\n𝜕𝑤4\n𝜕𝐽\n𝜕𝑎3\n𝜕𝐽\n𝜕𝑧3\n𝜕𝐽\n𝜕𝑤3\n𝜕𝐽\n𝜕𝑎2\n𝜕𝐽\n𝜕𝑧2\n𝜕𝐽\n𝜕𝑤2\n𝜕𝐽\n𝜕𝑎1\n𝜕𝐽\n𝜕𝑧1\n𝜕𝐽\n𝜕𝑤1",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0013.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:14",
+      "slide_number": 14,
+      "title_guess": "Reminder: Calculus Chain Rule (scalar version)",
+      "extracted_text": "Reminder: Calculus Chain Rule (scalar version)\nComposite functions → chain rule\n𝐽=  ℓො𝑦\nො𝑦= 𝑔𝑧\n 𝑧= 𝑓𝑥, 𝑤\n𝑑𝐽\n𝑑𝑤= 𝑑ℓ\n𝑑ො𝑦\n𝑑𝑔\n𝑑𝑧\n𝑑𝑓\n𝑑𝑤\n \n𝐽= ℓ𝑔𝑓𝑥",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0014.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:15",
+      "slide_number": 15,
+      "title_guess": "𝜕𝑤1 =",
+      "extracted_text": "𝜕𝐽\n𝜕𝑤1 =\nWhy backwards?\nWidth 1 deep network (no bias) (dumb but will help with calculus)\n𝑥\n𝑎1\n𝑤1\n𝑧1 𝑔\n𝑓\n𝑦\nℓ\n𝑎2\n𝑤2\n𝑧2 𝑔\n𝑓\n𝑎3\n𝑤3\n𝑧3 𝑔\n𝑓\n𝑎4\n𝑤4\n𝑧4 𝑔\n𝑓\n𝑎5 = ො𝑦\n𝑤5\n𝑧5 𝑔\n𝑓\nො𝑦= ℎ𝜽𝐱= 𝑔𝑤5 ⋅𝑔𝑤4 ⋅𝑔𝑤3 ⋅𝑔𝑤2 ⋅𝑔𝑤1 ⋅𝑥\n𝐽\n𝜕𝐽\n𝜕ො𝑦",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0015.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:16",
+      "slide_number": 16,
+      "title_guess": "𝜕𝑤1 =",
+      "extracted_text": "𝜕𝐽\n𝜕𝑤1 =\n𝜕𝐽\n𝜕ො𝑦\n𝜕𝑔\n𝜕𝑧5\n𝜕𝑓\n𝜕𝑎4\n𝜕𝑔\n𝜕𝑧4\n𝜕𝑓\n𝜕𝑎3\n𝜕𝑔\n𝜕𝑧3\n𝜕𝑓\n𝜕𝑎2\n𝜕𝑔\n𝜕𝑧2\n𝜕𝑓\n𝜕𝑎1\n𝜕𝑔\n𝜕𝑧1\n𝜕𝑓\n𝜕𝑤1\nWhy backwards?\nWidth 1 deep network (no bias) (dumb but will help with calculus)\n𝑥\n𝑎1\n𝑤1\n𝑧1 𝑔\n𝑓\n𝑦\nℓ\n𝑎2\n𝑤2\n𝑧2 𝑔\n𝑓\n𝑎3\n𝑤3\n𝑧3 𝑔\n𝑓\n𝑎4\n𝑤4\n𝑧4 𝑔\n𝑓\n𝑎5 = ො𝑦\n𝑤5\n𝑧5 𝑔\n𝑓\nො𝑦= ℎ𝜽𝐱= 𝑔𝑤5 ⋅𝑔𝑤4 ⋅𝑔𝑤3 ⋅𝑔𝑤2 ⋅𝑔𝑤1 ⋅𝑥\n𝐽\n𝜕𝐽\n𝜕ො𝑦\n𝜕𝐽\n𝜕𝑧5\n𝜕𝐽\n𝜕𝑎4\n𝜕𝐽\n𝜕𝑧4\n𝜕𝐽\n𝜕𝑎3\n𝜕𝐽\n𝜕𝑧3\n𝜕𝐽\n𝜕𝑎2\n𝜕𝐽\n𝜕𝑧2\n𝜕𝐽\n𝜕𝑎1\n𝜕𝐽\n𝜕𝑧1\n𝜕𝐽\n𝜕𝑤2 =",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0016.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:17",
+      "slide_number": 17,
+      "title_guess": "𝜕𝑤1 =",
+      "extracted_text": "𝜕𝐽\n𝜕𝑤1 =\n𝜕𝐽\n𝜕ො𝑦\n𝜕𝑔\n𝜕𝑧5\n𝜕𝑓\n𝜕𝑎4\n𝜕𝑔\n𝜕𝑧4\n𝜕𝑓\n𝜕𝑎3\n𝜕𝑔\n𝜕𝑧3\n𝜕𝑓\n𝜕𝑎2\n𝜕𝑔\n𝜕𝑧2\n𝜕𝑓\n𝜕𝑎1\n𝜕𝑔\n𝜕𝑧1\n𝜕𝑓\n𝜕𝑤1\nWhy backwards?\nWidth 1 deep network (no bias) (dumb but will help with calculus)\n𝑥\n𝑎1\n𝑤1\n𝑧1 𝑔\n𝑓\n𝑦\nℓ\n𝑎2\n𝑤2\n𝑧2 𝑔\n𝑓\n𝑎3\n𝑤3\n𝑧3 𝑔\n𝑓\n𝑎4\n𝑤4\n𝑧4 𝑔\n𝑓\n𝑎5 = ො𝑦\n𝑤5\n𝑧5 𝑔\n𝑓\nො𝑦= ℎ𝜽𝐱= 𝑔𝑤5 ⋅𝑔𝑤4 ⋅𝑔𝑤3 ⋅𝑔𝑤2 ⋅𝑔𝑤1 ⋅𝑥\n𝐽\n𝜕𝐽\n𝜕ො𝑦\n𝜕𝐽\n𝜕𝑧5\n𝜕𝐽\n𝜕𝑎4\n𝜕𝐽\n𝜕𝑧4\n𝜕𝐽\n𝜕𝑎3\n𝜕𝐽\n𝜕𝑧3\n𝜕𝐽\n𝜕𝑎2\n𝜕𝐽\n𝜕𝑧2\n𝜕𝐽\n𝜕𝑎1\n𝜕𝐽\n𝜕𝑧1\n𝜕𝐽\n𝜕𝑤5 =\n𝜕𝐽\n𝜕ො𝑦\n𝜕𝑔\n𝜕𝑧5\n𝜕𝑓\n𝜕𝑤5\n𝜕𝐽\n𝜕𝑤2 =\n𝜕𝐽\n𝜕ො𝑦\n𝜕𝑔\n𝜕𝑧5\n𝜕𝑓\n𝜕𝑎4\n𝜕𝑔\n𝜕𝑧4\n𝜕𝑓\n𝜕𝑎3\n𝜕𝑔\n𝜕𝑧3\n𝜕𝑓\n𝜕𝑎2\n𝜕𝑔\n𝜕𝑧2\n𝜕𝑓\n𝜕𝑤2\n𝜕𝐽\n𝜕𝑤3 =\n𝜕𝐽\n𝜕ො𝑦\n𝜕𝑔\n𝜕𝑧5\n𝜕𝑓\n𝜕𝑎4\n𝜕𝑔\n𝜕𝑧4\n𝜕𝑓\n𝜕𝑎3\n𝜕𝑔\n𝜕𝑧3\n𝜕𝑓\n𝜕𝑤3\n𝜕𝐽\n𝜕𝑤4 =\n𝜕𝐽\n𝜕ො𝑦\n𝜕𝑔\n𝜕𝑧5\n𝜕𝑓\n𝜕𝑎4\n𝜕𝑔\n𝜕𝑧4\n𝜕𝑓\n𝜕𝑤4",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0017.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:18",
+      "slide_number": 18,
+      "title_guess": "𝜕𝑤1 =",
+      "extracted_text": "𝜕𝐽\n𝜕𝑤1 =\n𝜕𝐽\n𝜕ො𝑦\n𝜕𝑔\n𝜕𝑧5\n𝜕𝑓\n𝜕𝑎4\n𝜕𝑔\n𝜕𝑧4\n𝜕𝑓\n𝜕𝑎3\n𝜕𝑔\n𝜕𝑧3\n𝜕𝑓\n𝜕𝑎2\n𝜕𝑔\n𝜕𝑧2\n𝜕𝑓\n𝜕𝑎1\n𝜕𝑔\n𝜕𝑧1\n𝜕𝑓\n𝜕𝑤1\nWhy backwards?\nWidth 1 deep network (no bias) (dumb but will help with calculus)\n𝑥\n𝑎1\n𝑤1\n𝑧1 𝑔\n𝑓\n𝑦\nℓ\n𝑎2\n𝑤2\n𝑧2 𝑔\n𝑓\n𝑎3\n𝑤3\n𝑧3 𝑔\n𝑓\n𝑎4\n𝑤4\n𝑧4 𝑔\n𝑓\n𝑎5 = ො𝑦\n𝑤5\n𝑧5 𝑔\n𝑓\nො𝑦= ℎ𝜽𝐱= 𝑔𝑤5 ⋅𝑔𝑤4 ⋅𝑔𝑤3 ⋅𝑔𝑤2 ⋅𝑔𝑤1 ⋅𝑥\n𝐽\n𝜕𝐽\n𝜕𝑧1\n=\n𝜕𝐽\n𝜕𝑧1\n𝜕𝑓\n𝜕𝑤1\nWhat if someone had already done all of the work to compute \n𝜕𝐽\n𝜕𝑧1\n ?\nThen we just need to do the local partial derivative for f with respect to the parameter w \nand then use that to compute the partial derivative for J with respect to the parameter w",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0018.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:19",
+      "slide_number": 19,
+      "title_guess": "Backpropagation",
+      "extracted_text": "Backpropagation\nMore efficient to start at the end and reuse values!\n𝑥\n𝑎1\n𝑤1\n𝑧1 𝑔\n𝑓\n𝑦\nℓ\n𝑎2\n𝑤2\n𝑧2 𝑔\n𝑓\n𝑎3\n𝑤3\n𝑧3 𝑔\n𝑓\n𝑎4\n𝑤4\n𝑧4 𝑔\n𝑓\n𝑎5 = ො𝑦\n𝑤5\n𝑧5 𝑔\n𝑓\nො𝑦= ℎ𝜽𝐱= 𝑔𝑤5 ⋅𝑔𝑤4 ⋅𝑔𝑤3 ⋅𝑔𝑤2 ⋅𝑔𝑤1 ⋅𝑥\n𝐽\n𝜕𝐽\n𝜕ො𝑦=\n𝜕ℓ\n𝜕ො𝑦 \n𝜕𝐽\n𝜕ො𝑦",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0019.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:20",
+      "slide_number": 20,
+      "title_guess": "Backpropagation",
+      "extracted_text": "Backpropagation\nMore efficient to start at the end and reuse values!\n𝑥\n𝑎1\n𝑤1\n𝑧1 𝑔\n𝑓\n𝑦\nℓ\n𝑎2\n𝑤2\n𝑧2 𝑔\n𝑓\n𝑎3\n𝑤3\n𝑧3 𝑔\n𝑓\n𝑎4\n𝑤4\n𝑧4 𝑔\n𝑓\n𝑎5 = ො𝑦\n𝑤5\n𝑧5 𝑔\n𝑓\nො𝑦= ℎ𝜽𝐱= 𝑔𝑤5 ⋅𝑔𝑤4 ⋅𝑔𝑤3 ⋅𝑔𝑤2 ⋅𝑔𝑤1 ⋅𝑥\n𝐽\n𝜕𝐽\n𝜕ො𝑦\n𝜕𝐽\n𝜕𝑧5 =\n𝜕𝐽\n𝜕ො𝑦\n𝜕𝑔\n𝜕𝑧5 \n𝜕𝐽\n𝜕𝑧5",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0020.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:21",
+      "slide_number": 21,
+      "title_guess": "Backpropagation",
+      "extracted_text": "Backpropagation\nMore efficient to start at the end and reuse values!\n𝑥\n𝑎1\n𝑤1\n𝑧1 𝑔\n𝑓\n𝑦\nℓ\n𝑎2\n𝑤2\n𝑧2 𝑔\n𝑓\n𝑎3\n𝑤3\n𝑧3 𝑔\n𝑓\n𝑎4\n𝑤4\n𝑧4 𝑔\n𝑓\n𝑎5 = ො𝑦\n𝑤5\n𝑧5 𝑔\n𝑓\nො𝑦= ℎ𝜽𝐱= 𝑔𝑤5 ⋅𝑔𝑤4 ⋅𝑔𝑤3 ⋅𝑔𝑤2 ⋅𝑔𝑤1 ⋅𝑥\n𝐽\n𝜕𝐽\n𝜕𝑤5 =\n𝜕𝐽\n𝜕𝑧5\n𝜕𝑓\n𝜕𝑤5\n𝜕𝐽\n𝜕ො𝑦\n𝜕𝐽\n𝜕𝑧5\n𝜕𝐽\n𝜕𝑎4 =\n𝜕𝐽\n𝜕𝑧5\n𝜕𝑓\n𝜕𝑎4 \n𝜕𝐽\n𝜕𝑎4",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0021.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:22",
+      "slide_number": 22,
+      "title_guess": "Backpropagation",
+      "extracted_text": "Backpropagation\nMore efficient to start at the end and reuse values!\n𝑥\n𝑎1\n𝑤1\n𝑧1 𝑔\n𝑓\n𝑦\nℓ\n𝑎2\n𝑤2\n𝑧2 𝑔\n𝑓\n𝑎3\n𝑤3\n𝑧3 𝑔\n𝑓\n𝑎4\n𝑤4\n𝑧4 𝑔\n𝑓\n𝑎5 = ො𝑦\n𝑤5\n𝑧5 𝑔\n𝑓\nො𝑦= ℎ𝜽𝐱= 𝑔𝑤5 ⋅𝑔𝑤4 ⋅𝑔𝑤3 ⋅𝑔𝑤2 ⋅𝑔𝑤1 ⋅𝑥\n𝐽\n𝜕𝐽\n𝜕ො𝑦\n𝜕𝐽\n𝜕𝑧5\n𝜕𝐽\n𝜕𝑧4 =\n𝜕𝐽\n𝜕𝑎4\n𝜕𝑔\n𝜕𝑧4 \n𝜕𝐽\n𝜕𝑎4\n𝜕𝐽\n𝜕𝑧4",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0022.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:23",
+      "slide_number": 23,
+      "title_guess": "Backpropagation",
+      "extracted_text": "Backpropagation\nMore efficient to start at the end and reuse values!\n𝑥\n𝑎1\n𝑤1\n𝑧1 𝑔\n𝑓\n𝑦\nℓ\n𝑎2\n𝑤2\n𝑧2 𝑔\n𝑓\n𝑎3\n𝑤3\n𝑧3 𝑔\n𝑓\n𝑎4\n𝑤4\n𝑧4 𝑔\n𝑓\n𝑎5 = ො𝑦\n𝑤5\n𝑧5 𝑔\n𝑓\nො𝑦= ℎ𝜽𝐱= 𝑔𝑤5 ⋅𝑔𝑤4 ⋅𝑔𝑤3 ⋅𝑔𝑤2 ⋅𝑔𝑤1 ⋅𝑥\n𝐽\n𝜕𝐽\n𝜕𝑤4 =\n𝜕𝐽\n𝜕𝑧4\n𝜕𝑓\n𝜕𝑤4\n𝜕𝐽\n𝜕ො𝑦\n𝜕𝐽\n𝜕𝑧5\n𝜕𝐽\n𝜕𝑎3 =\n𝜕𝐽\n𝜕𝑧4\n𝜕𝑓\n𝜕𝑎3 \n𝜕𝐽\n𝜕𝑎3\n𝜕𝐽\n𝜕𝑎4\n𝜕𝐽\n𝜕𝑧4",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0023.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:24",
+      "slide_number": 24,
+      "title_guess": "Backpropagation",
+      "extracted_text": "Backpropagation\nMore efficient to start at the end and reuse values!\n𝑥\n𝑎1\n𝑤1\n𝑧1 𝑔\n𝑓\n𝑦\nℓ\n𝑎2\n𝑤2\n𝑧2 𝑔\n𝑓\n𝑎3\n𝑤3\n𝑧3 𝑔\n𝑓\n𝑎4\n𝑤4\n𝑧4 𝑔\n𝑓\n𝑎5 = ො𝑦\n𝑤5\n𝑧5 𝑔\n𝑓\nො𝑦= ℎ𝜽𝐱= 𝑔𝑤5 ⋅𝑔𝑤4 ⋅𝑔𝑤3 ⋅𝑔𝑤2 ⋅𝑔𝑤1 ⋅𝑥\n𝐽\n𝜕𝐽\n𝜕ො𝑦\n𝜕𝐽\n𝜕𝑧5\n𝜕𝐽\n𝜕𝑧3 =\n𝜕𝐽\n𝜕𝑎3\n𝜕𝑔\n𝜕𝑧3 \n𝜕𝐽\n𝜕𝑎4\n𝜕𝐽\n𝜕𝑧3\n𝜕𝐽\n𝜕𝑧4\n𝜕𝐽\n𝜕𝑎3",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0024.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:25",
+      "slide_number": 25,
+      "title_guess": "Backpropagation",
+      "extracted_text": "Backpropagation\nMore efficient to start at the end and reuse values!\n𝑥\n𝑎1\n𝑤1\n𝑧1 𝑔\n𝑓\n𝑦\nℓ\n𝑎2\n𝑤2\n𝑧2 𝑔\n𝑓\n𝑎3\n𝑤3\n𝑧3 𝑔\n𝑓\n𝑎4\n𝑤4\n𝑧4 𝑔\n𝑓\n𝑎5 = ො𝑦\n𝑤5\n𝑧5 𝑔\n𝑓\nො𝑦= ℎ𝜽𝐱= 𝑔𝑤5 ⋅𝑔𝑤4 ⋅𝑔𝑤3 ⋅𝑔𝑤2 ⋅𝑔𝑤1 ⋅𝑥\n𝐽\n𝜕𝐽\n𝜕𝑤3 =\n𝜕𝐽\n𝜕𝑧3\n𝜕𝑓\n𝜕𝑤3\n𝜕𝐽\n𝜕ො𝑦\n𝜕𝐽\n𝜕𝑧5\n𝜕𝐽\n𝜕𝑎2 =\n𝜕𝐽\n𝜕𝑧3\n𝜕𝑓\n𝜕𝑎2 \n𝜕𝐽\n𝜕𝑎2\n𝜕𝐽\n𝜕𝑎4\n𝜕𝐽\n𝜕𝑧4\n𝜕𝐽\n𝜕𝑎3\n𝜕𝐽\n𝜕𝑧3",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0025.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:26",
+      "slide_number": 26,
+      "title_guess": "Backpropagation",
+      "extracted_text": "Backpropagation\nMore efficient to start at the end and reuse values!\n𝑥\n𝑎1\n𝑤1\n𝑧1 𝑔\n𝑓\n𝑦\nℓ\n𝑎2\n𝑤2\n𝑧2 𝑔\n𝑓\n𝑎3\n𝑤3\n𝑧3 𝑔\n𝑓\n𝑎4\n𝑤4\n𝑧4 𝑔\n𝑓\n𝑎5 = ො𝑦\n𝑤5\n𝑧5 𝑔\n𝑓\nො𝑦= ℎ𝜽𝐱= 𝑔𝑤5 ⋅𝑔𝑤4 ⋅𝑔𝑤3 ⋅𝑔𝑤2 ⋅𝑔𝑤1 ⋅𝑥\n𝐽\n𝜕𝐽\n𝜕ො𝑦\n𝜕𝐽\n𝜕𝑧5\n𝜕𝐽\n𝜕𝑧2 =\n𝜕𝐽\n𝜕𝑎2\n𝜕𝑔\n𝜕𝑧2 \n𝜕𝐽\n𝜕𝑎4\n𝜕𝐽\n𝜕𝑧4\n𝜕𝐽\n𝜕𝑎3\n𝜕𝐽\n𝜕𝑧3\n𝜕𝐽\n𝜕𝑎2",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0026.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:27",
+      "slide_number": 27,
+      "title_guess": "Backpropagation",
+      "extracted_text": "Backpropagation\nMore efficient to start at the end and reuse values!\n𝑥\n𝑎1\n𝑤1\n𝑧1 𝑔\n𝑓\n𝑦\nℓ\n𝑎2\n𝑤2\n𝑧2 𝑔\n𝑓\n𝑎3\n𝑤3\n𝑧3 𝑔\n𝑓\n𝑎4\n𝑤4\n𝑧4 𝑔\n𝑓\n𝑎5 = ො𝑦\n𝑤5\n𝑧5 𝑔\n𝑓\nො𝑦= ℎ𝜽𝐱= 𝑔𝑤5 ⋅𝑔𝑤4 ⋅𝑔𝑤3 ⋅𝑔𝑤2 ⋅𝑔𝑤1 ⋅𝑥\n𝐽\n𝜕𝐽\n𝜕𝑤2 =\n𝜕𝐽\n𝜕𝑧2\n𝜕𝑓\n𝜕𝑤2\n𝜕𝐽\n𝜕ො𝑦\n𝜕𝐽\n𝜕𝑧5\n𝜕𝐽\n𝜕𝑎1 =\n𝜕𝐽\n𝜕𝑧2\n𝜕𝑓\n𝜕𝑎1 \n𝜕𝐽\n𝜕𝑎4\n𝜕𝐽\n𝜕𝑧4\n𝜕𝐽\n𝜕𝑎3\n𝜕𝐽\n𝜕𝑧3\n𝜕𝐽\n𝜕𝑎2\n𝜕𝐽\n𝜕𝑧2",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0027.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:28",
+      "slide_number": 28,
+      "title_guess": "Backpropagation",
+      "extracted_text": "Backpropagation\nMore efficient to start at the end and reuse values!\n𝑥\n𝑎1\n𝑤1\n𝑧1 𝑔\n𝑓\n𝑦\nℓ\n𝑎2\n𝑤2\n𝑧2 𝑔\n𝑓\n𝑎3\n𝑤3\n𝑧3 𝑔\n𝑓\n𝑎4\n𝑤4\n𝑧4 𝑔\n𝑓\n𝑎5 = ො𝑦\n𝑤5\n𝑧5 𝑔\n𝑓\nො𝑦= ℎ𝜽𝐱= 𝑔𝑤5 ⋅𝑔𝑤4 ⋅𝑔𝑤3 ⋅𝑔𝑤2 ⋅𝑔𝑤1 ⋅𝑥\n𝐽\n𝜕𝐽\n𝜕ො𝑦\n𝜕𝐽\n𝜕𝑧5\n𝜕𝐽\n𝜕𝑧1 =\n𝜕𝐽\n𝜕𝑎1\n𝜕𝑔\n𝜕𝑧1 \n𝜕𝐽\n𝜕𝑎4\n𝜕𝐽\n𝜕𝑧4\n𝜕𝐽\n𝜕𝑎3\n𝜕𝐽\n𝜕𝑧3\n𝜕𝐽\n𝜕𝑎2\n𝜕𝐽\n𝜕𝑧2\n𝜕𝐽\n𝜕𝑎1",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0028.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:29",
+      "slide_number": 29,
+      "title_guess": "Backpropagation",
+      "extracted_text": "Backpropagation\nMore efficient to start at the end and reuse values!\n𝑥\n𝑎1\n𝑤1\n𝑧1 𝑔\n𝑓\n𝑦\nℓ\n𝑎2\n𝑤2\n𝑧2 𝑔\n𝑓\n𝑎3\n𝑤3\n𝑧3 𝑔\n𝑓\n𝑎4\n𝑤4\n𝑧4 𝑔\n𝑓\n𝑎5 = ො𝑦\n𝑤5\n𝑧5 𝑔\n𝑓\nො𝑦= ℎ𝜽𝐱= 𝑔𝑤5 ⋅𝑔𝑤4 ⋅𝑔𝑤3 ⋅𝑔𝑤2 ⋅𝑔𝑤1 ⋅𝑥\n𝐽\n𝜕𝐽\n𝜕ො𝑦\n𝜕𝐽\n𝜕𝑧5\n𝜕𝐽\n𝜕𝑎4\n𝜕𝐽\n𝜕𝑧4\n𝜕𝐽\n𝜕𝑎3\n𝜕𝐽\n𝜕𝑧3\n𝜕𝐽\n𝜕𝑎2\n𝜕𝐽\n𝜕𝑧2\n𝜕𝐽\n𝜕𝑎1\n𝜕𝐽\n𝜕𝑧1\n𝜕𝐽\n𝜕𝑤1 =\n𝜕𝐽\n𝜕𝑧1\n𝜕𝑓\n𝜕𝑤1",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0029.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:30",
+      "slide_number": 30,
+      "title_guess": "Backpropagation",
+      "extracted_text": "Backpropagation\nMore efficient to start at the end and reuse values!\n𝑥\n𝑎1\n𝑤1\n𝑧1 𝑔\n𝑓\n𝑦\nℓ\n𝑎2\n𝑤2\n𝑧2 𝑔\n𝑓\n𝑎3\n𝑤3\n𝑧3 𝑔\n𝑓\n𝑎4\n𝑤4\n𝑧4 𝑔\n𝑓\n𝑎5 = ො𝑦\n𝑤5\n𝑧5 𝑔\n𝑓\nො𝑦= ℎ𝜽𝐱= 𝑔𝑤5 ⋅𝑔𝑤4 ⋅𝑔𝑤3 ⋅𝑔𝑤2 ⋅𝑔𝑤1 ⋅𝑥\nTo do gradient descent we need the partial derivative of the objective with \nrespect to each parameter, wℓ←𝑤ℓ−𝛼 𝜕𝐽/𝜕𝑤ℓ\nThe backward pass propagates the change in the objective with respect to \nintermediate values (𝜕𝐽/𝜕𝑧ℓ and 𝜕𝐽/𝜕𝑎ℓ) back through the network to \nproduce each 𝜕𝐽/𝜕𝑤ℓ\n𝐽\n𝜕𝐽\n𝜕ො𝑦\n𝜕𝐽\n𝜕𝑧5\n𝜕𝐽\n𝜕𝑤5\n𝜕𝐽\n𝜕𝑎4\n𝜕𝐽\n𝜕𝑧4\n𝜕𝐽\n𝜕𝑤4\n𝜕𝐽\n𝜕𝑎3\n𝜕𝐽\n𝜕𝑧3\n𝜕𝐽\n𝜕𝑤3\n𝜕𝐽\n𝜕𝑎2\n𝜕𝐽\n𝜕𝑧2\n𝜕𝐽\n𝜕𝑤2\n𝜕𝐽\n𝜕𝑎1\n𝜕𝐽\n𝜕𝑧1\n𝜕𝐽\n𝜕𝑤1",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0030.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:31",
+      "slide_number": 31,
+      "title_guess": "Generic Layer Implementation (so-far)",
+      "extracted_text": "Generic Layer Implementation (so-far)\nCompute derivatives per layer, utilizing previous derivatives\nObjective: 𝐽𝜃\nArbitrary layer: zout = 𝑓zin, 𝜃\nNeed: \n▪\n𝜕𝐽\n𝜕𝑧𝑖𝑛=\n𝜕𝐽\n𝜕𝑧𝑜𝑢𝑡\n𝜕𝑓\n𝜕𝑧𝑖𝑛\n▪ \n𝜕𝐽\n𝜕𝜃 =\n𝜕𝐽\n𝜕𝑧𝑜𝑢𝑡\n𝜕𝑓\n𝜕𝜃\nLayer  zout = 𝑓zin, 𝜃\n \n𝜕𝑓\n𝜕𝑧𝑖𝑛\n \n𝜕𝑓\n𝜕𝜃\nLayer  zout = 𝑓zin, 𝜃\n \n𝜕𝑓\n𝜕𝑧𝑖𝑛\n \n𝜕𝑓\n𝜕𝜃\n𝜕𝐽\n𝜕𝑧𝑜𝑢𝑡\n𝑧𝑜𝑢𝑡\n𝜕𝐽\n𝜕𝑧𝑖𝑛\n𝑧𝑖𝑛\n𝜕𝐽\n𝜕𝜃\n𝜃\n𝑧𝑖𝑛\n𝜃\n𝑧𝑜𝑢𝑡\n𝑓\n𝐽",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0031.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:32",
+      "slide_number": 32,
+      "title_guess": "Optimization",
+      "extracted_text": "Optimization\nTons of repeated partial derivatives\nො𝑦= ℎ𝜽𝐱= 𝑔\n𝑏3,1 + ෍\n𝑘\n𝑤3,1,𝑘 𝑔\n𝑏2,𝑘+ ෍\n𝑖\n𝑤2,𝑘,𝑖 𝑔𝑏1,𝑖+ ෍\n𝑗\n𝑤1,𝑖,𝑗 𝑥𝑗\n𝜕𝐽\n𝜕𝑏3,1\n= 𝜕ℓ\n𝜕ො𝑦\n𝜕𝑎3,1\n𝜕𝑧3,1\n𝜕𝑧3,1\n𝜕𝑏3,1\n𝜕𝐽\n𝜕𝑏2,𝑖\n= 𝜕ℓ\n𝜕ො𝑦\n𝜕𝑎3,1\n𝜕𝑧3,1\n𝜕𝑧3,1\n𝜕𝑎2,𝑖\n𝜕𝑎2,𝑖\n𝜕𝑧2,𝑖\n𝜕𝑧2,𝑖\n𝜕𝑏2,𝑖\n𝜕𝐽\n𝜕𝑏1,𝑖\n= 𝜕ℓ\n𝜕ො𝑦\n𝜕𝑎3,1\n𝜕𝑧3,1\n𝜕𝑧3,1\n𝜕𝐚2\n𝜕𝐚2\n𝜕𝐳2\n𝜕𝐳2\n𝜕𝑎1,𝑖\n𝜕𝑎1,𝑖\n𝜕𝑧1,𝑖\n𝜕𝑧1,𝑖\n𝜕𝑏1,𝑖\n𝑥1\n𝑥2\n𝑥3\n𝑏11\n𝑏12\n𝑏13\n𝑏21\n𝑏22\n𝑏31\n𝑔\n𝑔\n𝑓\n𝑔\n𝑓\n𝑔\n𝑓\n𝑔\n𝑓\n𝑓\n𝑓\n𝑔\n𝑧21\n𝑧22\n𝑎21\n𝑎22\n𝑧31\nො𝑦\nℓ\n𝑦\n𝐽\n𝑧11\n𝑧12\n𝑎11\n𝑎12\n𝑧13\n𝑎13",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0032.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:33",
+      "slide_number": 33,
+      "title_guess": "Optimization",
+      "extracted_text": "Optimization\nTons of repeated partial derivatives\nො𝑦= ℎ𝜽𝐱= 𝑔\n𝑏3,1 + ෍\n𝑘\n𝑤3,1,𝑘 𝑔\n𝑏2,𝑘+ ෍\n𝑖\n𝑤2,𝑘,𝑖 𝑔𝑏1,𝑖+ ෍\n𝑗\n𝑤1,𝑖,𝑗 𝑥𝑗\n𝜕𝐽\n𝜕𝑏3,1\n= 𝜕ℓ\n𝜕ො𝑦\n𝜕𝑎3,1\n𝜕𝑧3,1\n𝜕𝑧3,1\n𝜕𝑏3,1\n𝜕𝐽\n𝜕𝑏2,𝑖\n= 𝜕ℓ\n𝜕ො𝑦\n𝜕𝑎3,1\n𝜕𝑧3,1\n𝜕𝑧3,1\n𝜕𝑎2,𝑖\n𝜕𝑎2,𝑖\n𝜕𝑧2,𝑖\n𝜕𝑧2,𝑖\n𝜕𝑏2,𝑖\n𝜕𝐽\n𝜕𝑏1,𝑖\n= 𝜕ℓ\n𝜕ො𝑦\n𝜕𝑎3,1\n𝜕𝑧3,1\n𝜕𝑧3,1\n𝜕𝐚2\n𝜕𝐚2\n𝜕𝐳2\n𝜕𝐳2\n𝜕𝑎1,𝑖\n𝜕𝑎1,𝑖\n𝜕𝑧1,𝑖\n𝜕𝑧1,𝑖\n𝜕𝑏1,𝑖\n𝑥1\n𝑥2\n𝑥3\n𝑏11\n𝑏12\n𝑏13\n𝑏21\n𝑏22\n𝑏31\n𝑔\n𝑔\n𝑓\n𝑔\n𝑓\n𝑔\n𝑓\n𝑔\n𝑓\n𝑓\n𝑓\n𝑔\n𝑧21\n𝑧22\n𝑎21\n𝑎22\n𝑧31\nො𝑦\nℓ\n𝑦\n𝐽\n𝑧11\n𝑧12\n𝑎11\n𝑎12\n𝑧13\n𝑎13",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0033.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:34",
+      "slide_number": 34,
+      "title_guess": "Calculus Time-out",
+      "extracted_text": "Calculus Time-out",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0034.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:35",
+      "slide_number": 35,
+      "title_guess": "Reminder: Partial Derivatives",
+      "extracted_text": "Reminder: Partial Derivatives",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0035.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:36",
+      "slide_number": 36,
+      "title_guess": "Calculus with Linear Algebra",
+      "extracted_text": "Calculus with Linear Algebra\nFunctions with different combinations of input and output sizes\n𝑦1\n \n⋮\n 𝑦𝑁\n= f\n𝑥1\n⋮\n𝑥𝑀\n𝑦= f\n𝑥1\n⋮\n𝑥𝑀\n𝑦= f 𝑥\n𝑦1\n \n⋮\n 𝑦𝑁\n= f 𝑥\n𝑌1,1\n⋯\n𝑌1,𝐾\n⋮\n⋱\n⋮\n𝑌𝑁,𝐾\n⋯\n𝑌𝑁,𝐾\n= f\n𝑋1,1\n⋯\n𝑋1,𝐿\n⋮\n⋱\n⋮\n𝑋𝑀,1\n⋯\n𝑋𝑀,𝐿\n𝑦1\n \n⋮\n 𝑦𝑁\n= f\n𝑋1,1\n⋯\n𝑋1,𝐿\n⋮\n⋱\n⋮\n𝑋𝑀,1\n⋯\n𝑋𝑀,𝐿\n𝑦= f\n𝑋1,1\n⋯\n𝑋1,𝐿\n⋮\n⋱\n⋮\n𝑋𝑀,1\n⋯\n𝑋𝑀,𝐿\n𝑌1,1\n⋯\n𝑌1,𝐾\n⋮\n⋱\n⋮\n𝑌𝑁,𝐾\n⋯\n𝑌𝑁,𝐾\n= f\n𝑥1\n⋮\n𝑥𝑀\n𝑌1,1\n⋯\n𝑌1,𝐾\n⋮\n⋱\n⋮\n𝑌𝑁,𝐾\n⋯\n𝑌𝑁,𝐾\n= f 𝑥",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0036.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:37",
+      "slide_number": 37,
+      "title_guess": "Calculus with Linear Algebra",
+      "extracted_text": "Calculus with Linear Algebra\nCollection of partial derivatives for every pair of scalar inputs and outputs \nOne way to think of it: a bag of partial derivatives\n𝑦1\n \n⋮\n 𝑦𝑁\n= f\n𝑥1\n⋮\n𝑥𝑀",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0037.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:38",
+      "slide_number": 38,
+      "title_guess": "Calculus with Linear Algebra",
+      "extracted_text": "Calculus with Linear Algebra\nCollection of partial derivatives for every pair of scalar inputs and outputs \nOne way to think of it: a bag of partial derivatives\n𝑌1,1\n⋯\n𝑌1,𝐾\n⋮\n⋱\n⋮\n𝑌𝑁,1\n⋯\n𝑌𝑁,𝐾\n= f\n𝑋1,1\n⋯\n𝑋1,𝐿\n⋮\n⋱\n⋮\n𝑋𝑀,1\n⋯\n𝑋𝑀,𝐿",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0038.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:39",
+      "slide_number": 39,
+      "title_guess": "Organization Convention: Denominator Layout",
+      "extracted_text": "Organization Convention: Denominator Layout\n𝑦= 𝑓(𝑥)\n𝑥∈ℝ\n𝐱∈ℝM\n𝑋∈ℝM×𝐿\n𝑦∈ℝ\n𝜕𝑦\n𝜕𝑥∈ ℝ\n𝜕𝑦\n𝜕𝐱∈ ℝ𝑀×1\nInput by output\n𝜕𝑦\n𝜕𝑋∈ ℝ𝑀×𝐿\nSize of input\n𝐲∈ℝ𝑁\n𝜕𝐲\n𝜕𝑥∈ ℝ1×𝑁\nInput by output\n𝜕𝐲\n𝜕𝐱∈ ℝ𝑀×𝑁\nInput by output\n𝜕𝐲\n𝜕𝑋∈ ℝ?\n?\n𝑌∈ℝ𝑁×𝐾\n𝜕𝑌\n𝜕𝑥∈ ℝ𝐾×𝑁\nTranspose of output\n𝜕𝑌\n𝜕𝐱∈ ℝ?\n?\n𝜕𝑌\n𝜕𝑋∈ ℝ?\n?",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0039.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:40",
+      "slide_number": 40,
+      "title_guess": "Organization Convention: Numerator Layout",
+      "extracted_text": "Organization Convention: Numerator Layout\n𝑦= 𝑓(𝑥)\n𝑥∈ℝ\n𝐱∈ℝM\n𝑋∈ℝM×𝐿\n𝑦∈ℝ\n𝜕𝑦\n𝜕𝑥∈ ℝ\n𝜕𝑦\n𝜕𝐱∈ ℝ1×𝑀\nOutput by input\n𝜕𝑦\n𝜕𝑋∈ ℝ𝐿×𝑀\nTranspose of input\n𝐲∈ℝ𝑁\n𝜕𝐲\n𝜕𝑥∈ ℝ𝑁×1\nOutput by input\n𝜕𝐲\n𝜕𝐱∈ ℝ𝑁×𝑀\nOutput by input\n𝜕𝐲\n𝜕𝑋∈ ℝ?\n?\n𝑌∈ℝ𝑁×𝐾\n𝜕𝑌\n𝜕𝑥∈ ℝ𝑁×𝐾\nSize of output\n𝜕𝑌\n𝜕𝐱∈ ℝ?\n?\n𝜕𝑌\n𝜕𝑋∈ ℝ?\n?",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0040.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:41",
+      "slide_number": 41,
+      "title_guess": "Multivariate-chain rule",
+      "extracted_text": "Multivariate-chain rule",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0041.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:42",
+      "slide_number": 42,
+      "title_guess": "Calculus Chain Rule",
+      "extracted_text": "Calculus Chain Rule\nScalar:\n𝑦= 𝑓𝑧\n𝑧= 𝑔𝑥\n𝑑𝑦\n𝑑𝑥=\n𝑑𝑦\n𝑑𝑧\n𝑑𝑧\n𝑑𝑥\nMultivariate:\n𝑦= 𝑓𝒛\n𝒛= 𝑔𝑥\n𝑑𝑦\n𝑑𝑥= ∑𝑗\n𝜕𝑦\n𝜕𝑧𝑗\n𝜕𝑧𝑗\n𝜕𝑥\nMultivariate:\n𝐲= 𝑓𝒛\n𝒛= 𝑔𝐱\n𝑑𝑦i\n𝑑𝑥k = ∑𝑗\n𝜕𝑦𝑖\n𝜕𝑧𝑗\n𝜕𝑧𝑗\n𝜕𝑥k",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0042.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:43",
+      "slide_number": 43,
+      "title_guess": "Calculus Chain Rule",
+      "extracted_text": "Calculus Chain Rule\nScalar:\n𝑦= 𝑓𝑧\n𝑧= 𝑔𝑥\n𝑑𝑦\n𝑑𝑥=\n𝑑𝑦\n𝑑𝑧\n𝑑𝑧\n𝑑𝑥\nMultivariate:\n𝑦= 𝑓𝒛\n𝒛= 𝑔𝑥\n𝑑𝑦\n𝑑𝑥= ∑𝑗\n𝜕𝑦\n𝜕𝑧𝑗\n𝜕𝑧𝑗\n𝜕𝑥\nMultivariate:\n𝐲= 𝑓𝒛\n𝒛= 𝑔𝐱\n𝑑𝑦i\n𝑑𝑥k = ∑𝑗\n𝜕𝑦𝑖\n𝜕𝑧𝑗\n𝜕𝑧𝑗\n𝜕𝑥k",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0043.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:44",
+      "slide_number": 44,
+      "title_guess": "Calculus Chain Rule",
+      "extracted_text": "Calculus Chain Rule\nscalar → Vector → scalar:ℝ → ℝ𝐾→ ℝ\n𝑦= 𝑓𝒛\n𝒛= 𝑔𝑥\nNumerator layout\n𝑑𝑦\n𝑑𝑥=\n𝜕𝑦\n𝜕𝐳\n𝜕𝒛\n𝜕𝑥\nDenominator layout\n𝑑𝑦\n𝑑𝑥=\n𝜕𝒛\n𝜕𝑥\n𝜕𝑦\n𝜕𝐳\nBreakdown into scalars\n𝑑𝑦\n𝑑𝑥\n𝑑𝑦\n𝑑𝑥= ∑𝑗\n𝜕𝑦\n𝜕𝑧𝑗\n𝜕𝑧𝑗\n𝜕𝑥",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0044.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:45",
+      "slide_number": 45,
+      "title_guess": "Calculus Chain Rule",
+      "extracted_text": "Calculus Chain Rule\nVector → Vector → scalar:  ℝ𝑀→ ℝ𝐾→ ℝ\n𝑦= 𝑓𝒛\n𝒛= 𝑔𝐯\nNumerator layout\n𝑑𝑦\n𝑑𝐯=\n𝜕𝑦\n𝜕𝐳\n𝜕𝒛\n𝜕𝐯\nDenominator layout\n𝑑𝑦\n𝑑𝐯=\n𝜕𝒛\n𝜕𝐯\n𝜕𝑦\n𝜕𝐳\nBreakdown into scalars\n𝑑𝑦\n𝑑𝐯\n𝑑𝑦\n𝑑𝑣k = ∑𝑗\n𝜕𝑦\n𝜕𝑧𝑗\n𝜕𝑧𝑗\n𝜕𝑣k",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0045.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:46",
+      "slide_number": 46,
+      "title_guess": "Multivariable Chain Rule",
+      "extracted_text": "Multivariable Chain Rule",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0046.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:47",
+      "slide_number": 47,
+      "title_guess": "Backpropagation (vector version)",
+      "extracted_text": "Backpropagation (vector version)\nVector version    WIDER",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0047.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:48",
+      "slide_number": 48,
+      "title_guess": "Generic Layer Implementation (vector output version)",
+      "extracted_text": "Generic Layer Implementation (vector output version)\nCompute derivatives per layer, utilizing previous derivatives\nObjective: 𝐽𝜃\nArbitrary layer: zout = 𝑓zin, 𝜃\nNeed: \n▪\n𝜕𝐽\n𝜕𝑧𝑖𝑛=\n▪\n𝜕𝐽\n𝜕𝜃𝑗 =\nLayer   𝐳out = 𝑓zin, 𝜃\n \n𝜕𝒇\n𝜕𝑧𝑖𝑛\n \n𝜕𝒇\n𝜕𝜽\nLayer   𝐳out = 𝑓zin, 𝜃\n \n𝜕𝒇\n𝜕𝑧𝑖𝑛\n \n𝜕𝒇\n𝜕𝜽\n𝜕𝐽\n𝜕𝐳𝑜𝑢𝑡\n𝐳𝑜𝑢𝑡\n𝜕𝐽\n𝜕𝑧𝑖𝑛\n𝑧𝑖𝑛\n𝜕𝐽\n𝜕𝜽\n𝜽\n𝑧𝑖𝑛\n𝜽∈ℝ𝑀\n𝐳𝑜𝑢𝑡∈ℝ𝐾\n𝑓\n𝐽\n𝑧𝑜𝑢𝑡,1\n𝑧𝑜𝑢𝑡,2\n𝑧𝑜𝑢𝑡,3",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0048.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:49",
+      "slide_number": 49,
+      "title_guess": "Generic Layer Implementation (vector output version)",
+      "extracted_text": "Generic Layer Implementation (vector output version)\nCompute derivatives per layer, utilizing previous derivatives\nObjective: 𝐽𝜃\nArbitrary layer: zout = 𝑓zin, 𝜃\nNeed: \n▪\n𝜕𝐽\n𝜕𝑧𝑖𝑛= ∑𝑘\n𝜕𝐽\n𝜕𝑧𝑜𝑢𝑡,𝑘\n𝜕𝑧𝑜𝑢𝑡,𝑘\n𝜕𝑧𝑖𝑛\n▪\n𝜕𝐽\n𝜕𝜃𝑗 = ∑𝑘\n𝜕𝐽\n𝜕𝑧𝑜𝑢𝑡,𝑘\n𝜕𝑓\n𝜕𝜃𝑗\nLayer   zout = 𝑓zin, 𝜃\n \n𝜕𝒇\n𝜕𝑧𝑖𝑛\n \n𝜕𝒇\n𝜕𝜽\nLayer   zout = 𝑓zin, 𝜃\n \n𝜕𝒇\n𝜕𝑧𝑖𝑛\n \n𝜕𝒇\n𝜕𝜽\n𝜕𝐽\n𝜕𝐳𝑜𝑢𝑡\n𝐳𝑜𝑢𝑡\n𝜕𝐽\n𝜕𝑧𝑖𝑛\n𝑧𝑖𝑛\n𝜕𝐽\n𝜕𝜽\n𝜽\n𝑧𝑖𝑛\n𝜽∈ℝ𝑀\n𝐳𝑜𝑢𝑡∈ℝ𝐾\n𝑓\n𝐽\n𝑧𝑜𝑢𝑡,1\n𝑧𝑜𝑢𝑡,2\n𝑧𝑜𝑢𝑡,3",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0049.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:50",
+      "slide_number": 50,
+      "title_guess": "Linear Layer Implementation",
+      "extracted_text": "Linear Layer Implementation\nCompute derivatives per layer\nObjective: 𝐽𝜃\nLayer: 𝐳= 𝑓𝐚, 𝑊, 𝐛= 𝑊𝐚+ 𝐛 \nScalar version (no formatting)\n▪\n𝜕𝐽\n𝜕𝑎𝑗 =\n▪\n𝜕𝐽\n𝜕𝑊𝑖,𝑗=\n▪\n𝜕𝐽\n𝜕𝑏𝑖 =\n𝜕𝐽\n𝜕𝐛\nLayer   𝐚= 𝑓𝐚, 𝑊, 𝐛\n \n𝜕𝒇\n𝜕𝐚\n𝜕𝒇\n𝜕𝑊\n𝜕𝒇\n𝜕𝒃\nLayer   𝐚= 𝑓𝐚, 𝑊, 𝐛\n \n𝜕𝒇\n𝜕𝐚\n𝜕𝒇\n𝜕𝑊\n𝜕𝒇\n𝜕𝒃\n𝜕𝐽\n𝜕𝐳\n𝒛\n𝜕𝐽\n𝜕𝐚\n𝐚\n𝜕𝐽\n𝜕𝑊\n𝑊 𝐛\n𝐚∈ℝ𝑀\n𝑊∈ℝ𝐾×𝑀, 𝐛∈ℝ𝐾\n𝐳∈ℝ𝐾\n𝐽\n𝑓\n𝐳= 𝑊𝐚+ 𝐛 \n𝑧𝑘= 𝑏𝑘+ ∑𝑗𝑊𝑘,𝑗𝑎𝑗",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0050.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:51",
+      "slide_number": 51,
+      "title_guess": "Linear Layer Implementation",
+      "extracted_text": "Linear Layer Implementation\nCompute derivatives per layer\nObjective: 𝐽𝜃\nLayer: 𝐳= 𝑓𝐚, 𝑊, 𝐛= 𝑊𝐚+ 𝐛 \nScalar version (no formatting)\n▪\n𝜕𝐽\n𝜕𝑎𝑗 = ∑𝑘\n𝜕𝐽\n𝜕𝑧𝑘\n𝜕𝑧𝑘\n𝜕𝑎𝑗\n▪\n𝜕𝐽\n𝜕𝑊𝑖,𝑗= ∑𝑘\n𝜕𝐽\n𝜕𝑧𝑘\n𝜕𝑧𝑘\n𝜕𝑊𝑖,𝑗\n▪\n𝜕𝐽\n𝜕𝑏𝑖 = ∑𝑘\n𝜕𝐽\n𝜕𝑧𝑘\n𝜕𝑧𝑘\n𝜕𝑏𝑖\n𝜕𝐽\n𝜕𝐛\nLayer   𝐚= 𝑓𝐚, 𝑊, 𝐛\n \n𝜕𝒇\n𝜕𝐚\n𝜕𝒇\n𝜕𝑊\n𝜕𝒇\n𝜕𝒃\nLayer   𝐚= 𝑓𝐚, 𝑊, 𝐛\n \n𝜕𝒇\n𝜕𝐚\n𝜕𝒇\n𝜕𝑊\n𝜕𝒇\n𝜕𝒃\n𝜕𝐽\n𝜕𝐳\n𝒛\n𝜕𝐽\n𝜕𝐚\n𝐚\n𝜕𝐽\n𝜕𝑊\n𝑊 𝐛\n𝐚∈ℝ𝑀\n𝑊∈ℝ𝐾×𝑀, 𝐛∈ℝ𝐾\n𝐳∈ℝ𝐾\n𝐽\n𝑓\n𝐳= 𝑊𝐚+ 𝐛 \n𝑧𝑘= 𝑏𝑘+ ∑𝑗𝑊𝑘,𝑗𝑎𝑗",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0051.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:52",
+      "slide_number": 52,
+      "title_guess": "Linear Layer Implementation",
+      "extracted_text": "Linear Layer Implementation\nCompute derivatives per layer\nObjective: 𝐽𝜃\nLayer: 𝐳= 𝑓𝐚, 𝑊, 𝐛= 𝑊𝐚+ 𝐛 \n(Denominator format)\n▪𝜕𝐽\n𝜕𝐚\n▪𝜕𝐽\n𝜕𝑊\n▪𝜕𝐽\n𝜕𝐛\n𝜕𝐽\n𝜕𝐛\nLayer   𝐳= 𝑓𝐚, 𝑊, 𝐛\n \n𝜕𝒇\n𝜕𝐚\n𝜕𝒇\n𝜕𝑊\n𝜕𝒇\n𝜕𝒃\nLayer   𝐳= 𝑓𝐚, 𝑊, 𝐛\n \n𝜕𝒇\n𝜕𝐚\n𝜕𝒇\n𝜕𝑊\n𝜕𝒇\n𝜕𝒃\n𝜕𝐽\n𝜕𝐳\n𝐳\n𝜕𝐽\n𝜕𝐚\n𝐚\n𝜕𝐽\n𝜕𝑊\n𝑊 𝐛\n𝐚∈ℝ𝑀\n𝑊∈ℝ𝐾×𝑀, 𝐛∈ℝ𝐾\n𝐳∈ℝ𝐾\n𝐽\n𝑓",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0052.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:53",
+      "slide_number": 53,
+      "title_guess": "Summary",
+      "extracted_text": "Summary\n1. Neural Networks…\n–\nprovide a way of learning features\n–\nare highly nonlinear prediction functions\n–\n(can be) a highly parallel network of logistic regression classifiers\n–\ndiscover useful hidden representations of the input\n2. Backpropagation…\n–\nprovides an efficient way to compute gradients\n–\nis a special case of reverse-mode automatic differentiation\n60",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0053.png"
+    },
+    {
+      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:54",
+      "slide_number": 54,
+      "title_guess": "Backprop Objectives",
+      "extracted_text": "Backprop Objectives\nYou should be able to…\n•\nDifferentiate between a neural network diagram and a computation graph \n•\nConstruct a computation graph for a function as specified by an algorithm\n•\nCarry out the backpropagation on an arbitrary computation graph\n•\nConstruct a computation graph for a neural network, identifying all the given and \nintermediate quantities that are relevant\n•\nInstantiate the backpropagation algorithm for a neural network\n•\nInstantiate an optimization method (e.g. SGD) when the parameters of a model are \ncomprised of several matrices corresponding to different layers of a neural network\n•\nApply the empirical risk minimization framework to learn a neural network\n•\nUse the finite difference method to evaluate the gradient of a function\n•\nIdentify when the gradient of a function can be computed at all and when it can be \ncomputed efficiently\n•\nEmploy basic matrix calculus to compute vector/matrix/tensor derivatives.\n61",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_26ee4a6b46504aeebcb2ff00f706975a\\previews\\slide-0054.png"
+    }
+  ]
+}

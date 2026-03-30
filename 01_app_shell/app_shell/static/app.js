@@ -37,14 +37,98 @@ function escapeHtml(value) {
 }
 
 function showTransientMessage(text, type = 'muted') {
-  const container = document.getElementById('system-status');
+  const container = document.getElementById('global-toast-stack');
+  if (!container) return;
   const div = document.createElement('div');
-  div.className = type;
+  div.className = `toast ${type}`;
   div.textContent = text;
-  container.prepend(div);
+  container.append(div);
+  if (container.children.length > 5) container.removeChild(container.firstElementChild);
   setTimeout(() => {
     if (div.parentNode) div.parentNode.removeChild(div);
   }, 5000);
+}
+
+function setGlobalActivity(message, busy = true) {
+  const banner = document.getElementById('global-activity');
+  if (!banner) return;
+  if (!message) {
+    banner.textContent = '';
+    banner.classList.add('hidden');
+    return;
+  }
+  banner.textContent = busy ? `Working... ${message}` : message;
+  banner.classList.remove('hidden');
+}
+
+function clearGlobalActivitySoon(delayMs = 1200) {
+  setTimeout(() => setGlobalActivity(''), delayMs);
+}
+
+function formatBytes(bytes) {
+  const value = Number(bytes || 0);
+  if (!Number.isFinite(value) || value <= 0) return '0 B';
+  const units = ['B', 'KB', 'MB', 'GB'];
+  let unitIndex = 0;
+  let scaled = value;
+  while (scaled >= 1024 && unitIndex < units.length - 1) {
+    scaled /= 1024;
+    unitIndex += 1;
+  }
+  return `${scaled.toFixed(scaled >= 10 || unitIndex === 0 ? 0 : 1)} ${units[unitIndex]}`;
+}
+
+function selectedFileKey(file) {
+  return `${file.name}|${file.size}|${file.lastModified}`;
+}
+
+function uploadStatusLabel(status) {
+  if (status === 'uploading') return 'Uploading';
+  if (status === 'done') return 'Imported';
+  if (status === 'skipped') return 'Skipped duplicate';
+  if (status === 'failed') return 'Failed';
+  return 'Queued';
+}
+
+function renderMaterialUploadStatus(items, active = false) {
+  const container = document.getElementById('material-upload-status');
+  const summary = document.getElementById('material-upload-summary');
+  const count = document.getElementById('material-upload-count');
+  const progress = document.getElementById('material-upload-progress');
+  const list = document.getElementById('material-upload-list');
+  if (!container || !summary || !count || !progress || !list) return;
+
+  if (!items.length) {
+    container.classList.add('hidden');
+    summary.textContent = 'No upload in progress.';
+    count.textContent = '';
+    progress.value = 0;
+    list.innerHTML = '';
+    setGlobalActivity('');
+    return;
+  }
+
+  container.classList.remove('hidden');
+  const total = items.length;
+  const done = items.filter((item) => item.status === 'done').length;
+  const skipped = items.filter((item) => item.status === 'skipped').length;
+  const failed = items.filter((item) => item.status === 'failed').length;
+  const processed = done + skipped + failed;
+  progress.value = Math.round((processed / total) * 100);
+  count.textContent = `${processed}/${total}`;
+  summary.textContent = active
+    ? `Uploading files... ${done} imported, ${skipped} skipped, ${failed} failed`
+    : `Upload complete: ${done} imported, ${skipped} skipped, ${failed} failed`;
+  setGlobalActivity(summary.textContent, active);
+  if (!active) clearGlobalActivitySoon(3000);
+
+  list.innerHTML = items.map((item) => `
+    <div class="upload-item ${item.status}">
+      <div>${escapeHtml(item.name)}</div>
+      <div class="muted">${escapeHtml(uploadStatusLabel(item.status))}</div>
+      <div class="muted">${escapeHtml(formatBytes(item.size))}</div>
+    </div>
+  `).join('');
 }
 
 async function loadStatus() {
@@ -416,6 +500,7 @@ function renderChat() {
     const citations = JSON.parse(section.dataset.sectionCitations);
     wireCitationButtons(section, citations);
   });
+  output.scrollTop = output.scrollHeight;
 }
 
 function renderPractice() {
@@ -495,7 +580,8 @@ function renderJobs() {
     container.innerHTML = '';
     return;
   }
-  const currentJobs = jobs.filter((job) => ['queued', 'running', 'submitted', 'waiting_for_service', 'needs_user_input', 'failed'].includes(job.status) || !job.finalized);
+  const activeStatuses = new Set(['queued', 'running', 'submitted', 'waiting_for_service', 'needs_user_input']);
+  const currentJobs = jobs.filter((job) => activeStatuses.has(job.status) || (job.status === 'failed' && !job.finalized));
   container.innerHTML = currentJobs.map((job) => `
     <div class="card">
       <div><strong>${escapeHtml(job.operation)}</strong></div>
@@ -528,6 +614,14 @@ function renderWorkspace() {
   applyServiceGating();
 }
 
+function scrollSourceViewerIntoView() {
+  const panel = document.querySelector('.source-viewer');
+  if (!panel) return;
+  const rect = panel.getBoundingClientRect();
+  const visible = rect.top >= 0 && rect.bottom <= window.innerHeight;
+  if (!visible) panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 function openCitation(citation, citationList = [citation], index = 0) {
   state.citationList = citationList;
   state.citationIndex = index;
@@ -536,6 +630,7 @@ function openCitation(citation, citationList = [citation], index = 0) {
   empty.classList.add('hidden');
   view.classList.remove('hidden');
   renderSourceViewer(citation);
+  scrollSourceViewerIntoView();
 }
 
 function renderSourceViewer(citation) {
@@ -561,12 +656,15 @@ async function pollJob(jobId) {
   while (true) {
     const payload = await api(`/api/jobs/${jobId}?workspace_id=${workspaceId}`);
     const job = payload.job;
+    setGlobalActivity(job.message || `${job.operation || 'Operation'} is running`, true);
     const refreshed = await api(`/api/workspaces/${workspaceId}`);
     state.activeWorkspace = refreshed.workspace;
     renderWorkspace();
     if (['succeeded', 'failed', 'needs_user_input'].includes(job.status)) {
+      if (job.status === 'succeeded') showTransientMessage(job.message || 'Operation completed.', 'success');
       if (job.status === 'failed') showTransientMessage(job.error?.message || job.message || 'Operation failed.', 'error');
       if (job.status === 'needs_user_input') showTransientMessage(job.user_action?.prompt || 'The service needs more input.', 'warning');
+      clearGlobalActivitySoon();
       return job;
     }
     await new Promise((resolve) => setTimeout(resolve, 600));
@@ -608,23 +706,72 @@ function bindEvents() {
   document.getElementById('material-import-form').addEventListener('submit', async (event) => {
     event.preventDefault();
     if (!state.activeWorkspace) return;
-    const form = new FormData();
-    form.append('title', document.getElementById('material-title').value);
-    form.append('role', document.getElementById('material-role').value);
-    const text = document.getElementById('material-text').value;
+    const submitButton = event.currentTarget.querySelector('button[type="submit"]');
+    if (submitButton) submitButton.disabled = true;
     const fileInput = document.getElementById('material-file');
-    if (fileInput.files[0]) {
-      form.append('file', fileInput.files[0]);
-    } else {
-      form.append('kind', 'pasted_text');
-      form.append('text', text);
+    const files = Array.from(fileInput.files || []);
+    const title = document.getElementById('material-title').value;
+    const role = document.getElementById('material-role').value;
+    const text = document.getElementById('material-text').value;
+
+    try {
+      if (files.length) {
+        const seen = new Set();
+        const queue = [];
+        const uploadItems = [];
+        files.forEach((file) => {
+          const key = selectedFileKey(file);
+          if (seen.has(key)) {
+            uploadItems.push({ name: file.name, size: file.size, status: 'skipped' });
+            return;
+          }
+          seen.add(key);
+          queue.push(file);
+          uploadItems.push({ name: file.name, size: file.size, status: 'queued' });
+        });
+        renderMaterialUploadStatus(uploadItems, true);
+        for (let index = 0; index < queue.length; index += 1) {
+          const file = queue[index];
+          const item = uploadItems.find((candidate) => candidate.name === file.name && candidate.size === file.size && candidate.status === 'queued');
+          if (item) item.status = 'uploading';
+          renderMaterialUploadStatus(uploadItems, true);
+
+          const form = new FormData();
+          // Preserve existing single-file title behavior while letting multi-file imports default to each filename.
+          form.append('title', queue.length === 1 ? title : '');
+          form.append('role', role);
+          form.append('file', file);
+          try {
+            const payload = await api(`/api/workspaces/${state.activeWorkspace.workspace_id}/materials/import`, { method: 'POST', body: form });
+            const finishedJob = await pollJob(payload.job.job_id);
+            const deduped = Boolean(finishedJob?.context?.deduplication?.skipped);
+            if (item) item.status = deduped ? 'skipped' : 'done';
+          } catch (_error) {
+            if (item) item.status = 'failed';
+            renderMaterialUploadStatus(uploadItems, true);
+            throw _error;
+          }
+          renderMaterialUploadStatus(uploadItems, true);
+        }
+        renderMaterialUploadStatus(uploadItems, false);
+      } else {
+        renderMaterialUploadStatus([], false);
+        const form = new FormData();
+        form.append('title', title);
+        form.append('role', role);
+        form.append('kind', 'pasted_text');
+        form.append('text', text);
+        const payload = await api(`/api/workspaces/${state.activeWorkspace.workspace_id}/materials/import`, { method: 'POST', body: form });
+        await pollJob(payload.job.job_id);
+      }
+
+      document.getElementById('material-title').value = '';
+      document.getElementById('material-text').value = '';
+      document.getElementById('material-file').value = '';
+      await loadWorkspaces();
+    } finally {
+      if (submitButton) submitButton.disabled = false;
     }
-    const payload = await api(`/api/workspaces/${state.activeWorkspace.workspace_id}/materials/import`, { method: 'POST', body: form });
-    await pollJob(payload.job.job_id);
-    document.getElementById('material-title').value = '';
-    document.getElementById('material-text').value = '';
-    document.getElementById('material-file').value = '';
-    await loadWorkspaces();
   });
 
   document.getElementById('study-plan-form').addEventListener('submit', async (event) => {
@@ -688,18 +835,27 @@ function bindEvents() {
   document.getElementById('chat-form').addEventListener('submit', async (event) => {
     event.preventDefault();
     if (!state.activeWorkspace) return;
+    const sendButton = event.currentTarget.querySelector('button[type="submit"]');
+    const questionInput = document.getElementById('chat-question');
+    if (sendButton) sendButton.disabled = true;
+    const questionText = questionInput.value.trim();
+    if (!questionText) {
+      if (sendButton) sendButton.disabled = false;
+      return;
+    }
     try {
       const conversation = await createConversationIfNeeded();
+      setGlobalActivity('Sending your question...', true);
       const payload = await api(`/api/workspaces/${state.activeWorkspace.workspace_id}/conversations/${conversation.conversation_id}/messages`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          text: document.getElementById('chat-question').value,
+          text: questionText,
           grounding_mode: document.getElementById('chat-grounding-mode').value,
           response_style: document.getElementById('chat-response-style').value,
         }),
       });
-      document.getElementById('chat-question').value = '';
+      questionInput.value = '';
       const refreshed = await api(`/api/workspaces/${state.activeWorkspace.workspace_id}`);
       state.activeWorkspace = refreshed.workspace;
       renderWorkspace();
@@ -707,6 +863,9 @@ function bindEvents() {
       await loadWorkspaces();
     } catch (error) {
       showTransientMessage(error.message, 'error');
+      clearGlobalActivitySoon();
+    } finally {
+      if (sendButton) sendButton.disabled = false;
     }
   });
 

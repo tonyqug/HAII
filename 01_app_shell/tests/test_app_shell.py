@@ -23,6 +23,7 @@ if str(PROJECT_DIR) not in sys.path:
     sys.path.insert(0, str(PROJECT_DIR))
 
 from app_shell.main import create_app
+from app_shell.errors import ShellError
 
 
 @pytest.fixture()
@@ -650,6 +651,18 @@ def test_integrated_material_import_normalization_and_hydration(tmp_path: Path) 
             data={"title": "Lecture slides", "role": "slides"},
         ).json()["job"]
         assert poll_job(client, workspace_id, file_job["job_id"])["status"] == "succeeded"
+        assert len(content_state["received_imports"]) == 2
+
+        duplicate_job = client.post(
+            f"/api/workspaces/{workspace_id}/materials/import",
+            files={"file": ("lecture.pdf", io.BytesIO(b"%PDF-1.4 stub"), "application/pdf")},
+            data={"title": "Lecture slides duplicate", "role": "slides"},
+        ).json()["job"]
+        finished_duplicate = poll_job(client, workspace_id, duplicate_job["job_id"])
+        assert finished_duplicate["status"] == "succeeded"
+        assert "Duplicate file detected" in finished_duplicate["message"]
+        # Deduplication happens in app-shell, so the content service should not receive a second copy.
+        assert len(content_state["received_imports"]) == 2
 
         workspace = client.get(f"/api/workspaces/{workspace_id}").json()["workspace"]
         assert len(workspace["materials"]) == 2
@@ -864,6 +877,51 @@ def test_integrated_conversation_job_flow_clear_and_reuse_materials(tmp_path: Pa
         conversation_history = [entry for entry in reloaded["history"] if entry["artifact_type"] == "conversation"]
         assert len([entry for entry in conversation_history if entry["active"]]) == 1
         assert [entry for entry in conversation_history if entry["active"]][0]["artifact_id"] == conversation_id
+
+
+def test_failed_message_submit_rolls_back_pending_user_message(mock_client: TestClient, monkeypatch) -> None:
+    workspace = mock_client.post("/api/workspaces", json={"display_name": "Rollback workspace"}).json()["workspace"]
+    workspace_id = workspace["workspace_id"]
+    import_job = mock_client.post(
+        f"/api/workspaces/{workspace_id}/materials/import",
+        data={"title": "Rollback notes", "role": "notes", "kind": "pasted_text", "text": "Grounded notes"},
+    ).json()["job"]
+    assert poll_job(mock_client, workspace_id, import_job["job_id"])["status"] == "succeeded"
+    conversation = mock_client.post(
+        f"/api/workspaces/{workspace_id}/conversations",
+        json={"title": "Rollback chat", "grounding_mode": "strict_lecture_only"},
+    ).json()["conversation"]
+    conversation_id = conversation["conversation_id"]
+
+    service = mock_client.app.state.shell_service
+    service.effective_mode = "integrated"
+
+    def fake_status(*, force: bool = False):
+        return {
+            "effective_mode": "integrated",
+            "services": {
+                "content": {"available": True, "mode": "integrated", "base_url": "http://127.0.0.1:39910"},
+                "learning": {"available": True, "mode": "integrated", "base_url": "http://127.0.0.1:39920"},
+            },
+        }
+
+    def fake_remote(service_name, method, path, **kwargs):
+        if service_name == "learning" and method == "POST" and path.endswith(f"/v1/conversations/{conversation_id}/messages"):
+            raise ShellError("simulated learning send failure", status_code=503)
+        return {}
+
+    monkeypatch.setattr(service, "refresh_status", fake_status)
+    monkeypatch.setattr(service, "_remote_json", fake_remote)
+
+    response = mock_client.post(
+        f"/api/workspaces/{workspace_id}/conversations/{conversation_id}/messages",
+        json={"text": "this should fail", "grounding_mode": "strict_lecture_only"},
+    )
+    assert response.status_code == 503
+
+    refreshed = mock_client.get(f"/api/workspaces/{workspace_id}").json()["workspace"]
+    active = refreshed["active_conversation"]
+    assert all(message.get("text") != "this should fail" for message in active.get("messages", []))
 
 def test_integrated_practice_generation_and_revision_normalization(tmp_path: Path) -> None:
     with integrated_client(tmp_path) as (client, _content_state, learning_state, env):

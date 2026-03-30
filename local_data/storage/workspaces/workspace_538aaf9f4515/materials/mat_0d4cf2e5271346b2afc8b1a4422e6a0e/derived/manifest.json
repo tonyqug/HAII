@@ -1,0 +1,897 @@
+{
+  "material_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e",
+  "workspace_id": "workspace_538aaf9f4515",
+  "exported_at": "2026-03-30T01:59:43+00:00",
+  "material": {
+    "page_count": 88,
+    "slide_count": 88,
+    "ready_for_retrieval": true,
+    "previews_available": true,
+    "quality_overall": "medium",
+    "quality_notes": null,
+    "extraction_notes": "PDF text was extracted with PyMuPDF page parsing. No OCR text was fabricated.",
+    "converted_pdf_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\source\\lecture10-feat-eng-reg.pdf"
+  },
+  "slides": [
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1",
+      "slide_number": 1,
+      "title_guess": "Convexity",
+      "extracted_text": "Convexity\n+ Feature Engineering\n+ Regularization\n1\n10-301/10-601 Introduction to Machine Learning\nPat Virtue & Matt Gormley\nLecture 10\nFeb. 11, 2026\nMachine Learning Department\nSchool of Computer Science\nCarnegie Mellon University",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0001.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:2",
+      "slide_number": 2,
+      "title_guess": "LINEAR REGRESSION: SOLUTION UNIQUENESS",
+      "extracted_text": "LINEAR REGRESSION: SOLUTION UNIQUENESS\n2",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0002.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:3",
+      "slide_number": 3,
+      "title_guess": "Linear Regression: Uniqueness",
+      "extracted_text": "Linear Regression: Uniqueness\nQuestion:\nConsider a 1D linear \nregression model \ntrained to minimize \nMSE.\nHow many \nsolutions (i.e. sets \nof parameters w,b) \nare there for the \ngiven dataset?\n3\ny\nx\nTwo Points (Case 1)",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0003.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:4",
+      "slide_number": 4,
+      "title_guess": "Linear Regression: Uniqueness",
+      "extracted_text": "Linear Regression: Uniqueness\n4\ny\nx\nOne Point\nQuestion:\nConsider a 1D linear \nregression model \ntrained to minimize \nMSE.\nHow many \nsolutions (i.e. sets \nof parameters w,b) \nare there for the \ngiven dataset?",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0004.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:5",
+      "slide_number": 5,
+      "title_guess": "Linear Regression: Uniqueness",
+      "extracted_text": "Linear Regression: Uniqueness\n5\ny\nx\nTwo Points (Case 2)\nAnswer:\nA: 0      B: 1     C: 2     D: +∞\nAnswer:\nA: 0      B: 1     C: 2     D: +∞\nQuestion:\nConsider a 1D linear \nregression model \ntrained to minimize \nMSE.\nHow many \nsolutions (i.e. sets \nof parameters w,b) \nare there for the \ngiven dataset?",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0005.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:6",
+      "slide_number": 6,
+      "title_guess": "Linear Regression: Uniqueness",
+      "extracted_text": "Linear Regression: Uniqueness\n7\nDemo with colinear input points\nhttps://www.desmos.com/3d/4gjiqskvdh\nQuestion:\n• Consider a 2D linear \nregression model trained to \nminimize MSE\n• How many solutions (i.e. sets \nof parameters w1, w2, b) are \nthere for the given dataset?",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0006.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:7",
+      "slide_number": 7,
+      "title_guess": "Linear Regression: Uniqueness",
+      "extracted_text": "Linear Regression: Uniqueness\nQuestion:\n• Consider a 2D \nlinear regression \nmodel trained to \nminimize MSE\n• How many \nsolutions (i.e. \nsets of \nparameters w1, \nw2, b) are there \nfor the given \ndataset?\n8\nPoints on a Line\ny\nx1\nx2",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0007.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:8",
+      "slide_number": 8,
+      "title_guess": "Linear Regression: Uniqueness",
+      "extracted_text": "Linear Regression: Uniqueness\nQuestion:\n• Consider a 2D \nlinear regression \nmodel trained to \nminimize MSE\n• How many \nsolutions (i.e. \nsets of \nparameters w1, \nw2, b) are there \nfor the given \ndataset?\n9\nPoints on a Line\ny\nx1\nx2",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0008.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:9",
+      "slide_number": 9,
+      "title_guess": "Linear Regression: Uniqueness",
+      "extracted_text": "Linear Regression: Uniqueness\nQuestion:\n• Consider a 2D \nlinear regression \nmodel trained to \nminimize MSE\n• How many \nsolutions (i.e. \nsets of \nparameters w1, \nw2, b) are there \nfor the given \ndataset?\n10\nPoints on a Line\ny\nx1\nx2",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0009.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:10",
+      "slide_number": 10,
+      "title_guess": "Linear Regression: Uniqueness",
+      "extracted_text": "Linear Regression: Uniqueness\n11\nThese geometric intuitions align with the linear \nalgebraic intuitions we can derive from the \nnormal equations.\n1. If               is invertible, then there is exactly one \nsolution. \n2. If               is not invertible, then there are \ninfinitely many solutions.\nTo solve the Ordinary Least Squares \nproblem we compute:",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0010.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:11",
+      "slide_number": 11,
+      "title_guess": "Linear Regression: Uniqueness",
+      "extracted_text": "Linear Regression: Uniqueness\n12\nThese geometric intuitions align with the linear \nalgebraic intuitions we can derive from the \nnormal equations.\n1. If               is invertible, then there is exactly one \nsolution. \n2. If               is not invertible, then there are \ninfinitely many solutions.\nTo solve the Ordinary Least Squares \nproblem we compute:\nInvertability of               is \nequivalent to X being full rank. \nThat is, there is no feature that \nis a linear combination of the \nother features.\nInvertability of               is \nequivalent to X being full rank. \nThat is, there is no feature that \nis a linear combination of the \nother features.",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0011.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:12",
+      "slide_number": 12,
+      "title_guess": "Poll 1",
+      "extracted_text": "Poll 1\nFor a linear regression model with 1-D input, ℎ𝑥= 𝑤𝑥+ 𝑏, what is the \ngeometric shape of the MSE objective function, 𝐽(𝑤, 𝑏)?",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0012.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:13",
+      "slide_number": 13,
+      "title_guess": "CONVEXITY",
+      "extracted_text": "CONVEXITY\n14",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0013.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:14",
+      "slide_number": 14,
+      "title_guess": "Convexity",
+      "extracted_text": "Convexity\n15",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0014.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:15",
+      "slide_number": 15,
+      "title_guess": "Convexity",
+      "extracted_text": "Convexity\n16\nConvex function demo\nhttps://www.desmos.com/calculator/90f4df329a",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0015.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:16",
+      "slide_number": 16,
+      "title_guess": "Convexity",
+      "extracted_text": "Convexity\nConvex Function\n•\nEach local minimum is a \nglobal minimum\nNonconvex Function\n•\nA nonconvex function is not \nconvex\n•\nEach local minimum is not \nnecessarily a global minimum\n17",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0016.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:17",
+      "slide_number": 17,
+      "title_guess": "Convexity",
+      "extracted_text": "Convexity\n18\nEach local \nminimum of a \nconvex function is \nalso a global \nminimum.\nEach local \nminimum of a \nconvex function is \nalso a global \nminimum.\nA strictly convex \nfunction has a \nunique global \nminimum.\nA strictly convex \nfunction has a \nunique global \nminimum.",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0017.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:18",
+      "slide_number": 18,
+      "title_guess": "Convexity and Linear Regression",
+      "extracted_text": "Convexity and Linear Regression\n19\nThe objective function for Linear \nRegression, which we minimize for \nlearning the parameters, is convex!\nThe objective function for Linear \nRegression, which we minimize for \nlearning the parameters, is convex!\n…but in the general case it is not \nstrictly convex.\n…but in the general case it is not \nstrictly convex.",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0018.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:19",
+      "slide_number": 19,
+      "title_guess": "Covexity and Logistic Regression??",
+      "extracted_text": "Covexity and Logistic Regression??\n20",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0019.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:20",
+      "slide_number": 20,
+      "title_guess": "Convexity and Linear Regression",
+      "extracted_text": "Convexity and Linear Regression\n21\nThe objective function for Logistic \nRegression, which we minimize for \nlearning the parameters, is convex!\nThe objective function for Logistic \nRegression, which we minimize for \nlearning the parameters, is convex!",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0020.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:21",
+      "slide_number": 21,
+      "title_guess": "FEATURE ENGINEERING",
+      "extracted_text": "FEATURE ENGINEERING\n22",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0021.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:22",
+      "slide_number": 22,
+      "title_guess": "Features",
+      "extracted_text": "Features\nCategorical features and one-hot encoding\nImages\n▪\nRaw data, feature engineering\n▪\nFeature learning\nAudio\n▪\nRaw data, feature engineering\n▪\nFeature learning\nText\n▪\nRaw data, feature engineering\n▪\nFeature learning\nPolynomial feature engineering",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0022.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:23",
+      "slide_number": 23,
+      "title_guess": "One-hot encoding",
+      "extracted_text": "One-hot encoding\nNeed to convert text for categories into numerical values for input and \noutput\nCategorical variables\n▪\nEnumeration\n▪\nOne-hot vector (or one-hot columns)\nOne-hot vector\n▪\nVector of length M with exactly one 1 and M-1 zeros\n▪\nSeries of M binary values, exactly one of which is 1",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0023.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:24",
+      "slide_number": 24,
+      "title_guess": "Text Features",
+      "extracted_text": "Text Features",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0024.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:25",
+      "slide_number": 25,
+      "title_guess": "Text Features",
+      "extracted_text": "Text Features\nSPAM Classification",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0025.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:26",
+      "slide_number": 26,
+      "title_guess": "Text Features",
+      "extracted_text": "Text Features\nSPAM Classification",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0026.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:27",
+      "slide_number": 27,
+      "title_guess": "Text Features",
+      "extracted_text": "Text Features\nBag of words: Vector of length the size of the vocabulary\nTwo options\n▪\nWord occurrence: Binary: does the word exist (at least once) or not\n▪\nWord histogram: Integer: count of how many times the word appears",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0027.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:28",
+      "slide_number": 28,
+      "title_guess": "Text Features",
+      "extracted_text": "Text Features\nPredicting Rating from Written Movie Review",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0028.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:29",
+      "slide_number": 29,
+      "title_guess": "Text Features: Tokenization",
+      "extracted_text": "Text Features: Tokenization\nText encoding: token → index within vocabulary\nWhat is our \"vocabulary\", i.e., what are our tokens?\n▪\nCharacters\n▪\nByte pair encoding\n▪\nWords and punctuation\nI am Sam. I am \nSam. Sam I am. \nThat Sam-I-am. \nThat Sam-I-am!\nCorpus",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0029.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:30",
+      "slide_number": 30,
+      "title_guess": "Text Feature Learning",
+      "extracted_text": "Text Feature Learning\nFeature learning\nWord to Vec\nhttps://www.cs.cmu.edu/~dst/WordEmbeddingDemo/tutorial.html",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0030.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:31",
+      "slide_number": 31,
+      "title_guess": "Text Feature Learning",
+      "extracted_text": "Text Feature Learning\nWord embeddings demo\nhttps://www.cs.cmu.edu/~pvirtue/AIS/word-embeddings/word-embeddings.html",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0031.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:32",
+      "slide_number": 32,
+      "title_guess": "Feature Engineering vs Feature Learning",
+      "extracted_text": "Feature Engineering vs Feature Learning\nFeature engineering\n▪\nHumans decide what the features may be useful\n▪\nHumans implement feature extraction algorithms\nFeature learning\n▪\nHumans choose data and performance measure \n▪\nHumans decide on structure/algorithm to learn features\n▪\nFeatures are just intermediate values between input and output\n▪\nStructure defines number of feature values\n▪\nAllow machine to map data to feature values as needed",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0032.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:33",
+      "slide_number": 33,
+      "title_guess": "Feature Engineering vs Feature Learning",
+      "extracted_text": "Feature Engineering vs Feature Learning\nFeature engineering\n▪\nHumans decide what the features may be useful\n▪\nLeverage human experience for that input\n▪\nConsider data available\n▪\nHumans implement feature extraction algorithms\n▪\nLeverage data and compute power\nPro: Human interpretable features → trained models easier to explain\nCon: Features may not be sufficient for effective training\nCon: Humans likely needed to adapt to new tasks\nPro: Less likely to overfit as humans have selected impactful features",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0033.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:34",
+      "slide_number": 34,
+      "title_guess": "Feature Engineering vs Feature Learning",
+      "extracted_text": "Feature Engineering vs Feature Learning\nFeature learning\n▪\nHumans choose data and performance measure \n▪\nHumans decide on structure/algorithm to learn features\n▪\nFeatures are just intermediate values between input and output\n▪\nStructure defines number of feature values\n▪\nAllow machine to map data to feature values as needed\nCon: Humans cannot interpret features → trained models unexplainable\nPro: Allow machine to search larger space for efficient features\nPro: Humans may not be needed to adapt to new tasks (just new/more data)\nCon: Can overfit to data as there is no human logic in feature definition",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0034.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:35",
+      "slide_number": 35,
+      "title_guess": "POLYNOMIAL FEATURES",
+      "extracted_text": "POLYNOMIAL FEATURES\n52",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0035.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:36",
+      "slide_number": 36,
+      "title_guess": "Linear Data",
+      "extracted_text": "Linear Data\nRegression on simple linear dataset\nInput x\nOutput y",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0036.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:37",
+      "slide_number": 37,
+      "title_guess": "Non-linear Data",
+      "extracted_text": "Non-linear Data\nLinear regression on polynomial data?\nInput 𝑥1\nOutput 𝑦\n𝑦\n𝑥1 \n44\n-4\n27\n-3\n5\n-1\n0\n0\n2\n2\n5\n2.5\n9\n3\n35\n5",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0037.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:38",
+      "slide_number": 38,
+      "title_guess": "Non-linear Data",
+      "extracted_text": "Non-linear Data\nRegression on simple linear dataset\n𝑦\n𝑥1 \n𝑥𝟐 \n44\n-4\n16\n27\n-3\n9\n5\n-1\n1\n0\n0\n0\n2\n2\n4\n5\n2.5\n6.25\n9\n3\n9\n35\n5\n25\nInput 𝑥1\nOutput 𝑦\nInput 𝑥2",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0038.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:39",
+      "slide_number": 39,
+      "title_guess": "Non-linear Data",
+      "extracted_text": "Non-linear Data\nPolynomial feature map for linear regression\nInput x\nOutput y",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0039.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:40",
+      "slide_number": 40,
+      "title_guess": "Non-linear Data",
+      "extracted_text": "Non-linear Data\nDemo: Polynomial feature map for linear regression\nhttps://www.cs.cmu.edu/~pvirtue/AIS/regression/regression_poly.html",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0040.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:41",
+      "slide_number": 41,
+      "title_guess": "Example: Linear Regression",
+      "extracted_text": "Example: Linear Regression\n58\nx\ny\nGoal: Learn y = wT f(x) + b\nwhere f(.) is a polynomial \nbasis function\ntrue “unknown” \ntarget function is \nlinear with \nnegative slope \nand gaussian \nnoise\ny\nx\n2.0\n1.2\n1.3\n1.7\n0.1\n2.7\n1.1\n1.9\nSlide credit: CMU MLD Matt Gormley",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0041.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:42",
+      "slide_number": 42,
+      "title_guess": "Example: Linear Regression",
+      "extracted_text": "Example: Linear Regression\n59\nx\ny\nGoal: Learn y = wT f(x) + b\nwhere f(.) is a polynomial \nbasis function\ntrue “unknown” \ntarget function is \nlinear with \nnegative slope \nand gaussian \nnoise\ny\nx\n2.0\n1.2\n1.3\n1.7\n0.1\n2.7\n1.1\n1.9\nSlide credit: CMU MLD Matt Gormley",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0042.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:43",
+      "slide_number": 43,
+      "title_guess": "Example: Linear Regression",
+      "extracted_text": "Example: Linear Regression\n60\nx\ny\nGoal: Learn y = wT f(x) + b\nwhere f(.) is a polynomial \nbasis function\ntrue “unknown” \ntarget function is \nlinear with \nnegative slope \nand gaussian \nnoise\ny\nx\nx2\n2.0\n1.2\n(1.2)2\n1.3\n1.7\n(1.7)2\n0.1\n2.7 (2.7)2\n1.1\n1.9 (1.9)2\nSlide credit: CMU MLD Matt Gormley",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0043.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:44",
+      "slide_number": 44,
+      "title_guess": "Example: Linear Regression",
+      "extracted_text": "Example: Linear Regression\n61\nx\ny\nGoal: Learn y = wT f(x) + b\nwhere f(.) is a polynomial \nbasis function\ntrue “unknown” \ntarget function is \nlinear with \nnegative slope \nand gaussian \nnoise\ny\nx\nx2\nx3\n2.0\n1.2\n(1.2)2 (1.2)3\n1.3\n1.7\n(1.7)2 (1.7)3\n0.1\n2.7 (2.7)2 (2.7)3\n1.1\n1.9 (1.9)2 (1.9)3\nSlide credit: CMU MLD Matt Gormley",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0044.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:45",
+      "slide_number": 45,
+      "title_guess": "Example: Linear Regression",
+      "extracted_text": "Example: Linear Regression\n62\nx\ny\nGoal: Learn y = wT f(x) + b\nwhere f(.) is a polynomial \nbasis function\ntrue “unknown” \ntarget function is \nlinear with \nnegative slope \nand gaussian \nnoise\ny\nx\nx2\n…\nx5\n2.0\n1.2\n(1.2)2\n…\n(1.2)5\n1.3\n1.7\n(1.7)2\n…\n(1.7)5\n0.1\n2.7 (2.7)2\n…\n(2.7)5\n1.1\n1.9 (1.9)2\n…\n(1.9)5\nSlide credit: CMU MLD Matt Gormley",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0045.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:46",
+      "slide_number": 46,
+      "title_guess": "Example: Linear Regression",
+      "extracted_text": "Example: Linear Regression\n63\nx\ny\nGoal: Learn y = wT f(x) + b\nwhere f(.) is a polynomial \nbasis function\ntrue “unknown” \ntarget function is \nlinear with \nnegative slope \nand gaussian \nnoise\ny\nx\nx2\n…\nx8\n2.0\n1.2\n(1.2)2\n…\n(1.2)8\n1.3\n1.7\n(1.7)2\n…\n(1.7)8\n0.1\n2.7 (2.7)2\n…\n(2.7)8\n1.1\n1.9 (1.9)2\n…\n(1.9)8\nSlide credit: CMU MLD Matt Gormley",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0046.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:47",
+      "slide_number": 47,
+      "title_guess": "Example: Linear Regression",
+      "extracted_text": "Example: Linear Regression\n64\nx\ny\nGoal: Learn y = wT f(x) + b\nwhere f(.) is a polynomial \nbasis function\ntrue “unknown” \ntarget function is \nlinear with \nnegative slope \nand gaussian \nnoise\ny\nx\nx2\n…\nx9\n2.0\n1.2\n(1.2)2\n…\n(1.2)9\n1.3\n1.7\n(1.7)2\n…\n(1.7)9\n0.1\n2.7 (2.7)2\n…\n(2.7)9\n1.1\n1.9 (1.9)2\n…\n(1.9)9\nSlide credit: CMU MLD Matt Gormley",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0047.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:48",
+      "slide_number": 48,
+      "title_guess": "Polynomial Features",
+      "extracted_text": "Polynomial Features\nDesign Matrix\n𝑦\n𝑥1 \n44\n-4\n27\n-3\n5\n-1\n0\n0\n2\n2\n5\n2.5\n9\n3\n35\n5",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0048.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:49",
+      "slide_number": 49,
+      "title_guess": "Non-linear Data",
+      "extracted_text": "Non-linear Data\nPolynomial feature map \nfor linear classification\nhttps://www.youtube.com/watch?v=3liCbRZPrZA",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0049.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:50",
+      "slide_number": 50,
+      "title_guess": "Feature Maps",
+      "extracted_text": "Feature Maps\nTwo ways to think about it",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0050.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:51",
+      "slide_number": 51,
+      "title_guess": "Overfitting: Symptoms",
+      "extracted_text": "Overfitting: Symptoms\n68\nSlide credit: CMU MLD William Cohen",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0051.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:52",
+      "slide_number": 52,
+      "title_guess": "Overfitting: Symptoms",
+      "extracted_text": "Overfitting: Symptoms\n69\nSlide credit: CMU MLD William Cohen",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0052.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:53",
+      "slide_number": 53,
+      "title_guess": "Overfitting: Fix?",
+      "extracted_text": "Overfitting: Fix?\n70\nx\ny\nGoal: Learn y = wT f(x) + b\nwhere f(.) is a polynomial \nbasis function\ni\ny\nx\n…\nx9\n1\n2.0\n1.2\n…\n(1.2)9\n2\n1.3\n1.7\n…\n(1.7)9\n…\n…\n…\n…\n…\n10\n1.1\n1.9\n…\n(1.9)9\nSlide credit: CMU MLD Matt Gormley\nN = 10 points we overfit!\nN = 10 points we overfit!",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0053.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:54",
+      "slide_number": 54,
+      "title_guess": "Overfitting: More training data!",
+      "extracted_text": "Overfitting: More training data!\n71\nx\ny\nGoal: Learn y = wT f(x) + b\nwhere f(.) is a polynomial \nbasis function\ntrue “unknown” \ntarget function is \nlinear with \nnegative slope \nand gaussian \nnoise\ni\ny\nx\n…\nx9\n1\n2.0\n1.2\n…\n(1.2)9\n2\n1.3\n1.7\n…\n(1.7)9\n3\n0.1\n2.7\n…\n(2.7)9\n4\n1.1\n1.9\n…\n(1.9)9\n…\n…\n…\n…\n…\n…\n…\n…\n…\n…\n…\n…\n…\n…\n…\n98\n…\n…\n…\n…\n99\n…\n…\n…\n…\n100\n0.9\n1.5\n…\n(1.5)9\nSlide credit: CMU MLD Matt Gormley\nN = 10 points we overfit!\nN = 100 points, the overfitting \n(mostly) disappears\nTakeaway:\nMore data helps prevent overfitting\nN = 10 points we overfit!\nN = 100 points, the overfitting \n(mostly) disappears\nTakeaway:\nMore data helps prevent overfitting",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0054.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:55",
+      "slide_number": 55,
+      "title_guess": "REGULARIZATION",
+      "extracted_text": "REGULARIZATION\n74",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0055.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:56",
+      "slide_number": 56,
+      "title_guess": "Overfitting",
+      "extracted_text": "Overfitting\nDefinition: The problem of overfitting is when the model \ncaptures the noise in the training data instead of the \nunderlying structure \nOverfitting can occur in all the models we’ve seen so far: \n– Decision Trees (e.g. when tree is too deep)\n– KNN (e.g. when k is small)\n– Perceptron (e.g. when sample isn’t representative)\n– Linear Regression (e.g. with nonlinear features)\n– Logistic Regression (e.g. with many rare features)\n75",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0056.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:57",
+      "slide_number": 57,
+      "title_guess": "Poll 2",
+      "extracted_text": "Poll 2\nWhich is model do you prefer, assuming both have zero training error?\nModel structure (for both models):\nℎ𝜽𝑥= 𝜃0 + 𝜃1𝑥+ 𝜃2𝑥2 +𝜃3𝑥3 + 𝜃4𝑥4 +𝜃5𝑥5 +𝜃6𝑥6 +𝜃7𝑥7 +𝜃8𝑥8\nModel parameters:\n𝜽= 𝜃0,  𝜃1,  𝜃2,  𝜃3,  𝜃4,  𝜃5,  𝜃6,  𝜃7,  𝜃8 𝑇 \nA. 𝜽𝐴=\n[−190.0, −135.0, 310.0, 45.0, −62.0,  90.0, −82.0, −40.0, 29.0]𝑇\nB. 𝜽𝐵=\n[ 25.5,  \n−6.4,  \n−0.8,  0.0,  6.6,  −4.4,  0.2,  −2.9,  0.1]𝑇",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0057.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:58",
+      "slide_number": 58,
+      "title_guess": "Poll 2",
+      "extracted_text": "Poll 2\nWhich is model do you prefer, assuming both have zero training error?\nModel structure (for both models):\nℎ𝜽𝑥= 𝜃0 + 𝜃1𝑥+ 𝜃2𝑥2 +𝜃3𝑥3 + 𝜃4𝑥4 +𝜃5𝑥5 +𝜃6𝑥6 +𝜃7𝑥7 +𝜃8𝑥8\nModel parameters:\n𝜽= 𝜃0,  𝜃1,  𝜃2,  𝜃3,  𝜃4,  𝜃5,  𝜃6,  𝜃7,  𝜃8 𝑇 \nA.\n𝜽𝐴= [−190.0, −135.0, 310.0, 45.0, −62.0,  90.0, −82.0, −40.0, 29.0]𝑇\nB.\n𝜽𝐵= [ 25.5,  \n−6.4,  \n−0.8,  0.0,  6.6,  −4.4,  0.2,  −2.9,  0.1]𝑇",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0058.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:59",
+      "slide_number": 59,
+      "title_guess": "Motivation: Regularization",
+      "extracted_text": "Motivation: Regularization\n• Occam’s Razor: prefer the simplest hypothesis\n• What does it mean for a hypothesis (or model) to be simple?\n1.\nsmall number of features (model selection)\n2. small number of “important” features (shrinkage)\n78",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0059.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:60",
+      "slide_number": 60,
+      "title_guess": "Regularization",
+      "extracted_text": "Regularization\nKey idea:\nDefine regularizer 𝑟(𝜽) that we will add to our minimization objective \nto keep the model simple.\n𝑟(𝜽) should be:\n▪\nSmall for a simple model\n▪\nLarge for a complex model\nL2 norm: square-root of sum of squares\nL1 norm: sum of absolute values\nL0 norm: count of non-zero values",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0060.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:61",
+      "slide_number": 61,
+      "title_guess": "Regularization",
+      "extracted_text": "Regularization\n𝜽𝐴= [6, 3, −4, −2]𝑇 \n𝜽𝐵= [0, 3, −4,  0]𝑇 \n𝜽2",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0061.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:62",
+      "slide_number": 62,
+      "title_guess": "Poll 3",
+      "extracted_text": "Poll 3\nWhich model do you prefer?\n𝜽𝐴= [−190.0, −135.0, 310.0, 45.0]𝑇  Training error: 0.0\n𝜽𝐵= [ \n0.0,  \n0.0,  \n0.0,  0.0]𝑇  Training error: 34.2",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0062.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:63",
+      "slide_number": 63,
+      "title_guess": "Poll 4",
+      "extracted_text": "Poll 4\nNotebook demo: regression_regularization.ipynb on piazza\nWhat is the best value for lambda?",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0063.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:64",
+      "slide_number": 64,
+      "title_guess": "Poll 4",
+      "extracted_text": "Poll 4\nNotebook demo: regression_regularization.ipynb on piazza\nWhat is the best value for lambda?",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0064.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:65",
+      "slide_number": 65,
+      "title_guess": "Regularization",
+      "extracted_text": "Regularization\nGiven objective function: 𝐽(𝜃)\nGoal is to find:\nKey idea: Define regularizer 𝑟(𝜽) s.t. we tradeoff between fitting the \ndata and keeping the model simple\nChoose form of 𝑟(𝜽):\nL2 norm: square-root of sum of squares\nL1 norm: sum of absolute values\nL0 norm: count of non-zero values\n84\nSlide credit: CMU MLD Matt Gormley\nNotes\n→ Small-valued parameters\n→ Zero-valued parameters\n→ Zero-values but hard to optimize",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0065.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:66",
+      "slide_number": 66,
+      "title_guess": "Regularization Examples",
+      "extracted_text": "Regularization Examples\n85\nAdd an L1 regularizer to Linear Regression (aka. LASSO)\nAdd an L2 regularizer to Linear Regression (aka. Ridge Regression)",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0066.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:67",
+      "slide_number": 67,
+      "title_guess": "Regularization Examples",
+      "extracted_text": "Regularization Examples\n86\nAdd an L1 regularizer to Logistic Regression\nAdd an L2 regularizer to Logistic Regression",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0067.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:68",
+      "slide_number": 68,
+      "title_guess": "Regularization",
+      "extracted_text": "Regularization\n87\nPoll Question:\nSuppose we are minimizing J’(θ) where\nAs λ increases, the minimum of J’(θ) \nwill…\nA.\n…move towards the midpoint \nbetween J(θ) and r(θ)\nB.\n…move towards the minimum of J(θ) \nC.\n…move towards the minimum of r(θ)\nD.\n…move towards a theta vector of \npositive infinities\nE.\n…move towards a theta vector of \nnegative infinities\nF.\n…stay the same\nPoll Question:\nSuppose we are minimizing J’(θ) where\nAs λ increases, the minimum of J’(θ) \nwill…\nA.\n…move towards the midpoint \nbetween J(θ) and r(θ)\nB.\n…move towards the minimum of J(θ) \nC.\n…move towards the minimum of r(θ)\nD.\n…move towards a theta vector of \npositive infinities\nE.\n…move towards a theta vector of \nnegative infinities\nF.\n…stay the same",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0068.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:69",
+      "slide_number": 69,
+      "title_guess": "Regularization",
+      "extracted_text": "Regularization\n88\nDon’t Regularize the Bias (Intercept) Parameter!\n• In our models so far, the bias / intercept parameter is \nusually denoted by 𝜃0 -- that is, the parameter for which \nwe fixed 𝑥0 = 1 \n• Regularizers always avoid penalizing this bias / intercept \nparameter\n• Why? Because otherwise the learning algorithms wouldn’t \nbe invariant to a shift in the y-values\nStandardizing Data\n• It’s common to standardize each feature by subtracting its \nmean and dividing by its standard deviation\n• For regularization, this helps all the features be penalized \nin the same units \n(e.g. convert both centimeters and kilometers to z-scores)\nDon’t Regularize the Bias (Intercept) Parameter!\n• In our models so far, the bias / intercept parameter is \nusually denoted by 𝜃0 -- that is, the parameter for which \nwe fixed 𝑥0 = 1 \n• Regularizers always avoid penalizing this bias / intercept \nparameter\n• Why? Because otherwise the learning algorithms wouldn’t \nbe invariant to a shift in the y-values\nStandardizing Data\n• It’s common to standardize each feature by subtracting its \nmean and dividing by its standard deviation\n• For regularization, this helps all the features be penalized \nin the same units \n(e.g. convert both centimeters and kilometers to z-scores)",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0069.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:70",
+      "slide_number": 70,
+      "title_guess": "REGULARIZATION EXAMPLE:",
+      "extracted_text": "REGULARIZATION EXAMPLE: \nLOGISTIC REGRESSION\n89",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0070.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:71",
+      "slide_number": 71,
+      "title_guess": "Logistic Regression with Nonlinear Features",
+      "extracted_text": "Logistic Regression with Nonlinear Features\nJupyter notebook demo: quadratic_logistic.ipynb\n90",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0071.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:72",
+      "slide_number": 72,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n•\nFor this example, we \nconstruct nonlinear features \n(i.e. feature engineering)\n•\nSpecifically, we add \npolynomials up to order 9 of \nthe two original features x1 \nand x2\n•\nThus our classifier is linear in \nthe high-dimensional \nfeature space, but the \ndecision boundary is \nnonlinear when visualized in \nlow-dimensions (i.e. the \noriginal two dimensions)\n91\nTraining \nData\nTest\nData",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0072.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:73",
+      "slide_number": 73,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n92",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0073.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:74",
+      "slide_number": 74,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n93",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0074.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:75",
+      "slide_number": 75,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n94",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0075.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:76",
+      "slide_number": 76,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n95",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0076.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:77",
+      "slide_number": 77,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n96",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0077.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:78",
+      "slide_number": 78,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n97",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0078.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:79",
+      "slide_number": 79,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n98",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0079.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:80",
+      "slide_number": 80,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n99",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0080.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:81",
+      "slide_number": 81,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n100",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0081.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:82",
+      "slide_number": 82,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n101",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0082.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:83",
+      "slide_number": 83,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n102",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0083.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:84",
+      "slide_number": 84,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n103",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0084.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:85",
+      "slide_number": 85,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n104",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0085.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:86",
+      "slide_number": 86,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n105\nlambda\nerror",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0086.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:87",
+      "slide_number": 87,
+      "title_guess": "Takeaways",
+      "extracted_text": "Takeaways\n1. Nonlinear basis functions allow linear models (e.g. Linear \nRegression, Logistic Regression) to capture nonlinear \naspects of the original input\n2. Nonlinear features are require no changes to the model \n(i.e. just preprocessing)\n3. Regularization helps to avoid overfitting\n106",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0087.png"
+    },
+    {
+      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:88",
+      "slide_number": 88,
+      "title_guess": "Feature Engineering / Regularization Objectives",
+      "extracted_text": "Feature Engineering / Regularization Objectives\nYou should be able to…\n• Engineer appropriate features for a new task\n• Use feature selection techniques to identify and remove \nirrelevant features\n• Identify when a model is overfitting\n• Add a regularizer to an existing objective in order to combat \noverfitting\n• Explain why we should not regularize the bias term\n• Convert linearly inseparable dataset to a linearly separable \ndataset in higher dimensions\n• Describe feature engineering in common application areas\n107",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_0d4cf2e5271346b2afc8b1a4422e6a0e\\previews\\slide-0088.png"
+    }
+  ]
+}

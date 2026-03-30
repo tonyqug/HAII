@@ -1,0 +1,587 @@
+{
+  "material_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7",
+  "workspace_id": "workspace_538aaf9f4515",
+  "exported_at": "2026-03-30T01:59:24+00:00",
+  "material": {
+    "page_count": 57,
+    "slide_count": 57,
+    "ready_for_retrieval": true,
+    "previews_available": true,
+    "quality_overall": "medium",
+    "quality_notes": "5 slide(s) had limited or noisy extraction.",
+    "extraction_notes": "PDF text was extracted with PyMuPDF page parsing. No OCR text was fabricated.",
+    "converted_pdf_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\source\\lecture9-logreg.pdf"
+  },
+  "slides": [
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:1",
+      "slide_number": 1,
+      "title_guess": "Stochastic Gradient Descent",
+      "extracted_text": "Stochastic Gradient Descent\n+\nBinary Logistic Regression\n1\n10-301/10-601 Introduction to Machine Learning\nMatt Gormley\nLecture 9\nFeb. 9, 2026\nMachine Learning Department\nSchool of Computer Science\nCarnegie Mellon University",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0001.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:2",
+      "slide_number": 2,
+      "title_guess": "Reminders",
+      "extracted_text": "Reminders\n• Homework 3: KNN, Perceptron, Lin.Reg.\n– Out: Mon Feb-02\n– Due: Mon Feb-09 at 11:59pm \n• Practice Problems 1 \n– released on course website\n• Exam 1: Mon, Feb. 16\n– Time: 7:00 – 9:00pm\n– Location: Your room/seat assignment will be announced on Piazza\n5",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0002.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:3",
+      "slide_number": 3,
+      "title_guess": "OPTIMIZATION METHOD #4:",
+      "extracted_text": "OPTIMIZATION METHOD #4:\nSTOCHASTIC GRADIENT DESCENT\n7",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0003.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:4",
+      "slide_number": 4,
+      "title_guess": "Algorithm 1 Gradient Descent",
+      "extracted_text": "Algorithm 1 Gradient Descent\n1: procedure GD(D, θ(0))\n2:\nθ ←θ(0)\n3:\nwhile not converged do\n4:\nθ ←θ −γ∇J(θ)\n5:\nreturn θ\nGradient Descent\n8\nper-example objective:\noriginal objective:\nJ(i)(θ)\nJ(θ) = 1\nN\nN\n!\ni=1\nJ(i)(θ)",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0004.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:5",
+      "slide_number": 5,
+      "title_guess": "Stochastic Gradient Descent (SGD)",
+      "extracted_text": "Stochastic Gradient Descent (SGD)\n9\nAlgorithm 2 Stochastic Gradient Descent (SGD)\n1: procedure SGD(D, θ(0))\n2:\nθ ←θ(0)\n3:\nwhile not converged do\n4:\ni ∼Uniform({1, 2, . . . , N})\n5:\nθ ←θ −γ∇θJ(i)(θ)\n6:\nreturn θ\nper-example objective:\noriginal objective:\nJ(i)(θ)\nJ(θ) = 1\nN\nN\n!\ni=1\nJ(i)(θ)",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0005.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:6",
+      "slide_number": 6,
+      "title_guess": "Stochastic Gradient Descent (SGD)",
+      "extracted_text": "Stochastic Gradient Descent (SGD)\n10\nAlgorithm 2 Stochastic Gradient Descent (SGD)\n1: procedure SGD(D, θ(0))\n2:\nθ ←θ(0)\n3:\nwhile not converged do\n4:\nfor i ∈shufÒe({1, 2, . . . , N}) do\n5:\nθ ←θ −γ∇θJ(i)(θ)\n6:\nreturn θ\nIn practice, it is common to \nimplement SGD using sampling \nwithout replacement (i.e. \nshuffle({1,2,…N}), even though most \nof the theory is for sampling with \nreplacement (i.e. Uniform({1,2,…N}).\nper-example objective:\noriginal objective:\nJ(i)(θ)\nJ(θ) = 1\nN\nN\n!\ni=1\nJ(i)(θ)",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0006.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:7",
+      "slide_number": 7,
+      "title_guess": "Why does SGD work?",
+      "extracted_text": "Why does SGD work?\nBackground: Expectation of a function \nof a random variable\nFor any discrete random variable X \n𝐸! 𝑓(𝑋) = '\n\" ∈ 𝒳\n𝑃𝑋= 𝑥𝑓(𝑥)\nExpectation of a Stochastic Gradient:\n•\nIf the example is sampled uniformly at random, the expected value of \nthe pointwise gradient is the same as the full gradient!\n𝐸∇𝜽𝐽' 𝜽\n= '\n'()\n*\nprobability of selecting 𝒙' , 𝑦'\n∇𝜽𝐽' 𝜽\n𝐸∇𝜽𝐽' 𝜽\n= '\n'()\n*\n1\n𝑁∇𝜽𝐽' 𝜽\n𝐸∇𝜽𝐽' 𝜽\n = 1\n𝑁'\n'()\n*\n∇𝜽𝐽' 𝜽\n𝐸∇𝜽𝐽' 𝜽\n = ∇𝜽𝐽𝜽\n•\nIn practice, the data set is randomly shuffled then looped through so \nthat each data point is used equally often\n11\nObjective Function for SGD\nWe assume the form to be:\n𝐽𝜽= 1\n𝑁'\n'()\n*\n𝐽' 𝜽",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0007.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:8",
+      "slide_number": 8,
+      "title_guess": "Why does SGD work?",
+      "extracted_text": "Why does SGD work?\n13",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0008.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:9",
+      "slide_number": 9,
+      "title_guess": null,
+      "extracted_text": "14",
+      "extraction_quality": "low",
+      "quality_notes": "No readable text was extracted from this page.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0009.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:10",
+      "slide_number": 10,
+      "title_guess": null,
+      "extracted_text": "15\nv",
+      "extraction_quality": "low",
+      "quality_notes": "No readable text was extracted from this page.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0010.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:11",
+      "slide_number": 11,
+      "title_guess": "SGD VS. GRADIENT DESCENT",
+      "extracted_text": "SGD VS. GRADIENT DESCENT\n21",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0011.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:12",
+      "slide_number": 12,
+      "title_guess": "SGD vs. Gradient Descent",
+      "extracted_text": "SGD vs. Gradient Descent\n22\nGradient Descent\nStochastic Gradient Descent",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0012.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:13",
+      "slide_number": 13,
+      "title_guess": "• SGD reduces MSE",
+      "extracted_text": "• SGD reduces MSE \nmuch more rapidly \nthan GD\n• For GD / SGD, training \nMSE is initially large \ndue to uninformed \ninitialization\n23\nGradient Descent\nSGD\nClosed-form \n(normal eq.s)\n• Def: an epoch is a \nsingle pass through \nthe training data\n1.\nFor GD, only one \nupdate per epoch\n2. For SGD, N updates \nper epoch \nN = (# train examples) \nMean Squared Error (Train)\nEpochs\nLog-log scale plot\nSGD vs. Gradient Descent\n• Empirical comparison:",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0013.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:14",
+      "slide_number": 14,
+      "title_guess": "SGD vs. Gradient Descent",
+      "extracted_text": "SGD vs. Gradient Descent\n• Theoretical comparison:\n24\nMethod\nSteps to \nConvergence\nComputation \nper Step\nGradient descent\n𝑂log C\n1 𝜖\n𝑂𝑁𝑀\nSGD\n𝑂\nC\n1 𝜖\n𝑂𝑀\n(with high probability under certain assumptions)\nDefine convergence to be when 𝐽𝜽𝒕\n−𝐽𝜽∗< 𝜖\nMain Takeaway: SGD has much slower asymptotic convergence \n(i.e. it’s slower in theory), but  is often much faster in practice.",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0014.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:15",
+      "slide_number": 15,
+      "title_guess": "SGD FOR",
+      "extracted_text": "SGD FOR\nLINEAR REGRESSION\n25",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0015.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:16",
+      "slide_number": 16,
+      "title_guess": "Linear Regression as Function Approximation",
+      "extracted_text": "Linear Regression as Function Approximation\n26",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0016.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:17",
+      "slide_number": 17,
+      "title_guess": "Gradient Calculation for Linear Regression",
+      "extracted_text": "Gradient Calculation for Linear Regression\n27\n[used by SGD]\nGradient of J(θ)\n∇θJ(θ) =\n\n\nd\ndθ1 J(θ)\nd\ndθ2 J(θ)\n...\nd\ndθM J(θ)\n\n=\n\n\n1\nN\n'N\ni=1(θT x(i) −y(i))x(i)\n1\n1\nN\n'N\ni=1(θT x(i) −y(i))x(i)\n2\n1\nN\n...\n1\nN\n'N\ni=1(θT x(i) −y(i))x(i)\nM\n\n\n= 1\nN\nN\n(\ni=1\n(θT x(i) −y(i))x(i)\n[used by Gradient Descent]\nDerivative of J(θ):\nd\ndθk\nJ(θ) = 1\nN\nN\n!\ni=1\nd\ndθk\nJ(i)(θ)\n= 1\nN\nN\n!\ni=1\n(θT x(i) −y(i))x(i)\nk",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0017.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:18",
+      "slide_number": 18,
+      "title_guess": "SGD for Linear Regression",
+      "extracted_text": "SGD for Linear Regression\nSGD applied to Linear Regression is called the “Least \nMean Squares” algorithm\n28",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0018.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:19",
+      "slide_number": 19,
+      "title_guess": "GD for Linear Regression",
+      "extracted_text": "GD for Linear Regression\nGradient Descent for Linear Regression repeatedly takes \nsteps opposite the gradient of the objective function\n29\nAlgorithm 1 GD for Linear Regression\n1: procedure GDLR(D, θ(0))\n2:\nθ ←θ(0)\n▷Initialize parameters\n3:\nwhile not converged do\n4:\ng ←1\nN\n!N\ni=1(θT x(i) −y(i))x(i)\n▷Compute gradient\n5:\nθ ←θ −γg\n▷Update parameters\n6:\nreturn θ",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0019.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:20",
+      "slide_number": 20,
+      "title_guess": "Answer:",
+      "extracted_text": "Answer:\nSolving Linear Regression\n30\nPoll Question 1:",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0020.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:21",
+      "slide_number": 21,
+      "title_guess": "Optimization Objectives",
+      "extracted_text": "Optimization Objectives\nYou should be able to…\n• Apply gradient descent to optimize a function\n• Apply stochastic gradient descent (SGD) to optimize a \nfunction\n• Apply knowledge of zero derivatives to identify a closed-\nform solution (if one exists) to an optimization problem\n• Distinguish between convex, concave, and nonconvex \nfunctions\n• Obtain the gradient (and Hessian) of a (twice) differentiable \nfunction\n32",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0021.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:22",
+      "slide_number": 22,
+      "title_guess": "MAXIMUM LIKELIHOOD ESTIMATION",
+      "extracted_text": "MAXIMUM LIKELIHOOD ESTIMATION\n33",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0022.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:23",
+      "slide_number": 23,
+      "title_guess": "Probabilistic Learning",
+      "extracted_text": "Probabilistic Learning\nFunction Approximation\nPreviously, we assumed that our output \nwas generated using a deterministic \ntarget function:\nOur goal was to learn a hypothesis h(x) \nthat best approximates c*(x)\nProbabilistic Learning\nToday, we assume that our output is \nsampled from a conditional probability \ndistribution:\nOur goal is to learn a probability \ndistribution p(y|x) that best \napproximates p*(y|x)\n34",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0023.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:24",
+      "slide_number": 24,
+      "title_guess": "Likelihood Function",
+      "extracted_text": "Likelihood Function\nGiven N independent, identically distributed (iid) samples           D = \n{x(1), x(2), …, x(N)} from a discrete random variable X with probability \nmass function (pmf) p(x|θ) …\n• Case 1: The likelihood function\n  \nL(θ) = p(x(1)|θ) p(x(2)|θ) … p(x(N)|θ)\n• Case 2: The log-likelihood function is\n  \nl(θ) = log p(x(1)|θ) + … + log p(x(N)|θ)\n36\nThe likelihood tells us \nhow likely one sample is \nrelative to another\nOne R.V.",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0024.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:25",
+      "slide_number": 25,
+      "title_guess": "Likelihood Function",
+      "extracted_text": "Likelihood Function\n37\nTwo R.V.s\nGiven N iid samples D = {(x(1), y(1)), …, (x(N), y(N))} from a pair of \nrandom variables X, Y where Y is discrete with probability \nmass function (pmf)  p(y | x, θ)\n• Case 3: The conditional likelihood function:\n  \nL(θ) = p(y(1) | x(1), θ) …p(y(N) | x(N), θ) \n• Case 4: The conditional log-likelihood function is\n  \nl(θ) = log p(y(1) | x(1), θ) + … + log p(y(N) | x(N), θ)",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0025.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:26",
+      "slide_number": 26,
+      "title_guess": "MLE",
+      "extracted_text": "MLE\n38\nSuppose we have data D = {x(i)}N\ni=1\nPrinciple of Maximum Likelihood Estimation:\nChoose the parameters that maximize the likelihood \nof the data.\nθMLE = \u001c`;K\u001ct\nθ\nN\n!\ni=1\np(t(i)|θ)\nMaximum Likelihood Estimate (MLE)\nL(θ)\nθMLE\nθMLE\nθ2\nθ1\nL(θ1, θ2)",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0026.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:27",
+      "slide_number": 27,
+      "title_guess": "MLE",
+      "extracted_text": "MLE\n39\nPrinciple of Maximum Likelihood Estimation:\nChoose the parameters that maximize the conditional likelihood \nof the data.\nMaximum Likelihood Estimate (MLE)\nL(θ)\nθMLE\nθMLE\nθ2\nθ1\nL(θ1, θ2)\nθMLE = argmax\nθ\nN\n!\ni=1\np(y(i) | x(i), θ)\nSuppose we have data D = {(y(i), x(i))}N\ni=1",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0027.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:28",
+      "slide_number": 28,
+      "title_guess": "MLE",
+      "extracted_text": "MLE\n40\n Principle of Maximum Likelihood Estimation:\nChoose the parameters that maximize the conditional log-likelihood \nof the data.\nθMLE = argmax\nθ\nN\n!\ni=1\np(y(i) | x(i), θ)\n= argmax\nθ\nN\n\"\ni=1\nlog p(y(i) | x(i), θ)\nSuppose we have data D = {(y(i), x(i))}N\ni=1",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0028.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:29",
+      "slide_number": 29,
+      "title_guess": "MLE",
+      "extracted_text": "MLE\n41\n Principle of Maximum Likelihood Estimation:\nChoose the parameters that minimize the negative conditional log-\nlikelihood of the data.\nθMLE = argmax\nθ\nN\n!\ni=1\np(y(i) | x(i), θ)\n= argmax\nθ\nN\n\"\ni=1\nlog p(y(i) | x(i), θ)\n= argmin\nθ\n−\nN\n\"\ni=1\nlog p(y(i) | x(i), θ)\nSuppose we have data D = {(y(i), x(i))}N\ni=1",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0029.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:30",
+      "slide_number": 30,
+      "title_guess": "MLE",
+      "extracted_text": "MLE\nWhat does maximizing likelihood accomplish?\n• There is only a finite amount of probability mass (i.e. sum-to-\none constraint)\n• MLE tries to allocate as much probability mass as possible to \nthe things we have observed…\n…at the expense of the things we have not observed\n42",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0030.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:31",
+      "slide_number": 31,
+      "title_guess": "LOGISTIC REGRESSION",
+      "extracted_text": "LOGISTIC REGRESSION\n43",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0031.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:32",
+      "slide_number": 32,
+      "title_guess": "Key idea: Try to learn",
+      "extracted_text": "Key idea: Try to learn \nthis hyperplane directly\nLinear Models for Classification\nDirectly modeling the \nhyperplane would use a \ndecision function:\nfor:\nh(t) = sign(θT t)\ny ∈{−1, +1}\nRecall…",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0032.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:33",
+      "slide_number": 33,
+      "title_guess": "Background: Hyperplanes",
+      "extracted_text": "Background: Hyperplanes\nw\nHalf-spaces: \nNotation Trick: fold the \nbias b and the weights w \ninto a single vector θ by \nprepending a constant to \nx and increasing \ndimensionality by one to \nget x’!\n’\n’\n’\n1\n1\nHyperplane (Definition 1): \nH = {x : wT x + b = 0}\nHyperplane (Definition 2): \n1\nRecall…",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0033.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:34",
+      "slide_number": 34,
+      "title_guess": "Using gradient descent for linear classifiers",
+      "extracted_text": "Using gradient descent for linear classifiers\nKey idea behind today’s lecture:\n1.\nDefine a linear classifier (logistic regression)\n2. Define an objective function (likelihood)\n3. Optimize it with gradient descent to learn parameters\n4. Predict the class with highest probability under the model\n46",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0034.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:35",
+      "slide_number": 35,
+      "title_guess": "Logistic Regression",
+      "extracted_text": "Logistic Regression\n47\nWe are back to \nclassification.\nDespite the name \nlogistic regression.\nData: Inputs are continuous vectors of length M. Outputs \nare discrete.",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0035.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:36",
+      "slide_number": 36,
+      "title_guess": "sign(·) vs. sigmoid(·)",
+      "extracted_text": "sign(·) vs. sigmoid(·)\n48\nsign(u)\nh(t) = sign(θT t)\n-1 \n1 \nSuppose we wanted to learn a linear classifier, but instead of \npredicting y ∈ {-1,+1} we wanted to predict y ∈ {0,1}",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0036.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:37",
+      "slide_number": 37,
+      "title_guess": "sign(·) vs. sigmoid(·)",
+      "extracted_text": "sign(·) vs. sigmoid(·)\n49\n“sign”(u)\n0\n1 \nSuppose we wanted to learn a linear classifier, but instead of \npredicting y ∈ {-1,+1} we wanted to predict y ∈ {0,1}\nGoal: Learn a linear \nclassifier with \nGradient Descent",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0037.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:38",
+      "slide_number": 38,
+      "title_guess": "sign(·) vs. sigmoid(·)",
+      "extracted_text": "sign(·) vs. sigmoid(·)\n50\nUse a differentiable \nfunction instead!\nlogistic(u) ≡\n1\n1+e−u\npθ(y = 1|t) =\n1\n1 + 2tT(−θT t)\nBut this decision function \nisn’t differentiable…\n“sign”(u)\n1 \n0\nThe logistic \nfunction is also \ncalled the \nsigmoid \nfunction.",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0038.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:39",
+      "slide_number": 39,
+      "title_guess": "sign(·) vs. sigmoid(·)",
+      "extracted_text": "sign(·) vs. sigmoid(·)\n51\nUse a differentiable \nfunction instead!\nlogistic(u) ≡\n1\n1+e−u\npθ(y = 1|t) =\n1\n1 + 2tT(−θT t)\nBut this decision function \nisn’t differentiable…\n“sign”(u)\n1 \n0\nThe logistic \nfunction is also \ncalled the \nsigmoid \nfunction.",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0039.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:40",
+      "slide_number": 40,
+      "title_guess": "Logistic Regression",
+      "extracted_text": "Logistic Regression\n53\nLearning: finds the parameters that minimize some \nobjective function. θ∗= argmin\nθ\nJ(θ)\nPrediction: Output is the most probable class.\nˆy = \u001c`;K\u001ct\ny∈{0,1}\npθ(y|t)\nModel: Logistic function applied to dot product of \nparameters with input vector.\npθ(y = 1|t) =\n1\n1 + 2tT(−θT t)\nData: Inputs are continuous vectors of length M. Outputs \nare discrete.",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0040.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:41",
+      "slide_number": 41,
+      "title_guess": "Learning Logistic Regression",
+      "extracted_text": "Learning Logistic Regression\n54\nLearning: Four approaches to solving \nApproach 0: Random Search\n(horridly slow because it lacks gradient information)\nApproach 1: Gradient Descent\n(take large confident steps opposite the gradient)\nApproach 2: Stochastic Gradient Descent (SGD)\n(take many small steps roughly opposite the gradient)\nApproach 3: Closed Form\n(set derivatives equal to zero and solve for parameters)\nθ∗= argmin\nθ\nJ(θ)\nLogistic Regression does not \nhave a closed form solution \nfor MLE parameters.",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0041.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:42",
+      "slide_number": 42,
+      "title_guess": "Logistic Regression",
+      "extracted_text": "Logistic Regression\n1. Model\n2. Objective\n55",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0042.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:43",
+      "slide_number": 43,
+      "title_guess": "Logistic Regression",
+      "extracted_text": "Logistic Regression\n3A. Derivatives\n3B. Gradients\n56",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0043.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:44",
+      "slide_number": 44,
+      "title_guess": "Logistic Regression",
+      "extracted_text": "Logistic Regression\n4. Optimization\n5. Prediction\n57",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0044.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:45",
+      "slide_number": 45,
+      "title_guess": "SGD for Logistic Regression",
+      "extracted_text": "SGD for Logistic Regression\n61\nAlgorithm 1 SGD for Logistic Regression\n1: procedure SGD(D, θ(0))\n2:\nθ ←θ(0)\n▷Initialize parameters\n3:\nwhile not converged do\n4:\nfor i ∈shuƫe({1, 2, . . . , N}) do\n5:\ng ←(σ(θT x(i)) −y(i))x(i)\n▷Compute gradient\n6:\nwhere σ(c) := 1/(1 + exp(−c))\n7:\nθ ←θ −γg\n▷Update parameter\n8:\nreturn θ",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0045.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:46",
+      "slide_number": 46,
+      "title_guess": "Answer:",
+      "extracted_text": "Answer:\nA. O(M)\nB. O(N)\nC. O(M2)\nD. O(NM)\nE. O(N2)\nGradient Descent\n62\nPoll Question 2:\nHow computationally expensive is one \niteration of gradient descent for logistic \nregression?",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0046.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:47",
+      "slide_number": 47,
+      "title_guess": "Logistic Regression",
+      "extracted_text": "Logistic Regression\n63",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0047.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:48",
+      "slide_number": 48,
+      "title_guess": "Logistic Regression",
+      "extracted_text": "Logistic Regression\n64",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0048.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:49",
+      "slide_number": 49,
+      "title_guess": "Logistic Regression",
+      "extracted_text": "Logistic Regression\n66",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0049.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:50",
+      "slide_number": 50,
+      "title_guess": "Example: Image Classification",
+      "extracted_text": "Example: Image Classification\n• ImageNet LSVRC-2010 contest: \n– Dataset: 1.2 million labeled images, 1000 classes\n– Task: Given a new image, label it with the correct class\n– Multiclass classification problem\n• Examples from http://image-net.org/\n68",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0050.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:51",
+      "slide_number": 51,
+      "title_guess": null,
+      "extracted_text": "69",
+      "extraction_quality": "low",
+      "quality_notes": "No readable text was extracted from this page.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0051.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:52",
+      "slide_number": 52,
+      "title_guess": null,
+      "extracted_text": "70",
+      "extraction_quality": "low",
+      "quality_notes": "No readable text was extracted from this page.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0052.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:53",
+      "slide_number": 53,
+      "title_guess": null,
+      "extracted_text": "71",
+      "extraction_quality": "low",
+      "quality_notes": "No readable text was extracted from this page.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0053.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:54",
+      "slide_number": 54,
+      "title_guess": "Example: Image Classification",
+      "extracted_text": "Example: Image Classification\n72\nCNN for Image Classification\n(Krizhevsky, Sutskever & Hinton, 2011)\n17.5% error on ImageNet LSVRC-2010 contest\nInput \nimage \n(pixels)\n•\nFive convolutional layers \n(w/max-pooling)\n•\nThree fully connected layers\n1000-way \nsoftmax",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0054.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:55",
+      "slide_number": 55,
+      "title_guess": "Example: Image Classification",
+      "extracted_text": "Example: Image Classification\n73\nCNN for Image Classification\n(Krizhevsky, Sutskever & Hinton, 2011)\n17.5% error on ImageNet LSVRC-2010 contest\nInput \nimage \n(pixels)\n•\nFive convolutional layers \n(w/max-pooling)\n•\nThree fully connected layers\n1000-way \nsoftmax\nThis “softmax” \nlayer is Logistic \nRegression!\nThe rest is just \nsome fancy \nfeature extraction \n(discussed later in \nthe course)",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0055.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:56",
+      "slide_number": 56,
+      "title_guess": "SGD for Logistic Regression",
+      "extracted_text": "SGD for Logistic Regression\n74\nPoll Question 3: \nWhich of the following is a correct description of SGD for Logistic Regression?\nAnswer:\nAt each step (i.e. iteration) of SGD for Logistic Regression we…\nA.\n(1) compute the gradient of the log-likelihood for all examples (2) update all \nthe parameters using the gradient\nB.\n(1) ask your instructor for a description of SGD for Logistic Regression, (2) \nwrite it down, (3) report that answer\nC.\n(1) compute the gradient of the log-likelihood for all examples (2) randomly \npick an example (3) update only the parameters for that example\nD.\n(1) randomly pick a parameter, (2) compute the partial derivative of the log-\nlikelihood with respect to that parameter, (3) update that parameter for all \nexamples\nE.\n(1) randomly pick an example, (2) compute the gradient of the log-likelihood \nfor that example, (3) update all the parameters using that gradient\nF.\n(1) randomly pick a parameter and an example, (2) compute the gradient of \nthe log-likelihood for that example with respect to that parameter, (3) update \nthat parameter using that gradient",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0056.png"
+    },
+    {
+      "slide_id": "mat_2774a91c428b4e6fa56b7f2eaadd77f7:slide:57",
+      "slide_number": 57,
+      "title_guess": "Logistic Regression Objectives",
+      "extracted_text": "Logistic Regression Objectives\nYou should be able to…\n• Apply the principle of maximum likelihood estimation (MLE) to \nlearn the parameters of a probabilistic model\n• Given a discriminative probabilistic model, derive the conditional \nlog-likelihood, its gradient, and the corresponding Bayes \nClassifier\n• Explain the practical reasons why we work with the log of the \nlikelihood\n• Implement logistic regression for binary classification\n• Prove that the decision boundary of binary logistic regression is \nlinear\n75",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_2774a91c428b4e6fa56b7f2eaadd77f7\\previews\\slide-0057.png"
+    }
+  ]
+}

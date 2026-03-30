@@ -1,0 +1,997 @@
+{
+  "material_id": "mat_76087f1877f348c5847a6ca00d9959a5",
+  "workspace_id": "workspace_538aaf9f4515",
+  "exported_at": "2026-03-30T02:00:06+00:00",
+  "material": {
+    "page_count": 98,
+    "slide_count": 98,
+    "ready_for_retrieval": true,
+    "previews_available": true,
+    "quality_overall": "medium",
+    "quality_notes": null,
+    "extraction_notes": "PDF text was extracted with PyMuPDF page parsing. No OCR text was fabricated.",
+    "converted_pdf_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\source\\lecture11-nn.pdf"
+  },
+  "slides": [
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:1",
+      "slide_number": 1,
+      "title_guess": "Neural Networks",
+      "extracted_text": "Neural Networks\n1\n10-301/10-601 Introduction to Machine Learning\nMatt Gormley & Pat Virtue\nLecture 11\nFeb. 15, 2026\nMachine Learning Department\nSchool of Computer Science\nCarnegie Mellon University",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0001.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:2",
+      "slide_number": 2,
+      "title_guess": "Reminders",
+      "extracted_text": "Reminders\n• Exam 1: today, 7pm – 9pm, see Piazza for details\n• Homework 4: Logistic Regression\n– Out: Mon, Feb-16\n– Due: Wed, Feb-25 at 11:59pm\n5",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0002.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:3",
+      "slide_number": 3,
+      "title_guess": "REGULARIZATION",
+      "extracted_text": "REGULARIZATION\n9",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0003.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:4",
+      "slide_number": 4,
+      "title_guess": "Overfitting",
+      "extracted_text": "Overfitting\nDefinition: The problem of overfitting is when the model \ncaptures the noise in the training data instead of the \nunderlying structure \nOverfitting can occur in all the models we’ve seen so far: \n– Decision Trees (e.g. when tree is too deep)\n– KNN (e.g. when k is small)\n– Perceptron (e.g. when sample isn’t representative)\n– Linear Regression (e.g. with nonlinear features)\n– Logistic Regression (e.g. with many rare features)\n10",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0004.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:5",
+      "slide_number": 5,
+      "title_guess": "Poll (unused)",
+      "extracted_text": "Poll (unused)\nWhich is model do you prefer, assuming both have zero training error?\nModel structure (for both models):\nℎ! \" = $\" + $#\" + $$\"$ +$%\"% + $&\"& +$'\"' +$(\"( +$)\") +$*\"*\nModel parameters:\n& = $\",  $#,  $$,  $%,  $&,  $',  $(,  $),  $*\n+ \nA. &, =\n[−190.0, −135.0, 310.0, 45.0, −62.0,  90.0, −82.0, −40.0, 29.0]+\nB. &- =\n[ 25.5,  \n−6.4,  \n−0.8,  0.0,  6.6,  −4.4,  0.2,  −2.9,  0.1]+",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0005.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:6",
+      "slide_number": 6,
+      "title_guess": "Poll (unused)",
+      "extracted_text": "Poll (unused)\nWhich is model do you prefer, assuming both have zero training error?\nModel structure (for both models):\nℎ! \" = $\" + $#\" + $$\"$ +$%\"% + $&\"& +$'\"' +$(\"( +$)\") +$*\"*\nModel parameters:\n& = $\",  $#,  $$,  $%,  $&,  $',  $(,  $),  $* + \nA.\n&, = [−190.0, −135.0, 310.0, 45.0, −62.0,  90.0, −82.0, −40.0, 29.0]+\nB.\n&- = [ 25.5,  \n−6.4,  \n−0.8,  0.0,  6.6,  −4.4,  0.2,  −2.9,  0.1]+",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0006.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:7",
+      "slide_number": 7,
+      "title_guess": "Motivation: Regularization",
+      "extracted_text": "Motivation: Regularization\n• Occam’s Razor: prefer the simplest hypothesis\n• What does it mean for a hypothesis (or model) to be simple?\n1.\nsmall number of features (model selection)\n2. small number of “important” features (shrinkage)\n13",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0007.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:8",
+      "slide_number": 8,
+      "title_guess": "Regularization",
+      "extracted_text": "Regularization\nKey idea:\nDefine regularizer 8(&) that we will add to our minimization objective \nto keep the model simple.\n8(&) should be:\n§\nSmall for a simple model\n§\nLarge for a complex model\nL2 norm: square-root of sum of squares\nL1 norm: sum of absolute values\nL0 norm: count of non-zero values",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0008.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:9",
+      "slide_number": 9,
+      "title_guess": "Regularization",
+      "extracted_text": "Regularization\n&, = [6, 3, −4, −2]+ \n&- = [0, 3, −4,  0]+ \n& $",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0009.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:10",
+      "slide_number": 10,
+      "title_guess": "Poll (unused)",
+      "extracted_text": "Poll (unused)\nWhich model do you prefer?\n&, = [−190.0, −135.0, 310.0, 45.0]+  Training error: 0.0\n&- = [ \n0.0,  \n0.0,  \n0.0,  0.0]+  Training error: 34.2",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0010.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:11",
+      "slide_number": 11,
+      "title_guess": "Poll (unused)",
+      "extracted_text": "Poll (unused)\nNotebook demo: regression_regularization.ipynb on piazza\nWhat is the best value for lambda?",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0011.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:12",
+      "slide_number": 12,
+      "title_guess": "Poll (unused)",
+      "extracted_text": "Poll (unused)\nNotebook demo: regression_regularization.ipynb on piazza\nWhat is the best value for lambda?",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0012.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:13",
+      "slide_number": 13,
+      "title_guess": "Regularization",
+      "extracted_text": "Regularization\nGiven objective function: ;($)\nGoal is to find:\nKey idea: Define regularizer 8(&) s.t. we tradeoff between fitting the \ndata and keeping the model simple\nChoose form of 8(&):\nL2 norm: square-root of sum of squares\nL1 norm: sum of absolute values\nL0 norm: count of non-zero values\n19\nSlide credit: CMU MLD Matt Gormley\nNotes\nà Small-valued parameters\nà Zero-valued parameters\nà Zero-values but hard to optimize",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0013.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:14",
+      "slide_number": 14,
+      "title_guess": "Regularization Examples",
+      "extracted_text": "Regularization Examples\n20\nAdd an L1 regularizer to Linear Regression (aka. LASSO)\nAdd an L2 regularizer to Linear Regression (aka. Ridge Regression)",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0014.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:15",
+      "slide_number": 15,
+      "title_guess": "Regularization Examples",
+      "extracted_text": "Regularization Examples\n21\nAdd an L1 regularizer to Logistic Regression\nAdd an L2 regularizer to Logistic Regression",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0015.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:16",
+      "slide_number": 16,
+      "title_guess": "Regularization",
+      "extracted_text": "Regularization\nPractical tips:\n• Don’t regularize the bias term (only the weights)\n– Why? Allows model to be invariable a shift in the y-values\n• Standardize data (convert to z-scores)\n– For each feature: subtract the mean across the dataset and divide \nby the standard deviation\n– Why? For regularization, this helps all the features be penalized in \nthe same units (e.g. convert both centimeters and kilometers to z-\nscores)\n23",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0016.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:17",
+      "slide_number": 17,
+      "title_guess": "REGULARIZATION EXAMPLE:",
+      "extracted_text": "REGULARIZATION EXAMPLE: \nLOGISTIC REGRESSION\n25",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0017.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:18",
+      "slide_number": 18,
+      "title_guess": "Logistic Regression with Nonlinear Features",
+      "extracted_text": "Logistic Regression with Nonlinear Features\nJupyter notebook demo: quadratic_logistic.ipynb\n26",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0018.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:19",
+      "slide_number": 19,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n• Polynomials up to order 9 (!!) of \nthe two original features x1 and x2\n• Our classifier is linear in the high-\ndimensional feature space, but \nthe decision boundary is \nnonlinear when visualized in low-\ndimensions (i.e. the original two \ndimensions)\n27\nTraining Data\nTest Data\nTwo-class \nGaussian Data",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0019.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:20",
+      "slide_number": 20,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n28",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0020.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:21",
+      "slide_number": 21,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n29",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0021.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:22",
+      "slide_number": 22,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n30",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0022.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:23",
+      "slide_number": 23,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n31",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0023.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:24",
+      "slide_number": 24,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n32",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0024.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:25",
+      "slide_number": 25,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n33",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0025.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:26",
+      "slide_number": 26,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n34",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0026.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:27",
+      "slide_number": 27,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n35",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0027.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:28",
+      "slide_number": 28,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n36",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0028.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:29",
+      "slide_number": 29,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n37",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0029.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:30",
+      "slide_number": 30,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n38",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0030.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:31",
+      "slide_number": 31,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n39",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0031.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:32",
+      "slide_number": 32,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n40",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0032.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:33",
+      "slide_number": 33,
+      "title_guess": "Example: Logistic Regression",
+      "extracted_text": "Example: Logistic Regression\n41\nlambda\nerror",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0033.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:34",
+      "slide_number": 34,
+      "title_guess": "Takeaways",
+      "extracted_text": "Takeaways\n1. Nonlinear basis functions allow linear models (e.g. Linear \nRegression, Logistic Regression) to capture nonlinear \naspects of the original input\n2. Nonlinear features are require no changes to the model \n(i.e. just preprocessing)\n3. Regularization helps to avoid overfitting\n42",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0034.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:35",
+      "slide_number": 35,
+      "title_guess": "Feature Engineering / Regularization Objectives",
+      "extracted_text": "Feature Engineering / Regularization Objectives\nYou should be able to…\n• Engineer appropriate features for a new task\n• Use feature selection techniques to identify and remove \nirrelevant features\n• Identify when a model is overfitting\n• Add a regularizer to an existing objective in order to combat \noverfitting\n• Explain why we should not regularize the bias term\n• Convert linearly inseparable dataset to a linearly separable \ndataset in higher dimensions\n• Describe feature engineering in common application areas\n43",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0035.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:36",
+      "slide_number": 36,
+      "title_guess": "A RECIPE FOR ML",
+      "extracted_text": "A RECIPE FOR ML\n44",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0036.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:37",
+      "slide_number": 37,
+      "title_guess": "A Recipe for",
+      "extracted_text": "A Recipe for \nMachine Learning\n1. Given training data:\n45\n2. Choose each of these:\n– Decision function\n– Loss function\nFace\nFace\nNot a face\nExamples: Linear regression, \nLogistic regression, Neural Network\nExamples: Mean-squared error, \nCross Entropy\nD = {x(i), y(i)}N\ni=1\nˆy = hθ(x)\nℓ(ˆy, y) ∈R",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0037.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:38",
+      "slide_number": 38,
+      "title_guess": "A Recipe for",
+      "extracted_text": "A Recipe for \nMachine Learning\n3. Define goal:\n46\n4. Train with SGD:\n(take small steps \nopposite the gradient)\nˆθ ≈argmin\nθ\nN\n!\ni=1\nℓ(hθ(x(i)), y(i))\nθ(t+1) = θ(t) −ηt∇ℓ(hθ(x(i)), y(i))\n1. Given training data:\n2. Choose each of these:\n– Decision function\n– Loss function\nD = {x(i), y(i)}N\ni=1\nˆy = hθ(x)\nℓ(ˆy, y) ∈R",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0038.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:39",
+      "slide_number": 39,
+      "title_guess": "A Recipe for",
+      "extracted_text": "A Recipe for \nMachine Learning\n3. Define goal:\n47\n4. Train with SGD:\n(take small steps \nopposite the gradient)\nˆθ ≈argmin\nθ\nN\n!\ni=1\nℓ(hθ(x(i)), y(i))\nθ(t+1) = θ(t) −ηt∇ℓ(hθ(x(i)), y(i))\n1. Given training data:\n2. Choose each of these:\n– Decision function\n– Loss function\nD = {x(i), y(i)}N\ni=1\nˆy = hθ(x)\nℓ(ˆy, y) ∈R\nBackpropagation can compute this \ngradient! \nAnd it’s a special case of a more \ngeneral algorithm called reverse-\nmode automatic differentiation that \ncan compute the gradient of any \ndifferentiable function efficiently!",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0039.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:40",
+      "slide_number": 40,
+      "title_guess": "A Recipe for",
+      "extracted_text": "A Recipe for \nMachine Learning\n3. Define goal:\n48\n4. Train with SGD:\n(take small steps \nopposite the gradient)\nˆθ ≈argmin\nθ\nN\n!\ni=1\nℓ(hθ(x(i)), y(i))\nθ(t+1) = θ(t) −ηt∇ℓ(hθ(x(i)), y(i))\n1. Given training data:\n2. Choose each of these:\n– Decision function\n– Loss function\nD = {x(i), y(i)}N\ni=1\nˆy = hθ(x)\nℓ(ˆy, y) ∈R\nLet’s consider a new class of \ndecision functions: \n \n \n \nNeural Networks",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0040.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:41",
+      "slide_number": 41,
+      "title_guess": "Linear Regression",
+      "extracted_text": "Linear Regression\n49\nDecision Functions\n…\nOutput\nInput\nθ1\nθ2\nθ3\nθM\ny = hθ(x) = σ(θT x)\nwhere σ(a) = a\nIn this visual \nnotation, the \noutput unit is a \nnonlinear function \nof the sum of the \nproducts of each \nedge weight, with \neach input unit",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0041.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:42",
+      "slide_number": 42,
+      "title_guess": "Logistic Regression",
+      "extracted_text": "Logistic Regression\n50\nDecision Functions\ny = hθ(x) = σ(θT x)\nwhere σ(a) =\n1\n1 + 2tT(−a)\n…\nOutput\nInput\nθ1\nθ2\nθ3\nθM\nIn this visual \nnotation, the \noutput unit is a \nnonlinear function \nof the sum of the \nproducts of each \nedge weight, with \neach input unit",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0042.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:43",
+      "slide_number": 43,
+      "title_guess": "Perceptron",
+      "extracted_text": "Perceptron\n51\nDecision Functions\ny = hθ(x) = σ(θT x)\n…\nOutput\nInput\nθ1\nθ2\nθ3\nθM\nIn this visual \nnotation, the \noutput unit is a \nnonlinear function \nof the sum of the \nproducts of each \nedge weight, with \neach input unit",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0043.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:44",
+      "slide_number": 44,
+      "title_guess": "Neural Network",
+      "extracted_text": "Neural Network\n52\nDecision Functions\n…\n…\nOutput\nInput\nHidden Layer\nIn this visual \nnotation, the \noutput unit is a \nnonlinear function \nof the sum of the \nproducts of each \nedge weight, with \neach input unit",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0044.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:45",
+      "slide_number": 45,
+      "title_guess": "COMPONENTS OF A NEURAL NETWORK",
+      "extracted_text": "COMPONENTS OF A NEURAL NETWORK\n53",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0045.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:46",
+      "slide_number": 46,
+      "title_guess": "Neural Network",
+      "extracted_text": "Neural Network\n54\nDecision Functions\nOutput\nInput\nHidden Layer\n.1\n.3\n-.2\n-.4\n.5\n.8\n-.7\n.9\nWeights\nWeights\nSuppose we already learned \nthe weights of the neural \nnetwork.\nTo make a new prediction, we \ntake in some new features \n(aka. the input layer) and \nperform the feed-forward \ncomputation.",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0046.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:47",
+      "slide_number": 47,
+      "title_guess": "Neural Network",
+      "extracted_text": "Neural Network\n55\nDecision Functions\nOutput\nInput\nHidden Layer\n.1\n.3\n-.2\n-.4\n.5\n.8\n-.7\n.9\nWeights\nWeights\n.50 = 13(.1) + 2(.3) + 7(-.2)\n.62 = σ(.50)\nΣ = .50\nThe computation of each \nneural network unit resembles \nbinary logistic regression.",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0047.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:48",
+      "slide_number": 48,
+      "title_guess": "Neural Network",
+      "extracted_text": "Neural Network\n56\nDecision Functions\nOutput\nInput\nHidden Layer\n.1\n.3\n-.2\n-.4\n.5\n.8\n-.7\n.9\nWeights\nWeights\n1.4 = 13(-.4) + 2(.5) + 7(.8)\n.80 = σ(1.4)\nΣ = .50\nΣ = 1.4\nThe computation of each \nneural network unit resembles \nbinary logistic regression.",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0048.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:49",
+      "slide_number": 49,
+      "title_guess": "Neural Network",
+      "extracted_text": "Neural Network\n57\nDecision Functions\nOutput\nInput\nHidden Layer\n.1\n.3\n-.2\n-.4\n.5\n.8\n-.7\n.9\nWeights\nWeights\n.29 = .62(-.7) + .80(.9)\n.57 = σ(.29)\nΣ = .50\nΣ = 1.4\nΣ = .29\nThe computation of each \nneural network unit resembles \nbinary logistic regression.",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0049.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:50",
+      "slide_number": 50,
+      "title_guess": "Neural Network",
+      "extracted_text": "Neural Network\n58\nDecision Functions\nOutput\nInput\nHidden Layer\n.1\n.3\n-.2\n-.4\n.5\n.8\n-.7\n.9\nWeights\nWeights\n.50 = 13(.1) + 2(.3) + 7(-.2)\n.62 = σ(.50)\n1.4 = 13(-.4) + 2(.5) + 7(.8)\n.80 = σ(1.4)\n.29 = .62(-.7) + .80(.9)\n.57 = σ(.29)\nΣ = .50\nΣ = 1.4\nΣ = .29\nThe computation of each \nneural network unit resembles \nbinary logistic regression.",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0050.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:51",
+      "slide_number": 51,
+      "title_guess": "Neural Network",
+      "extracted_text": "Neural Network\n59\nDecision Functions\nOutput\nInput\nHidden Layer\n.1\n.3\n-.2\n-.4\n.5\n.8\n-.7\n.9\nWeights\nWeights\nΣ = .50\nΣ = 1.4\nΣ = .29\nThe computation of each \nneural network unit resembles \nbinary logistic regression.\nExcept we only have the \ntarget value for y at training \ntime! \nWe have to learn to create \n“useful” values of z1 and z2 in \nthe hidden layer.",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0051.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:52",
+      "slide_number": 52,
+      "title_guess": "From Biological to Artificial",
+      "extracted_text": "From Biological to Artificial\nBiological “Model”\n•\nNeuron: an excitable cell\n•\nSynapse: connection between \nneurons\n•\nA neuron sends an \nelectrochemical pulse along its \nsynapses when a sufficient voltage \nchange occurs\n•\nBiological Neural Network: \ncollection of neurons along some \npathway through the brain\nArtificial Model\n•\nNeuron: node in a directed acyclic \ngraph (DAG)\n•\nWeight: multiplier on each edge\n•\nActivation Function: nonlinear \nthresholding function, which allows a \nneuron to “fire” when the input value \nis sufficiently high \n•\nArtificial Neural Network: collection \nof neurons into a DAG, which define \nsome differentiable function\n60\nBiological “Computation”\n•\nNeuron switching time : \n~ 0.001 sec\n•\nNumber of neurons:  \n~ 1010\n•\nConnections per neuron: ~ 104-5\n•\nScene recognition time: \n~ 0.1 sec\nArtificial Computation\n•\nMany neuron-like threshold switching \nunits\n•\nMany weighted interconnections \namong units\n•\nHighly parallel, distributed processes \nSlide adapted from Eric Xing\nThe motivation for Artificial Neural Networks comes from biology…",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0052.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:53",
+      "slide_number": 53,
+      "title_guess": "DEFINING A 1-HIDDEN LAYER NEURAL",
+      "extracted_text": "DEFINING A 1-HIDDEN LAYER NEURAL \nNETWORK\n61",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0053.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:54",
+      "slide_number": 54,
+      "title_guess": "Example: Neural Network with One Hidden Layer",
+      "extracted_text": "Example: Neural Network with One Hidden Layer\n62",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0054.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:55",
+      "slide_number": 55,
+      "title_guess": "Neural Network",
+      "extracted_text": "Neural Network\n64\nDecision Functions\nOutput\nInput\nHidden Layer\n⍺11\n⍺12\n⍺13\n⍺21\n⍺22\n⍺23\nβ1\nβ2\nWeights\nWeights\ny = σ(β1z1 + β2z2 + β0)\nz2 = σ(α21x1 + α22x2 + α23x3 + α20)\nz1 = σ(α11x1 + α12x2 + α13x3 + α10)",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0055.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:56",
+      "slide_number": 56,
+      "title_guess": "Neural Network",
+      "extracted_text": "Neural Network\n65\nDecision Functions\nOutput\nInput\nHidden Layer\n⍺11\n⍺12\n⍺13\n⍺21\n⍺22\n⍺23\nβ1\nβ2\nWeights\nWeights\ny = σ(β1z1 + β2z2 + β0)\nz2 = σ(α21x1 + α22x2 + α23x3 + α20)\nz1 = σ(α11x1 + α12x2 + α13x3 + α10)",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0056.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:57",
+      "slide_number": 57,
+      "title_guess": "Neural Network",
+      "extracted_text": "Neural Network\n66\nDecision Functions\nOutput\nInput\nHidden Layer\n⍺11\n⍺12\n⍺13\n⍺21\n⍺22\n⍺23\nβ1\nβ2\nWeights\nWeights\ny = σ(β1z1 + β2z2 + β0)\nz2 = σ(α21x1 + α22x2 + α23x3 + α20)\nz1 = σ(α11x1 + α12x2 + α13x3 + α10)",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0057.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:58",
+      "slide_number": 58,
+      "title_guess": "Neural Network",
+      "extracted_text": "Neural Network\n67\nDecision Functions\nOutput\nInput\nHidden Layer\n⍺11\n⍺12\n⍺13\n⍺21\n⍺22\n⍺23\nβ1\nβ2\nWeights\nWeights\ny = σ(β1z1 + β2z2 + β0)\nz2 = σ(α21x1 + α22x2 + α23x3 + α20)\nz1 = σ(α11x1 + α12x2 + α13x3 + α10)",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0058.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:59",
+      "slide_number": 59,
+      "title_guess": "NONLINEAR DECISION BOUNDARIES AND",
+      "extracted_text": "NONLINEAR DECISION BOUNDARIES AND \nNEURAL NETWORKS\n68",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0059.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:60",
+      "slide_number": 60,
+      "title_guess": "Example: Face Recognition",
+      "extracted_text": "Example: Face Recognition\n69\nFace Recognition Data\nFace\nFace\nNot a face\n…\n…",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0060.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:61",
+      "slide_number": 61,
+      "title_guess": "Example: Face Recognition",
+      "extracted_text": "Example: Face Recognition\n70\n1\n1\n0\nx1\nx2\ny\nFace Recognition Data\n…",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0061.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:62",
+      "slide_number": 62,
+      "title_guess": "Example: Face Recognition",
+      "extracted_text": "Example: Face Recognition\n71\n1\n1\n0\nx1\ny\nFace Recognition Data\n…",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0062.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:63",
+      "slide_number": 63,
+      "title_guess": "1D Face Recognition",
+      "extracted_text": "1D Face Recognition\n72",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0063.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:64",
+      "slide_number": 64,
+      "title_guess": "Example: Face Recognition",
+      "extracted_text": "Example: Face Recognition\n74\nFace Recognition Data\nFace\nFace\nNot a face\n…\n…",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0064.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:65",
+      "slide_number": 65,
+      "title_guess": "Example: Face Recognition",
+      "extracted_text": "Example: Face Recognition\n75\n1\n1\n0\nx1\nx2\ny\nFace Recognition Data\n…",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0065.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:66",
+      "slide_number": 66,
+      "title_guess": "Example: Face Recognition",
+      "extracted_text": "Example: Face Recognition\n•\nx1 and x2 axes are on the floor, y axis is \nvertical\n•\neach red point has y=0, and each blue \npoint has y=1\n•\nfour training settings:\n– 1) train logistic regression on leftmost red \npoints and all blue points\n– 2) train logistic regression on rightmost \nred points and all blue points\n– 3) train a neural network with D= 2 hidden \nunits on all points\n– 4) train a neural network with D= 4 hidden \nunits on all points\n•\neach poster represents a hidden unit as \na function of [x1, x2]\n•\ndecision boundary is line/curve on the \nfloor\n76\nIn-Class Demo\n1\n1\n0\nx1\nx2\ny\nFace Recognition Data",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0066.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:67",
+      "slide_number": 67,
+      "title_guess": "Neural Network Parameters",
+      "extracted_text": "Neural Network Parameters\nPoll Question 1:\nSuppose you are training a \none-hidden layer neural \nnetwork with sigmoid \nactivations for binary \nclassification.\nTrue or False: There is a \nunique set of parameters \nthat maximize the \nlikelihood of the dataset \nabove.\n77\nAnswer:",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0067.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:68",
+      "slide_number": 68,
+      "title_guess": "Neural Network Architectures",
+      "extracted_text": "Neural Network Architectures\nEven for a basic Neural Network, there are many design \ndecisions to make:\n1.\n# of hidden layers (depth)\n2. # of units per hidden layer (width)\n3. Type of activation function (nonlinearity)\n4. Form of objective function\n5. How to initialize the parameters\n79",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0068.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:69",
+      "slide_number": 69,
+      "title_guess": "BUILDING WIDER NETWORKS",
+      "extracted_text": "BUILDING WIDER NETWORKS\n80",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0069.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:70",
+      "slide_number": 70,
+      "title_guess": "Building a Neural Net",
+      "extracted_text": "Building a Neural Net\n81\n…\n…\nOutput\nInput\nHidden Layer\nQ: How many hidden units, D, should we use?\nThe hidden units \ncould learn to be…\n•\na selection of \nthe most useful \nfeatures\n•\nnonlinear \ncombinations \nof the features\n•\na lower \ndimensional \nprojection of \nthe features\n•\na higher \ndimensional \nprojection of \nthe features\n•\na copy of the \ninput features\n•\na mix of the \nabove\nD = M",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0070.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:71",
+      "slide_number": 71,
+      "title_guess": "Building a Neural Net",
+      "extracted_text": "Building a Neural Net\n82\n…\n…\nOutput\nInput\nHidden Layer\nQ: How many hidden units, D, should we use?\nThe hidden units \ncould learn to be…\n•\na selection of \nthe most useful \nfeatures\n•\nnonlinear \ncombinations \nof the features\n•\na lower \ndimensional \nprojection of \nthe features\n•\na higher \ndimensional \nprojection of \nthe features\n•\na copy of the \ninput features\n•\na mix of the \nabove\nD < M",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0071.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:72",
+      "slide_number": 72,
+      "title_guess": "Building a Neural Net",
+      "extracted_text": "Building a Neural Net\n83\n…\n…\nOutput\nInput\nHidden Layer\nQ: How many hidden units, D, should we use?\nThe hidden units \ncould learn to be…\n•\na selection of \nthe most useful \nfeatures\n•\nnonlinear \ncombinations \nof the features\n•\na lower \ndimensional \nprojection of \nthe features\n•\na higher \ndimensional \nprojection of \nthe features\n•\na copy of the \ninput features\n•\na mix of the \nabove\nD > M",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0072.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:73",
+      "slide_number": 73,
+      "title_guess": "Building a Neural Net",
+      "extracted_text": "Building a Neural Net\n84\n…\nOutput\nInput\nHidden Layer\nIn the following examples, we have two input features, \nM=2, and we vary the number of hidden units, D.\nThe hidden units \ncould learn to be…\n•\na selection of \nthe most useful \nfeatures\n•\nnonlinear \ncombinations \nof the features\n•\na lower \ndimensional \nprojection of \nthe features\n•\na higher \ndimensional \nprojection of \nthe features\n•\na copy of the \ninput features\n•\na mix of the \nabove\nD ≥ M",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0073.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:74",
+      "slide_number": 74,
+      "title_guess": "DECISION BOUNDARY EXAMPLES",
+      "extracted_text": "DECISION BOUNDARY EXAMPLES\n85",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0074.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:75",
+      "slide_number": 75,
+      "title_guess": "Example: One Pocket",
+      "extracted_text": "86\nExample: One Pocket\nExample: Four Gaussians\nExample: Two Pockets",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0075.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:76",
+      "slide_number": 76,
+      "title_guess": "Example: One Pocket",
+      "extracted_text": "Example: One Pocket\n87\nx1\nx2\nWhat’s in the plot?\n• the training data",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0076.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:77",
+      "slide_number": 77,
+      "title_guess": "Example: One Pocket",
+      "extracted_text": "Example: One Pocket\n88\nx1\nx2\nWhat’s in the plot?\n• the training data\n• the logistic \nregression \ndecision \nboundary",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0077.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:78",
+      "slide_number": 78,
+      "title_guess": "hidden",
+      "extracted_text": "hidden\nExample: One Pocket\n89\nx1\nx2\nWhat’s in the plot?\n• the training data\n• neural network \ndecision \nboundary (i.e. \npoints where \noutput unit \ny>0.5 are \nlabeled blue)",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0078.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:79",
+      "slide_number": 79,
+      "title_guess": "hidden",
+      "extracted_text": "hidden\nExample: One Pocket\n90\nx1\nx2\nWhat’s in the plot?\n• the training data\n• contour plot of \nneural \nnetwork’s \nhidden unit z1 as \na function of x1 \nand x2",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0079.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:80",
+      "slide_number": 80,
+      "title_guess": "hidden",
+      "extracted_text": "hidden\nExample: One Pocket\n91\nx1\nx2\nWhat’s in the plot?\n• the training data\n• contour plot of \nneural \nnetwork’s \nhidden unit z2 as \na function of x1 \nand x2",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0080.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:81",
+      "slide_number": 81,
+      "title_guess": "hidden",
+      "extracted_text": "hidden\nExample: One Pocket\n92\nx1\nx2\nWhat’s in the plot?\n• the training data\n• contour plot of \nneural \nnetwork’s \nhidden unit z3 as \na function of x1 \nand x2",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0081.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:82",
+      "slide_number": 82,
+      "title_guess": "hidden",
+      "extracted_text": "hidden\nExample: One Pocket\n93\nx1\nx2\nWhat’s in the plot?\n• the training data\n• contour plot of \nneural \nnetwork’s \noutput unit y as \na function of x1 \nand x2",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0082.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:83",
+      "slide_number": 83,
+      "title_guess": "Example: One Pocket",
+      "extracted_text": "94\nExample: One Pocket\nExample: Four Gaussians\nExample: Two Pockets",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0083.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:84",
+      "slide_number": 84,
+      "title_guess": "Example: Four Gaussians",
+      "extracted_text": "Example: Four Gaussians\n95\nx1\nx2\nWhat’s in the plot?\n• the training data",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0084.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:85",
+      "slide_number": 85,
+      "title_guess": "Example: Four Gaussians",
+      "extracted_text": "Example: Four Gaussians\n96\nx1\nx2\nWhat’s in the plot?\n• the training data\n• the logistic \nregression \ndecision \nboundary",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0085.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:86",
+      "slide_number": 86,
+      "title_guess": "Example: Four Gaussians",
+      "extracted_text": "Example: Four Gaussians\n97\nx1\nx2\nWhat’s in the plot?\n• the training data\n• the K-Nearest \nNeighbor \ndecision \nboundary",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0086.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:87",
+      "slide_number": 87,
+      "title_guess": "hidden",
+      "extracted_text": "hidden\nExample: Four Gaussians\n98\nx1\nx2\nWhat’s in the plot?\n• the training data\n• neural network \ndecision \nboundary (i.e. \npoints where \noutput unit \ny>0.5 are \nlabeled blue)",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0087.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:88",
+      "slide_number": 88,
+      "title_guess": "hidden",
+      "extracted_text": "hidden\nExample: Four Gaussians\n99\nx1\nx2\nWhat’s in the plot?\n• the training data\n• contour plot of \nneural \nnetwork’s \nhidden unit z1 as \na function of x1 \nand x2",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0088.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:89",
+      "slide_number": 89,
+      "title_guess": "hidden",
+      "extracted_text": "hidden\nExample: Four Gaussians\n100\nx1\nx2\nWhat’s in the plot?\n• the training data\n• contour plot of \nneural \nnetwork’s \nhidden unit z2 as \na function of x1 \nand x2",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0089.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:90",
+      "slide_number": 90,
+      "title_guess": "hidden",
+      "extracted_text": "hidden\nExample: Four Gaussians\n101\nx1\nx2\nWhat’s in the plot?\n• the training data\n• contour plot of \nneural \nnetwork’s \noutput unit y as \na function of x1 \nand x2",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0090.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:91",
+      "slide_number": 91,
+      "title_guess": "102",
+      "extracted_text": "102\nExample: One Pocket\nExample: Four Gaussians\nExample: Two Pockets",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0091.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:92",
+      "slide_number": 92,
+      "title_guess": "Example: Two Pockets",
+      "extracted_text": "Example: Two Pockets\n103",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0092.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:93",
+      "slide_number": 93,
+      "title_guess": "Example: Two Pockets",
+      "extracted_text": "Example: Two Pockets\n104",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0093.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:94",
+      "slide_number": 94,
+      "title_guess": "Example: Two Pockets",
+      "extracted_text": "Example: Two Pockets\n105",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0094.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:95",
+      "slide_number": 95,
+      "title_guess": "Example: Two Pockets",
+      "extracted_text": "Example: Two Pockets\n106\nhidden",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0095.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:96",
+      "slide_number": 96,
+      "title_guess": "Example: Two Pockets",
+      "extracted_text": "Example: Two Pockets\n107\nhidden",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0096.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:97",
+      "slide_number": 97,
+      "title_guess": "Example: Two Pockets",
+      "extracted_text": "Example: Two Pockets\n108\nhidden\n…",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0097.png"
+    },
+    {
+      "slide_id": "mat_76087f1877f348c5847a6ca00d9959a5:slide:98",
+      "slide_number": 98,
+      "title_guess": "Example: Two Pockets",
+      "extracted_text": "Example: Two Pockets\n109\nhidden\n…",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_76087f1877f348c5847a6ca00d9959a5\\previews\\slide-0098.png"
+    }
+  ]
+}

@@ -5,6 +5,16 @@ Minimal local setup:
 1. Add your Gemini API key to the root `.env`:
 
    `GEMINI_API_KEY=your_key_here`
+   and the rest of the env
+
+APP_SHELL_PORT=38400
+CONTENT_SERVICE_PORT=38410
+LEARNING_SERVICE_PORT=38420
+CONTENT_SERVICE_URL=http://127.0.0.1:38410
+LEARNING_SERVICE_URL=http://127.0.0.1:38420
+LOCAL_DATA_DIR=./local_data
+AUTO_OPEN_BROWSER=true
+APP_SHELL_MODE=auto
 
 2. Install dependencies:
 

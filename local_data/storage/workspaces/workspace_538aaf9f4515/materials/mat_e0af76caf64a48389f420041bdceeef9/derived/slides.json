@@ -1,0 +1,702 @@
+[
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:1",
+    "slide_number": 1,
+    "title_guess": "PAC Learning",
+    "extracted_text": "PAC Learning\n+\nMLE/MAP\n1\n10-301/10-601 Introduction to Machine Learning\nMatt Gormley\nLecture 16\nMar. 11, 2026\nMachine Learning Department\nSchool of Computer Science\nCarnegie Mellon University",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0001.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:2",
+    "slide_number": 2,
+    "title_guess": "Reminders",
+    "extracted_text": "Reminders\n• Homework 5: Neural Networks\n– Out: Wed, Feb 25\n– Due: Sun, Mar 15 at 11:59pm\n5",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0002.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:3",
+    "slide_number": 3,
+    "title_guess": "LEARNING THEORY",
+    "extracted_text": "LEARNING THEORY\n6",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0003.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:4",
+    "slide_number": 4,
+    "title_guess": "Questions",
+    "extracted_text": "Questions\n1. Given a classifier with zero training error, \nwhat can we say about true error (aka. \ngeneralization error)?\n(Sample Complexity, Realizable Case)\n2. Given a classifier with low training error, what \ncan we say about true error (aka. \ngeneralization error)?\n(Sample Complexity, Agnostic Case)\n3. Is there a theoretical justification for \nregularization to avoid overfitting?\n(Structural Risk Minimization)\n7",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0004.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:5",
+    "slide_number": 5,
+    "title_guess": "IMPORTANT NOTE",
+    "extracted_text": "IMPORTANT NOTE\nIn our discussion of PAC \nLearning, we are only \nconcerned with the \nproblem of binary \nclassification\n8\nThere are other theoretical frameworks (including \nPAC) that handle other learning settings, but this \nprovides us with a representative one.",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0005.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:6",
+    "slide_number": 6,
+    "title_guess": "PAC / SLT Model",
+    "extracted_text": "PAC / SLT Model\n12\nWe’ve also referred to \nthis as the “Function \nApproximation View”",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0006.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:7",
+    "slide_number": 7,
+    "title_guess": "Three Hypotheses of Interest",
+    "extracted_text": "Three Hypotheses of Interest\n13",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0007.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:8",
+    "slide_number": 8,
+    "title_guess": "SAMPLE COMPLEXITY RESULTS",
+    "extracted_text": "SAMPLE COMPLEXITY RESULTS\n14",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0008.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:9",
+    "slide_number": 9,
+    "title_guess": "Sample Complexity Results",
+    "extracted_text": "Sample Complexity Results\n15\nRealizable\nAgnostic\nFour Cases we care about…",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0009.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:10",
+    "slide_number": 10,
+    "title_guess": "Sample Complexity Results",
+    "extracted_text": "Sample Complexity Results\n16\nRealizable\nAgnostic\nFour Cases we care about…",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0010.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:11",
+    "slide_number": 11,
+    "title_guess": "Sample Complexity Results",
+    "extracted_text": "Sample Complexity Results\n17\nRealizable\nAgnostic\nFour Cases we care about…\n1.\nBound is inversely linear in \nepsilon (e.g. halving the error \nrequires double the examples)\n2.\nBound is only logarithmic in \n|H| (e.g. quadrupling the \nhypothesis space only requires \ndouble the examples)\n1.\nBound is inversely quadratic in \nepsilon (e.g. halving the error \nrequires 4x the examples)\n2.\nBound is only logarithmic in \n|H| (i.e. same as Realizable \ncase)",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0011.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:12",
+    "slide_number": 12,
+    "title_guess": "Sample Complexity Results",
+    "extracted_text": "Sample Complexity Results\n18\nRealizable\nAgnostic\nFour Cases we care about…\nFor these two cases, we will use a new definition for the \n“complexity” of a Hypothesis space called VC Dimension",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0012.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:13",
+    "slide_number": 13,
+    "title_guess": "Sample Complexity Results",
+    "extracted_text": "Sample Complexity Results\n19\nRealizable\nAgnostic\nFour Cases we care about…",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0013.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:14",
+    "slide_number": 14,
+    "title_guess": "Sample Complexity Results",
+    "extracted_text": "Sample Complexity Results\n20\nRealizable\nAgnostic\nFour Cases we care about…",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0014.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:15",
+    "slide_number": 15,
+    "title_guess": "VC-DIMENSION",
+    "extracted_text": "VC-DIMENSION\n22",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0015.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:16",
+    "slide_number": 16,
+    "title_guess": "Finite vs. Infinite |H|",
+    "extracted_text": "Finite vs. Infinite |H|\nFinite |H|\n•\nExample: H = the set of all decision trees \nof depth D over binary feature vectors of \nlength M\n•\nExample: H = the set of all conjunctions \nover binary feature vectors of length M\nInfinite |H|\n•\nExample: H = the set of all linear decision \nboundaries in M dimensions\n•\nExample: H = the set of all neural \nnetworks with 1-hidden layer with length \nM inputs\n23\nA\nB\nB\n0\n1\n0\n1\n0\n1\n+\nC\n0\n1\n-\n+\nC\n0\n1\n-\n-\n+",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0016.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:17",
+    "slide_number": 17,
+    "title_guess": "Intuition for VC Dimension",
+    "extracted_text": "Intuition for VC Dimension\n24\n●For “nice” infinite hypothesis sets \nℋ, many hypotheses in ℋwill \nbehave similarly\n●Relative to this dataset, these two \nhypotheses are identical!\nSlide from Henry Chai & Geoff Gordon",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0017.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:18",
+    "slide_number": 18,
+    "title_guess": "Intuition for VC Dimension",
+    "extracted_text": "Intuition for VC Dimension\n25\n●For “nice” infinite hypothesis sets \nℋ, many hypotheses in ℋwill \nbehave similarly\n●Relative to this dataset, these two \nhypotheses are identical!\nIdea: instead of using full size of ℋ, count how many actually distinct hypotheses there are\nSlide from Henry Chai & Geoff Gordon",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0018.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:19",
+    "slide_number": 19,
+    "title_guess": "Def 1: A hypothesis ℎ applied",
+    "extracted_text": "27\nDef 1: A hypothesis ℎ applied \nto some dataset 𝑆 generates \na labeling of 𝑆.\nDef 2: Let ℋ[𝑆] be the set of \nall (distinct) labelings of \n𝑆 generated by hypotheses \nℎ∈ℋ.\nDef 3: ℋ shatters 𝑆 if \nℋ𝑆\n= 2 !  \nor equivalently, the \nhypotheses in ℋ can \ngenerate every possible \nlabeling of 𝑆.\nLabelings & Shattering\nExample: labelings",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0019.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:20",
+    "slide_number": 20,
+    "title_guess": "Def 1: A hypothesis ℎ applied",
+    "extracted_text": "28\nDef 1: A hypothesis ℎ applied \nto some dataset 𝑆 generates \na labeling of 𝑆.\nDef 2: Let ℋ[𝑆] be the set of \nall (distinct) labelings of \n𝑆 generated by hypotheses \nℎ∈ℋ.\nDef 3: ℋ shatters 𝑆 if \nℋ𝑆\n= 2 !  \nor equivalently, the \nhypotheses in ℋ can \ngenerate every possible \nlabeling of 𝑆.\nLabelings & Shattering\nExample: labelings",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0020.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:21",
+    "slide_number": 21,
+    "title_guess": "Def 1: A hypothesis ℎ applied",
+    "extracted_text": "30\nDef 1: A hypothesis ℎ applied \nto some dataset 𝑆 generates \na labeling of 𝑆.\nDef 2: Let ℋ[𝑆] be the set of \nall (distinct) labelings of \n𝑆 generated by hypotheses \nℎ∈ℋ.\nDef 3: ℋ shatters 𝑆 if \nℋ𝑆\n= 2 !  \nor equivalently, the \nhypotheses in ℋ can \ngenerate every possible \nlabeling of 𝑆.\nLabelings & Shattering\nExample: shattering",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0021.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:22",
+    "slide_number": 22,
+    "title_guess": "Def: The VC-dimension (or Vaporik-Chervonenkis",
+    "extracted_text": "32\nDef: The VC-dimension (or Vaporik-Chervonenkis \ndimension) of ℋ is the cardinality of the largest \nset 𝑆 such that ℋ can shatter 𝑆.\nSpecial Case: If ℋ can shatter arbitrarily large finite \nsets, then the VC-dimension of ℋ is infinity\nNotation: We write VC ℋ= 𝑑 to say the VC-\nDimension of a hypothesis space ℋ is 𝑑\nVC-dimension",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0022.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:23",
+    "slide_number": 23,
+    "title_guess": "Proof Technique: To prove that VC ℋ= 𝑑",
+    "extracted_text": "33\nProof Technique: To prove that VC ℋ= 𝑑 \nthere are two steps:\n1.\nshow that there exists a set of 𝑑 points that \ncan be shattered by ℋ\nè VC ℋ≥𝑑 \n2. show that there does NOT exist a set of 𝑑+ 1 \npoints that can be shattered by ℋ\nè VC ℋ< 𝑑+ 1 \nVC-dimension Proof",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0023.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:24",
+    "slide_number": 24,
+    "title_guess": "VC-dimension Example: linear separators",
+    "extracted_text": "VC-dimension Example: linear separators\n34\nVC-dimension\nProof Technique: To prove that VC ℋ= 𝑑 there are \ntwo steps:\n1.\nshow that there exists a set of 𝑑 points that can be \nshattered by ℋ\nè VC ℋ≥𝑑 \n2.\nshow that there does NOT exist a set of 𝑑+ 1 \npoints that can be shattered by ℋ\nè VC ℋ< 𝑑+ 1",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0024.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:25",
+    "slide_number": 25,
+    "title_guess": "VC-dimension Example: linear separators",
+    "extracted_text": "VC-dimension Example: linear separators\n36\nVC-dimension\nProof Technique: To prove that VC ℋ= 𝑑 there are \ntwo steps:\n1.\nshow that there exists a set of 𝑑 points that can be \nshattered by ℋ\nè VC ℋ≥𝑑 \n2.\nshow that there does NOT exist a set of 𝑑+ 1 \npoints that can be shattered by ℋ\nè VC ℋ< 𝑑+ 1",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0025.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:26",
+    "slide_number": 26,
+    "title_guess": "∃ vs. ∀",
+    "extracted_text": "∃ vs. ∀\nVC-dimension\n– Proving VC-dimension requires us to show that \nthere exists (∃) a dataset of size d that can be \nshattered and that there does not exist (∄) a \ndataset of size d+1 that can be shattered\nShattering\n– Proving that a particular dataset can be \nshattered requires us to show that for all (∀) \nlabelings of the dataset, our hypothesis class \ncontains a hypothesis that can correctly classify it\n38",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0026.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:27",
+    "slide_number": 27,
+    "title_guess": "VC-dimension Examples",
+    "extracted_text": "VC-dimension Examples\n•\nDefinition: If VC(H) = d, then there exists (∃) a dataset of size d that can \nbe shattered and that there does not exist (∄) a dataset of size d+1 that \ncan be shattered\n39\nAnswer:\nA = 0 \nB = 1 \nC = 1.5 D = 2 \nE = 3 \nF = 4\nPoll Question 1:\nWhat is the VC-dimension of H = 1D positive rays. That is for a threshold w, \neverything to the right of w is labeled as +1, everything else is labeled -1.\n+\n-\nw",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0027.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:28",
+    "slide_number": 28,
+    "title_guess": "VC-dimension Examples",
+    "extracted_text": "VC-dimension Examples\n•\nDefinition: If VC(H) = d, then there exists (∃) a dataset of size d that can \nbe shattered and that there does not exist (∄) a dataset of size d+1 that \ncan be shattered\n41\nAnswer:\nA = 0 \nB = 1 \nC = 1.5 D = 2 \nE = 3 \nF = 4\nPoll Question 2:\nWhat is the VC-dimension of H = 1D positive intervals. That is for an interval \n(w1, w2), everything inside the interval is labeled as +1, everything else is \nlabeled -1.\n+\n-\n-\nw1\nw2",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0028.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:29",
+    "slide_number": 29,
+    "title_guess": "Sample Complexity Results",
+    "extracted_text": "Sample Complexity Results\n45\nRealizable\nAgnostic\nFour Cases we care about…",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0029.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:30",
+    "slide_number": 30,
+    "title_guess": "SLT-STYLE COROLLARIES",
+    "extracted_text": "SLT-STYLE COROLLARIES\n46",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0030.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:31",
+    "slide_number": 31,
+    "title_guess": "SLT-style Corollaries",
+    "extracted_text": "SLT-style Corollaries\n47\nSolve the inequality in Thm.1 for \nepsilon to obtain Corollary 1\nWe can obtain \nsimilar corollaries for \neach of the \ntheorems…",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0031.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:32",
+    "slide_number": 32,
+    "title_guess": "SLT-style Corollaries",
+    "extracted_text": "SLT-style Corollaries\n48",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0032.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:33",
+    "slide_number": 33,
+    "title_guess": "SLT-style Corollaries",
+    "extracted_text": "SLT-style Corollaries\n49",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0033.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:34",
+    "slide_number": 34,
+    "title_guess": "SLT-style Corollaries",
+    "extracted_text": "SLT-style Corollaries\n50\nShould these corollaries inform \nhow we do model selection?",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0034.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:35",
+    "slide_number": 35,
+    "title_guess": "Learning Theory & Model Selection",
+    "extracted_text": "Learning Theory & Model Selection\n51\nVC(H)\n(i.e. complexity)\nerror\n(i.e. lower è \ngood data fit)\nKey Point: we want \nto tradeoff between \nlow training error \nand keeping H \nsimple (low VC-Dim)",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0035.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:36",
+    "slide_number": 36,
+    "title_guess": "Learning Theory & Model Selection",
+    "extracted_text": "Learning Theory & Model Selection\n52\nVC(H)\n(i.e. complexity)\nerror\n(i.e. lower è \ngood data fit)\ntrain error\npart of Corr. 4\ntrue error\nbound from Corr. 4\nbest tradeoff\nEx: H = Linear Separators in RM\nVC(H) = M+1\nQ: In practice, how do we tradeoff between error and VC(H)? \nA: Use a regularizer! That is, reducing the number of (effective) features reduces the \nVC dimension. More features usually leads to a better fit to the data.\nKey Point: we want \nto tradeoff between \nlow training error \nand keeping H \nsimple (low VC-Dim)",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0036.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:37",
+    "slide_number": 37,
+    "title_guess": "Q&A",
+    "extracted_text": "Q&A\n56\nQ: PAC Learning would argue that we need simple \nmodels (in a VC dimension sense) if we want \ngood generalization performance. However, \nrecent advances in deep learning suggest that \nover-parameterization is extremely important to \nsuccessful learning. How can I reconcile these \nseemingly antithetical claims?\nA: •\nPAC learning is measuring the worst case \ncapacity of the entire hypothesis space:\n– If you allow arbitrarily complex functions, \nyou need a lot of data\n•\nDeep learning is with an SGD-like optimizer \ndoes not search the entire hypothesis space\n– You should allow a huge space of \nfunctions, because SGD only finds very \nnicely structured ones",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0037.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:38",
+    "slide_number": 38,
+    "title_guess": "Q&A",
+    "extracted_text": "Q&A\n57\nQ: PAC Learning would argue that we need simple \nmodels (in a VC dimension sense) if we want \ngood generalization performance. However, \nrecent advances in deep learning suggest that \nover-parameterization is extremely important to \nsuccessful learning. How can I reconcile these \nseemingly antithetical claims?\nA: •\nPAC learning is measuring the worst case \ncapacity of the entire hypothesis space:\n– If you allow arbitrarily complex functions, \nyou need a lot of data\n•\nDeep learning is with an SGD-like optimizer \ndoes not search the entire hypothesis space\n– You should allow a huge space of \nfunctions, because SGD only finds very \nnicely structured ones\n•\nKey insight: SGD provides an implicit L2 \nregularizer",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0038.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:39",
+    "slide_number": 39,
+    "title_guess": "Learning Theory Objectives",
+    "extracted_text": "Learning Theory Objectives\nYou should be able to…\n• Identify the properties of a learning setting and assumptions \nrequired to ensure low generalization error\n• Distinguish true error, train error, test error\n• Define PAC and explain what it means to be approximately \ncorrect and what occurs with high probability\n• Apply sample complexity bounds to real-world learning \nexamples\n• Distinguish between a large sample and a finite sample analysis\n• Theoretically motivate regularization\n58",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0039.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:40",
+    "slide_number": 40,
+    "title_guess": "PROBABILISTIC LEARNING",
+    "extracted_text": "PROBABILISTIC LEARNING\n59",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0040.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:41",
+    "slide_number": 41,
+    "title_guess": "Probabilistic Learning",
+    "extracted_text": "Probabilistic Learning\nFunction Approximation\nPreviously, we assumed that our output \nwas generated using a deterministic target \nfunction:\nOur goal was to learn a hypothesis h(x) that \nbest approximates c*(x)\nProbabilistic Learning\nToday, we assume that our output is \nsampled from a conditional probability \ndistribution:\nOur goal is to learn a probability distribution \np(y|x) that best approximates p*(y|x)\n60",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0041.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:42",
+    "slide_number": 42,
+    "title_guess": "MAXIMUM LIKELIHOOD ESTIMATION (MLE)",
+    "extracted_text": "MAXIMUM LIKELIHOOD ESTIMATION (MLE)\n69",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0042.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:43",
+    "slide_number": 43,
+    "title_guess": "Likelihood Function",
+    "extracted_text": "Likelihood Function\n• Given N independent, identically distributed (iid) samples           \nD = {x(1), x(2), …, x(N)} from a random variable X …\n• The likelihood function is \n– Case 1: X is discrete with probability mass function (pmf) p(x|θ)\n  \nL(θ) = p(x(1)|θ) p(x(2)|θ) … p(x(N)|θ)\n– Case 2: X is continuous with probability density function (pdf) f(x|θ) \n  \nL(θ) = f(x(1)|θ) f(x(2)|θ) … f(x(N)|θ)\n• The log-likelihood function is\n– Case 1: X is discrete with probability mass function (pmf) p(x|θ)\n  \nl(θ) = log p(x(1)|θ) + … + log p(x(N)|θ)\n– Case 2: X is continuous with probability density function (pdf) f(x|θ) \n  \n l(θ) = log f(x(1)|θ) +… + log f(x(N)|θ)\n72\nThe likelihood tells us \nhow likely one sample is \nrelative to another\nOne R.V.",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0043.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:44",
+    "slide_number": 44,
+    "title_guess": "Likelihood Function",
+    "extracted_text": "Likelihood Function\n73\nTwo R.V.s\n• Given N iid samples D = {(x(1), y(1)), …, (x(N), y(N))} from a pair \nof random variables X, Y\n• The conditional likelihood function:\n– Case 1: Y is discrete with pmf  p(y | x, θ)\n  \nL(θ) = p(y(1) | x(1), θ) …p(y(N) | x(N), θ) \n– Case 2: Y is continuous with pdf f(y | x, θ)\n  \nL(θ) = f(y(1) | x(1), θ) …f(y(N) | x(N), θ) \n• The joint likelihood function:\n– Case 1: X and Y are discrete with pmf  p(x,y|θ)\n  \nL(θ) = p(x(1), y(1)|θ) … p(x(N), y(N)|θ)\n– Case 2: X and Y are continuous with pdf  f(x,y|θ) \n  \nL(θ) = f(x(1), y(1)|θ) … f(x(N), y(N)|θ)",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0044.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:45",
+    "slide_number": 45,
+    "title_guess": "Likelihood Function",
+    "extracted_text": "Likelihood Function\n74\nTwo R.V.s\n• Given N iid samples D = {(x(1), y(1)), …, (x(N), y(N))} from a pair \nof random variables X, Y\n• The joint likelihood function:\n– Case 1: X and Y are discrete with pmf  p(x,y|θ)\n  \nL(θ) = p(x(1), y(1)|θ) … p(x(N), y(N)|θ)\n– Case 2: X and Y are continuous with pdf  f(x,y|θ) \n  \nL(θ) = f(x(1), y(1)|θ) … f(x(N), y(N)|θ)\n– Case 3: Y is discrete with pmf  p(y|β) and \n  \n    X is continuous with pdf  f(x|y,α) \n  \nL(α, β) = f(x(1)| y(1), α) p(y(1)|β) … f(x(N)| y(N), α) p(y(N)|β)\n– Case 4: Y is continuous with pdf  f(y|β) and \n  \n    X is discrete with pmf  p(x|y,α) \n  \nL(α, β) = p(x(1)| y(1), α) f(y(1)|β) … p(x(N)| y(N), α) f(y(N)|β)\nMixed \ndiscrete/ \ncontinuous!",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0045.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:46",
+    "slide_number": 46,
+    "title_guess": "MLE",
+    "extracted_text": "MLE\n75\nSuppose we have data D = {x(i)}N\ni=1\nPrinciple of Maximum Likelihood Estimation:\nChoose the parameters that maximize the likelihood \nof the data.\nθMLE = \u001c`;K\u001ct\nθ\nN\n!\ni=1\np(t(i)|θ)\nMaximum Likelihood Estimate (MLE)\nL(θ)\nθMLE\nθMLE\nθ2\nθ1\nL(θ1, θ2)",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0046.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:47",
+    "slide_number": 47,
+    "title_guess": "MLE",
+    "extracted_text": "MLE\nWhat does maximizing likelihood accomplish?\n• There is only a finite amount of probability mass (i.e. sum-to-\none constraint)\n• MLE tries to allocate as much probability mass as possible to \nthe things we have observed…\n…at the expense of the things we have not observed\n76",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0047.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:48",
+    "slide_number": 48,
+    "title_guess": "Recipe for Closed-form MLE",
+    "extracted_text": "Recipe for Closed-form MLE\n1.\nAssume data was generated iid from some model, i.e., write \nthe generative story\n \nx(i) ~ p(x|θ)\n2.\nWrite the log-likelihood\n \nl(θ) = log p(x(1)|θ) + … + log p(x(N)|θ)\n3.\nCompute partial derivatives, i.e., the gradient\n \n𝜕l(θ)/𝜕θ1 = …\n \n…\n \n𝜕l(θ)/𝜕θM = …\n4.\nSet derivatives equal to zero and solve for θ\n \n𝜕l(θ)/𝜕θm = 0 for all m ∈ {1, …, M}\n \nθMLE = solution to system of M equations and M variables\n5.\nCompute the second derivative and check that l(θ) is \nconcave down at θMLE \n77",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0048.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:49",
+    "slide_number": 49,
+    "title_guess": "MLE EXAMPLES",
+    "extracted_text": "MLE EXAMPLES\n78",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0049.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:50",
+    "slide_number": 50,
+    "title_guess": "MLE of Exponential Distribution",
+    "extracted_text": "MLE of Exponential Distribution\n79\n• pdf of Exponential(λ): f(x) = λe−λx\n• Suppose Xi ∼Exponential(λ) for 1 ≤i ≤N.\n• Find MLE for data D = {x(i)}N\ni=1\n• First write down log-likelihood of sample.\n• Compute ﬁrst derivative, set to zero, solve for λ.\n• Compute second derivative and check that it is\nconcave down at λMLE.\nGoal:\nSteps:",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0050.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:51",
+    "slide_number": 51,
+    "title_guess": "MLE of Exponential Distribution",
+    "extracted_text": "MLE of Exponential Distribution\n80\n• First write down log-likelihood of sample.\nℓ(λ) =\nN\n!\ni=1\nHQ; f(x(i))\n(1)\n=\nN\n!\ni=1\nHQ;(λ 2tT(−λx(i)))\n(2)\n=\nN\n!\ni=1\nHQ;(λ) + −λx(i)\n(3)\n= N HQ;(λ) −λ\nN\n!\ni=1\nx(i)\n(4)\n• pdf of Exponential(λ): f(x) = λe−λx\n• Suppose Xi ∼Exponential(λ) for 1 ≤i ≤N.\n• Find MLE for data D = {x(i)}N\ni=1",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0051.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:52",
+    "slide_number": 52,
+    "title_guess": "MLE of Exponential Distribution",
+    "extracted_text": "MLE of Exponential Distribution\n81\n• Compute ﬁrst derivative, set to zero, solve for λ.\ndℓ(λ)\ndλ\n= d\ndλN HQ;(λ) −λ\nN\n!\ni=1\nx(i)\n(1)\n= N\nλ −\nN\n!\ni=1\nx(i) = 0\n(2)\n⇒λMLE =\nN\n\"N\ni=1 x(i)\n(3)\n• pdf of Exponential(λ): f(x) = λe−λx\n• Suppose Xi ∼Exponential(λ) for 1 ≤i ≤N.\n• Find MLE for data D = {x(i)}N\ni=1",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0052.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:53",
+    "slide_number": 53,
+    "title_guess": "MLE of Bernoulli Model",
+    "extracted_text": "MLE of Bernoulli Model\n86\n1. Model: x(i) ∼Bernoulli(φ) for i = 1, . . . , N\np(x(i)|φ) =\n!\nφ\nif x(i) = 1\n(1 −φ)\nif x(i) = 0\n= φx(i)(1 −φ)1−x(i)\n2. Log‐posterior:\nℓMLE(φ) = log p(D | φ)\n= log\nN\n\"\ni=1\np(x(i) | φ)\n= log\nN\n\"\ni=1\nφx(i)(1 −φ)1−x(i)\n= log\n#\nφN1(1 −φ)N0$\n= N1 log(φ) + N0 log(1 −φ)\nN1 = #(x(i) = 1)\nN0 = #(x(i) = 0)\n3. Derivative:\n∂ℓMLE(φ)\n∂φ\n= ∂\n∂φ (N1 log(φ) + N0 log(1 −φ))\n= N1\nφ −\nN0\n1 −φ\n4. Set to zero and solve:\nN1\nφ −\nN0\n1 −φ = 0\n⇒φMLE =\nN1\nN1 + N0\n= N1\nN",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0053.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:54",
+    "slide_number": 54,
+    "title_guess": "MLE of Bernoulli Model",
+    "extracted_text": "MLE of Bernoulli Model\n87\n1. Model: x(i) ∼Bernoulli(φ) for i = 1, . . . , N\np(x(i)|φ) =\n!\nφ\nif x(i) = 1\n(1 −φ)\nif x(i) = 0\n= φx(i)(1 −φ)1−x(i)\n2. Log‐likelihood:\nℓMLE(φ) = log p(D | φ)\n= log\nN\n\"\ni=1\np(x(i) | φ)\n= log\nN\n\"\ni=1\nφx(i)(1 −φ)1−x(i)\n= log\n#\nφN1(1 −φ)N0$\n= N1 log(φ) + N0 log(1 −φ)\nN1 = #(x(i) = 1)\nN0 = #(x(i) = 0)\n3. Derivative:\n∂ℓMLE(φ)\n∂φ\n= ∂\n∂φ (N1 log(φ) + N0 log(1 −φ))\n= N1\nφ −\nN0\n1 −φ\n4. Set to zero and solve:\nN1\nφ −\nN0\n1 −φ = 0\n⇒φMLE =\nN1\nN1 + N0\n= N1\nN",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0054.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:55",
+    "slide_number": 55,
+    "title_guess": "Estimator vs. Estimate",
+    "extracted_text": "Estimator vs. Estimate\nMaximum likelihood ESTIMATOR\n• the formula used to compute the \nestimate with some data\nMaximum likelihood ESTIMATE\n• plugs data into the estimator to \ncompute an actual number \n88\n⇒φMLE =\nN1\nN1 + N0\n= N1\nN",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0055.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:56",
+    "slide_number": 56,
+    "title_guess": "MAP ESTIMATION",
+    "extracted_text": "MAP ESTIMATION\n89",
+    "extraction_quality": "medium",
+    "quality_notes": "Text extraction was partial or noisy.",
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0056.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:57",
+    "slide_number": 57,
+    "title_guess": "MLE vs. MAP",
+    "extracted_text": "MLE vs. MAP\n90\nSuppose we have data D = {x(i)}N\ni=1\nPrinciple of maximum a posteriori (MAP) Estimation:\nChoose the parameters that maximize the posterior \nof the parameters given the data.\nPrinciple of maximum likelihood estimation (MLE):\nChoose the parameters that maximize the likelihood \nof the data.\nMaximum Likelihood Estimate (MLE)\nMaximum a posteriori (MAP) estimate\n𝜽!\"# = argmax𝜽 𝑝𝒟𝜽= argmax𝜽-\n%&'\n(\n𝑝𝐱% 𝜽\n𝜽!\"# = argmax𝜽 𝑝𝜽𝒟= argmax𝜽 𝑓𝜽-\n%&'\n(\n𝑝𝐱% 𝜽",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0057.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:58",
+    "slide_number": 58,
+    "title_guess": "MLE vs. MAP",
+    "extracted_text": "MLE vs. MAP\n91\nSuppose we have data D = {x(i)}N\ni=1\nPrinciple of maximum a posteriori (MAP) Estimation:\nChoose the parameters that maximize the posterior \nof the parameters given the data.\nPrinciple of maximum likelihood estimation (MLE):\nChoose the parameters that maximize the likelihood \nof the data.\nMaximum Likelihood Estimate (MLE)\nMaximum a posteriori (MAP) estimate\n𝜽!\"# = argmax𝜽 𝑝𝒟𝜽= argmax𝜽-\n%&'\n(\n𝑝𝐱% 𝜽\n𝜽!\"# = argmax𝜽 𝑝𝜽𝒟= argmax𝜽 𝑓𝜽-\n%&'\n(\n𝑝𝐱% 𝜽\nPrior\nImportant!\nUsually the parameters are \ncontinuous, so the prior is a \nprobability density function",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0058.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:59",
+    "slide_number": 59,
+    "title_guess": "The MAP Estimation Objective",
+    "extracted_text": "The MAP Estimation Objective\n92\nθMAP = argmax\nθ\np(θ | D)\n= argmax\nθ\np(D | θ)p(θ)\np(D)\n= argmax\nθ\np(D | θ)p(θ)\n= argmax\nθ\nlog p(D | θ) + log p(θ)\n!\n\"#\n$\nℓMAP (θ)\np(D | θ)\nMLE:\np(θ | D) = p(D | θ)p(θ)\np(D)\nMAP:\nlikelihood\nprior\nposterior\nnot a function of 𝜃\nBayes Rule\n!\nθ′ p(D | θ′)p(θ′)dθ′",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0059.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:60",
+    "slide_number": 60,
+    "title_guess": "Recipe for Closed-form MLE",
+    "extracted_text": "Recipe for Closed-form MLE\n93\n1.\nAssume data was generated iid from some model, i.e., write \nthe generative story\n \nx(i) ~ p(x|θ)\n2.\nWrite the log-likelihood\n \nl(θ) = log p(x(1)|θ) + … + log p(x(N)|θ)\n3.\nCompute partial derivatives, i.e., the gradient\n \n𝜕l(θ)/𝜕θ1 = …\n \n…\n \n𝜕l(θ)/𝜕θM = …\n4.\nSet derivatives equal to zero and solve for θ\n \n𝜕l(θ)/𝜕θm = 0 for all m ∈ {1, …, M}\n \nθMLE = solution to system of M equations and M variables\n5.\nCompute the second derivative and check that l(θ) is \nconcave down at θMLE",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0060.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:61",
+    "slide_number": 61,
+    "title_guess": "Assume data was generated iid from some model, i.e., write",
+    "extracted_text": "1.\nAssume data was generated iid from some model, i.e., write \nthe generative story\n \nθ ~ p(θ) and then for all i: x(i) ~ p(x|θ) \n2.\nWrite the log posterior\n \nlMAP(θ) = log p(θ) + log p(x(1)|θ) + … + log p(x(N)|θ)\n3.\nCompute partial derivatives, i.e., the gradient\n \n𝜕lMAP(θ)/𝜕θ1 = …\n \n…\n \n𝜕lMAP(θ)/𝜕θM = …\n4.\nSet derivatives to equal zero and solve for θ\n \n𝜕lMAP(θ)/𝜕θm = 0 for all m ∈ {1, …, M}\n \nθMAP = solution to system of M equations and M variables\n5.\nCompute the second derivative and check that l(θ) is \nconcave down at θMAP \n94\nRecipe for Closed-form MAP",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0061.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:62",
+    "slide_number": 62,
+    "title_guess": "The Prior Distribution",
+    "extracted_text": "The Prior Distribution\n•\nThe prior distribution encodes domain knowledge about the \nproblem.\n•\nQuestion: Why do we use the Beta distribution as the prior \nfor the Bernoulli?\n•\nReason #1: It has the right support, i.e. [0,1].\n95\nExample: Beta prior “fair coin”\nExample: Beta prior “unfair coin”\n0\n1\n0\n10\n0\n1\n0\n10\nf(φ | α = 101, β = 101)\nf(φ | α = 101, β = 1)",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0062.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:63",
+    "slide_number": 63,
+    "title_guess": "The Prior Distribution",
+    "extracted_text": "The Prior Distribution\n•\nThe prior distribution encodes domain knowledge about the \nproblem.\n•\nQuestion: Why do we use the Beta distribution as the prior \nfor the Bernoulli?\n•\nReason #2: The Beta is a conjugate prior for the Bernoulli.\n•\nDefinition: A distribution is the conjugate prior of a \nlikelihood if the form of the posterior is the same as the form \nof the prior.\n96\nPosterior\np(θ | D)\nLikelihood\np(D | θ)\nPrior\np(θ)\nConjugate?\nBeta\nBernoulli\nBeta\nyes\nDirichlet\nMultinomial\nMultinomial\nyes\nGaussian\nGuassian\nGuassian\nyes\nGamma\nExponential\nGamma\nyes\n??\nMultinomial\nLogistic Normal\nno",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0063.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:64",
+    "slide_number": 64,
+    "title_guess": "MLE of Bernoulli Model",
+    "extracted_text": "MLE of Bernoulli Model\n97\n1. Model: x(i) ∼Bernoulli(φ) for i = 1, . . . , N\np(x(i)|φ) =\n!\nφ\nif x(i) = 1\n(1 −φ)\nif x(i) = 0\n= φx(i)(1 −φ)1−x(i)\n2. Log‐posterior:\nℓMLE(φ) = log p(D | φ)\n= log\nN\n\"\ni=1\np(x(i) | φ)\n= log\nN\n\"\ni=1\nφx(i)(1 −φ)1−x(i)\n= log\n#\nφN1(1 −φ)N0$\n= N1 log(φ) + N0 log(1 −φ)\nN1 = #(x(i) = 1)\nN0 = #(x(i) = 0)\n3. Derivative:\n∂ℓMLE(φ)\n∂φ\n= ∂\n∂φ (N1 log(φ) + N0 log(1 −φ))\n= N1\nφ −\nN0\n1 −φ\n4. Set to zero and solve:\nN1\nφ −\nN0\n1 −φ = 0\n⇒φMLE =\nN1\nN1 + N0\n= N1\nN",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0064.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:65",
+    "slide_number": 65,
+    "title_guess": "MAP of Beta-Bernoulli Model",
+    "extracted_text": "MAP of Beta-Bernoulli Model\n98\n1. Model:\nφ ∼Beta(α, β)\nx(i) ∼Bernoulli(φ) for i = 1, . . . , N\n2. Log-posterior:\nℓMAP(φ) = log [p(D | φ)f(φ | α, β)]\n= log\n!\"\nφN1(1 −φ)N0# $\n1\nB(α, β)φ(α−1)(1 −φ)(β−1)\n%&\n= log\n!\nφ(N1+α−1)(1 −φ)(N0+β−1)\n1\nB(α, β)\n&\n= (N1 + α −1) log(φ) + (N0 + β −1) log(1 −φ) −log B(α, β)\n= N ′\n1 log(φ) + N ′\n0 log(1 −φ) −log B(α, β)\n3. Derivative: ∂ℓMAP(φ)\n∂φ\n= N ′\n1\nφ −\nN ′\n0\n1 −φ\n4. Settozeroandsolve: φMAP =\nN ′\n1\nN ′\n1 + N ′\n0\n=\nN1 + α −1\nN1 + α −1 + N0 + β −1\nN1 = #(x(i) = 1)\nN0 = #(x(i) = 0)\nN ′\n1 = N1 + α −1\nN ′\n0 = N0 + β −1",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0065.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:66",
+    "slide_number": 66,
+    "title_guess": "MAP of Beta-Bernoulli Model",
+    "extracted_text": "MAP of Beta-Bernoulli Model\n99\n1. Model:\nφ ∼Beta(α, β)\nx(i) ∼Bernoulli(φ) for i = 1, . . . , N\n2. Log-posterior:\nℓMAP(φ) = log [p(D | φ)f(φ | α, β)]\n= log\n!\"\nφN1(1 −φ)N0# $\n1\nB(α, β)φ(α−1)(1 −φ)(β−1)\n%&\n= log\n!\nφ(N1+α−1)(1 −φ)(N0+β−1)\n1\nB(α, β)\n&\n= (N1 + α −1) log(φ) + (N0 + β −1) log(1 −φ) −log B(α, β)\n= N ′\n1 log(φ) + N ′\n0 log(1 −φ) −log B(α, β)\n3. Derivative: ∂ℓMAP(φ)\n∂φ\n= N ′\n1\nφ −\nN ′\n0\n1 −φ\n4. Settozeroandsolve: φMAP =\nN ′\n1\nN ′\n1 + N ′\n0\n=\nN1 + α −1\nN1 + α −1 + N0 + β −1\nN1 = #(x(i) = 1)\nN0 = #(x(i) = 0)\nN ′\n1 = N1 + α −1\nN ′\n0 = N0 + β −1",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0066.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:67",
+    "slide_number": 67,
+    "title_guess": "MAP of Beta-Bernoulli Model",
+    "extracted_text": "MAP of Beta-Bernoulli Model\n100\nExample 1 (MLE)\nSuppose D = {8H, 2T}\nφMLE = 8\n10 = 0.8\nExample 2 (MAP)\nSame dataset, but φ ∼Beta(α = 101, β = 101)\nφMAP =\n8 + 101 −1\n8 + 101 −1 + 2 + 101 −1 =\n108\n108 + 102 ≈0.5\nExample 3 (MAP)\nSame dataset, but φ ∼Beta(α = 101, β = 1)\nφMAP =\n108\n108 + 2 ≈1.0\nExample 4 (MLE)\nSuppose D = {108H, 102T}\nφMLE =\n108\n108 + 102 ≈0.5\n“fair \ncoin”\nprior\n“unfair \ncoin”\nprior",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0067.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:68",
+    "slide_number": 68,
+    "title_guess": "MLE for Linear Regression",
+    "extracted_text": "MLE for Linear Regression\nOptimization Method #2: \nClosed Form\n1.\nEvaluate \n2.\nReturn θMLE\n101\nθ1\nθ2\nθ1\nθ2\nJ(θ1, θ2)\n0.59\n0.43\n0.2\nx\ny\ny = h*(x)\n(unknown)\nt\nMLE\nh(x; θ(MLE))\nJ(θ) = J(θ1, θ2) = (10(θ1 – 0.5))2 + (6(θ1 – 0.4))2 1.\nYou’ll work \nthrough the view \nof linear \nregression as a \nprobabilistic \nmodel in the \nhomework!\n2.\nYou’ll also see \nhow L1 and L2 \nregularization is \nequivalent MAP \nestimation",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0068.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:69",
+    "slide_number": 69,
+    "title_guess": "Takeaways",
+    "extracted_text": "Takeaways\n• One view of what ML is trying to accomplish is function \napproximation\n• The principle of maximum likelihood estimation provides an \nalternate view of learning\n• Synthetic data can help debug ML algorithms\n• Probability distributions can be used to model real data that \noccurs in the world\n(don’t worry we’ll make our distributions more interesting \nsoon!)\n102",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0069.png"
+  },
+  {
+    "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:70",
+    "slide_number": 70,
+    "title_guess": "Learning Objectives",
+    "extracted_text": "Learning Objectives\nMLE / MAP\nYou should be able to…\n1.\nRecall probability basics, including but not limited to: discrete and \ncontinuous random variables, probability mass functions, probability density \nfunctions, events vs. random variables, expectation and variance, joint \nprobability distributions, marginal probabilities, conditional probabilities, \nindependence, conditional independence\n2.\nDescribe common probability distributions such as the Beta, Dirichlet, \nMultinomial, Categorical, Gaussian, Exponential, etc.\n3.\nState the principle of maximum likelihood estimation and explain what it \ntries to accomplish\n4.\nState the principle of maximum a posteriori estimation and explain why we \nuse it\n5.\nDerive the MLE or MAP parameters of a simple model in closed form\n103",
+    "extraction_quality": "high",
+    "quality_notes": null,
+    "has_text": true,
+    "preview_relpath": "storage\\workspaces\\workspace_538aaf9f4515\\materials\\mat_e0af76caf64a48389f420041bdceeef9\\previews\\slide-0070.png"
+  }
+]

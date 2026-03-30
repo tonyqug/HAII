@@ -1,0 +1,22 @@
+{
+  "created_at": "2026-03-30T02:02:50Z",
+  "error": {
+    "code": "content_service_error",
+    "message": "Content service request failed while contacting /v1/evidence-bundles: HTTPConnectionPool(host='127.0.0.1', port=38410): Read timed out. (read timeout=2.0)",
+    "retryable": true
+  },
+  "job_id": "job_3ff31f2c846b",
+  "job_type": "chat_message",
+  "message": "Content service request failed while contacting /v1/evidence-bundles: HTTPConnectionPool(host='127.0.0.1', port=38410): Read timed out. (read timeout=2.0)",
+  "progress": 100,
+  "result_id": null,
+  "result_type": null,
+  "stage": "failed",
+  "status": "failed",
+  "updated_at": "2026-03-30T02:02:52Z",
+  "user_action": {
+    "kind": null,
+    "options": [],
+    "prompt": null
+  }
+}

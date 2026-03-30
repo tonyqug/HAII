@@ -1,8 +1,12 @@
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any, Dict, List
 
 import pytest
+
+from learning_service.config import Settings
+from learning_service.content_client import ContentServiceClient
 
 from .conftest import wait_for_job
 
@@ -175,3 +179,33 @@ def test_integrated_practice_generation_is_robust_to_bundle_endpoint_compatibili
         ]
         assert template_requests
         assert all(request["json"].get("query_text") == "template style analysis" for request in template_requests)
+
+
+def test_fetch_evidence_bundle_uses_configured_request_timeout(monkeypatch):
+    observed_timeouts: list[float] = []
+
+    def fake_post(url, json=None, timeout=None):
+        observed_timeouts.append(float(timeout))
+        return FakeResponse(200, {"bundle_id": "bundle_timeout_test", "items": []})
+
+    monkeypatch.setattr("learning_service.content_client.requests.post", fake_post)
+
+    client = ContentServiceClient(
+        Settings(
+            content_service_url="http://127.0.0.1:39999",
+            local_data_dir=Path("./local_data"),
+            request_timeout_seconds=12,
+        )
+    )
+
+    bundle = client.fetch_evidence_bundle(
+        workspace_id="ws_timeout_test",
+        material_ids=["mat_timeout_test"],
+        query_text="timeout behavior",
+        bundle_mode="focused",
+        include_annotations=True,
+    )
+
+    assert bundle["bundle_id"] == "bundle_timeout_test"
+    assert observed_timeouts
+    assert observed_timeouts[0] == pytest.approx(12.0)

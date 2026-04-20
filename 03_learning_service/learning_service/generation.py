@@ -1142,14 +1142,14 @@ class GroundedGenerator:
     def _compose_grounded_answer(self, question_text: str, relevant_items: Sequence[Dict[str, Any]], response_style: str) -> str:
         summaries = self._summaries_for_chat(question_text, relevant_items)
         if not summaries:
-            summaries = [safe_excerpt(item.get("text", ""), 180) for item in relevant_items if item.get("text")]
+            summaries = [safe_excerpt(item.get("text", ""), 320) for item in relevant_items if item.get("text")]
         if response_style == "concise":
             return normalize_whitespace(" ".join(summary for summary in summaries[:2] if summary))
         if response_style == "step_by_step":
             steps = []
             for index, item in enumerate(relevant_items, start=1):
                 concept = infer_concept_label(first_sentence(item.get("text", "")), fallback=f"slide {item.get('slide_number')}")
-                summary = self._best_summary_for_item(question_text, item) or safe_excerpt(item.get("text", ""), 120)
+                summary = self._best_summary_for_item(question_text, item) or safe_excerpt(item.get("text", ""), 260)
                 steps.append(f"{index}. {concept}: {summary}")
             return "\n".join(steps)
         if self._is_definition_question(question_text):
@@ -1162,7 +1162,7 @@ class GroundedGenerator:
             if len(summaries) > 1:
                 answer = f"{answer} Related detail: {summaries[1]}"
             return normalize_whitespace(answer)
-        return normalize_whitespace(" ".join(summaries[:3]))
+        return normalize_whitespace(" ".join(summaries[:4]))
 
     def _summaries_for_chat(self, question_text: str, relevant_items: Sequence[Dict[str, Any]]) -> List[str]:
         fragments: List[tuple[int, str]] = []
@@ -1200,9 +1200,12 @@ class GroundedGenerator:
                 score -= 4
             scored.append((score, fragment))
         if not scored:
-            return safe_excerpt(cleaned, 160)
+            return safe_excerpt(cleaned, 320)
         scored.sort(key=lambda pair: pair[0], reverse=True)
-        return safe_excerpt(scored[0][1], 180)
+        best = normalize_whitespace(scored[0][1])
+        if len(best) <= 320:
+            return best
+        return safe_excerpt(best, 320)
 
     def _is_definition_question(self, question_text: str) -> bool:
         text = normalize_whitespace(question_text).lower()
@@ -1277,6 +1280,7 @@ class GroundedGenerator:
         self,
         *,
         bundle: Dict[str, Any],
+        topic_text: Optional[str],
         generation_mode: str,
         template_material_id: Optional[str],
         question_count: int,
@@ -1292,6 +1296,16 @@ class GroundedGenerator:
         lecture_records = accessor.concept_records(lecture_material_ids)
         if not lecture_records:
             raise NeedsUserInputError("I need lecture evidence before I can generate a practice set.")
+        topic = normalize_whitespace(topic_text or "")
+        if topic:
+            ranked_for_topic = self._rank_records_for_practice_topic(lecture_records, topic)
+            strongest_topic_score = max(int(record.get("_topic_score", 0)) for record in ranked_for_topic)
+            if strongest_topic_score <= 1:
+                raise NeedsUserInputError(
+                    f"I could not find strong lecture evidence for '{topic}'. Please confirm a narrower topic before generating a test.",
+                    options=accessor.options_for_clarification(lecture_material_ids, limit=5),
+                )
+            lecture_records = ranked_for_topic
 
         template_style_summary = None
         template_verbs: List[str] = []
@@ -1303,7 +1317,7 @@ class GroundedGenerator:
                 )
             template_style_summary, template_verbs = self._analyze_template_style(template_items)
 
-        selected_records = self._select_records_for_questions(lecture_records, question_count, coverage_mode)
+        selected_records = self._select_records_for_questions(lecture_records, question_count, coverage_mode, topic)
         questions = []
         question_types = self._question_types_for_mode(generation_mode, len(selected_records), template_items_present=bool(template_material_id))
         for index, (record, question_type) in enumerate(zip(selected_records, question_types), start=1):
@@ -1323,21 +1337,40 @@ class GroundedGenerator:
         cited_slides = sorted({slide for question in questions for slide in question.get("covered_slides", [])})
         considered_slides = accessor.distinct_slide_numbers(lecture_material_ids)
         uncited_or_skipped = sorted(set(considered_slides) - set(cited_slides))
-        notes = self._coverage_notes(coverage_mode, considered_slides, cited_slides, question_count)
+        notes = self._coverage_notes(coverage_mode, considered_slides, cited_slides, question_count, topic)
+        estimated_duration = sum(int(question.get("estimated_minutes") or 0) for question in questions)
 
         artifact = {
             "practice_set_id": make_id("practice_set"),
             "parent_practice_set_id": parent_practice_set_id,
             "workspace_id": bundle.get("workspace_id"),
             "created_at": utc_now_iso(),
+            "topic_text": topic,
             "generation_mode": generation_mode,
             "template_style_summary": template_style_summary,
+            "estimated_duration_minutes": estimated_duration,
             "questions": questions,
             "coverage_report": {
                 "considered_slide_count": len(considered_slides),
                 "cited_slide_count": len(cited_slides),
                 "uncited_or_skipped_slides": uncited_or_skipped,
                 "notes": notes,
+            },
+            "human_loop_summary": {
+                "used_inputs": [
+                    {"label": "Topic focus", "value": topic or "All ready grounded materials"},
+                    {"label": "Question format", "value": generation_mode.replace("_", " ")},
+                    {"label": "Question count", "value": str(question_count)},
+                    {"label": "Coverage mode", "value": coverage_mode.replace("_", " ")},
+                    {"label": "Difficulty", "value": difficulty_profile},
+                    {"label": "Answer key", "value": "Included" if include_answer_key else "Hidden"},
+                    {"label": "Rubrics", "value": "Included" if include_rubrics else "Hidden"},
+                ],
+                "follow_up_actions": [
+                    "Lock the strongest questions before revising.",
+                    "Regenerate only the questions that feel unclear or off-target.",
+                    "Narrow the topic if the current set is too broad.",
+                ],
             },
             "_meta": {
                 "grounding_source": self._grounding_source_from_bundle(bundle),
@@ -1396,10 +1429,19 @@ class GroundedGenerator:
         lecture_records: Sequence[Dict[str, Any]],
         question_count: int,
         coverage_mode: str,
+        topic_text: str = "",
     ) -> List[Dict[str, Any]]:
         if not lecture_records:
             return []
         ordered = list(lecture_records)
+        if topic_text:
+            ordered.sort(
+                key=lambda record: (
+                    -int(record.get("_topic_score", 0)),
+                    int(record.get("slide_number") or 0),
+                    record.get("concept_name", ""),
+                )
+            )
         if coverage_mode == "balanced":
             selected: List[Dict[str, Any]] = []
             while len(selected) < question_count:
@@ -1418,13 +1460,35 @@ class GroundedGenerator:
             return selected
         return list(ordered[:question_count])
 
+    def _rank_records_for_practice_topic(
+        self,
+        lecture_records: Sequence[Dict[str, Any]],
+        topic_text: str,
+    ) -> List[Dict[str, Any]]:
+        ranked: List[Dict[str, Any]] = []
+        for record in lecture_records:
+            annotated = copy.deepcopy(record)
+            annotated["_topic_score"] = self._record_overlap(record, topic_text)
+            ranked.append(annotated)
+        ranked.sort(
+            key=lambda record: (
+                -int(record.get("_topic_score", 0)),
+                int(record.get("slide_number") or 0),
+                record.get("concept_name", ""),
+            )
+        )
+        return ranked
+
     def _question_types_for_mode(self, generation_mode: str, count: int, template_items_present: bool) -> List[str]:
+        if generation_mode == "multiple_choice":
+            return ["multiple_choice"] * count
         if generation_mode == "short_answer":
             return ["short_answer"] * count
         if generation_mode == "long_answer":
             return ["long_answer"] * count
         if generation_mode == "mixed":
-            return ["short_answer" if index % 2 == 0 else "long_answer" for index in range(count)]
+            sequence = ["multiple_choice", "short_answer", "long_answer"]
+            return [sequence[index % len(sequence)] for index in range(count)]
         # template mimic defaults to mixed to preserve style variety.
         return ["short_answer" if index % 2 == 0 else "long_answer" for index in range(count)]
 
@@ -1448,10 +1512,17 @@ class GroundedGenerator:
         else:
             lead = self._default_lead_verb(question_type, difficulty_profile, question_index)
 
-        if question_type == "short_answer":
+        if question_type == "multiple_choice":
+            stem = f"{lead} which option best matches how the lecture presents {concept}."
+            answer_choices, expected_answer = self._multiple_choice_options(concept, summary, record)
+            scoring_guide = "Award credit only for the option that matches the lecture-grounded idea most closely."
+        elif question_type == "short_answer":
             stem = f"{lead} {concept} as presented in the lecture materials, and state why it matters."
             if difficulty_profile == "harder":
                 stem = f"{lead} {concept} and identify one trade-off, condition, or failure mode implied by the lecture materials."
+            answer_choices = []
+            expected_answer = summary if include_answer_key else ""
+            scoring_guide = None
         else:
             stem = (
                 f"{lead} {concept}, connect it to the lecture's broader procedure or evaluation logic, "
@@ -1459,10 +1530,10 @@ class GroundedGenerator:
             )
             if difficulty_profile == "easier":
                 stem = f"{lead} {concept} and summarize the main idea in the lecture in a well-structured paragraph."
-
-        expected_answer = summary if include_answer_key else ""
+            answer_choices = []
+            expected_answer = summary if include_answer_key else ""
+            scoring_guide = None
         rubric = self._rubric_for_question(question_type, concept, include_rubrics, difficulty_profile)
-        scoring_guide = None
         if question_type == "long_answer":
             scoring_guide = (
                 f"Full credit requires a correct explanation of {concept}, a grounded connection to the lecture context, and one clearly stated caution or application detail."
@@ -1472,11 +1543,13 @@ class GroundedGenerator:
             "question_type": question_type,
             "stem": stem,
             "expected_answer": expected_answer,
+            "answer_choices": answer_choices,
             "rubric": rubric,
             "scoring_guide_text": scoring_guide,
             "citations": record["citations"][:3],
             "covered_slides": distinct_slide_numbers(record["citations"][:3]),
             "difficulty": difficulty_profile,
+            "estimated_minutes": self._estimated_minutes(question_type, difficulty_profile),
         }
 
     def _rubric_for_question(self, question_type: str, concept: str, include_rubrics: bool, difficulty_profile: str) -> List[Dict[str, Any]]:
@@ -1504,6 +1577,33 @@ class GroundedGenerator:
             )
         return criteria
 
+    def _multiple_choice_options(
+        self,
+        concept: str,
+        summary: str,
+        record: Dict[str, Any],
+    ) -> Tuple[List[str], str]:
+        correct = safe_excerpt(summary, 120)
+        distractors = [
+            f"It is mainly a naming convention for {concept} with no effect on model behavior.",
+            f"It means skipping evaluation entirely and relying only on intuition.",
+            f"It is a generic rule that always improves every model without trade-offs.",
+        ]
+        options = [correct] + distractors
+        return options, correct
+
+    def _estimated_minutes(self, question_type: str, difficulty_profile: str) -> int:
+        base = {
+            "multiple_choice": 3,
+            "short_answer": 6,
+            "long_answer": 10,
+        }.get(question_type, 6)
+        if difficulty_profile == "easier":
+            return max(2, base - 1)
+        if difficulty_profile == "harder":
+            return base + 2
+        return base
+
     def _analyze_template_style(self, template_items: Sequence[Dict[str, Any]]) -> Tuple[str, List[str]]:
         verbs = []
         for item in template_items:
@@ -1526,16 +1626,17 @@ class GroundedGenerator:
         summary = "Template favors " + ", ".join(style_bits or ["structured question commands"]) + "."
         return summary, unique_verbs
 
-    def _coverage_notes(self, coverage_mode: str, considered_slides: Sequence[int], cited_slides: Sequence[int], question_count: int) -> str:
+    def _coverage_notes(self, coverage_mode: str, considered_slides: Sequence[int], cited_slides: Sequence[int], question_count: int, topic_text: str) -> str:
+        topic_prefix = f"Topic focus '{topic_text}'. " if topic_text else ""
         if coverage_mode == "exhaustive":
             if len(cited_slides) == len(considered_slides):
-                return "Exhaustive mode covered every slide represented in the lecture evidence."
+                return topic_prefix + "Exhaustive mode covered every slide represented in the lecture evidence."
             return (
-                "Exhaustive mode attempted full coverage, but the requested question_count was smaller than the number of distinct grounded lecture slides."
+                topic_prefix + "Exhaustive mode attempted full coverage, but the requested question_count was smaller than the number of distinct grounded lecture slides."
             )
         if coverage_mode == "high_coverage":
-            return "High-coverage mode prioritized breadth across grounded lecture slides before repeating any topic."
-        return "Balanced mode cycled through grounded topics to keep the set representative without forcing full slide-by-slide coverage."
+            return topic_prefix + "High-coverage mode prioritized breadth across grounded lecture slides before repeating any topic."
+        return topic_prefix + "Balanced mode cycled through grounded topics to keep the set representative without forcing full slide-by-slide coverage."
 
     def _revise_question(
         self,

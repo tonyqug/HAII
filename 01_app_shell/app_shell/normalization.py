@@ -197,6 +197,7 @@ def normalize_practice_request(workspace: dict, payload: dict) -> Tuple[Dict[str
     normalized = {
         "workspace_id": workspace["workspace_id"],
         "material_ids": material_ids,
+        "topic_text": _text(payload.get("topic_text") or workspace.get("practice_preferences", {}).get("topic_text")),
         "generation_mode": generation_mode,
         "question_count": int(question_count),
         "coverage_mode": _text(payload.get("coverage_mode") or "balanced"),
@@ -206,16 +207,8 @@ def normalize_practice_request(workspace: dict, payload: dict) -> Tuple[Dict[str
         "grounding_mode": _text(payload.get("grounding_mode") or workspace.get("grounding_mode") or "strict_lecture_only"),
         "include_annotations": True,
     }
-    template_material_id = payload.get("template_material_id")
     if generation_mode == "template_mimic":
-        if not template_material_id:
-            raise ShellError("Template mimic mode requires template_material_id.")
-        template = workspace.get("materials", {}).get(str(template_material_id))
-        if not template or template.get("role") != "practice_template":
-            raise ShellError("Template mimic mode requires a valid practice_template material.")
-        if template.get("processing_status") != "ready":
-            raise ShellError("The selected practice template is not ready yet.")
-        normalized["template_material_id"] = str(template_material_id)
+        raise ShellError("Template mimic mode is no longer supported. Choose multiple_choice, short_answer, long_answer, or mixed.")
     return normalized, warnings
 
 

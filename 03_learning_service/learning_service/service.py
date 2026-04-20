@@ -17,7 +17,7 @@ ALLOWED_GROUNDING_MODES = {"strict_lecture_only", "lecture_with_fallback"}
 ALLOWED_RESPONSE_STYLES = {"concise", "standard", "step_by_step"}
 RESPONSE_STYLE_ALIASES = {"direct_answer": "standard"}
 PRACTICE_GENERATION_SYNTHETIC_QUERY = "full lecture coverage for practice generation"
-ALLOWED_GENERATION_MODES = {"short_answer", "long_answer", "mixed", "template_mimic"}
+ALLOWED_GENERATION_MODES = {"multiple_choice", "short_answer", "long_answer", "mixed", "template_mimic"}
 ALLOWED_COVERAGE_MODES = {"balanced", "high_coverage", "exhaustive"}
 ALLOWED_DIFFICULTIES = {"easier", "mixed", "harder"}
 FINAL_JOB_STATUSES = {"succeeded", "failed", "needs_user_input"}
@@ -88,8 +88,8 @@ class LearningService:
             "version": self.settings.version,
             "api_base_url": self.settings.api_base_url,
             "capabilities": [
-                "study_plan",
                 "conversation_qa",
+                "practice_generation",
                 "artifact_revision",
                 "inline_evidence_mode",
             ],
@@ -399,6 +399,7 @@ class LearningService:
             self.update_job(job_id, status="running", progress=55, stage="draft_structured_output", message="Drafting the grounded practice set.")
             artifact = self.generator.build_practice_set(
                 bundle=bundle,
+                topic_text=request_data.get("topic_text"),
                 generation_mode=request_data["generation_mode"],
                 template_material_id=request_data.get("template_material_id"),
                 question_count=int(request_data.get("question_count") or 8),
@@ -697,6 +698,7 @@ class LearningService:
             "workspace_id": workspace_id,
             "material_ids": material_ids,
             "evidence_bundle": evidence_bundle,
+            "topic_text": self._optional_text(data.get("topic_text")),
             "generation_mode": generation_mode,
             "template_material_id": template_material_id,
             "question_count": self._positive_int(data.get("question_count"), "question_count", default=8),

@@ -529,6 +529,7 @@ class GroundedGenerator(HeuristicGroundedGenerator):
         self,
         *,
         bundle: Dict[str, Any],
+        topic_text: Optional[str],
         generation_mode: str,
         template_material_id: Optional[str],
         question_count: int,
@@ -543,6 +544,7 @@ class GroundedGenerator(HeuristicGroundedGenerator):
         if self.gemini.configured:
             artifact = self._build_practice_set_via_gemini(
                 bundle=bundle,
+                topic_text=topic_text,
                 generation_mode=generation_mode,
                 template_material_id=template_material_id,
                 question_count=question_count,
@@ -558,6 +560,7 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             return artifact
         artifact = super().build_practice_set(
             bundle=bundle,
+            topic_text=topic_text,
             generation_mode=generation_mode,
             template_material_id=template_material_id,
             question_count=question_count,
@@ -575,6 +578,7 @@ class GroundedGenerator(HeuristicGroundedGenerator):
         self,
         *,
         bundle: Dict[str, Any],
+        topic_text: Optional[str],
         generation_mode: str,
         template_material_id: Optional[str],
         question_count: int,
@@ -611,6 +615,7 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             )
 
         prompt = (
+            f"Topic focus: {topic_text or 'all ready grounded materials'}\n"
             f"Generation mode: {generation_mode}\n"
             f"Coverage mode: {coverage_mode}\n"
             f"Difficulty profile: {difficulty_profile}\n"
@@ -624,7 +629,7 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             "Evidence digest:\n"
             + "\n".join(evidence_lines)
             + "\n\nReturn JSON with keys template_style_summary and questions.\n"
-            "Each question must have question_type, stem, expected_answer, citation_ids, and optional difficulty, rubric, scoring_guide_text.\n"
+            "Each question must have question_type, stem, expected_answer, citation_ids, and optional difficulty, rubric, scoring_guide_text, answer_choices, estimated_minutes.\n"
             "Use only allowed citation ids. Every question must cite lecture evidence.\n"
             "template_mimic may borrow style only, not template topic content outside the lecture evidence.\n"
         )

@@ -9,9 +9,9 @@ SupportStatus = Literal[
     "external_supplement",
     "insufficient_evidence",
 ]
-QuestionType = Literal["short_answer", "long_answer"]
+QuestionType = Literal["multiple_choice", "short_answer", "long_answer"]
 ResponseStyle = Literal["concise", "standard", "step_by_step"]
-PracticeGenerationMode = Literal["short_answer", "long_answer", "mixed", "template_mimic"]
+PracticeGenerationMode = Literal["multiple_choice", "short_answer", "long_answer", "mixed", "template_mimic"]
 CoverageMode = Literal["balanced", "high_coverage", "exhaustive"]
 DifficultyProfile = Literal["easier", "mixed", "harder"]
 JobType = Literal["study_plan", "chat_message", "practice_set", "revision"]

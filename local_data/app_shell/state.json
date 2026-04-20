@@ -279,6 +279,54 @@
       "user_action": null,
       "workspace_id": "workspace_538aaf9f4515"
     },
+    "job_2dbd26f279c2": {
+      "context": {
+        "normalized_request": {
+          "grounding_mode": "strict_lecture_only",
+          "include_annotations": true,
+          "material_ids": [
+            "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+            "mat_847bd8990d0e4197bca3c9d70a571ec2",
+            "material_390aae065c51",
+            "material_af944947654f"
+          ],
+          "student_context": {
+            "goals": "Compensation model (why SSRIs take time to work).\n5-HT receptor differences (especially 5-HT1 vs 5-HT2).\nTolerance vs withdrawal mechanisms (opioids, cocaine, etc).\nApplying concepts to explanation-style questions.",
+            "prior_knowledge": "Basic neurotransmitter functions (dopamine, serotonin, GABA).\nGeneral idea of SSRIs and that they increase serotonin.\nKnow symptoms of major disorders like MDD and GAD.",
+            "weak_areas": "Compensation model (why SSRIs take time to work).\n5-HT receptor differences (especially 5-HT1 vs 5-HT2).\nTolerance vs withdrawal mechanisms (opioids, cocaine, etc).\nApplying concepts to explanation-style questions."
+          },
+          "time_budget_minutes": 90,
+          "topic_text": "",
+          "workspace_id": "workspace_cd0fc75267fd"
+        },
+        "warnings": []
+      },
+      "created_at": "2026-04-20T21:12:41Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_2dbd26f279c2",
+      "message": "Study plan created.",
+      "operation": "study_plan_generate",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_68a60f05a85a",
+      "result_id": "study_plan_41d52cb42888",
+      "result_type": "study_plan",
+      "service": "learning",
+      "stage": "done",
+      "status": "succeeded",
+      "updated_at": "2026-04-20T21:12:58Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_cd0fc75267fd"
+    },
     "job_2ea782330e5f": {
       "context": {
         "deduplication": {
@@ -466,6 +514,39 @@
       "updated_at": "2026-03-30T01:43:30Z",
       "user_action": null,
       "workspace_id": "workspace_68e9e8c86cf7"
+    },
+    "job_55c34d760b70": {
+      "context": {
+        "conversation_id": "conversation_adab45d0370a",
+        "grounding_mode": "strict_lecture_only",
+        "message_text": "what are Basic neurotransmitter functions",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-20T21:13:33Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_55c34d760b70",
+      "message": "Conversation reply created.",
+      "operation": "conversation_message",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_0d78f49e4c89",
+      "result_id": "msg_07f1be938d5d",
+      "result_type": "message",
+      "service": "learning",
+      "stage": "done",
+      "status": "succeeded",
+      "updated_at": "2026-04-20T21:13:39Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_cd0fc75267fd"
     },
     "job_582da1678027": {
       "context": {
@@ -1315,7 +1396,7 @@
         "study_plan_abc1b5e76fc0",
         "study_plan_44d939bc1634"
       ],
-      "last_opened_at": "2026-04-20T20:38:06Z",
+      "last_opened_at": "2026-04-20T21:13:41Z",
       "local_edits": {},
       "material_preferences": {
         "material_057153c6600f": "focus",
@@ -1401,13 +1482,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-20T20:38:06Z",
+            "last_checked_at": "2026-04-20T21:13:41Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-20T20:38:06Z",
+            "last_checked_at": "2026-04-20T21:13:41Z",
             "mode": "integrated"
           }
         },
@@ -1788,7 +1869,7 @@
         "study_plan_dabb59dffded",
         "study_plan_aea042ccf526"
       ],
-      "last_opened_at": "2026-04-20T20:38:06Z",
+      "last_opened_at": "2026-04-20T21:13:41Z",
       "local_edits": {},
       "material_preferences": {
         "material_753ac7b44e1e": "default",
@@ -1903,13 +1984,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-20T20:38:06Z",
+            "last_checked_at": "2026-04-20T21:13:41Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-20T20:38:06Z",
+            "last_checked_at": "2026-04-20T21:13:41Z",
             "mode": "integrated"
           }
         },
@@ -2379,7 +2460,7 @@
       "known_study_plan_ids": [
         "study_plan_67ff13d34387"
       ],
-      "last_opened_at": "2026-04-20T20:38:06Z",
+      "last_opened_at": "2026-04-20T21:13:41Z",
       "local_edits": {},
       "material_preferences": {
         "mat_0d4cf2e5271346b2afc8b1a4422e6a0e": "default",
@@ -10924,13 +11005,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-20T20:38:06Z",
+            "last_checked_at": "2026-04-20T21:13:40Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-20T20:38:06Z",
+            "last_checked_at": "2026-04-20T21:13:40Z",
             "mode": "integrated"
           }
         },
@@ -12119,7 +12200,7 @@
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-20T20:38:07Z",
+      "last_opened_at": "2026-04-20T21:13:41Z",
       "local_edits": {},
       "material_preferences": {
         "material_f90e97c0bfa9": "default"
@@ -12170,13 +12251,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-20T20:38:06Z",
+            "last_checked_at": "2026-04-20T21:13:40Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-20T20:38:06Z",
+            "last_checked_at": "2026-04-20T21:13:40Z",
             "mode": "integrated"
           }
         },
@@ -12211,7 +12292,7 @@
         ]
       },
       "active_practice_set_id": null,
-      "active_study_plan_id": "study_plan_80e9a5b4c8c3",
+      "active_study_plan_id": "study_plan_41d52cb42888",
       "annotations": [],
       "archived": false,
       "conversations": {
@@ -12266,6 +12347,59 @@
             }
           ],
           "title": "Workspace Q&A",
+          "workspace_id": "workspace_cd0fc75267fd"
+        },
+        "conversation_adab45d0370a": {
+          "conversation_id": "conversation_adab45d0370a",
+          "created_at": "2026-04-20T21:13:30Z",
+          "grounding_mode": "strict_lecture_only",
+          "messages": [
+            {
+              "created_at": "2026-04-20T21:13:38Z",
+              "message_id": "msg_285ec04e024b",
+              "role": "user",
+              "text": "what are Basic neurotransmitter functions"
+            },
+            {
+              "created_at": "2026-04-20T21:13:38Z",
+              "message_id": "msg_07f1be938d5d",
+              "reply_sections": [
+                {
+                  "citations": [
+                    {
+                      "citation_id": "cit_a9a6e627618c162682913f64",
+                      "confidence": "high",
+                      "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+                      "material_title": "03133 Exam 3 Cheat sheet.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/preview",
+                      "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2",
+                      "slide_number": 2,
+                      "snippet_text": "\u2026binds to a receptor but blocks its activity\u200b, preventing the normal effect of a neurotransmitter or\u200b \u200bhormone. NALOXONE. LESS SIGNAL,\u200b\u200b# of receptors:\u200b\u200b\u2191 (upregulation),\u200b\u200bEffect on signal:\u200b\u200b\u2191 sensitivity over time\u200b \u200bAgonist:\u200b\u200bsubstance that\u200b\u200bbinds to a receptor and activates it\u200b, producing a biological effect (mimics t\u2026",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/source",
+                      "support_type": "explicit"
+                    },
+                    {
+                      "citation_id": "cit_059ad0ddf58b4ef290ee0d1a",
+                      "confidence": "high",
+                      "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+                      "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/preview",
+                      "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1",
+                      "slide_number": 1,
+                      "snippet_text": "\u2026of the cases, then the concordance rate = 300 / 400= 75%\u200b \u200bTourette Syndrome\u200b \u200bBasics: Motor and vocal tics present for at least a year, symptoms presenting under the age of 18.\u200b \u200bDopamine\u200b \u200bDopamine in Striatum\u200b \u200bIt inhibits stop cells and excites go cells, resulting in\u200b\u200bincreased movement\u200b \u200bDopamine in VTA -> Nucleu\u2026",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/source",
+                      "support_type": "explicit"
+                    }
+                  ],
+                  "heading": "Basic Neurotransmitter Functions",
+                  "support_status": "inferred_from_slides",
+                  "text": "Neurotransmitters function by binding to receptors and activating them, which in turn produces a biological effect or signal. For example, dopamine can inhibit 'stop' cells and excite 'go' cells to increase movement, cause pleasure in the brain's reward system, and promote attention, thinking, and self-control. Serotonin signals are involved in mood and can be extended to help with anxiety and depression."
+                }
+              ],
+              "role": "assistant"
+            }
+          ],
+          "title": "Chat 5:13:30 PM",
           "workspace_id": "workspace_cd0fc75267fd"
         },
         "conversation_d618f7331070": {
@@ -12340,14 +12474,6 @@
       "history": [
         {
           "active": false,
-          "artifact_id": "study_plan_ce3122d0b471",
-          "artifact_type": "study_plan",
-          "created_at": "2026-04-20T19:39:30Z",
-          "parent_artifact_id": null,
-          "title": "03133 Exam 3 Cheat sheet.pdf"
-        },
-        {
-          "active": true,
           "artifact_id": "study_plan_80e9a5b4c8c3",
           "artifact_type": "study_plan",
           "created_at": "2026-04-20T20:29:14Z",
@@ -12363,24 +12489,41 @@
           "title": "Workspace Q&A"
         },
         {
-          "active": true,
+          "active": false,
           "artifact_id": "conversation_d618f7331070",
           "artifact_type": "conversation",
           "created_at": "2026-04-20T20:37:52Z",
           "parent_artifact_id": null,
           "title": "Chat 4:37:52 PM"
+        },
+        {
+          "active": true,
+          "artifact_id": "study_plan_41d52cb42888",
+          "artifact_type": "study_plan",
+          "created_at": "2026-04-20T21:12:56Z",
+          "parent_artifact_id": null,
+          "title": "Medicine Personalized, Concordance, Mice First"
+        },
+        {
+          "active": true,
+          "artifact_id": "conversation_adab45d0370a",
+          "artifact_type": "conversation",
+          "created_at": "2026-04-20T21:13:30Z",
+          "parent_artifact_id": null,
+          "title": "Chat 5:13:30 PM"
         }
       ],
       "known_conversation_ids": [
         "conversation_013f91a51af2",
-        "conversation_d618f7331070"
+        "conversation_d618f7331070",
+        "conversation_adab45d0370a"
       ],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [
-        "study_plan_ce3122d0b471",
-        "study_plan_80e9a5b4c8c3"
+        "study_plan_80e9a5b4c8c3",
+        "study_plan_41d52cb42888"
       ],
-      "last_opened_at": "2026-04-20T20:38:06Z",
+      "last_opened_at": "2026-04-20T21:13:41Z",
       "local_edits": {},
       "material_preferences": {
         "mat_2f09c1feaeca4fbe81e2ab67795171e4": "default",
@@ -12538,23 +12681,23 @@
       },
       "pending_user_actions": [],
       "practice_sets": {},
-      "selected_active_conversation_id": "conversation_d618f7331070",
+      "selected_active_conversation_id": "conversation_adab45d0370a",
       "status": {
         "last_successful_sync": {
-          "content": "2026-04-20T20:38:06Z",
-          "learning": "2026-04-20T20:38:06Z"
+          "content": "2026-04-20T21:13:40Z",
+          "learning": "2026-04-20T21:13:40Z"
         },
         "services": {
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-20T20:38:06Z",
+            "last_checked_at": "2026-04-20T21:13:40Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-20T20:38:06Z",
+            "last_checked_at": "2026-04-20T21:13:40Z",
             "mode": "integrated"
           }
         },
@@ -12566,6 +12709,339 @@
         "weak_areas": "Compensation model (why SSRIs take time to work).\n5-HT receptor differences (especially 5-HT1 vs 5-HT2).\nTolerance vs withdrawal mechanisms (opioids, cocaine, etc).\nApplying concepts to explanation-style questions."
       },
       "study_plans": {
+        "study_plan_41d52cb42888": {
+          "common_mistakes": [
+            {
+              "citations": [
+                {
+                  "citation_id": "cit_414a02ae7ca2977c156b40b1",
+                  "confidence": "high",
+                  "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+                  "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/preview",
+                  "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1",
+                  "slide_number": 1,
+                  "snippet_text": "\u200bPersonalized medicine\u200b \u200b\u25cf\u200b \u200bGeneral idea and benefits: a 10% increase in knowing the right medicine to try can help millions of\u200b \u200bpeople get faster and better treatment for a disease\u200b \u200b\u25cf\u200b \u200bSpecific logic with NE receptor vs. DA receptor genetic deficiencies and how that can inform ADHD\u200b \u200bmedication choices (targeted\u2026",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/source",
+                  "support_type": "explicit"
+                },
+                {
+                  "citation_id": "cit_29770fa3728d4a4eac3f613f",
+                  "confidence": "high",
+                  "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+                  "material_title": "03133 Exam 3 Cheat sheet.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1/preview",
+                  "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1",
+                  "slide_number": 1,
+                  "snippet_text": "\u200bConcordance vs. Comorbidity\u200b \u200bConcordance: relatives tend to share the same disorder at higher-than-chance rates.\u200b \u200bComorbidity: two disorders occur together in the same person more often than expected.\u200b \u200bSimilarity: both suggest some kind of relationship.\u200b \u200bDifference: concordance is about shared disorder in relativ\u2026",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "item_id": "mistake_6af8fd30a3c3",
+              "pattern": "Confusing Medicine Personalized with Concordance",
+              "prevention_advice": "After studying, write one sentence that distinguishes Medicine Personalized from Concordance.",
+              "support_status": "inferred_from_slides",
+              "why_it_happens": "The lecture moves through related concepts in sequence, so students can blur their roles if they only memorize isolated phrases."
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "cit_426baa2b98cfc70f92dadecf",
+                  "confidence": "high",
+                  "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+                  "material_title": "03133 Exam 3 Cheat sheet.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/preview",
+                  "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2",
+                  "slide_number": 2,
+                  "snippet_text": "\u200bParkinson\u2019s Disease\u200b \u200b-\u200b \u200bSecond most common neurological disorder.\u200b \u200b-\u200b \u200bCaused by degeneration of dopamine neurons in the substantia nigra pars compacta (SnC).\u200b \u200b-\u200b \u200bSymptoms: tremor, rigidity, reduced movement, shuffling gait.\u200b \u200b-\u200b \u200bLoss of SnC dopamine causes basal ganglia dysfunction.\u200b \u200b-\u200b \u200bSnC: movement, VTA: m\u2026",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "item_id": "mistake_5884f9b4c6d8",
+              "pattern": "Leaving your weak area around Compensation model (why SSRIs take time to work). 5-HT receptor differences (especially 5-HT1 vs 5-HT2). Tolerance vs withdrawal mechanisms (opioids, cocaine, etc). Applying concepts to explanation-style questions. at the recognition level instead of practicing it actively",
+              "prevention_advice": "After reviewing the cited slide, answer one no-notes question focused on Compensation model (why SSRIs take time to work). 5-HT receptor differences (especially 5-HT1 vs 5-HT2). Tolerance vs withdrawal mechanisms (opioids, cocaine, etc). Applying concepts to explanation-style questions. before moving on.",
+              "support_status": "inferred_from_slides",
+              "why_it_happens": "The plan needs to do more than reread Dopamine Snc; weak areas usually improve only after explanation and self-testing."
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "cit_29770fa3728d4a4eac3f613f",
+                  "confidence": "high",
+                  "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+                  "material_title": "03133 Exam 3 Cheat sheet.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1/preview",
+                  "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1",
+                  "slide_number": 1,
+                  "snippet_text": "\u200bConcordance vs. Comorbidity\u200b \u200bConcordance: relatives tend to share the same disorder at higher-than-chance rates.\u200b \u200bComorbidity: two disorders occur together in the same person more often than expected.\u200b \u200bSimilarity: both suggest some kind of relationship.\u200b \u200bDifference: concordance is about shared disorder in relativ\u2026",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "item_id": "mistake_5781683a4c4a",
+              "pattern": "Ignoring the conditions or tuning choices around Concordance",
+              "prevention_advice": "When reviewing the slide, list the condition, tuning choice, or warning next to the main concept before moving on.",
+              "support_status": "inferred_from_slides",
+              "why_it_happens": "Students often remember the headline idea but skip the conditions, trade-offs, or checks that make it work correctly."
+            }
+          ],
+          "coverage_summary": {
+            "cited_slides": [
+              1,
+              2
+            ],
+            "omitted_or_low_confidence_slides": []
+          },
+          "created_at": "2026-04-20T21:12:56Z",
+          "grounding_mode": "strict_lecture_only",
+          "parent_study_plan_id": null,
+          "prerequisites": [
+            {
+              "citations": [
+                {
+                  "citation_id": "cit_414a02ae7ca2977c156b40b1",
+                  "confidence": "high",
+                  "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+                  "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/preview",
+                  "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1",
+                  "slide_number": 1,
+                  "snippet_text": "\u200bPersonalized medicine\u200b \u200b\u25cf\u200b \u200bGeneral idea and benefits: a 10% increase in knowing the right medicine to try can help millions of\u200b \u200bpeople get faster and better treatment for a disease\u200b \u200b\u25cf\u200b \u200bSpecific logic with NE receptor vs. DA receptor genetic deficiencies and how that can inform ADHD\u200b \u200bmedication choices (targeted\u2026",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "concept_name": "Medicine Personalized",
+              "item_id": "prereq_bcf203d60d4e",
+              "support_status": "inferred_from_slides",
+              "why_needed": "You said you already know Basic neurotransmitter functions (dopamine, serotonin, GABA). General idea of SSRIs and that they increase serotonin. Know symptoms of major disorders like MDD and GAD., so use Medicine Personalized as a quick bridge into the lecture's version of the topic: \u200bPersonalized medicine\u200b \u200b\u25cf\u200b \u200bGeneral idea and benefits: a 10% increase in knowing the right medicine to try can help millions of\u200b \u200bpeople get faster and better treatment for a disease\u200b \u200b\u25cf\u200b \u200bSpecific logic with NE receptor vs."
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "cit_29770fa3728d4a4eac3f613f",
+                  "confidence": "high",
+                  "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+                  "material_title": "03133 Exam 3 Cheat sheet.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1/preview",
+                  "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1",
+                  "slide_number": 1,
+                  "snippet_text": "\u200bConcordance vs. Comorbidity\u200b \u200bConcordance: relatives tend to share the same disorder at higher-than-chance rates.\u200b \u200bComorbidity: two disorders occur together in the same person more often than expected.\u200b \u200bSimilarity: both suggest some kind of relationship.\u200b \u200bDifference: concordance is about shared disorder in relativ\u2026",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "concept_name": "Concordance",
+              "item_id": "prereq_ac0164f02ad7",
+              "support_status": "inferred_from_slides",
+              "why_needed": "You said you already know Basic neurotransmitter functions (dopamine, serotonin, GABA). General idea of SSRIs and that they increase serotonin. Know symptoms of major disorders like MDD and GAD., so use Concordance as a quick bridge into the lecture's version of the topic: \u200bConcordance vs."
+            }
+          ],
+          "study_plan_id": "study_plan_41d52cb42888",
+          "study_sequence": [
+            {
+              "citations": [
+                {
+                  "citation_id": "cit_414a02ae7ca2977c156b40b1",
+                  "confidence": "high",
+                  "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+                  "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/preview",
+                  "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1",
+                  "slide_number": 1,
+                  "snippet_text": "\u200bPersonalized medicine\u200b \u200b\u25cf\u200b \u200bGeneral idea and benefits: a 10% increase in knowing the right medicine to try can help millions of\u200b \u200bpeople get faster and better treatment for a disease\u200b \u200b\u25cf\u200b \u200bSpecific logic with NE receptor vs. DA receptor genetic deficiencies and how that can inform ADHD\u200b \u200bmedication choices (targeted\u2026",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "depends_on": [
+                "prereq_bcf203d60d4e"
+              ],
+              "milestone": "You can explain Medicine Personalized clearly enough to use it for Compensation model (why SSRIs take time to work). 5-HT receptor differences (especially 5-HT1 vs 5-HT2). Tolerance vs withdrawal mechanisms (opioids, cocaine, etc). Applying concepts to explanation-style questions. without reopening the slides.",
+              "objective": "Build a grounded explanation of how this record supports Medicine Personalized, Concordance, Mice First: \u200bPersonalized medicine\u200b \u200b\u25cf\u200b \u200bGeneral idea and benefits: a 10% increase in knowing the right medicine to try can help millions of\u200b \u200bpeople get faster and better treatment for a disease\u200b \u200b\u25cf\u200b \u200bSpecific logic with NE...",
+              "order_index": 1,
+              "recommended_time_minutes": 24,
+              "step_id": "step_2c7b986aae4f",
+              "support_status": "inferred_from_slides",
+              "tasks": [
+                "Review slide 1 and restate Medicine Personalized in your own words.",
+                "Use what you already know about Basic neurotransmitter functions (dopamine, serotonin, GABA). General idea of SSRIs and that they increase serotonin. Know symptoms of major disorders like MDD and GAD. as a bridge, then note what the lecture adds or changes.",
+                "Turn Medicine Personalized into one no-notes self-test question.",
+                "Spend extra practice time here because it overlaps your stated weak area: Compensation model (why SSRIs take time to work). 5-HT receptor differences (especially 5-HT1 vs 5-HT2). Tolerance vs withdrawal mechanisms (opioids, cocaine, etc). Applying concepts to explanation-style questions.."
+              ],
+              "title": "Milestone: reinforce Medicine Personalized"
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "cit_29770fa3728d4a4eac3f613f",
+                  "confidence": "high",
+                  "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+                  "material_title": "03133 Exam 3 Cheat sheet.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1/preview",
+                  "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1",
+                  "slide_number": 1,
+                  "snippet_text": "\u200bConcordance vs. Comorbidity\u200b \u200bConcordance: relatives tend to share the same disorder at higher-than-chance rates.\u200b \u200bComorbidity: two disorders occur together in the same person more often than expected.\u200b \u200bSimilarity: both suggest some kind of relationship.\u200b \u200bDifference: concordance is about shared disorder in relativ\u2026",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "depends_on": [
+                "prereq_bcf203d60d4e",
+                "prereq_ac0164f02ad7"
+              ],
+              "milestone": "You can explain Concordance clearly enough to use it for Compensation model (why SSRIs take time to work). 5-HT receptor differences (especially 5-HT1 vs 5-HT2). Tolerance vs withdrawal mechanisms (opioids, cocaine, etc). Applying concepts to explanation-style questions. without reopening the slides.",
+              "objective": "Build a grounded explanation of how this record supports Medicine Personalized, Concordance, Mice First: \u200bConcordance vs. Comorbidity\u200b \u200bConcordance: relatives tend to share the same disorder at higher-than-chance rates.\u200b \u200bComorbidity: two disorders occur together in the same person more often than expected.\u200b...",
+              "order_index": 2,
+              "recommended_time_minutes": 24,
+              "step_id": "step_212a2104d98e",
+              "support_status": "inferred_from_slides",
+              "tasks": [
+                "Review slide 1 and restate Concordance in your own words.",
+                "Use what you already know about Basic neurotransmitter functions (dopamine, serotonin, GABA). General idea of SSRIs and that they increase serotonin. Know symptoms of major disorders like MDD and GAD. as a bridge, then note what the lecture adds or changes.",
+                "Turn Concordance into one no-notes self-test question.",
+                "Connect Concordance to the earlier topic Medicine Personalized."
+              ],
+              "title": "Milestone: reinforce Concordance"
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "cit_426baa2b98cfc70f92dadecf",
+                  "confidence": "high",
+                  "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+                  "material_title": "03133 Exam 3 Cheat sheet.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/preview",
+                  "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2",
+                  "slide_number": 2,
+                  "snippet_text": "\u200bParkinson\u2019s Disease\u200b \u200b-\u200b \u200bSecond most common neurological disorder.\u200b \u200b-\u200b \u200bCaused by degeneration of dopamine neurons in the substantia nigra pars compacta (SnC).\u200b \u200b-\u200b \u200bSymptoms: tremor, rigidity, reduced movement, shuffling gait.\u200b \u200b-\u200b \u200bLoss of SnC dopamine causes basal ganglia dysfunction.\u200b \u200b-\u200b \u200bSnC: movement, VTA: m\u2026",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "depends_on": [
+                "prereq_bcf203d60d4e",
+                "prereq_ac0164f02ad7"
+              ],
+              "milestone": "You can explain Dopamine Snc clearly enough to use it for Compensation model (why SSRIs take time to work). 5-HT receptor differences (especially 5-HT1 vs 5-HT2). Tolerance vs withdrawal mechanisms (opioids, cocaine, etc). Applying concepts to explanation-style questions. without reopening the slides.",
+              "objective": "Use this grounded concept to support your stated goal (Compensation model (why SSRIs take time to work). 5-HT receptor differences (especially 5-HT1 vs 5-HT2). Tolerance vs withdrawal mechanisms (opioids, cocaine, etc). Applying concepts to explanation-style questions.): \u200bParkinson\u2019s Disease\u200b \u200b-\u200b \u200bSecond most common neurological disorder.\u200b \u200b-\u200b \u200bCaused by degeneration of dopamine neurons in the substantia nigra pars compacta (SnC).\u200b \u200b-\u200b \u200bSymptoms: tremor, rigidity, reduced movement,...",
+              "order_index": 3,
+              "recommended_time_minutes": 19,
+              "step_id": "step_4ae603ac4861",
+              "support_status": "inferred_from_slides",
+              "tasks": [
+                "Review slide 2 and restate Dopamine Snc in your own words.",
+                "Use what you already know about Basic neurotransmitter functions (dopamine, serotonin, GABA). General idea of SSRIs and that they increase serotonin. Know symptoms of major disorders like MDD and GAD. as a bridge, then note what the lecture adds or changes.",
+                "Turn Dopamine Snc into one no-notes self-test question.",
+                "Connect Dopamine Snc to the earlier topic Concordance."
+              ],
+              "title": "Milestone: reinforce Dopamine Snc"
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "cit_bcfe17fcf4f6b3cb1f17e71b",
+                  "confidence": "high",
+                  "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+                  "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:2/preview",
+                  "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:2",
+                  "slide_number": 2,
+                  "snippet_text": "\u200bFirst question for Welch & colleagues study: how does removal of the Sapap3 gene (knockout mice) affect\u200b \u200bOCD-like behavior in mice? Result: mice show\u200b\u200bOCD-like behaviors\u200b\u200b(excessive grooming, anxiety)\u200b \u200bBasal ganglia activity is different in patients with OCD vs. controls (in complicated ways that you don\u2019t need to\u200b\u2026",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:2/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "depends_on": [
+                "prereq_bcf203d60d4e",
+                "prereq_ac0164f02ad7"
+              ],
+              "milestone": "You can explain Mice First clearly enough to use it for Compensation model (why SSRIs take time to work). 5-HT receptor differences (especially 5-HT1 vs 5-HT2). Tolerance vs withdrawal mechanisms (opioids, cocaine, etc). Applying concepts to explanation-style questions. without reopening the slides.",
+              "objective": "Build a grounded explanation of how this record supports Medicine Personalized, Concordance, Mice First: \u200bFirst question for Welch & colleagues study: how does removal of the Sapap3 gene (knockout mice) affect\u200b \u200bOCD-like behavior in mice? Result: mice show\u200b\u200bOCD-like behaviors\u200b\u200b(excessive grooming, anxiety)\u200b \u200bBasal...",
+              "order_index": 4,
+              "recommended_time_minutes": 23,
+              "step_id": "step_1a620cc6755c",
+              "support_status": "inferred_from_slides",
+              "tasks": [
+                "Review slide 2 and restate Mice First in your own words.",
+                "Use what you already know about Basic neurotransmitter functions (dopamine, serotonin, GABA). General idea of SSRIs and that they increase serotonin. Know symptoms of major disorders like MDD and GAD. as a bridge, then note what the lecture adds or changes.",
+                "Turn Mice First into one no-notes self-test question.",
+                "Connect Mice First to the earlier topic Dopamine Snc."
+              ],
+              "title": "Milestone: reinforce Mice First"
+            }
+          ],
+          "tailoring_summary": {
+            "evidence_scope": {
+              "material_count": 2,
+              "material_titles": [
+                "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+                "03133 Exam 3 Cheat sheet.pdf"
+              ],
+              "slide_count": 2,
+              "slide_numbers": [
+                1,
+                2
+              ]
+            },
+            "missing_inputs": [],
+            "used_inputs": [
+              {
+                "key": "topic_text",
+                "label": "Topic focus",
+                "source": "inferred",
+                "value": "Medicine Personalized, Concordance, Mice First"
+              },
+              {
+                "key": "time_budget_minutes",
+                "label": "Time budget",
+                "source": "user",
+                "value": "90 minutes"
+              },
+              {
+                "key": "grounding_mode",
+                "label": "Grounding mode",
+                "source": "user",
+                "value": "strict lecture only"
+              },
+              {
+                "key": "materials",
+                "label": "Lecture materials used",
+                "source": "workspace",
+                "value": "03133 Exam 2 Cheat sheet - Google Docs.pdf, 03133 Exam 3 Cheat sheet.pdf"
+              },
+              {
+                "key": "prior_knowledge",
+                "label": "What you already know",
+                "source": "user",
+                "value": "Basic neurotransmitter functions (dopamine, serotonin, GABA). General idea of SSRIs and that they increase serotonin. Know symptoms of major disorders like MDD and GAD."
+              },
+              {
+                "key": "weak_areas",
+                "label": "Weak areas",
+                "source": "user",
+                "value": "Compensation model (why SSRIs take time to work). 5-HT receptor differences (especially 5-HT1 vs 5-HT2). Tolerance vs withdrawal mechanisms (opioids, cocaine, etc). Applying concepts to explanation-style questions."
+              },
+              {
+                "key": "goals",
+                "label": "Goals or exam context",
+                "source": "user",
+                "value": "Compensation model (why SSRIs take time to work). 5-HT receptor differences (especially 5-HT1 vs 5-HT2). Tolerance vs withdrawal mechanisms (opioids, cocaine, etc). Applying concepts to explanation-style questions."
+              }
+            ]
+          },
+          "time_budget_minutes": 90,
+          "topic_text": "Medicine Personalized, Concordance, Mice First",
+          "uncertainty": [
+            {
+              "code": "topic_inferred",
+              "message": "No explicit topic_text was provided, so the service inferred the study topic from the grounded lecture evidence."
+            }
+          ],
+          "workspace_id": "workspace_cd0fc75267fd"
+        },
         "study_plan_80e9a5b4c8c3": {
           "common_mistakes": [
             {
@@ -12918,160 +13394,6 @@
               "message": "No explicit topic_text was provided, so the service inferred the study topic from the grounded lecture evidence."
             }
           ],
-          "workspace_id": "workspace_cd0fc75267fd"
-        },
-        "study_plan_ce3122d0b471": {
-          "common_mistakes": [
-            {
-              "citations": [
-                {
-                  "citation_id": "citation_material_390aae065c51_slide_03133-exam-3-cheat-sheet-pdf_1_1",
-                  "confidence": "high",
-                  "material_id": "material_390aae065c51",
-                  "material_title": "03133 Exam 3 Cheat sheet.pdf",
-                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/preview",
-                  "slide_id": "slide_03133-exam-3-cheat-sheet-pdf_1",
-                  "slide_number": 1,
-                  "snippet_text": "Imported file: 03133 Exam 3 Cheat sheet.pdf",
-                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/source",
-                  "support_type": "explicit"
-                }
-              ],
-              "item_id": "mistake_93aa7174fa08",
-              "pattern": "Skipping the cited evidence before memorizing the answer",
-              "prevention_advice": "Open the source viewer and anchor your summary in the cited slide or note.",
-              "support_status": "slide_grounded",
-              "why_it_happens": "Students often jump to memorization before checking how the lecture phrases the concept."
-            },
-            {
-              "citations": [
-                {
-                  "citation_id": "citation_material_390aae065c51_slide_03133-exam-3-cheat-sheet-pdf_1_1",
-                  "confidence": "high",
-                  "material_id": "material_390aae065c51",
-                  "material_title": "03133 Exam 3 Cheat sheet.pdf",
-                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/preview",
-                  "slide_id": "slide_03133-exam-3-cheat-sheet-pdf_1",
-                  "slide_number": 1,
-                  "snippet_text": "Imported file: 03133 Exam 3 Cheat sheet.pdf",
-                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/source",
-                  "support_type": "explicit"
-                }
-              ],
-              "item_id": "mistake_81de41db5dc8",
-              "pattern": "Studying all materials before any are ready",
-              "prevention_advice": "Proceed with the ready subset and revisit the remaining materials when they finish processing.",
-              "support_status": "inferred_from_slides",
-              "why_it_happens": "Uploads can still be processing while the workspace opens."
-            },
-            {
-              "citations": [
-                {
-                  "citation_id": "citation_material_390aae065c51_slide_03133-exam-3-cheat-sheet-pdf_1_1",
-                  "confidence": "high",
-                  "material_id": "material_390aae065c51",
-                  "material_title": "03133 Exam 3 Cheat sheet.pdf",
-                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/preview",
-                  "slide_id": "slide_03133-exam-3-cheat-sheet-pdf_1",
-                  "slide_number": 1,
-                  "snippet_text": "Imported file: 03133 Exam 3 Cheat sheet.pdf",
-                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/source",
-                  "support_type": "explicit"
-                }
-              ],
-              "item_id": "mistake_d76d1d043e76",
-              "pattern": "Ignoring your own weak-area notes",
-              "prevention_advice": "Add weak areas or goals before regenerating if you want more tailored guidance.",
-              "support_status": "supplemental_note",
-              "why_it_happens": "Student context is easy to leave blank when working quickly."
-            }
-          ],
-          "created_at": "2026-04-20T19:39:30Z",
-          "grounding_mode": "strict_lecture_only",
-          "parent_study_plan_id": null,
-          "prerequisites": [
-            {
-              "citations": [
-                {
-                  "citation_id": "citation_material_390aae065c51_slide_03133-exam-3-cheat-sheet-pdf_1_1",
-                  "confidence": "high",
-                  "material_id": "material_390aae065c51",
-                  "material_title": "03133 Exam 3 Cheat sheet.pdf",
-                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/preview",
-                  "slide_id": "slide_03133-exam-3-cheat-sheet-pdf_1",
-                  "slide_number": 1,
-                  "snippet_text": "Imported file: 03133 Exam 3 Cheat sheet.pdf",
-                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/source",
-                  "support_type": "explicit"
-                }
-              ],
-              "concept_name": "Core lecture concepts",
-              "item_id": "pre_7634f1ef9160",
-              "support_status": "slide_grounded",
-              "why_needed": "The generated plan relies on the uploaded lecture source and any notes you provided."
-            }
-          ],
-          "study_plan_id": "study_plan_ce3122d0b471",
-          "study_sequence": [
-            {
-              "citations": [
-                {
-                  "citation_id": "citation_material_390aae065c51_slide_03133-exam-3-cheat-sheet-pdf_1_1",
-                  "confidence": "high",
-                  "material_id": "material_390aae065c51",
-                  "material_title": "03133 Exam 3 Cheat sheet.pdf",
-                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/preview",
-                  "slide_id": "slide_03133-exam-3-cheat-sheet-pdf_1",
-                  "slide_number": 1,
-                  "snippet_text": "Imported file: 03133 Exam 3 Cheat sheet.pdf",
-                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/source",
-                  "support_type": "explicit"
-                }
-              ],
-              "depends_on": [],
-              "objective": "Read the cited slide or note and restate the main concept in your own words.",
-              "order_index": 1,
-              "recommended_time_minutes": 20,
-              "step_id": "step_3c95743f314a",
-              "support_status": "slide_grounded",
-              "tasks": [
-                "Open the cited source slide",
-                "Write a one-sentence summary",
-                "Check any formulas or definitions against your notes"
-              ],
-              "title": "Review the grounded source first"
-            },
-            {
-              "citations": [
-                {
-                  "citation_id": "citation_material_390aae065c51_slide_03133-exam-3-cheat-sheet-pdf_1_1",
-                  "confidence": "high",
-                  "material_id": "material_390aae065c51",
-                  "material_title": "03133 Exam 3 Cheat sheet.pdf",
-                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/preview",
-                  "slide_id": "slide_03133-exam-3-cheat-sheet-pdf_1",
-                  "slide_number": 1,
-                  "snippet_text": "Imported file: 03133 Exam 3 Cheat sheet.pdf",
-                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/source",
-                  "support_type": "explicit"
-                }
-              ],
-              "depends_on": [],
-              "objective": "Turn the lecture content into a short recall prompt and answer it without looking.",
-              "order_index": 2,
-              "recommended_time_minutes": 20,
-              "step_id": "step_7fd506f0b3b8",
-              "support_status": "slide_grounded",
-              "tasks": [
-                "Cover the slide",
-                "State the main takeaway aloud",
-                "Compare your answer to the cited evidence"
-              ],
-              "title": "Practice active recall"
-            }
-          ],
-          "time_budget_minutes": 60,
-          "topic_text": "03133 Exam 3 Cheat sheet.pdf",
           "workspace_id": "workspace_cd0fc75267fd"
         }
       },

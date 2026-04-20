@@ -18,7 +18,7 @@ from app_shell.mock_data import (
     create_mock_material,
     enrich_citation,
     generate_mock_assistant_message,
-    generate_mock_study_plan,
+    generate_mock_practice_set,
     render_slide_preview_svg,
 )
 from app_shell.normalization import (
@@ -26,8 +26,8 @@ from app_shell.normalization import (
     normalize_conversation_create,
     normalize_conversation_message,
     normalize_material_import,
-    normalize_study_plan_request,
-    normalize_study_plan_revision,
+    normalize_practice_request,
+    normalize_practice_revision,
     summarize_material_preference,
 )
 from app_shell.storage import LocalStorage
@@ -217,12 +217,10 @@ class ShellService:
                 "failed": len([material for material in materials if material.get("processing_status") == "failed"]),
             },
             "artifact_counts": {
-                "study_plans": len(workspace.get("known_study_plan_ids", [])),
                 "practice_sets": len(workspace.get("known_practice_set_ids", [])),
                 "conversations": len(workspace.get("known_conversation_ids", [])),
             },
             "has_chat_history": bool(workspace.get("known_conversation_ids")),
-            "has_study_plans": bool(workspace.get("known_study_plan_ids")),
             "has_practice_sets": bool(workspace.get("known_practice_set_ids")),
             "has_slides": bool(workspace.get("active_material_ids", {}).get("slides")),
             "has_notes": bool(workspace.get("active_material_ids", {}).get("notes")),
@@ -231,7 +229,7 @@ class ShellService:
         return summary
 
     def list_workspaces(self) -> dict:
-        workspaces = [self._remove_practice_artifacts(self._touch_status(workspace)) for workspace in self.storage.list_workspaces()]
+        workspaces = [self._remove_study_plan_artifacts(self._touch_status(workspace)) for workspace in self.storage.list_workspaces()]
         for workspace in workspaces:
             self.storage.save_workspace(workspace)
         return {
@@ -241,38 +239,38 @@ class ShellService:
 
     def create_workspace(self, display_name: str) -> dict:
         workspace = self.storage.create_workspace(display_name)
-        workspace = self._remove_practice_artifacts(self._touch_status(workspace))
+        workspace = self._remove_study_plan_artifacts(self._touch_status(workspace))
         self.storage.save_workspace(workspace)
         return self.serialize_workspace(workspace)
 
     def duplicate_workspace(self, workspace_id: str) -> dict:
         workspace = self.storage.duplicate_workspace(workspace_id)
-        workspace = self._remove_practice_artifacts(self._touch_status(workspace))
+        workspace = self._remove_study_plan_artifacts(self._touch_status(workspace))
         self.storage.save_workspace(workspace)
         return self.serialize_workspace(workspace)
 
     def archive_workspace(self, workspace_id: str) -> dict:
         workspace = self.storage.archive_workspace(workspace_id)
-        workspace = self._remove_practice_artifacts(self._touch_status(workspace))
+        workspace = self._remove_study_plan_artifacts(self._touch_status(workspace))
         return self.serialize_workspace(workspace)
 
     def delete_workspace(self, workspace_id: str) -> None:
         self.storage.delete_workspace(workspace_id)
 
     def serialize_workspace(self, workspace: dict) -> dict:
-        workspace = self._remove_practice_artifacts(deep_copy(workspace))
+        workspace = self._remove_study_plan_artifacts(deep_copy(workspace))
         materials = list(workspace.get("materials", {}).values())
         materials.sort(key=lambda item: item.get("created_at") or "")
-        active_study_plan = None
-        if workspace.get("active_study_plan_id"):
-            active_study_plan = workspace.get("study_plans", {}).get(workspace["active_study_plan_id"])
+        active_practice_set = None
+        if workspace.get("active_practice_set_id"):
+            active_practice_set = workspace.get("practice_sets", {}).get(workspace["active_practice_set_id"])
         active_conversation = None
         if workspace.get("selected_active_conversation_id"):
             active_conversation = workspace.get("conversations", {}).get(workspace["selected_active_conversation_id"])
         payload = {
             **workspace,
             "materials": materials,
-            "active_study_plan": active_study_plan,
+            "active_practice_set": active_practice_set,
             "active_conversation": active_conversation,
             "jobs": self.storage.list_jobs_for_workspace(workspace["workspace_id"]),
         }
@@ -280,14 +278,14 @@ class ShellService:
 
     def get_workspace(self, workspace_id: str, *, refresh: bool = True) -> dict:
         workspace = self._workspace_or_error(workspace_id)
-        workspace = self._remove_practice_artifacts(self._touch_status(workspace))
+        workspace = self._remove_study_plan_artifacts(self._touch_status(workspace))
         if refresh and self.effective_mode == "integrated":
             workspace = self.hydrate_workspace(workspace)
         self.storage.save_workspace(workspace)
         return self.serialize_workspace(workspace)
 
     def get_history(self, workspace_id: str) -> dict:
-        workspace = self._remove_practice_artifacts(self._workspace_or_error(workspace_id))
+        workspace = self._remove_study_plan_artifacts(self._workspace_or_error(workspace_id))
         history = deep_copy(workspace.get("history", []))
         history.sort(key=lambda entry: entry.get("created_at") or "", reverse=True)
         return {"history": history}
@@ -295,11 +293,11 @@ class ShellService:
     def activate_artifact(self, workspace_id: str, artifact_type: str, artifact_id: str) -> dict:
         workspace = self._workspace_or_error(workspace_id)
         mapping = {
-            "study_plan": ("study_plans", "active_study_plan_id"),
+            "practice_set": ("practice_sets", "active_practice_set_id"),
             "conversation": ("conversations", "selected_active_conversation_id"),
         }
         if artifact_type not in mapping:
-            raise ShellError("Artifact type must be study_plan or conversation.")
+            raise ShellError("Artifact type must be practice_set or conversation.")
         store_name, active_field = mapping[artifact_type]
         if artifact_id not in workspace.get(store_name, {}):
             raise ShellError(f"{artifact_type} {artifact_id} was not found in this workspace.", status_code=404)
@@ -309,20 +307,20 @@ class ShellService:
         return self.serialize_workspace(workspace)
 
     def _history_active_id(self, workspace: dict, artifact_type: str) -> str | None:
-        if artifact_type == "study_plan":
-            return workspace.get("active_study_plan_id")
+        if artifact_type == "practice_set":
+            return workspace.get("active_practice_set_id")
         if artifact_type == "conversation":
             return workspace.get("selected_active_conversation_id")
         return None
 
-    def _remove_practice_artifacts(self, workspace: dict) -> dict:
-        workspace["active_practice_set_id"] = None
-        workspace["known_practice_set_ids"] = []
-        workspace["practice_sets"] = {}
+    def _remove_study_plan_artifacts(self, workspace: dict) -> dict:
+        workspace["active_study_plan_id"] = None
+        workspace["known_study_plan_ids"] = []
+        workspace["study_plans"] = {}
         workspace["history"] = [
             entry
             for entry in workspace.get("history", [])
-            if entry.get("artifact_type") != "practice_set"
+            if entry.get("artifact_type") != "study_plan"
         ]
         self._sync_history_flags(workspace)
         return workspace
@@ -504,28 +502,11 @@ class ShellService:
             merged["source_view_url"] = existing["source_view_url"]
         workspace.setdefault("materials", {})[material_id] = merged
         workspace.setdefault("material_preferences", {}).setdefault(material_id, "default")
-        grouped = {"slides": [], "notes": [], "practice_template": []}
+        grouped = {"slides": [], "notes": []}
         for existing_material in workspace.get("materials", {}).values():
             role = existing_material.get("role", "notes")
             grouped.setdefault(role, []).append(existing_material["material_id"])
         workspace["active_material_ids"] = grouped
-
-    def _upsert_study_plan(self, workspace: dict, study_plan: dict, *, set_active: bool = True) -> None:
-        study_plan = self._normalize_citation_payload(workspace, study_plan)
-        study_plan_id = study_plan["study_plan_id"]
-        workspace.setdefault("study_plans", {})[study_plan_id] = deep_copy(study_plan)
-        if study_plan_id not in workspace.setdefault("known_study_plan_ids", []):
-            workspace["known_study_plan_ids"].append(study_plan_id)
-        if set_active:
-            workspace["active_study_plan_id"] = study_plan_id
-        self._update_history_entry(
-            workspace,
-            "study_plan",
-            study_plan_id,
-            study_plan.get("created_at") or utc_now_iso(),
-            study_plan.get("parent_study_plan_id"),
-            study_plan.get("topic_text") or "Study plan",
-        )
 
     def _upsert_practice_set(self, workspace: dict, practice_set: dict, *, set_active: bool = True) -> None:
         practice_set = self._normalize_citation_payload(workspace, practice_set)
@@ -628,8 +609,8 @@ class ShellService:
             raise ShellError(f"Could not reach the {service} service: {exc}", status_code=503)
 
     def hydrate_workspace(self, workspace: dict) -> dict:
-        workspace = self._remove_practice_artifacts(deep_copy(workspace))
-        current_active_study_plan_id = workspace.get("active_study_plan_id")
+        workspace = self._remove_study_plan_artifacts(deep_copy(workspace))
+        current_active_practice_set_id = workspace.get("active_practice_set_id")
         current_active_conversation_id = workspace.get("selected_active_conversation_id")
         snapshot = self.refresh_status(force=True)
         workspace["status"]["services"] = deep_copy(snapshot["services"])
@@ -655,21 +636,21 @@ class ShellService:
             workspace = self._merge_annotations(workspace, remote_annotations)
             workspace["status"].setdefault("last_successful_sync", {})["content"] = utc_now_iso()
         if snapshot["services"]["learning"]["available"]:
-            plan_payload = self._remote_json("learning", "GET", "/v1/study-plans", params={"workspace_id": workspace["workspace_id"]})
-            remote_plan_ids: set[str] = set()
-            for plan in self._extract_items(plan_payload, "study_plans", "study_plan"):
-                remote_plan_ids.add(plan["study_plan_id"])
-                if "prerequisites" not in plan:
-                    detail = self._remote_json("learning", "GET", f"/v1/study-plans/{plan['study_plan_id']}")
-                    plan = self._extract_detail(detail, "study_plan")
-                self._upsert_study_plan(workspace, plan, set_active=False)
+            practice_payload = self._remote_json("learning", "GET", "/v1/practice-sets", params={"workspace_id": workspace["workspace_id"]})
+            remote_practice_ids: set[str] = set()
+            for practice_set in self._extract_items(practice_payload, "practice_sets", "practice_set"):
+                remote_practice_ids.add(practice_set["practice_set_id"])
+                if "questions" not in practice_set:
+                    detail = self._remote_json("learning", "GET", f"/v1/practice-sets/{practice_set['practice_set_id']}")
+                    practice_set = self._extract_detail(detail, "practice_set")
+                self._upsert_practice_set(workspace, practice_set, set_active=False)
             self._prune_artifact_collection(
                 workspace,
-                store_name="study_plans",
-                known_ids_name="known_study_plan_ids",
-                active_field="active_study_plan_id",
-                artifact_type="study_plan",
-                remote_ids=remote_plan_ids,
+                store_name="practice_sets",
+                known_ids_name="known_practice_set_ids",
+                active_field="active_practice_set_id",
+                artifact_type="practice_set",
+                remote_ids=remote_practice_ids,
             )
             conversations_payload = self._remote_json("learning", "GET", "/v1/conversations", params={"workspace_id": workspace["workspace_id"]})
             remote_conversation_ids: set[str] = set()
@@ -688,10 +669,10 @@ class ShellService:
                 remote_ids=remote_conversation_ids,
             )
             workspace["status"].setdefault("last_successful_sync", {})["learning"] = utc_now_iso()
-        workspace["active_study_plan_id"] = self._choose_active_artifact_id(
-            current_active_study_plan_id,
-            workspace.get("study_plans", {}),
-            "study_plan_id",
+        workspace["active_practice_set_id"] = self._choose_active_artifact_id(
+            current_active_practice_set_id,
+            workspace.get("practice_sets", {}),
+            "practice_set_id",
         )
         workspace["selected_active_conversation_id"] = self._choose_active_artifact_id(
             current_active_conversation_id,
@@ -858,18 +839,27 @@ class ShellService:
                 }
             )
             return job
-        if operation == "study_plan_generate":
-            plan = generate_mock_study_plan(workspace, context["normalized_request"])
-            self._upsert_study_plan(workspace, plan)
+        if operation == "practice_generate":
+            practice_set = generate_mock_practice_set(workspace, context["normalized_request"])
+            self._upsert_practice_set(workspace, practice_set)
             self.storage.save_workspace(workspace)
-            job.update({"status": "succeeded", "progress": 100, "stage": "completed", "message": "Study plan ready.", "result_type": "study_plan", "result_id": plan["study_plan_id"], "finalized": True, "updated_at": utc_now_iso()})
+            job.update({"status": "succeeded", "progress": 100, "stage": "completed", "message": "Practice set ready.", "result_type": "practice_set", "result_id": practice_set["practice_set_id"], "finalized": True, "updated_at": utc_now_iso()})
             return job
-        if operation == "study_plan_revise":
-            parent_plan_id = context.get("study_plan_id")
-            plan = generate_mock_study_plan(workspace, {"topic_text": workspace.get("topic_text"), "time_budget_minutes": workspace.get("time_budget_minutes") or 60, "grounding_mode": workspace.get("grounding_mode")}, parent_study_plan_id=parent_plan_id)
-            self._upsert_study_plan(workspace, plan)
+        if operation == "practice_revise":
+            parent_id = context.get("practice_set_id")
+            existing = workspace.get("practice_sets", {}).get(parent_id, {})
+            revised_payload = {
+                "generation_mode": existing.get("generation_mode", "mixed"),
+                "question_count": len(existing.get("questions", [])) or 4,
+                "difficulty_profile": existing.get("questions", [{}])[0].get("difficulty", "mixed") if existing.get("questions") else "mixed",
+                "include_rubrics": True,
+                "include_answer_key": True,
+                "topic_text": existing.get("topic_text", ""),
+            }
+            practice_set = generate_mock_practice_set(workspace, revised_payload, parent_practice_set_id=parent_id)
+            self._upsert_practice_set(workspace, practice_set)
             self.storage.save_workspace(workspace)
-            job.update({"status": "succeeded", "progress": 100, "stage": "completed", "message": "Study plan revision ready.", "result_type": "study_plan", "result_id": plan["study_plan_id"], "finalized": True, "updated_at": utc_now_iso()})
+            job.update({"status": "succeeded", "progress": 100, "stage": "completed", "message": "Practice revision ready.", "result_type": "practice_set", "result_id": practice_set["practice_set_id"], "finalized": True, "updated_at": utc_now_iso()})
             return job
         if operation == "conversation_message":
             conversation = workspace.get("conversations", {}).get(context["conversation_id"])
@@ -892,9 +882,9 @@ class ShellService:
         operation = job["operation"]
         context = job.get("context", {})
         result_id = job.get("result_id")
-        if operation in {"study_plan_generate", "study_plan_revise"}:
-            if result_id and result_id in workspace.get("study_plans", {}):
-                workspace["active_study_plan_id"] = result_id
+        if operation in {"practice_generate", "practice_revise"}:
+            if result_id and result_id in workspace.get("practice_sets", {}):
+                workspace["active_practice_set_id"] = result_id
         elif operation == "conversation_message":
             conversation_id = context.get("conversation_id")
             if conversation_id and conversation_id in workspace.get("conversations", {}):
@@ -984,60 +974,6 @@ class ShellService:
                 self.storage.save_workspace(workspace)
             return updated
         return job
-
-    def generate_study_plan(self, workspace_id: str, payload: dict) -> dict:
-        workspace = self._workspace_or_error(workspace_id)
-        normalized, warnings = normalize_study_plan_request(workspace, payload)
-        workspace["topic_text"] = normalized.get("topic_text") or workspace.get("topic_text")
-        workspace["time_budget_minutes"] = normalized["time_budget_minutes"]
-        workspace["grounding_mode"] = normalized["grounding_mode"]
-        workspace["student_context"] = {
-            "known": normalized["student_context"].get("prior_knowledge", ""),
-            "weak_areas": normalized["student_context"].get("weak_areas", ""),
-            "goals": normalized["student_context"].get("goals", ""),
-        }
-        self.storage.save_workspace(workspace)
-        if self.effective_mode == "mock":
-            return self._create_job(workspace_id, "study_plan_generate", service="local_mock", context={"normalized_request": normalized, "warnings": warnings}, message="Study plan generation queued in mock mode.")
-        snapshot = self.refresh_status(force=True)
-        if not snapshot["services"]["learning"]["available"]:
-            return self._fail_job(workspace_id, "study_plan_generate", "The learning service is unavailable, so study-plan generation cannot proceed right now.", service="learning")
-        payload_out = self._remote_json("learning", "POST", "/v1/study-plans", json_body=normalized)
-        remote_job_id = payload_out.get("job_id") or payload_out.get("job", {}).get("job_id")
-        if not remote_job_id:
-            raise ShellError("The learning service did not return a job_id for study-plan generation.", status_code=502)
-        return self._create_job(workspace_id, "study_plan_generate", service="learning", remote_job_id=remote_job_id, context={"normalized_request": normalized, "warnings": warnings}, message="Study plan generation submitted to the learning service.")
-
-    def revise_study_plan(self, workspace_id: str, study_plan_id: str, payload: dict) -> dict:
-        workspace = self._workspace_or_error(workspace_id)
-        study_plan = workspace.get("study_plans", {}).get(study_plan_id)
-        if not study_plan:
-            raise ShellError(f"Study plan {study_plan_id} was not found in this workspace.", status_code=404)
-        normalized = normalize_study_plan_revision(workspace, study_plan, payload)
-        if self.effective_mode == "mock":
-            return self._create_job(workspace_id, "study_plan_revise", service="local_mock", context={"normalized_request": normalized, "study_plan_id": study_plan_id}, message="Study plan revision queued in mock mode.")
-        snapshot = self.refresh_status(force=True)
-        if not snapshot["services"]["learning"]["available"]:
-            return self._fail_job(workspace_id, "study_plan_revise", "The learning service is unavailable, so study-plan revision cannot proceed right now.", service="learning")
-        try:
-            payload_out = self._remote_json("learning", "POST", f"/v1/study-plans/{study_plan_id}/revise", json_body=normalized)
-        except ShellError as exc:
-            if exc.status_code == 404:
-                latest_workspace = self._workspace_or_error(workspace_id)
-                if latest_workspace.get("active_study_plan_id") == study_plan_id:
-                    latest_workspace["active_study_plan_id"] = None
-                    self._sync_history_flags(latest_workspace)
-                    self.storage.save_workspace(latest_workspace)
-                raise ShellError(
-                    "The active study plan is no longer available in the learning service. Generate a new study plan first.",
-                    status_code=404,
-                    details=exc.details,
-                ) from exc
-            raise
-        remote_job_id = payload_out.get("job_id") or payload_out.get("job", {}).get("job_id")
-        if not remote_job_id:
-            raise ShellError("The learning service did not return a job_id for study-plan revision.", status_code=502)
-        return self._create_job(workspace_id, "study_plan_revise", service="learning", remote_job_id=remote_job_id, context={"normalized_request": normalized, "study_plan_id": study_plan_id}, message="Study plan revision submitted to the learning service.")
 
     def create_conversation(self, workspace_id: str, payload: dict) -> dict:
         workspace = self._workspace_or_error(workspace_id)
@@ -1168,10 +1104,46 @@ class ShellService:
         return {"conversation": cleared}
 
     def generate_practice_set(self, workspace_id: str, payload: dict) -> dict:
-        raise ShellError("Practice generation has been removed. Use the study plan and grounded chat features instead.", status_code=410)
+        workspace = self._workspace_or_error(workspace_id)
+        normalized, warnings = normalize_practice_request(workspace, payload)
+        workspace["grounding_mode"] = normalized["grounding_mode"]
+        workspace["practice_preferences"] = {
+            "topic_text": normalized.get("topic_text", ""),
+            "generation_mode": normalized["generation_mode"],
+            "question_count": normalized["question_count"],
+            "coverage_mode": normalized["coverage_mode"],
+            "difficulty_profile": normalized["difficulty_profile"],
+            "include_answer_key": normalized["include_answer_key"],
+            "include_rubrics": normalized["include_rubrics"],
+        }
+        self.storage.save_workspace(workspace)
+        if self.effective_mode == "mock":
+            return self._create_job(workspace_id, "practice_generate", service="local_mock", context={"normalized_request": normalized, "warnings": warnings}, message="Practice generation queued in mock mode.")
+        snapshot = self.refresh_status(force=True)
+        if not snapshot["services"]["learning"]["available"]:
+            return self._fail_job(workspace_id, "practice_generate", "The learning service is unavailable, so practice generation cannot proceed right now.", service="learning")
+        payload_out = self._remote_json("learning", "POST", "/v1/practice-sets", json_body=normalized)
+        remote_job_id = payload_out.get("job_id") or payload_out.get("job", {}).get("job_id")
+        if not remote_job_id:
+            raise ShellError("The learning service did not return a job_id for practice generation.", status_code=502)
+        return self._create_job(workspace_id, "practice_generate", service="learning", remote_job_id=remote_job_id, context={"normalized_request": normalized, "warnings": warnings}, message="Practice generation submitted to the learning service.")
 
     def revise_practice_set(self, workspace_id: str, practice_set_id: str, payload: dict) -> dict:
-        raise ShellError("Practice generation has been removed. Use the study plan and grounded chat features instead.", status_code=410)
+        workspace = self._workspace_or_error(workspace_id)
+        practice_set = workspace.get("practice_sets", {}).get(practice_set_id)
+        if not practice_set:
+            raise ShellError(f"Practice set {practice_set_id} was not found in this workspace.", status_code=404)
+        normalized = normalize_practice_revision(practice_set, payload)
+        if self.effective_mode == "mock":
+            return self._create_job(workspace_id, "practice_revise", service="local_mock", context={"normalized_request": normalized, "practice_set_id": practice_set_id}, message="Practice revision queued in mock mode.")
+        snapshot = self.refresh_status(force=True)
+        if not snapshot["services"]["learning"]["available"]:
+            return self._fail_job(workspace_id, "practice_revise", "The learning service is unavailable, so practice revision cannot proceed right now.", service="learning")
+        payload_out = self._remote_json("learning", "POST", f"/v1/practice-sets/{practice_set_id}/revise", json_body=normalized)
+        remote_job_id = payload_out.get("job_id") or payload_out.get("job", {}).get("job_id")
+        if not remote_job_id:
+            raise ShellError("The learning service did not return a job_id for practice revision.", status_code=502)
+        return self._create_job(workspace_id, "practice_revise", service="learning", remote_job_id=remote_job_id, context={"normalized_request": normalized, "practice_set_id": practice_set_id}, message="Practice revision submitted to the learning service.")
 
     def delete_material(self, workspace_id: str, material_id: str) -> dict:
         workspace = self._workspace_or_error(workspace_id)

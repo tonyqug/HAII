@@ -1,0 +1,22 @@
+{
+  "created_at": "2026-04-20T21:12:41Z",
+  "error": {
+    "code": null,
+    "message": null,
+    "retryable": false
+  },
+  "job_id": "job_68a60f05a85a",
+  "job_type": "study_plan",
+  "message": "Study plan created.",
+  "progress": 100,
+  "result_id": "study_plan_41d52cb42888",
+  "result_type": "study_plan",
+  "stage": "done",
+  "status": "succeeded",
+  "updated_at": "2026-04-20T21:12:56Z",
+  "user_action": {
+    "kind": null,
+    "options": [],
+    "prompt": null
+  }
+}

@@ -60,7 +60,7 @@ def create_app(*, env_override: dict[str, str] | None = None) -> FastAPI:
             "capabilities": [
                 "workspace_library",
                 "material_upload",
-                "study_plan_ui",
+                "practice_ui",
                 "chat_ui",
                 "source_viewer",
                 "history",
@@ -142,15 +142,15 @@ def create_app(*, env_override: dict[str, str] | None = None) -> FastAPI:
     def api_poll_job(job_id: str, workspace_id: str = Query(...)) -> dict[str, Any]:
         return {"job": shell_service.poll_job(workspace_id, job_id)}
 
-    @app.post("/api/workspaces/{workspace_id}/study-plans/generate")
-    async def api_generate_study_plan(workspace_id: str, request: Request) -> dict[str, Any]:
+    @app.post("/api/workspaces/{workspace_id}/practice-sets/generate")
+    async def api_generate_practice(workspace_id: str, request: Request) -> dict[str, Any]:
         payload = await request.json()
-        return {"job": shell_service.generate_study_plan(workspace_id, payload)}
+        return {"job": shell_service.generate_practice_set(workspace_id, payload)}
 
-    @app.post("/api/workspaces/{workspace_id}/study-plans/{study_plan_id}/revise")
-    async def api_revise_study_plan(workspace_id: str, study_plan_id: str, request: Request) -> dict[str, Any]:
+    @app.post("/api/workspaces/{workspace_id}/practice-sets/{practice_set_id}/revise")
+    async def api_revise_practice(workspace_id: str, practice_set_id: str, request: Request) -> dict[str, Any]:
         payload = await request.json()
-        return {"job": shell_service.revise_study_plan(workspace_id, study_plan_id, payload)}
+        return {"job": shell_service.revise_practice_set(workspace_id, practice_set_id, payload)}
 
     @app.post("/api/workspaces/{workspace_id}/conversations")
     async def api_create_conversation(workspace_id: str, request: Request) -> dict[str, Any]:

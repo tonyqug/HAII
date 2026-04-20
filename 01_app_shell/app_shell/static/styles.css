@@ -393,6 +393,39 @@ label {
   flex-wrap: wrap;
 }
 
+.plan-input-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.plan-input-item {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 10px;
+  background: #f8fafc;
+}
+
+.plan-evidence-scope {
+  margin-top: 10px;
+}
+
+.plan-missing-inputs {
+  margin-top: 10px;
+}
+
+.plan-milestone {
+  margin-top: 8px;
+  color: #1e3a8a;
+}
+
+.task-list {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+}
+
 .source-snippet-card {
   border: 1px solid var(--line);
   border-radius: 12px;

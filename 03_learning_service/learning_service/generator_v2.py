@@ -174,11 +174,23 @@ class GroundedGenerator(HeuristicGroundedGenerator):
         if not concept_records:
             return None
         citation_index = self._citation_index(bundle)
+        normalized_context = self._normalize_student_context(student_context)
         inferred_topic = not normalize_whitespace(topic_text or "")
         resolved_topic = normalize_whitespace(topic_text or accessor.infer_topic(accessor.material_ids))
+        ranked_records = self._rank_concept_records_for_plan(
+            concept_records,
+            resolved_topic,
+            normalized_context,
+        )
+        evidence_records = self._select_study_sequence_records(
+            ranked_records,
+            max(time_budget_minutes, 90),
+        )
+        if not evidence_records:
+            evidence_records = concept_records[:6]
 
         evidence_lines: List[str] = []
-        for idx, record in enumerate(concept_records[:8], start=1):
+        for idx, record in enumerate(evidence_records[:8], start=1):
             citation_ids = [citation["citation_id"] for citation in record.get("citations", []) if citation.get("citation_id")]
             evidence_lines.append(
                 f"{idx}. concept={record['concept_name']} | slide={record['slide_number']} | citations={citation_ids} | summary={record['summary_text']}"
@@ -188,7 +200,7 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             f"Grounding mode: {grounding_mode}\n"
             f"Topic: {resolved_topic}\n"
             f"Time budget minutes: {time_budget_minutes}\n"
-            f"Student context: {json.dumps(student_context, ensure_ascii=False)}\n"
+            f"Student context: {json.dumps(normalized_context, ensure_ascii=False)}\n"
             f"Allowed citation ids: {sorted(citation_index)}\n"
             "Evidence digest:\n"
             + "\n".join(evidence_lines)
@@ -196,9 +208,11 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             "Return a JSON object with keys topic_text, prerequisites, study_sequence, common_mistakes, uncertainty.\n"
             "Rules:\n"
             "- Use only citation_ids from the allowed list.\n"
+            "- Tailor the plan to the supplied topic, time budget, prior knowledge, weak areas, and goals when those inputs are present.\n"
+            "- Produce a sequential checklist-style study plan with meaningful milestones rather than a generic summary.\n"
             "- Include at least 3 prerequisites, at least 1 study_sequence step, and exactly 3 common_mistakes.\n"
             "- Each prerequisite object must have concept_name, why_needed, support_status, citation_ids.\n"
-            "- Each study_sequence object must have title, objective, recommended_time_minutes, tasks, depends_on_prereq_indexes, support_status, citation_ids.\n"
+            "- Each study_sequence object must have title, objective, recommended_time_minutes, tasks, milestone, depends_on_prereq_indexes, support_status, citation_ids.\n"
             "- Each common_mistakes object must have pattern, why_it_happens, prevention_advice, support_status, citation_ids.\n"
             "- strict_lecture_only must not use external_supplement.\n"
             "- Do not invent citation ids or unsupported lecture claims.\n"
@@ -267,6 +281,14 @@ class GroundedGenerator(HeuristicGroundedGenerator):
                     "objective": self._safe_text(raw.get("objective"), fallback="Review the grounded lecture idea and connect it to earlier material."),
                     "recommended_time_minutes": minutes,
                     "tasks": tasks,
+                    "milestone": self._safe_text(
+                        raw.get("milestone"),
+                        fallback=self._step_milestone(
+                            self._safe_text(raw.get("title"), fallback=f"study step {index}"),
+                            resolved_topic,
+                            normalized_context.get("goals", ""),
+                        ),
+                    ),
                     "depends_on": depends_on,
                     "support_status": status,
                     "citations": citations,
@@ -319,6 +341,15 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             set(accessor.distinct_slide_numbers()) - set(cited_slides)
             | set(accessor.low_confidence_slides())
         )
+        tailoring_summary = self._build_tailoring_summary(
+            accessor=accessor,
+            topic_text=resolved_topic,
+            inferred_topic=inferred_topic,
+            time_budget_minutes=time_budget_minutes,
+            grounding_mode=grounding_mode,
+            student_context=normalized_context,
+            citations=all_citations,
+        )
         return {
             "study_plan_id": make_id("study_plan"),
             "parent_study_plan_id": parent_study_plan_id,
@@ -335,9 +366,10 @@ class GroundedGenerator(HeuristicGroundedGenerator):
                 "cited_slides": cited_slides,
                 "omitted_or_low_confidence_slides": omitted_or_low,
             },
+            "tailoring_summary": tailoring_summary,
             "_meta": {
                 "grounding_source": self._grounding_source_from_bundle(bundle),
-                "student_context": student_context,
+                "student_context": normalized_context,
             },
         }
 

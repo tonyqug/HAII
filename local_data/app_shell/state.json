@@ -1201,7 +1201,7 @@
         "study_plan_abc1b5e76fc0",
         "study_plan_44d939bc1634"
       ],
-      "last_opened_at": "2026-04-20T19:47:05Z",
+      "last_opened_at": "2026-04-20T19:55:20Z",
       "local_edits": {},
       "material_preferences": {
         "material_057153c6600f": "focus",
@@ -1287,13 +1287,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-20T19:47:04Z",
+            "last_checked_at": "2026-04-20T19:55:20Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-20T19:47:04Z",
+            "last_checked_at": "2026-04-20T19:55:20Z",
             "mode": "integrated"
           }
         },
@@ -1674,7 +1674,7 @@
         "study_plan_dabb59dffded",
         "study_plan_aea042ccf526"
       ],
-      "last_opened_at": "2026-04-20T19:47:05Z",
+      "last_opened_at": "2026-04-20T19:55:20Z",
       "local_edits": {},
       "material_preferences": {
         "material_753ac7b44e1e": "default",
@@ -1789,13 +1789,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-20T19:47:04Z",
+            "last_checked_at": "2026-04-20T19:55:20Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-20T19:47:04Z",
+            "last_checked_at": "2026-04-20T19:55:20Z",
             "mode": "integrated"
           }
         },
@@ -2265,7 +2265,7 @@
       "known_study_plan_ids": [
         "study_plan_67ff13d34387"
       ],
-      "last_opened_at": "2026-04-20T19:47:05Z",
+      "last_opened_at": "2026-04-20T19:55:20Z",
       "local_edits": {},
       "material_preferences": {
         "mat_0d4cf2e5271346b2afc8b1a4422e6a0e": "default",
@@ -10810,13 +10810,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-20T19:47:05Z",
+            "last_checked_at": "2026-04-20T19:55:20Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-20T19:47:05Z",
+            "last_checked_at": "2026-04-20T19:55:20Z",
             "mode": "integrated"
           }
         },
@@ -12005,7 +12005,7 @@
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-20T19:47:05Z",
+      "last_opened_at": "2026-04-20T19:55:21Z",
       "local_edits": {},
       "material_preferences": {
         "material_f90e97c0bfa9": "default"
@@ -12056,13 +12056,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-20T19:47:05Z",
+            "last_checked_at": "2026-04-20T19:55:20Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-20T19:47:05Z",
+            "last_checked_at": "2026-04-20T19:55:20Z",
             "mode": "integrated"
           }
         },
@@ -12122,7 +12122,7 @@
       "known_study_plan_ids": [
         "study_plan_ce3122d0b471"
       ],
-      "last_opened_at": "2026-04-20T19:47:06Z",
+      "last_opened_at": "2026-04-20T19:55:28Z",
       "local_edits": {},
       "material_preferences": {
         "material_390aae065c51": "default",
@@ -12201,20 +12201,20 @@
       "selected_active_conversation_id": null,
       "status": {
         "last_successful_sync": {
-          "content": "2026-04-20T19:47:06Z",
-          "learning": "2026-04-20T19:47:06Z"
+          "content": "2026-04-20T19:55:28Z",
+          "learning": "2026-04-20T19:55:28Z"
         },
         "services": {
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-20T19:47:06Z",
+            "last_checked_at": "2026-04-20T19:55:28Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-20T19:47:06Z",
+            "last_checked_at": "2026-04-20T19:55:28Z",
             "mode": "integrated"
           }
         },

@@ -1172,8 +1172,8 @@ class ShellService:
         for role_list in workspace.get("active_material_ids", {}).values():
             if material_id in role_list:
                 role_list.remove(material_id)
-        self._save_workspace(workspace)
-        return self._public_workspace(workspace)
+        self.storage.save_workspace(workspace)
+        return self.serialize_workspace(workspace)
 
     def set_material_preference(self, workspace_id: str, material_id: str, preference: str) -> dict:
         if preference not in {"default", "focus", "exclude"}:

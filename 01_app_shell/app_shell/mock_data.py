@@ -275,6 +275,9 @@ def generate_mock_study_plan(workspace: dict, request_payload: dict, *, parent_s
     base_citation = _make_citation(workspace_id, material, slide)
     now = utc_now_iso()
     title = request_payload.get("topic_text") or workspace.get("topic_text") or material.get("title", "Uploaded materials") if material else "Uploaded materials"
+    prior_knowledge = (workspace.get("student_context", {}) or {}).get("known", "")
+    weak_areas = (workspace.get("student_context", {}) or {}).get("weak_areas", "")
+    goals = (workspace.get("student_context", {}) or {}).get("goals", "")
     plan_id = make_id("study_plan")
     return {
         "study_plan_id": plan_id,
@@ -305,6 +308,7 @@ def generate_mock_study_plan(workspace: dict, request_payload: dict, *, parent_s
                     "Write a one-sentence summary",
                     "Check any formulas or definitions against your notes",
                 ],
+                "milestone": "You can explain the first grounded concept without reopening the source.",
                 "depends_on": [],
                 "support_status": "slide_grounded",
                 "citations": [base_citation],
@@ -320,6 +324,7 @@ def generate_mock_study_plan(workspace: dict, request_payload: dict, *, parent_s
                     "State the main takeaway aloud",
                     "Compare your answer to the cited evidence",
                 ],
+                "milestone": "You can answer one self-test prompt from memory and verify it against the cited slide.",
                 "depends_on": [],
                 "support_status": "slide_grounded",
                 "citations": [base_citation],
@@ -351,6 +356,33 @@ def generate_mock_study_plan(workspace: dict, request_payload: dict, *, parent_s
                 "citations": [base_citation],
             },
         ],
+        "tailoring_summary": {
+            "used_inputs": [
+                {"key": "topic_text", "label": "Topic focus", "value": title, "source": "user" if request_payload.get("topic_text") else "inferred"},
+                {"key": "time_budget_minutes", "label": "Time budget", "value": f"{int(request_payload.get('time_budget_minutes') or workspace.get('time_budget_minutes') or 60)} minutes", "source": "user"},
+                {"key": "grounding_mode", "label": "Grounding mode", "value": request_payload.get("grounding_mode") or workspace.get("grounding_mode") or "strict_lecture_only", "source": "user"},
+                {"key": "materials", "label": "Lecture materials used", "value": material.get("title", "Uploaded materials") if material else "Uploaded materials", "source": "workspace"},
+            ]
+            + ([{"key": "prior_knowledge", "label": "What you already know", "value": prior_knowledge, "source": "user"}] if prior_knowledge else [])
+            + ([{"key": "weak_areas", "label": "Weak areas", "value": weak_areas, "source": "user"}] if weak_areas else [])
+            + ([{"key": "goals", "label": "Goals or exam context", "value": goals, "source": "user"}] if goals else []),
+            "missing_inputs": [
+                {"key": "prior_knowledge", "label": "What you already know", "message": "Not provided, so the mock plan assumes no specific starting point."}
+                for _ in ([] if prior_knowledge else [1])
+            ] + [
+                {"key": "weak_areas", "label": "Weak areas", "message": "Not provided, so the mock plan cannot emphasize a specific trouble spot."}
+                for _ in ([] if weak_areas else [1])
+            ] + [
+                {"key": "goals", "label": "Goals or exam context", "message": "Not provided, so the mock plan defaults to general review."}
+                for _ in ([] if goals else [1])
+            ],
+            "evidence_scope": {
+                "material_count": 1 if material else 0,
+                "material_titles": [material.get("title", "Uploaded materials")] if material else [],
+                "slide_count": 1,
+                "slide_numbers": [slide.get("slide_number", 1)],
+            },
+        },
     }
 
 

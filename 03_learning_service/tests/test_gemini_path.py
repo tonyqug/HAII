@@ -103,6 +103,8 @@ def test_gemini_is_primary_generation_path_when_configured(app_factory, bundle, 
     assert job["status"] == "succeeded"
     stored = service.store.load("study_plans", job["result_id"])
     assert stored["_meta"]["generation_path"] == "gemini"
+    assert stored["tailoring_summary"]["used_inputs"]
+    assert all("milestone" in step for step in stored["study_sequence"])
     bundle_citation_ids = {item["citation"]["citation_id"] for item in bundle["items"]}
     artifact_citation_ids = {
         citation["citation_id"]

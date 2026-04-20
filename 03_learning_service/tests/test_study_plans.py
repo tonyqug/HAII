@@ -36,6 +36,9 @@ def test_study_plan_structure_and_honesty(client, bundle):
     assert len(plan["study_sequence"]) >= 1
     assert len(plan["common_mistakes"]) == 3
     assert any(note["code"] == "topic_inferred" for note in plan["uncertainty"])
+    assert plan["tailoring_summary"]["used_inputs"]
+    assert plan["tailoring_summary"]["evidence_scope"]["material_count"] >= 1
+    assert all("milestone" in step for step in plan["study_sequence"])
 
     for item in plan["prerequisites"]:
         assert item["support_status"] in {
@@ -49,6 +52,21 @@ def test_study_plan_structure_and_honesty(client, bundle):
 
     assert plan["coverage_summary"]["cited_slides"]
 
+
+def test_study_plan_is_tailored_to_topic_context_and_time_budget(client, bundle):
+    plan, _job = create_plan(client, bundle, topic_text="regularization and validation")
+    study_sequence = plan["study_sequence"]
+    cited_slides = {
+        citation["slide_number"]
+        for step in study_sequence
+        for citation in step.get("citations", [])
+    }
+    used_input_values = {item["value"] for item in plan["tailoring_summary"]["used_inputs"]}
+
+    assert "regularization and validation" in used_input_values
+    assert any(slide in cited_slides for slide in {4, 5, 6})
+    assert sum(step["recommended_time_minutes"] for step in study_sequence) == plan["time_budget_minutes"]
+    assert any("validation" in task.lower() or "midterm" in task.lower() for step in study_sequence for task in step.get("tasks", []))
 
 
 def test_study_plan_revision_preserves_locked_items(client, bundle):

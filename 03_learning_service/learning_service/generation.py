@@ -267,16 +267,41 @@ class GroundedGenerator:
             topic = accessor.infer_topic(lecture_material_ids)
             inferred_topic = True
 
-        prerequisites = self._build_prerequisites(accessor, concept_records, grounding_mode)
-        study_sequence = self._build_study_sequence(
+        normalized_context = self._normalize_student_context(student_context or {})
+        ranked_records = self._rank_concept_records_for_plan(
+            concept_records,
+            topic,
+            normalized_context,
+        )
+        selected_sequence_records = self._select_study_sequence_records(
+            ranked_records,
+            time_budget_minutes,
+        )
+        prerequisites = self._build_prerequisites(
             accessor,
             concept_records,
+            selected_sequence_records,
+            topic,
+            grounding_mode,
+            normalized_context,
+        )
+        study_sequence = self._build_study_sequence(
+            accessor,
+            selected_sequence_records,
             time_budget_minutes,
+            topic,
             grounding_mode,
             prerequisites,
-            student_context or {},
+            normalized_context,
         )
-        common_mistakes = self._build_common_mistakes(accessor, concept_records, grounding_mode)
+        common_mistakes = self._build_common_mistakes(
+            accessor,
+            concept_records,
+            selected_sequence_records,
+            topic,
+            grounding_mode,
+            normalized_context,
+        )
 
         uncertainty: List[Dict[str, str]] = []
         if inferred_topic:
@@ -309,6 +334,15 @@ class GroundedGenerator:
             set(accessor.distinct_slide_numbers()) - set(cited_slides)
             | set(accessor.low_confidence_slides())
         )
+        tailoring_summary = self._build_tailoring_summary(
+            accessor=accessor,
+            topic_text=topic,
+            inferred_topic=inferred_topic,
+            time_budget_minutes=time_budget_minutes,
+            grounding_mode=grounding_mode,
+            student_context=normalized_context,
+            citations=all_citations,
+        )
 
         artifact = {
             "study_plan_id": make_id("study_plan"),
@@ -326,9 +360,10 @@ class GroundedGenerator:
                 "cited_slides": cited_slides,
                 "omitted_or_low_confidence_slides": omitted_or_low,
             },
+            "tailoring_summary": tailoring_summary,
             "_meta": {
                 "grounding_source": self._grounding_source_from_bundle(bundle),
-                "student_context": student_context or {},
+                "student_context": normalized_context,
             },
         }
         return artifact
@@ -412,16 +447,49 @@ class GroundedGenerator:
         self,
         accessor: EvidenceAccessor,
         concept_records: Sequence[Dict[str, Any]],
+        selected_sequence_records: Sequence[Dict[str, Any]],
+        topic_text: str,
         grounding_mode: str,
+        student_context: Dict[str, Any],
     ) -> List[Dict[str, Any]]:
+        prior_knowledge = student_context.get("prior_knowledge", "")
+        selected_ids = {record.get("slide_id") for record in selected_sequence_records}
+        earliest_selected_slide = min(
+            (int(record.get("slide_number") or 0) for record in selected_sequence_records),
+            default=0,
+        )
+        prerequisite_pool = [
+            record
+            for record in concept_records
+            if int(record.get("slide_number") or 0) < earliest_selected_slide
+        ]
+        if not prerequisite_pool:
+            prerequisite_pool = [
+                record for record in concept_records
+                if record.get("slide_id") not in selected_ids
+            ]
+        if not prerequisite_pool:
+            prerequisite_pool = list(concept_records)
+
         items: List[Dict[str, Any]] = []
-        for record in concept_records[:3]:
+        for record in prerequisite_pool[:3]:
             summary = take_sentences(record["summary_text"], 1) or record["summary_text"]
+            overlap_with_prior = self._record_overlap(record, prior_knowledge) > 0
+            overlap_with_topic = self._record_overlap(record, topic_text) > 0
+            if overlap_with_prior:
+                why_needed = (
+                    f"You said you already know {prior_knowledge}, so use {record['concept_name']} as a quick bridge "
+                    f"into the lecture's version of the topic: {summary}"
+                )
+            elif overlap_with_topic:
+                why_needed = f"This concept directly supports the requested focus on {topic_text}: {summary}"
+            else:
+                why_needed = f"This appears early in the grounded materials and anchors later ideas: {summary}"
             items.append(
                 {
                     "item_id": make_id("prereq"),
                     "concept_name": record["concept_name"],
-                    "why_needed": f"This appears early in the grounded materials and anchors later ideas: {summary}",
+                    "why_needed": why_needed,
                     "support_status": "inferred_from_slides",
                     "citations": record["citations"][:2],
                 }
@@ -435,39 +503,57 @@ class GroundedGenerator:
         accessor: EvidenceAccessor,
         concept_records: Sequence[Dict[str, Any]],
         time_budget_minutes: int,
+        topic_text: str,
         grounding_mode: str,
         prerequisites: Sequence[Dict[str, Any]],
         student_context: Dict[str, Any],
     ) -> List[Dict[str, Any]]:
-        sequence_records = list(concept_records)
-        if len(sequence_records) > 6:
-            sequence_records = sequence_records[:6]
-        step_count = max(1, len(sequence_records))
-        per_step = max(5, math.floor(time_budget_minutes / step_count))
-
+        sequence_records = list(concept_records)[:6]
         weak_areas = normalize_whitespace((student_context or {}).get("weak_areas", ""))
         goals = normalize_whitespace((student_context or {}).get("goals", ""))
+        prior_knowledge = normalize_whitespace((student_context or {}).get("prior_knowledge", ""))
+        minute_allocation = self._allocate_step_minutes(
+            time_budget_minutes,
+            [
+                self._step_weight_for_record(record, topic_text, student_context)
+                for record in sequence_records
+            ],
+        )
         steps: List[Dict[str, Any]] = []
         for index, record in enumerate(sequence_records, start=1):
+            slide_numbers = distinct_slide_numbers(record.get("citations") or []) or [int(record.get("slide_number") or 0)]
+            slide_label = ", ".join(str(number) for number in slide_numbers if number)
+            quick_bridge = self._record_overlap(record, prior_knowledge) > 0
             tasks = [
-                f"Review slide {record['slide_number']} and restate {record['concept_name']} in your own words.",
-                f"Write a short note explaining why this concept matters: {take_sentences(record['summary_text'], 1)}",
+                f"Review slide {slide_label or '?'} and restate {record['concept_name']} in your own words.",
             ]
+            if quick_bridge and prior_knowledge:
+                tasks.append(
+                    f"Use what you already know about {prior_knowledge} as a quick bridge, then note what the lecture adds or changes."
+                )
+            else:
+                tasks.append(
+                    f"Write a short checkpoint explaining why this matters: {take_sentences(record['summary_text'], 1)}"
+                )
             if index > 1:
                 prev = sequence_records[index - 2]["concept_name"]
                 tasks.append(f"Connect {record['concept_name']} to the earlier topic {prev}.")
-            if weak_areas and weak_areas.lower() in record["summary_text"].lower():
+            if weak_areas and self._record_overlap(record, weak_areas) > 0:
                 tasks.append(f"Spend extra practice time here because it overlaps your stated weak area: {weak_areas}.")
-            if goals:
+            elif goals:
                 tasks.append(f"Check how this step supports your goal: {goals}.")
+            else:
+                tasks.append("Turn this step into one self-test question you can answer without reopening the slide.")
+            milestone = self._step_milestone(record["concept_name"], topic_text, goals)
             steps.append(
                 {
                     "step_id": make_id("step"),
                     "order_index": index,
-                    "title": f"Study {record['concept_name']}",
-                    "objective": record["summary_text"],
-                    "recommended_time_minutes": per_step,
+                    "title": self._step_title(record, topic_text, weak_areas, quick_bridge),
+                    "objective": self._step_objective(record, topic_text, goals),
+                    "recommended_time_minutes": minute_allocation[index - 1],
                     "tasks": tasks,
+                    "milestone": milestone,
                     "depends_on": [item["item_id"] for item in prerequisites[: min(index, len(prerequisites))]],
                     "support_status": "inferred_from_slides",
                     "citations": record["citations"][:2],
@@ -482,6 +568,7 @@ class GroundedGenerator:
                     "objective": "The evidence bundle was too sparse to derive a reliable sequence.",
                     "recommended_time_minutes": time_budget_minutes,
                     "tasks": ["Locate the most relevant slide or provide a narrower topic."],
+                    "milestone": "You can identify the single most relevant grounded slide before studying further details.",
                     "depends_on": [],
                     "support_status": "insufficient_evidence" if grounding_mode == "strict_lecture_only" else "external_supplement",
                     "citations": [],
@@ -493,12 +580,18 @@ class GroundedGenerator:
         self,
         accessor: EvidenceAccessor,
         concept_records: Sequence[Dict[str, Any]],
+        selected_sequence_records: Sequence[Dict[str, Any]],
+        topic_text: str,
         grounding_mode: str,
+        student_context: Dict[str, Any],
     ) -> List[Dict[str, Any]]:
         mistakes: List[Dict[str, Any]] = []
-        if concept_records:
-            first = concept_records[0]
-            second = concept_records[1] if len(concept_records) > 1 else first
+        sequence_pool = list(selected_sequence_records) or list(concept_records)
+        weak_areas = normalize_whitespace((student_context or {}).get("weak_areas", ""))
+        goals = normalize_whitespace((student_context or {}).get("goals", ""))
+        if sequence_pool:
+            first = sequence_pool[0]
+            second = sequence_pool[1] if len(sequence_pool) > 1 else first
             mistakes.append(
                 {
                     "item_id": make_id("mistake"),
@@ -509,7 +602,19 @@ class GroundedGenerator:
                     "citations": dedupe_citations(first["citations"] + second["citations"])[:3],
                 }
             )
-        candidate = self._find_record_by_keywords(concept_records, ["assumption", "condition", "validation", "rate", "penalty", "error", "overfit"])
+        weak_area_candidate = self._find_record_by_text(sequence_pool or concept_records, weak_areas)
+        if weak_areas and weak_area_candidate:
+            mistakes.append(
+                {
+                    "item_id": make_id("mistake"),
+                    "pattern": f"Leaving your weak area around {weak_areas} at the recognition level instead of practicing it actively",
+                    "why_it_happens": f"The plan needs to do more than reread {weak_area_candidate['concept_name']}; weak areas usually improve only after explanation and self-testing.",
+                    "prevention_advice": f"After reviewing the cited slide, answer one no-notes question focused on {weak_areas} before moving on.",
+                    "support_status": "inferred_from_slides",
+                    "citations": weak_area_candidate["citations"][:2],
+                }
+            )
+        candidate = self._find_record_by_keywords(sequence_pool or concept_records, ["assumption", "condition", "validation", "rate", "penalty", "error", "overfit"])
         if candidate:
             mistakes.append(
                 {
@@ -521,8 +626,8 @@ class GroundedGenerator:
                     "citations": candidate["citations"][:2],
                 }
             )
-        candidate = self._find_record_by_keywords(concept_records, ["example", "generalization", "training", "validation", "compare", "procedure"])
-        if candidate:
+        candidate = self._find_record_by_keywords(sequence_pool or concept_records, ["example", "generalization", "training", "validation", "compare", "procedure"])
+        if candidate and len(mistakes) < 3:
             mistakes.append(
                 {
                     "item_id": make_id("mistake"),
@@ -531,6 +636,18 @@ class GroundedGenerator:
                     "prevention_advice": "Turn each major slide into a quick self-test: what is the idea, when do you use it, and what failure mode should you watch for?",
                     "support_status": "inferred_from_slides",
                     "citations": candidate["citations"][:2],
+                }
+            )
+        goal_candidate = self._find_record_by_text(sequence_pool or concept_records, goals)
+        if goals and goal_candidate and len(mistakes) < 3:
+            mistakes.append(
+                {
+                    "item_id": make_id("mistake"),
+                    "pattern": f"Studying passively even though your goal is {goals}",
+                    "why_it_happens": "Students often collect notes without checking whether they can produce an exam-ready explanation or decision process.",
+                    "prevention_advice": f"Use the cited slide to create one retrieval-style checkpoint that matches your goal: {goals}.",
+                    "support_status": "inferred_from_slides",
+                    "citations": goal_candidate["citations"][:2],
                 }
             )
         while len(mistakes) < 3:
@@ -560,6 +677,256 @@ class GroundedGenerator:
             "prevention_advice": "Treat this as a prompt to verify the idea against more grounded lecture evidence before relying on it.",
             "support_status": status,
             "citations": [],
+        }
+
+    def _normalize_student_context(self, student_context: Dict[str, Any]) -> Dict[str, str]:
+        return {
+            "prior_knowledge": normalize_whitespace((student_context or {}).get("prior_knowledge", "")),
+            "weak_areas": normalize_whitespace((student_context or {}).get("weak_areas", "")),
+            "goals": normalize_whitespace((student_context or {}).get("goals", "")),
+        }
+
+    def _record_text(self, record: Dict[str, Any]) -> str:
+        return " ".join(
+            [
+                record.get("concept_name", ""),
+                record.get("summary_text", ""),
+                " ".join(record.get("texts") or []),
+            ]
+        )
+
+    def _record_overlap(self, record: Dict[str, Any], text: str) -> int:
+        query = normalize_whitespace(text or "")
+        if not query:
+            return 0
+        return lexical_overlap_score(query, self._record_text(record))
+
+    def _rank_concept_records_for_plan(
+        self,
+        concept_records: Sequence[Dict[str, Any]],
+        topic_text: str,
+        student_context: Dict[str, Any],
+    ) -> List[Dict[str, Any]]:
+        topic = normalize_whitespace(topic_text)
+        weak_areas = student_context.get("weak_areas", "")
+        goals = student_context.get("goals", "")
+        prior_knowledge = student_context.get("prior_knowledge", "")
+        ranked: List[Dict[str, Any]] = []
+        for record in concept_records:
+            annotated = copy.deepcopy(record)
+            topic_score = self._record_overlap(record, topic)
+            weak_score = self._record_overlap(record, weak_areas)
+            goal_score = self._record_overlap(record, goals)
+            prior_score = self._record_overlap(record, prior_knowledge)
+            annotated["_plan_features"] = {
+                "topic_score": topic_score,
+                "weak_score": weak_score,
+                "goal_score": goal_score,
+                "prior_score": prior_score,
+            }
+            annotated["_plan_score"] = (
+                (topic_score * 6)
+                + (weak_score * 7)
+                + (goal_score * 4)
+                + (prior_score * 2)
+                + (1 if int(record.get("slide_number") or 0) <= 2 else 0)
+            )
+            ranked.append(annotated)
+        ranked.sort(
+            key=lambda record: (
+                -int(record.get("_plan_score", 0)),
+                int(record.get("slide_number") or 0),
+                record.get("concept_name", ""),
+            )
+        )
+        return ranked
+
+    def _select_study_sequence_records(
+        self,
+        ranked_records: Sequence[Dict[str, Any]],
+        time_budget_minutes: int,
+    ) -> List[Dict[str, Any]]:
+        if not ranked_records:
+            return []
+        target_steps = max(2, min(6, math.ceil(time_budget_minutes / 25)))
+        selected = list(ranked_records[:target_steps])
+        selected.sort(
+            key=lambda record: (
+                int(record.get("slide_number") or 0),
+                -int(record.get("_plan_score", 0)),
+                record.get("concept_name", ""),
+            )
+        )
+        return selected
+
+    def _allocate_step_minutes(self, total_minutes: int, weights: Sequence[int]) -> List[int]:
+        if not weights:
+            return []
+        minimum = 5
+        allocation = [minimum for _ in weights]
+        remaining = max(0, total_minutes - (minimum * len(weights)))
+        positive_weights = [max(1, int(weight)) for weight in weights]
+        total_weight = sum(positive_weights)
+        if total_weight <= 0:
+            total_weight = len(positive_weights)
+        for index, weight in enumerate(positive_weights):
+            share = math.floor((remaining * weight) / total_weight)
+            allocation[index] += share
+        distributed = sum(allocation)
+        pointer = 0
+        while distributed < total_minutes:
+            allocation[pointer % len(allocation)] += 1
+            distributed += 1
+            pointer += 1
+        return allocation
+
+    def _step_weight_for_record(self, record: Dict[str, Any], topic_text: str, student_context: Dict[str, Any]) -> int:
+        features = record.get("_plan_features") or {}
+        prior_overlap = int(features.get("prior_score", 0))
+        return (
+            2
+            + (2 if int(features.get("topic_score", 0)) > 0 else 0)
+            + (3 if int(features.get("weak_score", 0)) > 0 else 0)
+            + (1 if int(features.get("goal_score", 0)) > 0 else 0)
+            + (0 if prior_overlap > 0 else 1)
+        )
+
+    def _step_title(self, record: Dict[str, Any], topic_text: str, weak_areas: str, quick_bridge: bool) -> str:
+        concept = record.get("concept_name", "Key concept")
+        if weak_areas and self._record_overlap(record, weak_areas) > 0:
+            return f"Milestone: reinforce {concept}"
+        if quick_bridge:
+            return f"Quick bridge through {concept}"
+        if topic_text and self._record_overlap(record, topic_text) > 0:
+            return f"Core focus: {concept}"
+        return f"Study {concept}"
+
+    def _step_objective(self, record: Dict[str, Any], topic_text: str, goals: str) -> str:
+        summary = safe_excerpt(record.get("summary_text", ""), max_length=220)
+        if topic_text and self._record_overlap(record, topic_text) > 0:
+            return f"Build a grounded explanation of how this record supports {topic_text}: {summary}"
+        if goals:
+            return f"Use this grounded concept to support your stated goal ({goals}): {summary}"
+        return summary
+
+    def _step_milestone(self, concept_name: str, topic_text: str, goals: str) -> str:
+        if goals:
+            return f"You can explain {concept_name} clearly enough to use it for {goals} without reopening the slides."
+        if topic_text:
+            return f"You can explain how {concept_name} supports {topic_text} without looking at the cited slide."
+        return f"You can explain {concept_name} from memory and connect it to the surrounding lecture content."
+
+    def _find_record_by_text(self, concept_records: Sequence[Dict[str, Any]], text: str) -> Optional[Dict[str, Any]]:
+        normalized = normalize_whitespace(text)
+        if not normalized:
+            return None
+        ranked = sorted(
+            concept_records,
+            key=lambda record: (
+                -self._record_overlap(record, normalized),
+                int(record.get("slide_number") or 0),
+            ),
+        )
+        if not ranked or self._record_overlap(ranked[0], normalized) <= 0:
+            return None
+        return ranked[0]
+
+    def _build_tailoring_summary(
+        self,
+        *,
+        accessor: EvidenceAccessor,
+        topic_text: str,
+        inferred_topic: bool,
+        time_budget_minutes: int,
+        grounding_mode: str,
+        student_context: Dict[str, Any],
+        citations: Sequence[Dict[str, Any]],
+    ) -> Dict[str, Any]:
+        material_titles = list(
+            dict.fromkeys(
+                [
+                    item.get("material_title")
+                    for item in accessor.filter_items(accessor.material_ids)
+                    if item.get("material_title")
+                ]
+            )
+        )
+        cited_slides = distinct_slide_numbers(citations)
+        used_inputs = [
+            {
+                "key": "topic_text",
+                "label": "Topic focus",
+                "value": topic_text or "Inferred from uploaded lecture materials",
+                "source": "inferred" if inferred_topic else "user",
+            },
+            {
+                "key": "time_budget_minutes",
+                "label": "Time budget",
+                "value": f"{time_budget_minutes} minutes",
+                "source": "user",
+            },
+            {
+                "key": "grounding_mode",
+                "label": "Grounding mode",
+                "value": grounding_mode.replace("_", " "),
+                "source": "user",
+            },
+        ]
+        if material_titles:
+            used_inputs.append(
+                {
+                    "key": "materials",
+                    "label": "Lecture materials used",
+                    "value": ", ".join(material_titles),
+                    "source": "workspace",
+                }
+            )
+        missing_inputs: List[Dict[str, str]] = []
+        optional_fields = [
+            (
+                "prior_knowledge",
+                "What you already know",
+                "Not provided, so the plan assumes no specific starting point beyond the grounded materials.",
+            ),
+            (
+                "weak_areas",
+                "Weak areas",
+                "Not provided, so the plan cannot emphasize a specific trouble spot.",
+            ),
+            (
+                "goals",
+                "Goals or exam context",
+                "Not provided, so the plan optimizes for general review rather than a specific exam or milestone.",
+            ),
+        ]
+        for key, label, fallback_message in optional_fields:
+            value = normalize_whitespace(student_context.get(key, ""))
+            if value:
+                used_inputs.append(
+                    {
+                        "key": key,
+                        "label": label,
+                        "value": value,
+                        "source": "user",
+                    }
+                )
+            else:
+                missing_inputs.append(
+                    {
+                        "key": key,
+                        "label": label,
+                        "message": fallback_message,
+                    }
+                )
+        return {
+            "used_inputs": used_inputs,
+            "missing_inputs": missing_inputs,
+            "evidence_scope": {
+                "material_count": len(material_titles),
+                "material_titles": material_titles,
+                "slide_count": len(cited_slides),
+                "slide_numbers": cited_slides,
+            },
         }
 
     # --------------------------

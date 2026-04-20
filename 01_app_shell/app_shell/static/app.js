@@ -452,6 +452,47 @@ function wireCitationButtons(container, citations) {
   });
 }
 
+function renderPlanTasks(tasks = []) {
+  if (!tasks.length) return '<div class="small muted">No checklist items.</div>';
+  return `
+    <ul class="task-list">
+      ${tasks.map((task) => `<li>${escapeHtml(task)}</li>`).join('')}
+    </ul>
+  `;
+}
+
+function renderTailoringSummary(summary) {
+  if (!summary) return '';
+  const usedInputs = summary.used_inputs || [];
+  const missingInputs = summary.missing_inputs || [];
+  const evidenceScope = summary.evidence_scope || {};
+  const materialsText = (evidenceScope.material_titles || []).join(', ');
+  const slideNumbers = (evidenceScope.slide_numbers || []).join(', ');
+  return `
+    <div class="card">
+      <div class="small muted" style="margin-bottom:8px;">Inputs used to tailor this plan</div>
+      <div class="plan-input-grid">
+        ${usedInputs.map((item) => `
+          <div class="plan-input-item">
+            <div class="small muted">${escapeHtml(item.label || item.key || 'Input')}</div>
+            <div>${escapeHtml(item.value || '')}</div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="small muted plan-evidence-scope">
+        Grounded in ${escapeHtml(String(evidenceScope.material_count || 0))} material${(evidenceScope.material_count || 0) === 1 ? '' : 's'}
+        ${materialsText ? `: ${escapeHtml(materialsText)}` : ''}
+        ${slideNumbers ? ` â€¢ cited slides ${escapeHtml(slideNumbers)}` : ''}
+      </div>
+      ${missingInputs.length ? `
+        <div class="warning small plan-missing-inputs">
+          ${missingInputs.map((item) => escapeHtml(item.message || `${item.label || item.key} was not provided.`)).join(' ')}
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
 function renderStudyPlan() {
   const output = document.getElementById('study-plan-output');
   const workspace = state.activeWorkspace;
@@ -481,7 +522,9 @@ function renderStudyPlan() {
         </div>
       </div>
       <div class="small muted" style="margin-top:6px;">Created ${escapeHtml(formatDate(plan.created_at))}</div>
+      <div class="small muted" style="margin-top:6px;">Each item below links back to its cited slide(s) in the source viewer.</div>
     </div>
+    ${renderTailoringSummary(plan.tailoring_summary)}
     ${renderSection('Prerequisite knowledge', plan.prerequisites, (item) => `
       <div><strong>${escapeHtml(item.concept_name)}</strong></div>
       <div class="small">${escapeHtml(item.why_needed)}</div>
@@ -491,7 +534,8 @@ function renderStudyPlan() {
       <div><strong>${escapeHtml(item.title)}</strong></div>
       <div class="small">${escapeHtml(item.objective)}</div>
       <div class="small muted">${item.recommended_time_minutes} min · ${escapeHtml(formatSupportStatus(item.support_status))}</div>
-      <div class="small muted">Tasks: ${escapeHtml((item.tasks || []).join('; '))}</div>
+      ${item.milestone ? `<div class="small plan-milestone"><strong>Milestone:</strong> ${escapeHtml(item.milestone)}</div>` : ''}
+      ${renderPlanTasks(item.tasks || [])}
     `)}
     ${renderSection('Common mistakes', plan.common_mistakes, (item) => `
       <div><strong>${escapeHtml(item.pattern)}</strong></div>

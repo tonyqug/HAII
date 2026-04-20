@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections import Counter, defaultdict
 from dataclasses import dataclass
-from typing import Any, Iterable
+from typing import Any, Iterable, List, Optional
 
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -31,17 +31,17 @@ ANNOTATION_MATERIAL_TITLE = "Workspace Annotations"
 class Candidate:
     source_type: str  # slide | annotation
     workspace_id: str
-    material_id: str | None
-    slide_id: str | None
-    slide_number: int | None
+    material_id: Optional[str]
+    slide_id: Optional[str]
+    slide_number: Optional[int]
     material_title: str
     text: str
     extraction_quality: str
     support_type: str
-    annotation_id: str | None = None
+    annotation_id: Optional[str] = None
     score: float = 0.0
-    scope: str | None = None
-    role: str | None = None
+    scope: Optional[str] = None
+    role: Optional[str] = None
 
     @property
     def sort_key(self) -> tuple[Any, ...]:
@@ -154,7 +154,7 @@ class RetrievalEngine:
         self.settings = settings
         self.repo = repo
 
-    def _workspace_materials(self, workspace_id: str, material_ids: list[str] | None = None) -> list[dict[str, Any]]:
+    def _workspace_materials(self, workspace_id: str, material_ids: Optional[List[str]] = None) -> list[dict[str, Any]]:
         materials = self.repo.list_materials(workspace_id)
         materials = [m for m in materials if m["processing_status"] == "ready"]
         if material_ids:
@@ -500,7 +500,7 @@ class RetrievalEngine:
         *,
         workspace_id: str,
         material_ids: list[str],
-        query_text: str | None,
+        query_text: Optional[str],
         bundle_mode: str,
         token_budget: int,
         max_items: int,

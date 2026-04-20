@@ -5,7 +5,7 @@ import shutil
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import asynccontextmanager
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any, Mapping, Optional
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -48,7 +48,7 @@ class RetrievalSearchRequest(BaseModel):
 class RetrievalBundleRequest(BaseModel):
     workspace_id: str
     material_ids: list[str] = Field(default_factory=list)
-    query_text: str | None = None
+    query_text: Optional[str] = None
     bundle_mode: str = Field(default="precision")
     token_budget: int = Field(default=0, ge=0)
     max_items: int = Field(default=0, ge=0, le=500)
@@ -58,7 +58,7 @@ class RetrievalBundleRequest(BaseModel):
 class EvidenceBundleRequest(BaseModel):
     workspace_id: str
     material_ids: list[str] = Field(default_factory=list)
-    query_text: str | None = None
+    query_text: Optional[str] = None
     bundle_mode: str
     include_annotations: bool
     token_budget: int = Field(default=0, ge=0)
@@ -72,8 +72,8 @@ class CitationResolveRequest(BaseModel):
 class AnnotationCreateRequest(BaseModel):
     annotation_type: str
     scope: str
-    material_id: str | None = None
-    slide_id: str | None = None
+    material_id: Optional[str] = None
+    slide_id: Optional[str] = None
     text: str = Field(min_length=1)
 
 
@@ -109,14 +109,14 @@ LEGACY_ANNOTATION_TYPE_ERROR = (
 )
 
 
-def _clean_string(value: Any) -> str | None:
+def _clean_string(value: Any) -> Optional[str]:
     if value is None:
         return None
     text = str(value).strip()
     return text or None
 
 
-def _normalized_token(value: Any) -> str | None:
+def _normalized_token(value: Any) -> Optional[str]:
     text = _clean_string(value)
     if text is None:
         return None
@@ -143,7 +143,7 @@ def create_app(settings: Settings) -> FastAPI:
         try:
             yield
         finally:
-            executor: ThreadPoolExecutor | None = getattr(app.state, "executor", None)
+            executor: Optional[ThreadPoolExecutor] = getattr(app.state, "executor", None)
             if executor is not None:
                 executor.shutdown(wait=False, cancel_futures=False)
 
@@ -167,14 +167,14 @@ def create_app(settings: Settings) -> FastAPI:
         except Exception:
             return False
 
-    def material_file_system_path(material: dict[str, Any]) -> Path | None:
+    def material_file_system_path(material: dict[str, Any]) -> Optional[Path]:
         rel = material.get("source_relpath")
         if not rel:
             return None
         path = settings.local_data_dir / rel
         return path if path.exists() else None
 
-    def converted_pdf_path(material: dict[str, Any]) -> Path | None:
+    def converted_pdf_path(material: dict[str, Any]) -> Optional[Path]:
         rel = material.get("converted_pdf_relpath")
         if not rel:
             return None
@@ -325,7 +325,7 @@ def create_app(settings: Settings) -> FastAPI:
         *,
         workspace_id: str,
         material_ids: list[str],
-        query_text: str | None,
+        query_text: Optional[str],
         bundle_mode: str,
         token_budget: int,
         max_items: int,

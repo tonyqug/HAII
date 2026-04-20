@@ -1155,6 +1155,26 @@ class ShellService:
             raise ShellError("The learning service did not return a job_id for practice revision.", status_code=502)
         return self._create_job(workspace_id, "practice_revise", service="learning", remote_job_id=remote_job_id, context={"normalized_request": normalized, "practice_set_id": practice_set_id}, message="Practice revision submitted to the learning service.")
 
+    def delete_material(self, workspace_id: str, material_id: str) -> dict:
+        workspace = self._workspace_or_error(workspace_id)
+        if material_id not in workspace.get("materials", {}):
+            raise ShellError(f"Material {material_id} was not found in this workspace.", status_code=404)
+        if self.effective_mode == "integrated":
+            snapshot = self.refresh_status(force=False)
+            if snapshot["services"]["content"]["available"]:
+                try:
+                    self._remote_json("content", "DELETE", f"/v1/materials/{material_id}")
+                except Exception:
+                    pass
+        workspace.get("materials", {}).pop(material_id, None)
+        workspace.get("material_preferences", {}).pop(material_id, None)
+        workspace.get("material_sync_annotations", {}).pop(material_id, None)
+        for role_list in workspace.get("active_material_ids", {}).values():
+            if material_id in role_list:
+                role_list.remove(material_id)
+        self._save_workspace(workspace)
+        return self._public_workspace(workspace)
+
     def set_material_preference(self, workspace_id: str, material_id: str, preference: str) -> dict:
         if preference not in {"default", "focus", "exclude"}:
             raise ShellError("Material preference must be default, focus, or exclude.")

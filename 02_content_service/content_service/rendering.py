@@ -4,7 +4,7 @@ import html
 import subprocess
 import textwrap
 from pathlib import Path
-from typing import Iterable
+from typing import Iterable, Optional
 
 import fitz
 from PIL import Image, ImageDraw, ImageFont
@@ -37,8 +37,8 @@ def render_text_image(
     text: str,
     output_path: Path,
     *,
-    title: str | None = None,
-    footer: str | None = None,
+    title: Optional[str] = None,
+    footer: Optional[str] = None,
     width: int = PAGE_WIDTH,
     height: int = PAGE_HEIGHT,
 ) -> None:

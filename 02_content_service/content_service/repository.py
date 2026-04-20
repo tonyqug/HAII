@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import sqlite3
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any, Iterable, Optional, Tuple
 
 from .config import Settings
 from .db import get_conn
@@ -15,7 +15,7 @@ SCOPE_VALUES = {"workspace", "material", "slide"}
 PROCESSING_VALUES = {"queued", "running", "ready", "failed"}
 
 
-def row_to_dict(row: sqlite3.Row | None) -> dict[str, Any] | None:
+def row_to_dict(row: Optional[sqlite3.Row]) -> Optional[dict[str, Any]]:
     if row is None:
         return None
     return {k: row[k] for k in row.keys()}
@@ -35,7 +35,7 @@ class Repository:
         material_id: str,
         workspace_id: str,
         title: str,
-        original_filename: str | None,
+        original_filename: Optional[str],
         role: str,
         kind: str,
         source_kind: str,
@@ -62,7 +62,7 @@ class Repository:
         with get_conn(self.settings) as conn:
             conn.execute(f"UPDATE materials SET {columns} WHERE material_id = ?", values)
 
-    def get_material(self, material_id: str) -> dict[str, Any] | None:
+    def get_material(self, material_id: str) -> Optional[dict[str, Any]]:
         with get_conn(self.settings) as conn:
             row = conn.execute("SELECT * FROM materials WHERE material_id = ?", (material_id,)).fetchone()
         return row_to_dict(row)
@@ -77,7 +77,7 @@ class Repository:
             rows = conn.execute(sql, tuple(params)).fetchall()
         return [row_to_dict(row) for row in rows if row is not None]
 
-    def delete_material(self, material_id: str) -> dict[str, Any] | None:
+    def delete_material(self, material_id: str) -> Optional[dict[str, Any]]:
         material = self.get_material(material_id)
         if material is None:
             return None
@@ -126,7 +126,7 @@ class Repository:
             ).fetchall()
         return [row_to_dict(row) for row in rows if row is not None]
 
-    def get_slide(self, material_id: str, slide_id: str) -> dict[str, Any] | None:
+    def get_slide(self, material_id: str, slide_id: str) -> Optional[dict[str, Any]]:
         with get_conn(self.settings) as conn:
             row = conn.execute(
                 "SELECT * FROM slides WHERE material_id = ? AND slide_id = ?",
@@ -134,12 +134,12 @@ class Repository:
             ).fetchone()
         return row_to_dict(row)
 
-    def get_slide_by_id(self, slide_id: str) -> dict[str, Any] | None:
+    def get_slide_by_id(self, slide_id: str) -> Optional[dict[str, Any]]:
         with get_conn(self.settings) as conn:
             row = conn.execute("SELECT * FROM slides WHERE slide_id = ?", (slide_id,)).fetchone()
         return row_to_dict(row)
 
-    def resolve_slide_scope(self, workspace_id: str, slide_id: str) -> tuple[str, str] | None:
+    def resolve_slide_scope(self, workspace_id: str, slide_id: str) -> Optional[Tuple[str, str]]:
         with get_conn(self.settings) as conn:
             row = conn.execute(
                 """
@@ -161,8 +161,8 @@ class Repository:
         job_type: str,
         stage: str,
         message: str,
-        result_type: str | None,
-        result_id: str | None,
+        result_type: Optional[str],
+        result_id: Optional[str],
     ) -> None:
         ts = now_iso()
         with get_conn(self.settings) as conn:
@@ -186,7 +186,7 @@ class Repository:
         with get_conn(self.settings) as conn:
             conn.execute(f"UPDATE jobs SET {columns} WHERE job_id = ?", values)
 
-    def get_job(self, job_id: str) -> dict[str, Any] | None:
+    def get_job(self, job_id: str) -> Optional[dict[str, Any]]:
         with get_conn(self.settings) as conn:
             row = conn.execute("SELECT * FROM jobs WHERE job_id = ?", (job_id,)).fetchone()
         return row_to_dict(row)
@@ -206,11 +206,11 @@ class Repository:
         workspace_id: str,
         annotation_type: str,
         scope: str,
-        material_id: str | None,
-        slide_id: str | None,
+        material_id: Optional[str],
+        slide_id: Optional[str],
         text: str,
         virtual_slide_number: int,
-        preview_relpath: str | None,
+        preview_relpath: Optional[str],
     ) -> None:
         ts = now_iso()
         with get_conn(self.settings) as conn:
@@ -235,7 +235,7 @@ class Repository:
                 ),
             )
 
-    def get_annotation(self, workspace_id: str, annotation_id: str) -> dict[str, Any] | None:
+    def get_annotation(self, workspace_id: str, annotation_id: str) -> Optional[dict[str, Any]]:
         with get_conn(self.settings) as conn:
             row = conn.execute(
                 "SELECT * FROM annotations WHERE workspace_id = ? AND annotation_id = ?",
@@ -251,7 +251,7 @@ class Repository:
             ).fetchall()
         return [row_to_dict(row) for row in rows if row is not None]
 
-    def delete_annotation(self, workspace_id: str, annotation_id: str) -> dict[str, Any] | None:
+    def delete_annotation(self, workspace_id: str, annotation_id: str) -> Optional[dict[str, Any]]:
         annotation = self.get_annotation(workspace_id, annotation_id)
         if annotation is None:
             return None
@@ -268,10 +268,10 @@ class Repository:
         citation_id: str,
         workspace_id: str,
         source_type: str,
-        material_id: str | None,
-        slide_id: str | None,
-        slide_number: int | None,
-        annotation_id: str | None,
+        material_id: Optional[str],
+        slide_id: Optional[str],
+        slide_number: Optional[int],
+        annotation_id: Optional[str],
         snippet_text: str,
         support_type: str,
         confidence: str,

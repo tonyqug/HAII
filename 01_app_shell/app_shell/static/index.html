@@ -8,13 +8,14 @@
   </head>
   <body>
     <header>
-      <h1>Study Helper MVP</h1>
-      <p>Localhost-first application shell with workspace library, source-viewer evidence inspection, mock mode, and integrated localhost service orchestration.</p>
+      <h1>Study Helper</h1>
+      <p>Your AI-powered study assistant.</p>
     </header>
     <main>
       <section class="panel">
         <h2>Library</h2>
         <div class="system-status" id="system-status"></div>
+        <div class="workspace-list" id="workspace-list"></div>
         <div class="card">
           <h3>Create workspace</h3>
           <form id="create-workspace-form" class="stack">
@@ -25,7 +26,6 @@
             <button type="submit">Create workspace</button>
           </form>
         </div>
-        <div class="workspace-list" id="workspace-list"></div>
       </section>
 
       <section class="panel">
@@ -48,9 +48,9 @@
                 <label style="flex:1 1 180px;">
                   Role
                   <select id="material-role">
-                    <option value="slides">slides</option>
-                    <option value="notes">notes</option>
-                    <option value="practice_template">practice_template</option>
+                    <option value="slides">Slides</option>
+                    <option value="notes">Notes</option>
+                    <option value="practice_template">Practice template</option>
                   </select>
                 </label>
               </div>
@@ -96,14 +96,14 @@
                     </label>
                     <label style="flex:1 1 160px;">
                       Time budget (minutes)
-                      <input id="time-budget" type="number" min="1" placeholder="90" />
+                      <input id="time-budget" type="number" min="1" placeholder="90" value="90" />
                     </label>
                   </div>
                   <label>
                     Grounding mode
                     <select id="grounding-mode">
-                      <option value="strict_lecture_only">strict lecture only</option>
-                      <option value="lecture_with_fallback">lecture with fallback</option>
+                      <option value="strict_lecture_only">Strict (lecture only)</option>
+                      <option value="lecture_with_fallback">Lecture + fallback</option>
                     </select>
                   </label>
                   <label>
@@ -144,8 +144,8 @@
                     <label style="flex:1 1 180px;">
                       Grounding mode
                       <select id="chat-grounding-mode">
-                        <option value="strict_lecture_only">strict lecture only</option>
-                        <option value="lecture_with_fallback">lecture with fallback</option>
+                        <option value="strict_lecture_only">Strict (lecture only)</option>
+                        <option value="lecture_with_fallback">Lecture + fallback</option>
                       </select>
                     </label>
                     <label style="flex:1 1 180px;">
@@ -172,10 +172,10 @@
                     <label style="flex:1 1 180px;">
                       Mode
                       <select id="practice-mode">
-                        <option value="short_answer">short_answer</option>
-                        <option value="long_answer">long_answer</option>
-                        <option value="mixed">mixed</option>
-                        <option value="template_mimic">template_mimic</option>
+                        <option value="short_answer">Short answer</option>
+                        <option value="long_answer">Long answer</option>
+                        <option value="mixed">Mixed</option>
+                        <option value="template_mimic">Template mimic</option>
                       </select>
                     </label>
                     <label style="flex:1 1 160px;">
@@ -185,9 +185,9 @@
                     <label style="flex:1 1 160px;">
                       Difficulty
                       <select id="practice-difficulty">
-                        <option value="easier">easier</option>
-                        <option value="mixed" selected>mixed</option>
-                        <option value="harder">harder</option>
+                        <option value="easier">Easier</option>
+                        <option value="mixed" selected>Mixed</option>
+                        <option value="harder">Harder</option>
                       </select>
                     </label>
                   </div>
@@ -222,14 +222,14 @@
         </div>
       </section>
 
-      <section class="panel source-viewer">
+      <section class="panel source-viewer hidden">
         <h2>Source viewer</h2>
         <div id="source-service-note" class="service-note small warning hidden"></div>
         <div id="source-empty" class="muted">Click any citation chip to inspect the exact slide or page used for grounding.</div>
         <div id="source-view" class="hidden stack">
           <div id="source-meta" class="small muted"></div>
-          <div id="source-snippet" class="card"></div>
-          <img id="source-preview" alt="Cited source preview" />
+          <div id="source-snippet" class="source-snippet-card"></div>
+          <img id="source-preview" alt="Cited source preview" style="display:none;" onerror="this.style.display='none'" onload="this.style.display=''" />
           <div class="row">
             <button id="source-prev" class="secondary" type="button">Previous citation</button>
             <button id="source-next" class="secondary" type="button">Next citation</button>

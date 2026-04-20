@@ -31,6 +31,37 @@
       "user_action": null,
       "workspace_id": "workspace_538aaf9f4515"
     },
+    "job_09ae1030c635": {
+      "context": {
+        "dedup_key": "slides:a2c6d873eaa6f128a21674192f55b8b814af319ae4971c4b6a671c81e75271c0",
+        "file_payload": {
+          "filename": "03133 Exam 2 Cheat sheet - Google Docs.pdf"
+        },
+        "normalized_request": {
+          "role": "slides",
+          "source_kind": "file",
+          "title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+          "workspace_id": "workspace_cd0fc75267fd"
+        }
+      },
+      "created_at": "2026-04-20T19:38:47Z",
+      "error": null,
+      "finalized": true,
+      "job_id": "job_09ae1030c635",
+      "message": "Material import completed.",
+      "operation": "import_material",
+      "poll_count": 2,
+      "progress": 100,
+      "remote_job_id": null,
+      "result_id": "material_af944947654f",
+      "result_type": "material",
+      "service": "local_mock",
+      "stage": "completed",
+      "status": "succeeded",
+      "updated_at": "2026-04-20T19:38:48Z",
+      "user_action": null,
+      "workspace_id": "workspace_cd0fc75267fd"
+    },
     "job_0cf1db2bf021": {
       "context": {
         "conversation_id": "conversation_f9e766f9579f",
@@ -87,6 +118,37 @@
       "user_action": null,
       "workspace_id": "workspace_538aaf9f4515"
     },
+    "job_10fd15cbf0f8": {
+      "context": {
+        "dedup_key": "slides:649ea9b8f4eea86928af3e67e095e5fbb0187d210a0ba49aadafe35785b73068",
+        "file_payload": {
+          "filename": "a10.pdf"
+        },
+        "normalized_request": {
+          "role": "slides",
+          "source_kind": "file",
+          "title": "a10.pdf",
+          "workspace_id": "workspace_119cfa5ac40c"
+        }
+      },
+      "created_at": "2026-04-20T19:30:27Z",
+      "error": null,
+      "finalized": true,
+      "job_id": "job_10fd15cbf0f8",
+      "message": "Material import completed.",
+      "operation": "import_material",
+      "poll_count": 2,
+      "progress": 100,
+      "remote_job_id": null,
+      "result_id": "material_bb72ae05041d",
+      "result_type": "material",
+      "service": "local_mock",
+      "stage": "completed",
+      "status": "succeeded",
+      "updated_at": "2026-04-20T19:30:27Z",
+      "user_action": null,
+      "workspace_id": "workspace_119cfa5ac40c"
+    },
     "job_126f6ff4dc4a": {
       "context": {
         "normalized_request": {
@@ -118,6 +180,74 @@
       "user_action": null,
       "workspace_id": "workspace_538aaf9f4515"
     },
+    "job_166dd3f76bec": {
+      "context": {
+        "dedup_key": "practice_template:fd0def8190fcb7b42fa01512a091071d1d7565998866c6ec1709fa69b5dcc97b",
+        "file_payload": {
+          "filename": "bsts.pdf"
+        },
+        "normalized_request": {
+          "role": "practice_template",
+          "source_kind": "file",
+          "title": "210",
+          "workspace_id": "workspace_0c576b1f0e72"
+        }
+      },
+      "created_at": "2026-03-30T15:28:44Z",
+      "error": null,
+      "finalized": true,
+      "job_id": "job_166dd3f76bec",
+      "message": "Material import completed.",
+      "operation": "import_material",
+      "poll_count": 2,
+      "progress": 100,
+      "remote_job_id": null,
+      "result_id": "material_3bdefa57db55",
+      "result_type": "material",
+      "service": "local_mock",
+      "stage": "completed",
+      "status": "succeeded",
+      "updated_at": "2026-03-30T15:28:45Z",
+      "user_action": null,
+      "workspace_id": "workspace_0c576b1f0e72"
+    },
+    "job_19bb829fd517": {
+      "context": {
+        "normalized_request": {
+          "grounding_mode": "strict_lecture_only",
+          "include_annotations": true,
+          "material_ids": [
+            "material_057153c6600f"
+          ],
+          "student_context": {
+            "goals": "exam is coming in 2 weeks and i want to do well",
+            "prior_knowledge": "i already know what a bst is",
+            "weak_areas": "functions on bsts"
+          },
+          "time_budget_minutes": 0,
+          "topic_text": "bsts",
+          "workspace_id": "workspace_0c576b1f0e72"
+        },
+        "warnings": []
+      },
+      "created_at": "2026-03-30T15:34:02Z",
+      "error": null,
+      "finalized": true,
+      "job_id": "job_19bb829fd517",
+      "message": "Study plan ready.",
+      "operation": "study_plan_generate",
+      "poll_count": 2,
+      "progress": 100,
+      "remote_job_id": null,
+      "result_id": "study_plan_abc1b5e76fc0",
+      "result_type": "study_plan",
+      "service": "local_mock",
+      "stage": "completed",
+      "status": "succeeded",
+      "updated_at": "2026-03-30T15:34:02Z",
+      "user_action": null,
+      "workspace_id": "workspace_0c576b1f0e72"
+    },
     "job_26bb7c8681a4": {
       "context": {
         "normalized_request": {
@@ -148,6 +278,37 @@
       "updated_at": "2026-03-30T02:02:09Z",
       "user_action": null,
       "workspace_id": "workspace_538aaf9f4515"
+    },
+    "job_2ea782330e5f": {
+      "context": {
+        "deduplication": {
+          "material_id": "material_3bdefa57db55",
+          "skipped": true
+        },
+        "normalized_request": {
+          "role": "practice_template",
+          "source_kind": "file",
+          "title": "210",
+          "workspace_id": "workspace_0c576b1f0e72"
+        }
+      },
+      "created_at": "2026-03-30T15:29:31Z",
+      "error": null,
+      "finalized": true,
+      "job_id": "job_2ea782330e5f",
+      "message": "Duplicate file detected. Reusing the existing imported material.",
+      "operation": "import_material",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": null,
+      "result_id": "material_3bdefa57db55",
+      "result_type": "material",
+      "service": "local_dedup",
+      "stage": "completed",
+      "status": "succeeded",
+      "updated_at": "2026-03-30T15:29:31Z",
+      "user_action": null,
+      "workspace_id": "workspace_0c576b1f0e72"
     },
     "job_30a7e878470a": {
       "context": {
@@ -244,6 +405,37 @@
       "user_action": null,
       "workspace_id": "workspace_538aaf9f4515"
     },
+    "job_4591ea169184": {
+      "context": {
+        "dedup_key": "practice_template:b98dabf0f0c7ffef8f829a59023508156ed04a68882113bbf0b21cdec62b96e9",
+        "file_payload": {
+          "filename": "Article Case Study #4 - Google Docs.pdf"
+        },
+        "normalized_request": {
+          "role": "practice_template",
+          "source_kind": "file",
+          "title": "Article Case Study #4 - Google Docs.pdf",
+          "workspace_id": "workspace_b3262557b5dc"
+        }
+      },
+      "created_at": "2026-03-30T15:43:08Z",
+      "error": null,
+      "finalized": true,
+      "job_id": "job_4591ea169184",
+      "message": "Material import completed.",
+      "operation": "import_material",
+      "poll_count": 2,
+      "progress": 100,
+      "remote_job_id": null,
+      "result_id": "material_f90e97c0bfa9",
+      "result_type": "material",
+      "service": "local_mock",
+      "stage": "completed",
+      "status": "succeeded",
+      "updated_at": "2026-03-30T15:43:09Z",
+      "user_action": null,
+      "workspace_id": "workspace_b3262557b5dc"
+    },
     "job_5366c04b564f": {
       "context": {
         "normalized_request": {
@@ -306,6 +498,99 @@
       "user_action": null,
       "workspace_id": "workspace_538aaf9f4515"
     },
+    "job_5cac34cf21a1": {
+      "context": {
+        "dedup_key": "slides:5fc4e21756db5f315478528dd6e73b4547336a5fd8c8b618defdaa3ef87ac430",
+        "file_payload": {
+          "filename": "03133 Exam 3 Cheat sheet.pdf"
+        },
+        "normalized_request": {
+          "role": "slides",
+          "source_kind": "file",
+          "title": "03133 Exam 3 Cheat sheet.pdf",
+          "workspace_id": "workspace_cd0fc75267fd"
+        }
+      },
+      "created_at": "2026-04-20T19:38:39Z",
+      "error": null,
+      "finalized": true,
+      "job_id": "job_5cac34cf21a1",
+      "message": "Material import completed.",
+      "operation": "import_material",
+      "poll_count": 2,
+      "progress": 100,
+      "remote_job_id": null,
+      "result_id": "material_390aae065c51",
+      "result_type": "material",
+      "service": "local_mock",
+      "stage": "completed",
+      "status": "succeeded",
+      "updated_at": "2026-04-20T19:38:40Z",
+      "user_action": null,
+      "workspace_id": "workspace_cd0fc75267fd"
+    },
+    "job_6095c82773ca": {
+      "context": {
+        "deduplication": {
+          "material_id": "material_753ac7b44e1e",
+          "skipped": true
+        },
+        "normalized_request": {
+          "role": "slides",
+          "source_kind": "file",
+          "title": "21_325_Pset_10.pdf",
+          "workspace_id": "workspace_119cfa5ac40c"
+        }
+      },
+      "created_at": "2026-04-20T19:37:59Z",
+      "error": null,
+      "finalized": true,
+      "job_id": "job_6095c82773ca",
+      "message": "Duplicate file detected. Reusing the existing imported material.",
+      "operation": "import_material",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": null,
+      "result_id": "material_753ac7b44e1e",
+      "result_type": "material",
+      "service": "local_dedup",
+      "stage": "completed",
+      "status": "succeeded",
+      "updated_at": "2026-04-20T19:37:59Z",
+      "user_action": null,
+      "workspace_id": "workspace_119cfa5ac40c"
+    },
+    "job_6cb2a7cfc6f3": {
+      "context": {
+        "dedup_key": "slides:01884b1bdd73ecee4543d51edbdcd21ee1a6abdcc0f0df526cf9f9f797978dfa",
+        "file_payload": {
+          "filename": "21_325_Pset_10.pdf"
+        },
+        "normalized_request": {
+          "role": "slides",
+          "source_kind": "file",
+          "title": "21_325_Pset_10.pdf",
+          "workspace_id": "workspace_119cfa5ac40c"
+        }
+      },
+      "created_at": "2026-04-20T19:30:12Z",
+      "error": null,
+      "finalized": true,
+      "job_id": "job_6cb2a7cfc6f3",
+      "message": "Material import completed.",
+      "operation": "import_material",
+      "poll_count": 2,
+      "progress": 100,
+      "remote_job_id": null,
+      "result_id": "material_753ac7b44e1e",
+      "result_type": "material",
+      "service": "local_mock",
+      "stage": "completed",
+      "status": "succeeded",
+      "updated_at": "2026-04-20T19:30:13Z",
+      "user_action": null,
+      "workspace_id": "workspace_119cfa5ac40c"
+    },
     "job_7a721d56b68b": {
       "context": {
         "conversation_id": "conversation_f9e766f9579f",
@@ -338,6 +623,153 @@
         "prompt": null
       },
       "workspace_id": "workspace_538aaf9f4515"
+    },
+    "job_9209ed47b4b2": {
+      "context": {
+        "normalized_request": {
+          "grounding_mode": "strict_lecture_only",
+          "include_annotations": true,
+          "material_ids": [
+            "material_390aae065c51",
+            "material_af944947654f"
+          ],
+          "student_context": {
+            "goals": "Compensation model (why SSRIs take time to work).\n5-HT receptor differences (especially 5-HT1 vs 5-HT2).\nTolerance vs withdrawal mechanisms (opioids, cocaine, etc).\nApplying concepts to explanation-style questions.",
+            "prior_knowledge": "Basic neurotransmitter functions (dopamine, serotonin, GABA).\nGeneral idea of SSRIs and that they increase serotonin.\nKnow symptoms of major disorders like MDD and GAD.",
+            "weak_areas": "Compensation model (why SSRIs take time to work).\n5-HT receptor differences (especially 5-HT1 vs 5-HT2).\nTolerance vs withdrawal mechanisms (opioids, cocaine, etc).\nApplying concepts to explanation-style questions."
+          },
+          "time_budget_minutes": 0,
+          "topic_text": "",
+          "workspace_id": "workspace_cd0fc75267fd"
+        },
+        "warnings": []
+      },
+      "created_at": "2026-04-20T19:39:29Z",
+      "error": null,
+      "finalized": true,
+      "job_id": "job_9209ed47b4b2",
+      "message": "Study plan ready.",
+      "operation": "study_plan_generate",
+      "poll_count": 2,
+      "progress": 100,
+      "remote_job_id": null,
+      "result_id": "study_plan_ce3122d0b471",
+      "result_type": "study_plan",
+      "service": "local_mock",
+      "stage": "completed",
+      "status": "succeeded",
+      "updated_at": "2026-04-20T19:39:30Z",
+      "user_action": null,
+      "workspace_id": "workspace_cd0fc75267fd"
+    },
+    "job_990ded0a804e": {
+      "context": {
+        "normalized_request": {
+          "grounding_mode": "strict_lecture_only",
+          "include_annotations": true,
+          "material_ids": [
+            "mat_0d4cf2e5271346b2afc8b1a4422e6a0e",
+            "mat_26ee4a6b46504aeebcb2ff00f706975a",
+            "mat_2774a91c428b4e6fa56b7f2eaadd77f7",
+            "mat_3b5e20f75a86498d8d1c04f35becd132",
+            "mat_594608917ade48779b0e8952daf4cc3d",
+            "mat_76087f1877f348c5847a6ca00d9959a5",
+            "mat_7c418481d70a4d7d9762c3278209bf7c",
+            "mat_d0f5f0fcc4e24f9bb1abae14516b005e",
+            "mat_da5cdd0fc9474ef5b1444382a6417f65",
+            "mat_e0af76caf64a48389f420041bdceeef9",
+            "mat_e1be8fa2f53b4d0680acef951832989a"
+          ],
+          "student_context": {
+            "goals": "to do well on the exam",
+            "prior_knowledge": "most of it",
+            "weak_areas": "lecture 15"
+          },
+          "time_budget_minutes": 0,
+          "topic_text": "",
+          "workspace_id": "workspace_538aaf9f4515"
+        },
+        "warnings": []
+      },
+      "created_at": "2026-03-31T17:11:53Z",
+      "error": null,
+      "finalized": true,
+      "job_id": "job_990ded0a804e",
+      "message": "Study plan ready.",
+      "operation": "study_plan_generate",
+      "poll_count": 2,
+      "progress": 100,
+      "remote_job_id": null,
+      "result_id": "study_plan_67ff13d34387",
+      "result_type": "study_plan",
+      "service": "local_mock",
+      "stage": "completed",
+      "status": "succeeded",
+      "updated_at": "2026-03-31T17:11:54Z",
+      "user_action": null,
+      "workspace_id": "workspace_538aaf9f4515"
+    },
+    "job_a121afa95044": {
+      "context": {
+        "dedup_key": "practice_template:01884b1bdd73ecee4543d51edbdcd21ee1a6abdcc0f0df526cf9f9f797978dfa",
+        "file_payload": {
+          "filename": "21_325_Pset_10.pdf"
+        },
+        "normalized_request": {
+          "role": "practice_template",
+          "source_kind": "file",
+          "title": "21-325 Final Exam Preparation",
+          "workspace_id": "workspace_119cfa5ac40c"
+        }
+      },
+      "created_at": "2026-04-20T19:22:16Z",
+      "error": null,
+      "finalized": true,
+      "job_id": "job_a121afa95044",
+      "message": "Material import completed.",
+      "operation": "import_material",
+      "poll_count": 2,
+      "progress": 100,
+      "remote_job_id": null,
+      "result_id": "material_e30914fa6b86",
+      "result_type": "material",
+      "service": "local_mock",
+      "stage": "completed",
+      "status": "succeeded",
+      "updated_at": "2026-04-20T19:22:17Z",
+      "user_action": null,
+      "workspace_id": "workspace_119cfa5ac40c"
+    },
+    "job_ac5526b27498": {
+      "context": {
+        "normalized_request": {
+          "grounding_mode": "strict_lecture_only",
+          "include_annotations": true,
+          "instruction_text": "regenerate this section while preserving all locked items",
+          "locked_item_ids": [
+            "pre_714594cdfa2b"
+          ],
+          "target_section": "study_sequence"
+        },
+        "study_plan_id": "study_plan_dabb59dffded"
+      },
+      "created_at": "2026-04-20T19:35:05Z",
+      "error": null,
+      "finalized": true,
+      "job_id": "job_ac5526b27498",
+      "message": "Study plan revision ready.",
+      "operation": "study_plan_revise",
+      "poll_count": 2,
+      "progress": 100,
+      "remote_job_id": null,
+      "result_id": "study_plan_aea042ccf526",
+      "result_type": "study_plan",
+      "service": "local_mock",
+      "stage": "completed",
+      "status": "succeeded",
+      "updated_at": "2026-04-20T19:35:06Z",
+      "user_action": null,
+      "workspace_id": "workspace_119cfa5ac40c"
     },
     "job_b2585f2c24e4": {
       "context": {
@@ -453,6 +885,44 @@
       "user_action": null,
       "workspace_id": "workspace_538aaf9f4515"
     },
+    "job_cdfefa6befde": {
+      "context": {
+        "normalized_request": {
+          "grounding_mode": "strict_lecture_only",
+          "include_annotations": true,
+          "material_ids": [
+            "material_753ac7b44e1e",
+            "material_bb72ae05041d"
+          ],
+          "student_context": {
+            "goals": "Final exam in 3 days.\nNeed to be able to solve proof-style questions and apply inequalities quickly.\nWant to recognize patterns and not get stuck setting up problems.",
+            "prior_knowledge": "I understand expectation and basic variance.\nI can compute Var(X) and E[X].\nI know the formulas but struggle applying them in proofs.",
+            "weak_areas": "Setting up Chebyshev bounds correctly.\nRewriting probabilities into the right form.\nUnderstanding when to use Chebyshev vs CLT.\nProof-based questions about inequalities."
+          },
+          "time_budget_minutes": 0,
+          "topic_text": "",
+          "workspace_id": "workspace_119cfa5ac40c"
+        },
+        "warnings": []
+      },
+      "created_at": "2026-04-20T19:30:48Z",
+      "error": null,
+      "finalized": true,
+      "job_id": "job_cdfefa6befde",
+      "message": "Study plan ready.",
+      "operation": "study_plan_generate",
+      "poll_count": 2,
+      "progress": 100,
+      "remote_job_id": null,
+      "result_id": "study_plan_dabb59dffded",
+      "result_type": "study_plan",
+      "service": "local_mock",
+      "stage": "completed",
+      "status": "succeeded",
+      "updated_at": "2026-04-20T19:30:48Z",
+      "user_action": null,
+      "workspace_id": "workspace_119cfa5ac40c"
+    },
     "job_d3927f9c2b56": {
       "context": {
         "normalized_request": {
@@ -514,6 +984,43 @@
       "updated_at": "2026-03-30T01:43:33Z",
       "user_action": null,
       "workspace_id": "workspace_68e9e8c86cf7"
+    },
+    "job_db8c3611d63b": {
+      "context": {
+        "normalized_request": {
+          "grounding_mode": "strict_lecture_only",
+          "include_annotations": true,
+          "material_ids": [
+            "material_057153c6600f"
+          ],
+          "student_context": {
+            "goals": "exam is coming in 2 weeks and i want to do well",
+            "prior_knowledge": "i already know what a bst is",
+            "weak_areas": "functions on bsts"
+          },
+          "time_budget_minutes": 0,
+          "topic_text": "bsts",
+          "workspace_id": "workspace_0c576b1f0e72"
+        },
+        "warnings": []
+      },
+      "created_at": "2026-03-30T15:34:29Z",
+      "error": null,
+      "finalized": true,
+      "job_id": "job_db8c3611d63b",
+      "message": "Study plan ready.",
+      "operation": "study_plan_generate",
+      "poll_count": 2,
+      "progress": 100,
+      "remote_job_id": null,
+      "result_id": "study_plan_44d939bc1634",
+      "result_type": "study_plan",
+      "service": "local_mock",
+      "stage": "completed",
+      "status": "succeeded",
+      "updated_at": "2026-03-30T15:34:30Z",
+      "user_action": null,
+      "workspace_id": "workspace_0c576b1f0e72"
     },
     "job_dd67d42e48de": {
       "context": {
@@ -609,12 +1116,1016 @@
         "prompt": null
       },
       "workspace_id": "workspace_538aaf9f4515"
+    },
+    "job_f2b2149c6c21": {
+      "context": {
+        "dedup_key": "slides:fd0def8190fcb7b42fa01512a091071d1d7565998866c6ec1709fa69b5dcc97b",
+        "file_payload": {
+          "filename": "bsts.pdf"
+        },
+        "normalized_request": {
+          "role": "slides",
+          "source_kind": "file",
+          "title": "210",
+          "workspace_id": "workspace_0c576b1f0e72"
+        }
+      },
+      "created_at": "2026-03-30T15:33:22Z",
+      "error": null,
+      "finalized": true,
+      "job_id": "job_f2b2149c6c21",
+      "message": "Material import completed.",
+      "operation": "import_material",
+      "poll_count": 2,
+      "progress": 100,
+      "remote_job_id": null,
+      "result_id": "material_057153c6600f",
+      "result_type": "material",
+      "service": "local_mock",
+      "stage": "completed",
+      "status": "succeeded",
+      "updated_at": "2026-03-30T15:33:22Z",
+      "user_action": null,
+      "workspace_id": "workspace_0c576b1f0e72"
     }
   },
   "metadata": {
     "mock_fixture_seeded": true
   },
   "workspaces": {
+    "workspace_0c576b1f0e72": {
+      "active_material_ids": {
+        "notes": [],
+        "practice_template": [
+          "material_3bdefa57db55"
+        ],
+        "slides": [
+          "material_057153c6600f"
+        ]
+      },
+      "active_practice_set_id": null,
+      "active_study_plan_id": "study_plan_44d939bc1634",
+      "annotations": [],
+      "archived": false,
+      "conversations": {},
+      "created_at": "2026-03-30T15:28:22Z",
+      "deleted": false,
+      "display_name": "Untitled workspace",
+      "feedback_history": [],
+      "file_import_dedup": {
+        "practice_template:fd0def8190fcb7b42fa01512a091071d1d7565998866c6ec1709fa69b5dcc97b": "material_3bdefa57db55",
+        "slides:fd0def8190fcb7b42fa01512a091071d1d7565998866c6ec1709fa69b5dcc97b": "material_057153c6600f"
+      },
+      "grounding_mode": "strict_lecture_only",
+      "history": [
+        {
+          "active": false,
+          "artifact_id": "study_plan_abc1b5e76fc0",
+          "artifact_type": "study_plan",
+          "created_at": "2026-03-30T15:34:02Z",
+          "parent_artifact_id": null,
+          "title": "bsts"
+        },
+        {
+          "active": true,
+          "artifact_id": "study_plan_44d939bc1634",
+          "artifact_type": "study_plan",
+          "created_at": "2026-03-30T15:34:30Z",
+          "parent_artifact_id": null,
+          "title": "bsts"
+        }
+      ],
+      "known_conversation_ids": [],
+      "known_practice_set_ids": [],
+      "known_study_plan_ids": [
+        "study_plan_abc1b5e76fc0",
+        "study_plan_44d939bc1634"
+      ],
+      "last_opened_at": "2026-04-20T19:47:05Z",
+      "local_edits": {},
+      "material_preferences": {
+        "material_057153c6600f": "focus",
+        "material_3bdefa57db55": "default"
+      },
+      "material_sync_annotations": {
+        "material_057153c6600f": {},
+        "material_3bdefa57db55": {}
+      },
+      "materials": {
+        "material_057153c6600f": {
+          "created_at": "2026-03-30T15:33:22Z",
+          "kind": "pdf",
+          "material_id": "material_057153c6600f",
+          "page_count": 1,
+          "processing_status": "ready",
+          "quality_summary": {
+            "notes": "Locally generated mock material preview.",
+            "overall": "medium"
+          },
+          "role": "slides",
+          "slides": [
+            {
+              "bullets": [
+                "Imported file: 210"
+              ],
+              "material_id": "material_057153c6600f",
+              "material_title": "210",
+              "preview_url": null,
+              "slide_id": "slide_210_1",
+              "slide_number": 1,
+              "snippet_text": "Imported file: 210",
+              "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_057153c6600f/slides/slide_210_1/source",
+              "title": "210"
+            }
+          ],
+          "source_view_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_057153c6600f/slides/slide_210_1/source",
+          "text_body": "",
+          "title": "210",
+          "workspace_id": "workspace_0c576b1f0e72"
+        },
+        "material_3bdefa57db55": {
+          "created_at": "2026-03-30T15:28:45Z",
+          "kind": "pdf",
+          "material_id": "material_3bdefa57db55",
+          "page_count": 1,
+          "processing_status": "ready",
+          "quality_summary": {
+            "notes": "Locally generated mock material preview.",
+            "overall": "medium"
+          },
+          "role": "practice_template",
+          "slides": [
+            {
+              "bullets": [
+                "Imported file: 210"
+              ],
+              "material_id": "material_3bdefa57db55",
+              "material_title": "210",
+              "preview_url": null,
+              "slide_id": "slide_210_1",
+              "slide_number": 1,
+              "snippet_text": "Imported file: 210",
+              "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/source",
+              "title": "210"
+            }
+          ],
+          "source_view_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/source",
+          "text_body": "",
+          "title": "210",
+          "workspace_id": "workspace_0c576b1f0e72"
+        }
+      },
+      "pending_user_actions": [],
+      "practice_sets": {},
+      "selected_active_conversation_id": null,
+      "status": {
+        "last_successful_sync": {
+          "content": null,
+          "learning": null
+        },
+        "services": {
+          "content": {
+            "available": true,
+            "base_url": "http://127.0.0.1:38410",
+            "last_checked_at": "2026-04-20T19:47:04Z",
+            "mode": "integrated"
+          },
+          "learning": {
+            "available": true,
+            "base_url": "http://127.0.0.1:38420",
+            "last_checked_at": "2026-04-20T19:47:04Z",
+            "mode": "integrated"
+          }
+        },
+        "warnings": []
+      },
+      "student_context": {
+        "goals": "exam is coming in 2 weeks and i want to do well",
+        "known": "i already know what a bst is",
+        "weak_areas": "functions on bsts"
+      },
+      "study_plans": {
+        "study_plan_44d939bc1634": {
+          "common_mistakes": [
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_3bdefa57db55_slide_210_1_1",
+                  "confidence": "high",
+                  "material_id": "material_3bdefa57db55",
+                  "material_title": "210",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/preview",
+                  "slide_id": "slide_210_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 210",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "item_id": "mistake_afb81b0c9b41",
+              "pattern": "Skipping the cited evidence before memorizing the answer",
+              "prevention_advice": "Open the source viewer and anchor your summary in the cited slide or note.",
+              "support_status": "slide_grounded",
+              "why_it_happens": "Students often jump to memorization before checking how the lecture phrases the concept."
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_3bdefa57db55_slide_210_1_1",
+                  "confidence": "high",
+                  "material_id": "material_3bdefa57db55",
+                  "material_title": "210",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/preview",
+                  "slide_id": "slide_210_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 210",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "item_id": "mistake_4a59a8bf0605",
+              "pattern": "Studying all materials before any are ready",
+              "prevention_advice": "Proceed with the ready subset and revisit the remaining materials when they finish processing.",
+              "support_status": "inferred_from_slides",
+              "why_it_happens": "Uploads can still be processing while the workspace opens."
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_3bdefa57db55_slide_210_1_1",
+                  "confidence": "high",
+                  "material_id": "material_3bdefa57db55",
+                  "material_title": "210",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/preview",
+                  "slide_id": "slide_210_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 210",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "item_id": "mistake_4afb0ce3ba91",
+              "pattern": "Ignoring your own weak-area notes",
+              "prevention_advice": "Add weak areas or goals before regenerating if you want more tailored guidance.",
+              "support_status": "supplemental_note",
+              "why_it_happens": "Student context is easy to leave blank when working quickly."
+            }
+          ],
+          "created_at": "2026-03-30T15:34:30Z",
+          "grounding_mode": "strict_lecture_only",
+          "parent_study_plan_id": null,
+          "prerequisites": [
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_3bdefa57db55_slide_210_1_1",
+                  "confidence": "high",
+                  "material_id": "material_3bdefa57db55",
+                  "material_title": "210",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/preview",
+                  "slide_id": "slide_210_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 210",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "concept_name": "Core lecture concepts",
+              "item_id": "pre_dc67012be6e3",
+              "support_status": "slide_grounded",
+              "why_needed": "The generated plan relies on the uploaded lecture source and any notes you provided."
+            }
+          ],
+          "study_plan_id": "study_plan_44d939bc1634",
+          "study_sequence": [
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_3bdefa57db55_slide_210_1_1",
+                  "confidence": "high",
+                  "material_id": "material_3bdefa57db55",
+                  "material_title": "210",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/preview",
+                  "slide_id": "slide_210_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 210",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "depends_on": [],
+              "objective": "Read the cited slide or note and restate the main concept in your own words.",
+              "order_index": 1,
+              "recommended_time_minutes": 20,
+              "step_id": "step_c9143559c3b0",
+              "support_status": "slide_grounded",
+              "tasks": [
+                "Open the cited source slide",
+                "Write a one-sentence summary",
+                "Check any formulas or definitions against your notes"
+              ],
+              "title": "Review the grounded source first"
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_3bdefa57db55_slide_210_1_1",
+                  "confidence": "high",
+                  "material_id": "material_3bdefa57db55",
+                  "material_title": "210",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/preview",
+                  "slide_id": "slide_210_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 210",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "depends_on": [],
+              "objective": "Turn the lecture content into a short recall prompt and answer it without looking.",
+              "order_index": 2,
+              "recommended_time_minutes": 20,
+              "step_id": "step_b05801fb25c3",
+              "support_status": "slide_grounded",
+              "tasks": [
+                "Cover the slide",
+                "State the main takeaway aloud",
+                "Compare your answer to the cited evidence"
+              ],
+              "title": "Practice active recall"
+            }
+          ],
+          "time_budget_minutes": 60,
+          "topic_text": "bsts",
+          "workspace_id": "workspace_0c576b1f0e72"
+        },
+        "study_plan_abc1b5e76fc0": {
+          "common_mistakes": [
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_3bdefa57db55_slide_210_1_1",
+                  "confidence": "high",
+                  "material_id": "material_3bdefa57db55",
+                  "material_title": "210",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/preview",
+                  "slide_id": "slide_210_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 210",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "item_id": "mistake_ad6a85fc07ac",
+              "pattern": "Skipping the cited evidence before memorizing the answer",
+              "prevention_advice": "Open the source viewer and anchor your summary in the cited slide or note.",
+              "support_status": "slide_grounded",
+              "why_it_happens": "Students often jump to memorization before checking how the lecture phrases the concept."
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_3bdefa57db55_slide_210_1_1",
+                  "confidence": "high",
+                  "material_id": "material_3bdefa57db55",
+                  "material_title": "210",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/preview",
+                  "slide_id": "slide_210_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 210",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "item_id": "mistake_dbe8023b2601",
+              "pattern": "Studying all materials before any are ready",
+              "prevention_advice": "Proceed with the ready subset and revisit the remaining materials when they finish processing.",
+              "support_status": "inferred_from_slides",
+              "why_it_happens": "Uploads can still be processing while the workspace opens."
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_3bdefa57db55_slide_210_1_1",
+                  "confidence": "high",
+                  "material_id": "material_3bdefa57db55",
+                  "material_title": "210",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/preview",
+                  "slide_id": "slide_210_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 210",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "item_id": "mistake_39a7f1171b9d",
+              "pattern": "Ignoring your own weak-area notes",
+              "prevention_advice": "Add weak areas or goals before regenerating if you want more tailored guidance.",
+              "support_status": "supplemental_note",
+              "why_it_happens": "Student context is easy to leave blank when working quickly."
+            }
+          ],
+          "created_at": "2026-03-30T15:34:02Z",
+          "grounding_mode": "strict_lecture_only",
+          "parent_study_plan_id": null,
+          "prerequisites": [
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_3bdefa57db55_slide_210_1_1",
+                  "confidence": "high",
+                  "material_id": "material_3bdefa57db55",
+                  "material_title": "210",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/preview",
+                  "slide_id": "slide_210_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 210",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "concept_name": "Core lecture concepts",
+              "item_id": "pre_ede40835ee1d",
+              "support_status": "slide_grounded",
+              "why_needed": "The generated plan relies on the uploaded lecture source and any notes you provided."
+            }
+          ],
+          "study_plan_id": "study_plan_abc1b5e76fc0",
+          "study_sequence": [
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_3bdefa57db55_slide_210_1_1",
+                  "confidence": "high",
+                  "material_id": "material_3bdefa57db55",
+                  "material_title": "210",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/preview",
+                  "slide_id": "slide_210_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 210",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "depends_on": [],
+              "objective": "Read the cited slide or note and restate the main concept in your own words.",
+              "order_index": 1,
+              "recommended_time_minutes": 20,
+              "step_id": "step_7dee7877d121",
+              "support_status": "slide_grounded",
+              "tasks": [
+                "Open the cited source slide",
+                "Write a one-sentence summary",
+                "Check any formulas or definitions against your notes"
+              ],
+              "title": "Review the grounded source first"
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_3bdefa57db55_slide_210_1_1",
+                  "confidence": "high",
+                  "material_id": "material_3bdefa57db55",
+                  "material_title": "210",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/preview",
+                  "slide_id": "slide_210_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 210",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_0c576b1f0e72/materials/material_3bdefa57db55/slides/slide_210_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "depends_on": [],
+              "objective": "Turn the lecture content into a short recall prompt and answer it without looking.",
+              "order_index": 2,
+              "recommended_time_minutes": 20,
+              "step_id": "step_80a218023973",
+              "support_status": "slide_grounded",
+              "tasks": [
+                "Cover the slide",
+                "State the main takeaway aloud",
+                "Compare your answer to the cited evidence"
+              ],
+              "title": "Practice active recall"
+            }
+          ],
+          "time_budget_minutes": 60,
+          "topic_text": "bsts",
+          "workspace_id": "workspace_0c576b1f0e72"
+        }
+      },
+      "time_budget_minutes": 0,
+      "topic_text": "bsts",
+      "ui_preferences": {
+        "current_tab": "Overview",
+        "last_active_citation": null,
+        "sidebar_open": true,
+        "source_viewer_open": false
+      },
+      "workspace_id": "workspace_0c576b1f0e72"
+    },
+    "workspace_119cfa5ac40c": {
+      "active_material_ids": {
+        "notes": [],
+        "practice_template": [
+          "material_e30914fa6b86"
+        ],
+        "slides": [
+          "material_753ac7b44e1e",
+          "material_bb72ae05041d"
+        ]
+      },
+      "active_practice_set_id": null,
+      "active_study_plan_id": "study_plan_aea042ccf526",
+      "annotations": [],
+      "archived": false,
+      "conversations": {},
+      "created_at": "2026-04-20T19:15:31Z",
+      "deleted": false,
+      "display_name": "Probability Preparation",
+      "feedback_history": [],
+      "file_import_dedup": {
+        "practice_template:01884b1bdd73ecee4543d51edbdcd21ee1a6abdcc0f0df526cf9f9f797978dfa": "material_e30914fa6b86",
+        "slides:01884b1bdd73ecee4543d51edbdcd21ee1a6abdcc0f0df526cf9f9f797978dfa": "material_753ac7b44e1e",
+        "slides:649ea9b8f4eea86928af3e67e095e5fbb0187d210a0ba49aadafe35785b73068": "material_bb72ae05041d"
+      },
+      "grounding_mode": "strict_lecture_only",
+      "history": [
+        {
+          "active": false,
+          "artifact_id": "study_plan_dabb59dffded",
+          "artifact_type": "study_plan",
+          "created_at": "2026-04-20T19:30:48Z",
+          "parent_artifact_id": null,
+          "title": "21-325 Final Exam Preparation"
+        },
+        {
+          "active": true,
+          "artifact_id": "study_plan_aea042ccf526",
+          "artifact_type": "study_plan",
+          "created_at": "2026-04-20T19:35:06Z",
+          "parent_artifact_id": "study_plan_dabb59dffded",
+          "title": "21-325 Final Exam Preparation"
+        }
+      ],
+      "known_conversation_ids": [],
+      "known_practice_set_ids": [],
+      "known_study_plan_ids": [
+        "study_plan_dabb59dffded",
+        "study_plan_aea042ccf526"
+      ],
+      "last_opened_at": "2026-04-20T19:47:05Z",
+      "local_edits": {},
+      "material_preferences": {
+        "material_753ac7b44e1e": "default",
+        "material_bb72ae05041d": "default",
+        "material_e30914fa6b86": "default"
+      },
+      "material_sync_annotations": {},
+      "materials": {
+        "material_753ac7b44e1e": {
+          "created_at": "2026-04-20T19:30:13Z",
+          "kind": "pdf",
+          "material_id": "material_753ac7b44e1e",
+          "page_count": 1,
+          "processing_status": "ready",
+          "quality_summary": {
+            "notes": "Locally generated mock material preview.",
+            "overall": "medium"
+          },
+          "role": "slides",
+          "slides": [
+            {
+              "bullets": [
+                "Imported file: 21_325_Pset_10.pdf"
+              ],
+              "material_id": "material_753ac7b44e1e",
+              "material_title": "21_325_Pset_10.pdf",
+              "preview_url": null,
+              "slide_id": "slide_21-325-pset-10-pdf_1",
+              "slide_number": 1,
+              "snippet_text": "Imported file: 21_325_Pset_10.pdf",
+              "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_753ac7b44e1e/slides/slide_21-325-pset-10-pdf_1/source",
+              "title": "21_325_Pset_10.pdf"
+            }
+          ],
+          "source_view_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_753ac7b44e1e/slides/slide_21-325-pset-10-pdf_1/source",
+          "text_body": "",
+          "title": "21_325_Pset_10.pdf",
+          "workspace_id": "workspace_119cfa5ac40c"
+        },
+        "material_bb72ae05041d": {
+          "created_at": "2026-04-20T19:30:27Z",
+          "kind": "pdf",
+          "material_id": "material_bb72ae05041d",
+          "page_count": 1,
+          "processing_status": "ready",
+          "quality_summary": {
+            "notes": "Locally generated mock material preview.",
+            "overall": "medium"
+          },
+          "role": "slides",
+          "slides": [
+            {
+              "bullets": [
+                "Imported file: a10.pdf"
+              ],
+              "material_id": "material_bb72ae05041d",
+              "material_title": "a10.pdf",
+              "preview_url": null,
+              "slide_id": "slide_a10-pdf_1",
+              "slide_number": 1,
+              "snippet_text": "Imported file: a10.pdf",
+              "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_bb72ae05041d/slides/slide_a10-pdf_1/source",
+              "title": "a10.pdf"
+            }
+          ],
+          "source_view_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_bb72ae05041d/slides/slide_a10-pdf_1/source",
+          "text_body": "",
+          "title": "a10.pdf",
+          "workspace_id": "workspace_119cfa5ac40c"
+        },
+        "material_e30914fa6b86": {
+          "created_at": "2026-04-20T19:22:17Z",
+          "kind": "pdf",
+          "material_id": "material_e30914fa6b86",
+          "page_count": 1,
+          "processing_status": "ready",
+          "quality_summary": {
+            "notes": "Locally generated mock material preview.",
+            "overall": "medium"
+          },
+          "role": "practice_template",
+          "slides": [
+            {
+              "bullets": [
+                "Imported file: 21-325 Final Exam Preparation"
+              ],
+              "material_id": "material_e30914fa6b86",
+              "material_title": "21-325 Final Exam Preparation",
+              "preview_url": null,
+              "slide_id": "slide_21-325-final-exam-preparation_1",
+              "slide_number": 1,
+              "snippet_text": "Imported file: 21-325 Final Exam Preparation",
+              "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/source",
+              "title": "21-325 Final Exam Preparation"
+            }
+          ],
+          "source_view_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/source",
+          "text_body": "",
+          "title": "21-325 Final Exam Preparation",
+          "workspace_id": "workspace_119cfa5ac40c"
+        }
+      },
+      "pending_user_actions": [],
+      "practice_sets": {},
+      "selected_active_conversation_id": null,
+      "status": {
+        "last_successful_sync": {
+          "content": null,
+          "learning": null
+        },
+        "services": {
+          "content": {
+            "available": true,
+            "base_url": "http://127.0.0.1:38410",
+            "last_checked_at": "2026-04-20T19:47:04Z",
+            "mode": "integrated"
+          },
+          "learning": {
+            "available": true,
+            "base_url": "http://127.0.0.1:38420",
+            "last_checked_at": "2026-04-20T19:47:04Z",
+            "mode": "integrated"
+          }
+        },
+        "warnings": []
+      },
+      "student_context": {
+        "goals": "Final exam in 3 days.\nNeed to be able to solve proof-style questions and apply inequalities quickly.\nWant to recognize patterns and not get stuck setting up problems.",
+        "known": "I understand expectation and basic variance.\nI can compute Var(X) and E[X].\nI know the formulas but struggle applying them in proofs.",
+        "weak_areas": "Setting up Chebyshev bounds correctly.\nRewriting probabilities into the right form.\nUnderstanding when to use Chebyshev vs CLT.\nProof-based questions about inequalities."
+      },
+      "study_plans": {
+        "study_plan_aea042ccf526": {
+          "common_mistakes": [
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_e30914fa6b86_slide_21-325-final-exam-preparation_1_1",
+                  "confidence": "high",
+                  "material_id": "material_e30914fa6b86",
+                  "material_title": "21-325 Final Exam Preparation",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/preview",
+                  "slide_id": "slide_21-325-final-exam-preparation_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 21-325 Final Exam Preparation",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "item_id": "mistake_cac16b2cf88f",
+              "pattern": "Skipping the cited evidence before memorizing the answer",
+              "prevention_advice": "Open the source viewer and anchor your summary in the cited slide or note.",
+              "support_status": "slide_grounded",
+              "why_it_happens": "Students often jump to memorization before checking how the lecture phrases the concept."
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_e30914fa6b86_slide_21-325-final-exam-preparation_1_1",
+                  "confidence": "high",
+                  "material_id": "material_e30914fa6b86",
+                  "material_title": "21-325 Final Exam Preparation",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/preview",
+                  "slide_id": "slide_21-325-final-exam-preparation_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 21-325 Final Exam Preparation",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "item_id": "mistake_5d3e487573e3",
+              "pattern": "Studying all materials before any are ready",
+              "prevention_advice": "Proceed with the ready subset and revisit the remaining materials when they finish processing.",
+              "support_status": "inferred_from_slides",
+              "why_it_happens": "Uploads can still be processing while the workspace opens."
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_e30914fa6b86_slide_21-325-final-exam-preparation_1_1",
+                  "confidence": "high",
+                  "material_id": "material_e30914fa6b86",
+                  "material_title": "21-325 Final Exam Preparation",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/preview",
+                  "slide_id": "slide_21-325-final-exam-preparation_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 21-325 Final Exam Preparation",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "item_id": "mistake_c7f3fb16b50f",
+              "pattern": "Ignoring your own weak-area notes",
+              "prevention_advice": "Add weak areas or goals before regenerating if you want more tailored guidance.",
+              "support_status": "supplemental_note",
+              "why_it_happens": "Student context is easy to leave blank when working quickly."
+            }
+          ],
+          "created_at": "2026-04-20T19:35:06Z",
+          "grounding_mode": "strict_lecture_only",
+          "parent_study_plan_id": "study_plan_dabb59dffded",
+          "prerequisites": [
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_e30914fa6b86_slide_21-325-final-exam-preparation_1_1",
+                  "confidence": "high",
+                  "material_id": "material_e30914fa6b86",
+                  "material_title": "21-325 Final Exam Preparation",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/preview",
+                  "slide_id": "slide_21-325-final-exam-preparation_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 21-325 Final Exam Preparation",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "concept_name": "Core lecture concepts",
+              "item_id": "pre_12464820a1b6",
+              "support_status": "slide_grounded",
+              "why_needed": "The generated plan relies on the uploaded lecture source and any notes you provided."
+            }
+          ],
+          "study_plan_id": "study_plan_aea042ccf526",
+          "study_sequence": [
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_e30914fa6b86_slide_21-325-final-exam-preparation_1_1",
+                  "confidence": "high",
+                  "material_id": "material_e30914fa6b86",
+                  "material_title": "21-325 Final Exam Preparation",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/preview",
+                  "slide_id": "slide_21-325-final-exam-preparation_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 21-325 Final Exam Preparation",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "depends_on": [],
+              "objective": "Read the cited slide or note and restate the main concept in your own words.",
+              "order_index": 1,
+              "recommended_time_minutes": 20,
+              "step_id": "step_5c4b3503b035",
+              "support_status": "slide_grounded",
+              "tasks": [
+                "Open the cited source slide",
+                "Write a one-sentence summary",
+                "Check any formulas or definitions against your notes"
+              ],
+              "title": "Review the grounded source first"
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_e30914fa6b86_slide_21-325-final-exam-preparation_1_1",
+                  "confidence": "high",
+                  "material_id": "material_e30914fa6b86",
+                  "material_title": "21-325 Final Exam Preparation",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/preview",
+                  "slide_id": "slide_21-325-final-exam-preparation_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 21-325 Final Exam Preparation",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "depends_on": [],
+              "objective": "Turn the lecture content into a short recall prompt and answer it without looking.",
+              "order_index": 2,
+              "recommended_time_minutes": 20,
+              "step_id": "step_12d3e8b03b78",
+              "support_status": "slide_grounded",
+              "tasks": [
+                "Cover the slide",
+                "State the main takeaway aloud",
+                "Compare your answer to the cited evidence"
+              ],
+              "title": "Practice active recall"
+            }
+          ],
+          "time_budget_minutes": 60,
+          "topic_text": "21-325 Final Exam Preparation",
+          "workspace_id": "workspace_119cfa5ac40c"
+        },
+        "study_plan_dabb59dffded": {
+          "common_mistakes": [
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_e30914fa6b86_slide_21-325-final-exam-preparation_1_1",
+                  "confidence": "high",
+                  "material_id": "material_e30914fa6b86",
+                  "material_title": "21-325 Final Exam Preparation",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/preview",
+                  "slide_id": "slide_21-325-final-exam-preparation_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 21-325 Final Exam Preparation",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "item_id": "mistake_2e82d143cc49",
+              "pattern": "Skipping the cited evidence before memorizing the answer",
+              "prevention_advice": "Open the source viewer and anchor your summary in the cited slide or note.",
+              "support_status": "slide_grounded",
+              "why_it_happens": "Students often jump to memorization before checking how the lecture phrases the concept."
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_e30914fa6b86_slide_21-325-final-exam-preparation_1_1",
+                  "confidence": "high",
+                  "material_id": "material_e30914fa6b86",
+                  "material_title": "21-325 Final Exam Preparation",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/preview",
+                  "slide_id": "slide_21-325-final-exam-preparation_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 21-325 Final Exam Preparation",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "item_id": "mistake_a7274333dc14",
+              "pattern": "Studying all materials before any are ready",
+              "prevention_advice": "Proceed with the ready subset and revisit the remaining materials when they finish processing.",
+              "support_status": "inferred_from_slides",
+              "why_it_happens": "Uploads can still be processing while the workspace opens."
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_e30914fa6b86_slide_21-325-final-exam-preparation_1_1",
+                  "confidence": "high",
+                  "material_id": "material_e30914fa6b86",
+                  "material_title": "21-325 Final Exam Preparation",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/preview",
+                  "slide_id": "slide_21-325-final-exam-preparation_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 21-325 Final Exam Preparation",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "item_id": "mistake_278cd8161f3b",
+              "pattern": "Ignoring your own weak-area notes",
+              "prevention_advice": "Add weak areas or goals before regenerating if you want more tailored guidance.",
+              "support_status": "supplemental_note",
+              "why_it_happens": "Student context is easy to leave blank when working quickly."
+            }
+          ],
+          "created_at": "2026-04-20T19:30:48Z",
+          "grounding_mode": "strict_lecture_only",
+          "parent_study_plan_id": null,
+          "prerequisites": [
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_e30914fa6b86_slide_21-325-final-exam-preparation_1_1",
+                  "confidence": "high",
+                  "material_id": "material_e30914fa6b86",
+                  "material_title": "21-325 Final Exam Preparation",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/preview",
+                  "slide_id": "slide_21-325-final-exam-preparation_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 21-325 Final Exam Preparation",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "concept_name": "Core lecture concepts",
+              "item_id": "pre_714594cdfa2b",
+              "support_status": "slide_grounded",
+              "why_needed": "The generated plan relies on the uploaded lecture source and any notes you provided."
+            }
+          ],
+          "study_plan_id": "study_plan_dabb59dffded",
+          "study_sequence": [
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_e30914fa6b86_slide_21-325-final-exam-preparation_1_1",
+                  "confidence": "high",
+                  "material_id": "material_e30914fa6b86",
+                  "material_title": "21-325 Final Exam Preparation",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/preview",
+                  "slide_id": "slide_21-325-final-exam-preparation_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 21-325 Final Exam Preparation",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "depends_on": [],
+              "objective": "Read the cited slide or note and restate the main concept in your own words.",
+              "order_index": 1,
+              "recommended_time_minutes": 20,
+              "step_id": "step_38efe7032ea9",
+              "support_status": "slide_grounded",
+              "tasks": [
+                "Open the cited source slide",
+                "Write a one-sentence summary",
+                "Check any formulas or definitions against your notes"
+              ],
+              "title": "Review the grounded source first"
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_e30914fa6b86_slide_21-325-final-exam-preparation_1_1",
+                  "confidence": "high",
+                  "material_id": "material_e30914fa6b86",
+                  "material_title": "21-325 Final Exam Preparation",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/preview",
+                  "slide_id": "slide_21-325-final-exam-preparation_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 21-325 Final Exam Preparation",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_119cfa5ac40c/materials/material_e30914fa6b86/slides/slide_21-325-final-exam-preparation_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "depends_on": [],
+              "objective": "Turn the lecture content into a short recall prompt and answer it without looking.",
+              "order_index": 2,
+              "recommended_time_minutes": 20,
+              "step_id": "step_e6d29eed8e3a",
+              "support_status": "slide_grounded",
+              "tasks": [
+                "Cover the slide",
+                "State the main takeaway aloud",
+                "Compare your answer to the cited evidence"
+              ],
+              "title": "Practice active recall"
+            }
+          ],
+          "time_budget_minutes": 60,
+          "topic_text": "21-325 Final Exam Preparation",
+          "workspace_id": "workspace_119cfa5ac40c"
+        }
+      },
+      "time_budget_minutes": 0,
+      "topic_text": "",
+      "ui_preferences": {
+        "current_tab": "Overview",
+        "last_active_citation": null,
+        "sidebar_open": true,
+        "source_viewer_open": false
+      },
+      "workspace_id": "workspace_119cfa5ac40c"
+    },
     "workspace_538aaf9f4515": {
       "active_material_ids": {
         "notes": [],
@@ -634,7 +2145,7 @@
         ]
       },
       "active_practice_set_id": null,
-      "active_study_plan_id": null,
+      "active_study_plan_id": "study_plan_67ff13d34387",
       "annotations": [],
       "archived": false,
       "conversations": {
@@ -737,14 +2248,24 @@
           "created_at": "2026-03-30T02:02:48Z",
           "parent_artifact_id": null,
           "title": "Workspace Q&A"
+        },
+        {
+          "active": true,
+          "artifact_id": "study_plan_67ff13d34387",
+          "artifact_type": "study_plan",
+          "created_at": "2026-03-31T17:11:54Z",
+          "parent_artifact_id": null,
+          "title": "lecture10-feat-eng-reg.pdf"
         }
       ],
       "known_conversation_ids": [
         "conversation_f9e766f9579f"
       ],
       "known_practice_set_ids": [],
-      "known_study_plan_ids": [],
-      "last_opened_at": "2026-03-30T02:20:31Z",
+      "known_study_plan_ids": [
+        "study_plan_67ff13d34387"
+      ],
+      "last_opened_at": "2026-04-20T19:47:05Z",
       "local_edits": {},
       "material_preferences": {
         "mat_0d4cf2e5271346b2afc8b1a4422e6a0e": "default",
@@ -9289,25 +10810,180 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-03-30T02:20:31Z",
-            "mode": "mock"
+            "last_checked_at": "2026-04-20T19:47:05Z",
+            "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-03-30T02:20:31Z",
-            "mode": "mock"
+            "last_checked_at": "2026-04-20T19:47:05Z",
+            "mode": "integrated"
           }
         },
         "warnings": []
       },
       "student_context": {
-        "goals": "",
-        "known": "",
-        "weak_areas": ""
+        "goals": "to do well on the exam",
+        "known": "most of it",
+        "weak_areas": "lecture 15"
       },
-      "study_plans": {},
-      "time_budget_minutes": null,
+      "study_plans": {
+        "study_plan_67ff13d34387": {
+          "common_mistakes": [
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_mat_0d4cf2e5271346b2afc8b1a4422e6a0e_mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1_1",
+                  "confidence": "high",
+                  "material_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e",
+                  "material_title": "lecture10-feat-eng-reg.pdf",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_538aaf9f4515/materials/mat_0d4cf2e5271346b2afc8b1a4422e6a0e/slides/mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1/preview",
+                  "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1",
+                  "slide_number": 1,
+                  "snippet_text": "Preview unavailable.",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_538aaf9f4515/materials/mat_0d4cf2e5271346b2afc8b1a4422e6a0e/slides/mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "item_id": "mistake_71271af83e99",
+              "pattern": "Skipping the cited evidence before memorizing the answer",
+              "prevention_advice": "Open the source viewer and anchor your summary in the cited slide or note.",
+              "support_status": "slide_grounded",
+              "why_it_happens": "Students often jump to memorization before checking how the lecture phrases the concept."
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_mat_0d4cf2e5271346b2afc8b1a4422e6a0e_mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1_1",
+                  "confidence": "high",
+                  "material_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e",
+                  "material_title": "lecture10-feat-eng-reg.pdf",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_538aaf9f4515/materials/mat_0d4cf2e5271346b2afc8b1a4422e6a0e/slides/mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1/preview",
+                  "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1",
+                  "slide_number": 1,
+                  "snippet_text": "Preview unavailable.",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_538aaf9f4515/materials/mat_0d4cf2e5271346b2afc8b1a4422e6a0e/slides/mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "item_id": "mistake_5b0f3c3c9ee9",
+              "pattern": "Studying all materials before any are ready",
+              "prevention_advice": "Proceed with the ready subset and revisit the remaining materials when they finish processing.",
+              "support_status": "inferred_from_slides",
+              "why_it_happens": "Uploads can still be processing while the workspace opens."
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_mat_0d4cf2e5271346b2afc8b1a4422e6a0e_mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1_1",
+                  "confidence": "high",
+                  "material_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e",
+                  "material_title": "lecture10-feat-eng-reg.pdf",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_538aaf9f4515/materials/mat_0d4cf2e5271346b2afc8b1a4422e6a0e/slides/mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1/preview",
+                  "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1",
+                  "slide_number": 1,
+                  "snippet_text": "Preview unavailable.",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_538aaf9f4515/materials/mat_0d4cf2e5271346b2afc8b1a4422e6a0e/slides/mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "item_id": "mistake_4e87ca9de406",
+              "pattern": "Ignoring your own weak-area notes",
+              "prevention_advice": "Add weak areas or goals before regenerating if you want more tailored guidance.",
+              "support_status": "supplemental_note",
+              "why_it_happens": "Student context is easy to leave blank when working quickly."
+            }
+          ],
+          "created_at": "2026-03-31T17:11:54Z",
+          "grounding_mode": "strict_lecture_only",
+          "parent_study_plan_id": null,
+          "prerequisites": [
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_mat_0d4cf2e5271346b2afc8b1a4422e6a0e_mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1_1",
+                  "confidence": "high",
+                  "material_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e",
+                  "material_title": "lecture10-feat-eng-reg.pdf",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_538aaf9f4515/materials/mat_0d4cf2e5271346b2afc8b1a4422e6a0e/slides/mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1/preview",
+                  "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1",
+                  "slide_number": 1,
+                  "snippet_text": "Preview unavailable.",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_538aaf9f4515/materials/mat_0d4cf2e5271346b2afc8b1a4422e6a0e/slides/mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "concept_name": "Core lecture concepts",
+              "item_id": "pre_ef8c81e1e237",
+              "support_status": "slide_grounded",
+              "why_needed": "The generated plan relies on the uploaded lecture source and any notes you provided."
+            }
+          ],
+          "study_plan_id": "study_plan_67ff13d34387",
+          "study_sequence": [
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_mat_0d4cf2e5271346b2afc8b1a4422e6a0e_mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1_1",
+                  "confidence": "high",
+                  "material_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e",
+                  "material_title": "lecture10-feat-eng-reg.pdf",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_538aaf9f4515/materials/mat_0d4cf2e5271346b2afc8b1a4422e6a0e/slides/mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1/preview",
+                  "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1",
+                  "slide_number": 1,
+                  "snippet_text": "Preview unavailable.",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_538aaf9f4515/materials/mat_0d4cf2e5271346b2afc8b1a4422e6a0e/slides/mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "depends_on": [],
+              "objective": "Read the cited slide or note and restate the main concept in your own words.",
+              "order_index": 1,
+              "recommended_time_minutes": 20,
+              "step_id": "step_f01efb2d86e6",
+              "support_status": "slide_grounded",
+              "tasks": [
+                "Open the cited source slide",
+                "Write a one-sentence summary",
+                "Check any formulas or definitions against your notes"
+              ],
+              "title": "Review the grounded source first"
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_mat_0d4cf2e5271346b2afc8b1a4422e6a0e_mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1_1",
+                  "confidence": "high",
+                  "material_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e",
+                  "material_title": "lecture10-feat-eng-reg.pdf",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_538aaf9f4515/materials/mat_0d4cf2e5271346b2afc8b1a4422e6a0e/slides/mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1/preview",
+                  "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1",
+                  "slide_number": 1,
+                  "snippet_text": "Preview unavailable.",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_538aaf9f4515/materials/mat_0d4cf2e5271346b2afc8b1a4422e6a0e/slides/mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "depends_on": [],
+              "objective": "Turn the lecture content into a short recall prompt and answer it without looking.",
+              "order_index": 2,
+              "recommended_time_minutes": 20,
+              "step_id": "step_56501401b8ac",
+              "support_status": "slide_grounded",
+              "tasks": [
+                "Cover the slide",
+                "State the main takeaway aloud",
+                "Compare your answer to the cited evidence"
+              ],
+              "title": "Practice active recall"
+            }
+          ],
+          "time_budget_minutes": 60,
+          "topic_text": "lecture10-feat-eng-reg.pdf",
+          "workspace_id": "workspace_538aaf9f4515"
+        }
+      },
+      "time_budget_minutes": 0,
       "topic_text": "",
       "ui_preferences": {
         "current_tab": "Overview",
@@ -10238,6 +11914,482 @@
         "source_viewer_open": false
       },
       "workspace_id": "workspace_6fbd2cc28c13"
+    },
+    "workspace_b26bafac48ad": {
+      "active_material_ids": {
+        "notes": [],
+        "practice_template": [],
+        "slides": []
+      },
+      "active_practice_set_id": null,
+      "active_study_plan_id": null,
+      "annotations": [],
+      "archived": false,
+      "conversations": {},
+      "created_at": "2026-04-20T19:15:12Z",
+      "deleted": true,
+      "display_name": "Untitled workspace",
+      "feedback_history": [],
+      "grounding_mode": "strict_lecture_only",
+      "history": [],
+      "known_conversation_ids": [],
+      "known_practice_set_ids": [],
+      "known_study_plan_ids": [],
+      "last_opened_at": "2026-04-20T19:15:15Z",
+      "local_edits": {},
+      "material_preferences": {},
+      "material_sync_annotations": {},
+      "materials": {},
+      "pending_user_actions": [],
+      "practice_sets": {},
+      "selected_active_conversation_id": null,
+      "status": {
+        "last_successful_sync": {
+          "content": null,
+          "learning": null
+        },
+        "services": {
+          "content": {
+            "available": false,
+            "base_url": "http://127.0.0.1:38410",
+            "last_checked_at": "2026-04-20T19:15:12Z",
+            "mode": "mock"
+          },
+          "learning": {
+            "available": false,
+            "base_url": "http://127.0.0.1:38420",
+            "last_checked_at": "2026-04-20T19:15:12Z",
+            "mode": "mock"
+          }
+        },
+        "warnings": []
+      },
+      "student_context": {
+        "goals": "",
+        "known": "",
+        "weak_areas": ""
+      },
+      "study_plans": {},
+      "time_budget_minutes": null,
+      "topic_text": "",
+      "ui_preferences": {
+        "current_tab": "Overview",
+        "last_active_citation": null,
+        "sidebar_open": true,
+        "source_viewer_open": false
+      },
+      "workspace_id": "workspace_b26bafac48ad"
+    },
+    "workspace_b3262557b5dc": {
+      "active_material_ids": {
+        "notes": [],
+        "practice_template": [
+          "material_f90e97c0bfa9"
+        ],
+        "slides": []
+      },
+      "active_practice_set_id": null,
+      "active_study_plan_id": null,
+      "annotations": [],
+      "archived": false,
+      "conversations": {},
+      "created_at": "2026-03-30T15:42:36Z",
+      "deleted": false,
+      "display_name": "testing",
+      "feedback_history": [],
+      "file_import_dedup": {
+        "practice_template:b98dabf0f0c7ffef8f829a59023508156ed04a68882113bbf0b21cdec62b96e9": "material_f90e97c0bfa9"
+      },
+      "grounding_mode": "strict_lecture_only",
+      "history": [],
+      "known_conversation_ids": [],
+      "known_practice_set_ids": [],
+      "known_study_plan_ids": [],
+      "last_opened_at": "2026-04-20T19:47:05Z",
+      "local_edits": {},
+      "material_preferences": {
+        "material_f90e97c0bfa9": "default"
+      },
+      "material_sync_annotations": {},
+      "materials": {
+        "material_f90e97c0bfa9": {
+          "created_at": "2026-03-30T15:43:09Z",
+          "kind": "pdf",
+          "material_id": "material_f90e97c0bfa9",
+          "page_count": 1,
+          "processing_status": "ready",
+          "quality_summary": {
+            "notes": "Locally generated mock material preview.",
+            "overall": "medium"
+          },
+          "role": "practice_template",
+          "slides": [
+            {
+              "bullets": [
+                "Imported file: Article Case Study #4 - Google Docs.pdf"
+              ],
+              "material_id": "material_f90e97c0bfa9",
+              "material_title": "Article Case Study #4 - Google Docs.pdf",
+              "preview_url": null,
+              "slide_id": "slide_article-case-study-4-google-docs-pdf_1",
+              "slide_number": 1,
+              "snippet_text": "Imported file: Article Case Study #4 - Google Docs.pdf",
+              "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_b3262557b5dc/materials/material_f90e97c0bfa9/slides/slide_article-case-study-4-google-docs-pdf_1/source",
+              "title": "Article Case Study #4 - Google Docs.pdf"
+            }
+          ],
+          "source_view_url": "http://127.0.0.1:38410/local/workspaces/workspace_b3262557b5dc/materials/material_f90e97c0bfa9/slides/slide_article-case-study-4-google-docs-pdf_1/source",
+          "text_body": "",
+          "title": "Article Case Study #4 - Google Docs.pdf",
+          "workspace_id": "workspace_b3262557b5dc"
+        }
+      },
+      "pending_user_actions": [],
+      "practice_sets": {},
+      "selected_active_conversation_id": null,
+      "status": {
+        "last_successful_sync": {
+          "content": null,
+          "learning": null
+        },
+        "services": {
+          "content": {
+            "available": true,
+            "base_url": "http://127.0.0.1:38410",
+            "last_checked_at": "2026-04-20T19:47:05Z",
+            "mode": "integrated"
+          },
+          "learning": {
+            "available": true,
+            "base_url": "http://127.0.0.1:38420",
+            "last_checked_at": "2026-04-20T19:47:05Z",
+            "mode": "integrated"
+          }
+        },
+        "warnings": []
+      },
+      "student_context": {
+        "goals": "",
+        "known": "",
+        "weak_areas": ""
+      },
+      "study_plans": {},
+      "time_budget_minutes": null,
+      "topic_text": "",
+      "ui_preferences": {
+        "current_tab": "Overview",
+        "last_active_citation": null,
+        "sidebar_open": true,
+        "source_viewer_open": false
+      },
+      "workspace_id": "workspace_b3262557b5dc"
+    },
+    "workspace_cd0fc75267fd": {
+      "active_material_ids": {
+        "notes": [],
+        "practice_template": [],
+        "slides": [
+          "material_390aae065c51",
+          "material_af944947654f"
+        ]
+      },
+      "active_practice_set_id": null,
+      "active_study_plan_id": "study_plan_ce3122d0b471",
+      "annotations": [],
+      "archived": false,
+      "conversations": {},
+      "created_at": "2026-04-20T19:38:22Z",
+      "deleted": false,
+      "display_name": "Neurobiology of Disease Preparation",
+      "feedback_history": [],
+      "file_import_dedup": {
+        "slides:5fc4e21756db5f315478528dd6e73b4547336a5fd8c8b618defdaa3ef87ac430": "material_390aae065c51",
+        "slides:a2c6d873eaa6f128a21674192f55b8b814af319ae4971c4b6a671c81e75271c0": "material_af944947654f"
+      },
+      "grounding_mode": "strict_lecture_only",
+      "history": [
+        {
+          "active": true,
+          "artifact_id": "study_plan_ce3122d0b471",
+          "artifact_type": "study_plan",
+          "created_at": "2026-04-20T19:39:30Z",
+          "parent_artifact_id": null,
+          "title": "03133 Exam 3 Cheat sheet.pdf"
+        }
+      ],
+      "known_conversation_ids": [],
+      "known_practice_set_ids": [],
+      "known_study_plan_ids": [
+        "study_plan_ce3122d0b471"
+      ],
+      "last_opened_at": "2026-04-20T19:47:06Z",
+      "local_edits": {},
+      "material_preferences": {
+        "material_390aae065c51": "default",
+        "material_af944947654f": "default"
+      },
+      "material_sync_annotations": {
+        "material_390aae065c51": {},
+        "material_af944947654f": {}
+      },
+      "materials": {
+        "material_390aae065c51": {
+          "created_at": "2026-04-20T19:38:40Z",
+          "kind": "pdf",
+          "material_id": "material_390aae065c51",
+          "page_count": 1,
+          "processing_status": "ready",
+          "quality_summary": {
+            "notes": "Locally generated mock material preview.",
+            "overall": "medium"
+          },
+          "role": "slides",
+          "slides": [
+            {
+              "bullets": [
+                "Imported file: 03133 Exam 3 Cheat sheet.pdf"
+              ],
+              "material_id": "material_390aae065c51",
+              "material_title": "03133 Exam 3 Cheat sheet.pdf",
+              "preview_url": null,
+              "slide_id": "slide_03133-exam-3-cheat-sheet-pdf_1",
+              "slide_number": 1,
+              "snippet_text": "Imported file: 03133 Exam 3 Cheat sheet.pdf",
+              "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/source",
+              "title": "03133 Exam 3 Cheat sheet.pdf"
+            }
+          ],
+          "source_view_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/source",
+          "text_body": "",
+          "title": "03133 Exam 3 Cheat sheet.pdf",
+          "workspace_id": "workspace_cd0fc75267fd"
+        },
+        "material_af944947654f": {
+          "created_at": "2026-04-20T19:38:48Z",
+          "kind": "pdf",
+          "material_id": "material_af944947654f",
+          "page_count": 1,
+          "processing_status": "ready",
+          "quality_summary": {
+            "notes": "Locally generated mock material preview.",
+            "overall": "medium"
+          },
+          "role": "slides",
+          "slides": [
+            {
+              "bullets": [
+                "Imported file: 03133 Exam 2 Cheat sheet - Google Docs.pdf"
+              ],
+              "material_id": "material_af944947654f",
+              "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+              "preview_url": null,
+              "slide_id": "slide_03133-exam-2-cheat-sheet-google-docs-pdf_1",
+              "slide_number": 1,
+              "snippet_text": "Imported file: 03133 Exam 2 Cheat sheet - Google Docs.pdf",
+              "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_af944947654f/slides/slide_03133-exam-2-cheat-sheet-google-docs-pdf_1/source",
+              "title": "03133 Exam 2 Cheat sheet - Google Docs.pdf"
+            }
+          ],
+          "source_view_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_af944947654f/slides/slide_03133-exam-2-cheat-sheet-google-docs-pdf_1/source",
+          "text_body": "",
+          "title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+          "workspace_id": "workspace_cd0fc75267fd"
+        }
+      },
+      "pending_user_actions": [],
+      "practice_sets": {},
+      "selected_active_conversation_id": null,
+      "status": {
+        "last_successful_sync": {
+          "content": "2026-04-20T19:47:06Z",
+          "learning": "2026-04-20T19:47:06Z"
+        },
+        "services": {
+          "content": {
+            "available": true,
+            "base_url": "http://127.0.0.1:38410",
+            "last_checked_at": "2026-04-20T19:47:06Z",
+            "mode": "integrated"
+          },
+          "learning": {
+            "available": true,
+            "base_url": "http://127.0.0.1:38420",
+            "last_checked_at": "2026-04-20T19:47:06Z",
+            "mode": "integrated"
+          }
+        },
+        "warnings": []
+      },
+      "student_context": {
+        "goals": "Compensation model (why SSRIs take time to work).\n5-HT receptor differences (especially 5-HT1 vs 5-HT2).\nTolerance vs withdrawal mechanisms (opioids, cocaine, etc).\nApplying concepts to explanation-style questions.",
+        "known": "Basic neurotransmitter functions (dopamine, serotonin, GABA).\nGeneral idea of SSRIs and that they increase serotonin.\nKnow symptoms of major disorders like MDD and GAD.",
+        "weak_areas": "Compensation model (why SSRIs take time to work).\n5-HT receptor differences (especially 5-HT1 vs 5-HT2).\nTolerance vs withdrawal mechanisms (opioids, cocaine, etc).\nApplying concepts to explanation-style questions."
+      },
+      "study_plans": {
+        "study_plan_ce3122d0b471": {
+          "common_mistakes": [
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_390aae065c51_slide_03133-exam-3-cheat-sheet-pdf_1_1",
+                  "confidence": "high",
+                  "material_id": "material_390aae065c51",
+                  "material_title": "03133 Exam 3 Cheat sheet.pdf",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/preview",
+                  "slide_id": "slide_03133-exam-3-cheat-sheet-pdf_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 03133 Exam 3 Cheat sheet.pdf",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "item_id": "mistake_93aa7174fa08",
+              "pattern": "Skipping the cited evidence before memorizing the answer",
+              "prevention_advice": "Open the source viewer and anchor your summary in the cited slide or note.",
+              "support_status": "slide_grounded",
+              "why_it_happens": "Students often jump to memorization before checking how the lecture phrases the concept."
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_390aae065c51_slide_03133-exam-3-cheat-sheet-pdf_1_1",
+                  "confidence": "high",
+                  "material_id": "material_390aae065c51",
+                  "material_title": "03133 Exam 3 Cheat sheet.pdf",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/preview",
+                  "slide_id": "slide_03133-exam-3-cheat-sheet-pdf_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 03133 Exam 3 Cheat sheet.pdf",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "item_id": "mistake_81de41db5dc8",
+              "pattern": "Studying all materials before any are ready",
+              "prevention_advice": "Proceed with the ready subset and revisit the remaining materials when they finish processing.",
+              "support_status": "inferred_from_slides",
+              "why_it_happens": "Uploads can still be processing while the workspace opens."
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_390aae065c51_slide_03133-exam-3-cheat-sheet-pdf_1_1",
+                  "confidence": "high",
+                  "material_id": "material_390aae065c51",
+                  "material_title": "03133 Exam 3 Cheat sheet.pdf",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/preview",
+                  "slide_id": "slide_03133-exam-3-cheat-sheet-pdf_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 03133 Exam 3 Cheat sheet.pdf",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "item_id": "mistake_d76d1d043e76",
+              "pattern": "Ignoring your own weak-area notes",
+              "prevention_advice": "Add weak areas or goals before regenerating if you want more tailored guidance.",
+              "support_status": "supplemental_note",
+              "why_it_happens": "Student context is easy to leave blank when working quickly."
+            }
+          ],
+          "created_at": "2026-04-20T19:39:30Z",
+          "grounding_mode": "strict_lecture_only",
+          "parent_study_plan_id": null,
+          "prerequisites": [
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_390aae065c51_slide_03133-exam-3-cheat-sheet-pdf_1_1",
+                  "confidence": "high",
+                  "material_id": "material_390aae065c51",
+                  "material_title": "03133 Exam 3 Cheat sheet.pdf",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/preview",
+                  "slide_id": "slide_03133-exam-3-cheat-sheet-pdf_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 03133 Exam 3 Cheat sheet.pdf",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "concept_name": "Core lecture concepts",
+              "item_id": "pre_7634f1ef9160",
+              "support_status": "slide_grounded",
+              "why_needed": "The generated plan relies on the uploaded lecture source and any notes you provided."
+            }
+          ],
+          "study_plan_id": "study_plan_ce3122d0b471",
+          "study_sequence": [
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_390aae065c51_slide_03133-exam-3-cheat-sheet-pdf_1_1",
+                  "confidence": "high",
+                  "material_id": "material_390aae065c51",
+                  "material_title": "03133 Exam 3 Cheat sheet.pdf",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/preview",
+                  "slide_id": "slide_03133-exam-3-cheat-sheet-pdf_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 03133 Exam 3 Cheat sheet.pdf",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "depends_on": [],
+              "objective": "Read the cited slide or note and restate the main concept in your own words.",
+              "order_index": 1,
+              "recommended_time_minutes": 20,
+              "step_id": "step_3c95743f314a",
+              "support_status": "slide_grounded",
+              "tasks": [
+                "Open the cited source slide",
+                "Write a one-sentence summary",
+                "Check any formulas or definitions against your notes"
+              ],
+              "title": "Review the grounded source first"
+            },
+            {
+              "citations": [
+                {
+                  "citation_id": "citation_material_390aae065c51_slide_03133-exam-3-cheat-sheet-pdf_1_1",
+                  "confidence": "high",
+                  "material_id": "material_390aae065c51",
+                  "material_title": "03133 Exam 3 Cheat sheet.pdf",
+                  "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/preview",
+                  "slide_id": "slide_03133-exam-3-cheat-sheet-pdf_1",
+                  "slide_number": 1,
+                  "snippet_text": "Imported file: 03133 Exam 3 Cheat sheet.pdf",
+                  "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "depends_on": [],
+              "objective": "Turn the lecture content into a short recall prompt and answer it without looking.",
+              "order_index": 2,
+              "recommended_time_minutes": 20,
+              "step_id": "step_7fd506f0b3b8",
+              "support_status": "slide_grounded",
+              "tasks": [
+                "Cover the slide",
+                "State the main takeaway aloud",
+                "Compare your answer to the cited evidence"
+              ],
+              "title": "Practice active recall"
+            }
+          ],
+          "time_budget_minutes": 60,
+          "topic_text": "03133 Exam 3 Cheat sheet.pdf",
+          "workspace_id": "workspace_cd0fc75267fd"
+        }
+      },
+      "time_budget_minutes": 0,
+      "topic_text": "",
+      "ui_preferences": {
+        "current_tab": "Overview",
+        "last_active_citation": null,
+        "sidebar_open": true,
+        "source_viewer_open": false
+      },
+      "workspace_id": "workspace_cd0fc75267fd"
     },
     "workspace_e93c5375ad36": {
       "active_material_ids": {

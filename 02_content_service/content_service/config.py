@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Mapping
+from typing import Mapping, Optional
 
 
 @dataclass(frozen=True)
@@ -72,13 +72,13 @@ def _looks_like_integrated_root(candidate: Path, service_dir_name: str = INTEGRA
     return False
 
 
-def detect_service_root(service_root: Path | None = None) -> Path:
+def detect_service_root(service_root: Optional[Path] = None) -> Path:
     if service_root is not None:
         return service_root.expanduser().resolve()
     return Path(__file__).resolve().parents[1]
 
 
-def find_integrated_project_root(service_root: Path | None = None) -> Path | None:
+def find_integrated_project_root(service_root: Optional[Path] = None) -> Optional[Path]:
     resolved_service_root = detect_service_root(service_root)
     if resolved_service_root.name == INTEGRATED_SERVICE_DIR:
         parent = resolved_service_root.parent
@@ -112,9 +112,9 @@ def _choose_env_value(
 
 def load_settings(
     *,
-    service_root: Path | None = None,
-    cwd: Path | None = None,
-    environ: Mapping[str, str] | None = None,
+    service_root: Optional[Path] = None,
+    cwd: Optional[Path] = None,
+    environ: Optional[Mapping[str, str]] = None,
 ) -> Settings:
     env_map = dict(os.environ if environ is None else environ)
     service_root_path = detect_service_root(service_root)

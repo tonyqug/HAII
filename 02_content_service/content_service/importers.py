@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import traceback
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 import fitz
 from pptx import Presentation
@@ -200,7 +200,7 @@ def _process_pdf(settings: Settings, repo: Repository, material: dict[str, Any],
                     text = "\n".join(str(block[4]).strip() for block in blocks if len(block) >= 5 and str(block[4]).strip())
             title_guess = extract_title_guess(text)
             preview_path = previews_dir(settings, material["workspace_id"], material["material_id"]) / f"slide-{index:04d}.png"
-            preview_relpath: str | None = None
+            preview_relpath: Optional[str] = None
             quality = "low"
             quality_notes = None
             try:
@@ -293,10 +293,10 @@ def _process_pptx(settings: Settings, repo: Repository, material: dict[str, Any]
         progress = min(45, 8 + int((idx / total_slides) * 37))
         repo.update_job(job_id, progress=progress, stage="extracting_pptx_text", message=f"Extracted text from PPTX slide {idx} of {total_slides}.")
 
-    converted_pdf_relpath: str | None = None
+    converted_pdf_relpath: Optional[str] = None
     preview_count = 0
-    preview_failure: str | None = None
-    pdf_path: Path | None = None
+    preview_failure: Optional[str] = None
+    pdf_path: Optional[Path] = None
     try:
         repo.update_job(job_id, progress=50, stage="rendering_pptx", message="Converting PPTX to PDF for stable slide previews.")
         pdf_dir = material_base_dir(settings, material["workspace_id"], material["material_id"]) / "rendered"

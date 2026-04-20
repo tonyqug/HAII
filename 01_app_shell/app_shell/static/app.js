@@ -27,6 +27,19 @@ function badge(text, cls = '') {
   return `<span class="badge ${cls}">${text}</span>`;
 }
 
+const SUPPORT_STATUS_LABELS = {
+  slide_grounded: 'Grounded in your materials',
+  not_grounded: 'Not grounded',
+  partially_grounded: 'Partially grounded',
+  annotation_grounded: 'Grounded in your notes',
+  grounded: 'Grounded in your materials',
+  ungrounded: 'Not grounded',
+};
+
+function formatSupportStatus(status) {
+  return SUPPORT_STATUS_LABELS[status] || status?.replace(/_/g, ' ') || '';
+}
+
 function escapeHtml(value) {
   return String(value ?? '')
     .replace(/&/g, '&amp;')
@@ -139,18 +152,21 @@ async function loadStatus() {
 function renderSystemStatus() {
   const container = document.getElementById('system-status');
   if (!state.status) {
-    container.innerHTML = '<div class="muted">Loading service status…</div>';
+    container.innerHTML = '<div class="muted small">Loading service status…</div>';
     return;
   }
   const content = state.status.services.content;
   const learning = state.status.services.learning;
+  const mode = state.status.effective_mode;
+  const allGood = content.available && learning.available;
+  const openAttr = (!allGood && mode !== 'mock') ? 'open' : '';
   container.innerHTML = `
-    <div class="card">
-      <div><strong>Mode:</strong> ${escapeHtml(state.status.effective_mode)}</div>
-      <div>${badge(`content: ${content.available ? 'available' : 'unavailable'}`, content.available ? 'ok' : 'danger')} ${badge(`learning: ${learning.available ? 'available' : 'unavailable'}`, learning.available ? 'ok' : 'danger')}</div>
-      <div class="small muted">Content URL: ${escapeHtml(content.base_url || '')}</div>
-      <div class="small muted">Learning URL: ${escapeHtml(learning.base_url || '')}</div>
-    </div>`;
+    <details ${openAttr} style="margin-bottom:8px;">
+      <summary class="small muted" style="cursor:pointer;">Mode: ${escapeHtml(mode)}${!allGood && mode !== 'mock' ? ' — ⚠ services offline' : ''}</summary>
+      <div class="card" style="margin-top:8px;">
+        <div>${badge(`content: ${content.available ? 'available' : 'unavailable'}`, content.available ? 'ok' : 'danger')} ${badge(`learning: ${learning.available ? 'available' : 'unavailable'}`, learning.available ? 'ok' : 'danger')}</div>
+      </div>
+    </details>`;
   applyServiceGating();
 }
 
@@ -246,25 +262,35 @@ function renderWorkspaceList() {
     container.innerHTML = '<div class="muted">No workspaces yet.</div>';
     return;
   }
-  container.innerHTML = state.workspaces.map((workspace) => `
-    <div class="card">
-      <div class="row" style="justify-content:space-between;align-items:flex-start;">
-        <div>
-          <div><strong>${escapeHtml(workspace.display_name)}</strong></div>
-          <div class="small muted">Opened ${escapeHtml(formatDate(workspace.last_opened_at))}</div>
-          <div class="small muted">Materials: ${workspace.material_counts.total}, ready ${workspace.material_counts.ready}, processing ${workspace.material_counts.processing}</div>
-          <div class="small muted">Artifacts: plans ${workspace.artifact_counts.study_plans}, chats ${workspace.artifact_counts.conversations}, practice ${workspace.artifact_counts.practice_sets}</div>
-        </div>
-        <div>${badge(workspace.grounding_mode || 'strict_lecture_only')}</div>
+  container.innerHTML = state.workspaces.map((workspace) => {
+    const isActive = state.activeWorkspace?.workspace_id === workspace.workspace_id;
+    const hasProcessing = workspace.material_counts.processing > 0;
+    return `
+    <div class="workspace-card${isActive ? ' active' : ''}">
+      <div class="workspace-card-header">
+        <span class="workspace-card-name">${escapeHtml(workspace.display_name)}</span>
+        ${badge(workspace.grounding_mode || 'strict_lecture_only')}
       </div>
-      <div class="row" style="margin-top:10px;">
-        <button type="button" data-open-workspace="${workspace.workspace_id}">Open</button>
-        <button type="button" class="secondary" data-duplicate-workspace="${workspace.workspace_id}">Duplicate</button>
-        <button type="button" class="secondary" data-archive-workspace="${workspace.workspace_id}">Archive</button>
-        <button type="button" class="danger" data-delete-workspace="${workspace.workspace_id}">Delete</button>
+      <div class="workspace-card-meta small muted">Opened ${escapeHtml(formatDate(workspace.last_opened_at))}</div>
+      <div class="workspace-card-stats small">
+        <span class="ws-stat${hasProcessing ? ' processing' : ''}">
+          ${workspace.material_counts.ready} material${workspace.material_counts.ready !== 1 ? 's' : ''}${hasProcessing ? ` · ${workspace.material_counts.processing} processing` : ''}
+        </span>
+        <span class="ws-stat-sep">·</span>
+        <span class="ws-stat">${workspace.artifact_counts.study_plans} plan${workspace.artifact_counts.study_plans !== 1 ? 's' : ''}</span>
+        <span class="ws-stat-sep">·</span>
+        <span class="ws-stat">${workspace.artifact_counts.conversations} chat${workspace.artifact_counts.conversations !== 1 ? 's' : ''}</span>
+        <span class="ws-stat-sep">·</span>
+        <span class="ws-stat">${workspace.artifact_counts.practice_sets} practice</span>
+      </div>
+      <div class="workspace-card-actions">
+        <button type="button" class="ws-open-btn" data-open-workspace="${workspace.workspace_id}">${isActive ? 'Active' : 'Open'}</button>
+        <button type="button" class="secondary ws-action-btn" data-duplicate-workspace="${workspace.workspace_id}">Duplicate</button>
+        <button type="button" class="secondary ws-action-btn" data-archive-workspace="${workspace.workspace_id}">Archive</button>
+        <button type="button" class="danger ws-action-btn" data-delete-workspace="${workspace.workspace_id}">Delete</button>
       </div>
     </div>
-  `).join('');
+  `}).join('');
 
   container.querySelectorAll('[data-open-workspace]').forEach((button) => {
     button.addEventListener('click', () => openWorkspace(button.dataset.openWorkspace));
@@ -332,7 +358,10 @@ function renderMaterials() {
             <div class="small muted">${escapeHtml(material.role)} • ${escapeHtml(material.kind)} • ${material.page_count ?? 0} pages/slides</div>
             <div>${badge(material.processing_status, statusCls)} ${badge(pref)}</div>
           </div>
-          <button type="button" class="secondary open-material-source" data-material-id="${material.material_id}">Open source</button>
+          <div style="display:flex;gap:6px;">
+            <button type="button" class="secondary open-material-source" data-material-id="${material.material_id}">Open source</button>
+            <button type="button" class="danger delete-material" data-material-id="${material.material_id}">Delete</button>
+          </div>
         </div>
         <div class="small muted" style="margin-top:8px;">${escapeHtml(material.quality_summary?.notes || '')}</div>
         <div class="row" style="margin-top:10px;">
@@ -393,11 +422,24 @@ function renderMaterials() {
       showTransientMessage('No source preview is available for this material yet.', 'warning');
     });
   });
+
+  list.querySelectorAll('.delete-material').forEach((button) => {
+    button.addEventListener('click', async () => {
+      if (!window.confirm('Delete this material? This cannot be undone.')) return;
+      await api(`/api/workspaces/${workspace.workspace_id}/materials/${button.dataset.materialId}`, { method: 'DELETE' });
+      const refreshed = await api(`/api/workspaces/${workspace.workspace_id}`);
+      state.activeWorkspace = refreshed.workspace;
+      renderWorkspace();
+      await loadWorkspaces();
+    });
+  });
 }
 
 function renderCitationButtons(citations = []) {
   return citations.map((citation, index) => `
-    <button type="button" class="secondary citation-button" data-citation-index="${index}">Slide ${escapeHtml(String(citation.slide_number || '?'))}</button>
+    <button type="button" class="secondary citation-button" data-citation-index="${index}" title="View source slide in the Source viewer">
+      <span class="citation-icon">⬡</span> Slide ${escapeHtml(String(citation.slide_number || '?'))}
+    </button>
   `).join('');
 }
 
@@ -420,33 +462,42 @@ function renderStudyPlan() {
   document.getElementById('student-weak').value = workspace?.student_context?.weak_areas || '';
   document.getElementById('student-goals').value = workspace?.student_context?.goals || '';
 
+  const reviseBtn = document.getElementById('revise-study-plan');
   const plan = workspace?.active_study_plan;
+  if (reviseBtn) reviseBtn.classList.toggle('hidden', !plan);
   if (!plan) {
     output.innerHTML = '<div class="muted">No study plan yet.</div>';
     return;
   }
   output.innerHTML = `
-    <div class="card">
-      <h3>Active plan</h3>
-      <div>${badge(plan.grounding_mode || 'strict_lecture_only')} ${badge(`${plan.time_budget_minutes} min`)}</div>
-      <div class="small muted">Created ${escapeHtml(formatDate(plan.created_at))} • ${escapeHtml(plan.topic_text || '')}</div>
+    <div class="card plan-summary-card">
+      <div class="plan-summary-header">
+        <div>
+          <div class="small muted" style="margin-bottom:4px;">Generated study plan</div>
+          <div style="font-weight:600;font-size:15px;">${escapeHtml(plan.topic_text || 'Study plan')}</div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+          ${badge(plan.grounding_mode || 'strict_lecture_only')} ${badge(`${plan.time_budget_minutes} min`)}
+        </div>
+      </div>
+      <div class="small muted" style="margin-top:6px;">Created ${escapeHtml(formatDate(plan.created_at))}</div>
     </div>
     ${renderSection('Prerequisite knowledge', plan.prerequisites, (item) => `
       <div><strong>${escapeHtml(item.concept_name)}</strong></div>
       <div class="small">${escapeHtml(item.why_needed)}</div>
-      <div class="small muted">${escapeHtml(item.support_status)}</div>
+      <div class="small muted">${escapeHtml(formatSupportStatus(item.support_status))}</div>
     `)}
     ${renderSection('Study sequence', plan.study_sequence, (item) => `
       <div><strong>${escapeHtml(item.title)}</strong></div>
       <div class="small">${escapeHtml(item.objective)}</div>
-      <div class="small muted">${escapeHtml(item.support_status)} • ${item.recommended_time_minutes} minutes</div>
+      <div class="small muted">${item.recommended_time_minutes} min · ${escapeHtml(formatSupportStatus(item.support_status))}</div>
       <div class="small muted">Tasks: ${escapeHtml((item.tasks || []).join('; '))}</div>
     `)}
     ${renderSection('Common mistakes', plan.common_mistakes, (item) => `
       <div><strong>${escapeHtml(item.pattern)}</strong></div>
       <div class="small">${escapeHtml(item.why_it_happens)}</div>
       <div class="small muted">${escapeHtml(item.prevention_advice)}</div>
-      <div class="small muted">${escapeHtml(item.support_status)}</div>
+      <div class="small muted">${escapeHtml(formatSupportStatus(item.support_status))}</div>
     `)}
   `;
   output.querySelectorAll('[data-section-citations]').forEach((section) => {
@@ -489,12 +540,12 @@ function renderChat() {
       <div class="card" data-section-citations='${JSON.stringify(section.citations || []).replace(/'/g, '&apos;')}'>
         <div><strong>${escapeHtml(section.heading || `Section ${index + 1}`)}</strong></div>
         <div>${escapeHtml(section.text || '')}</div>
-        <div class="small muted">${escapeHtml(section.support_status || '')}</div>
+        <div class="small muted">${escapeHtml(formatSupportStatus(section.support_status))}</div>
         <div>${renderCitationButtons(section.citations || [])}</div>
       </div>
     `).join('');
     const clarifying = message.clarifying_question?.prompt ? `<div class="warning">Clarifying question: ${escapeHtml(message.clarifying_question.prompt)}</div>` : '';
-    return `<div class="stack">${sections}${clarifying}</div>`;
+    return `<div class="stack"><div class="small muted">Assistant • ${escapeHtml(formatDate(message.created_at))}</div>${sections}${clarifying}</div>`;
   }).join('');
   output.querySelectorAll('[data-section-citations]').forEach((section) => {
     const citations = JSON.parse(section.dataset.sectionCitations);
@@ -625,6 +676,7 @@ function scrollSourceViewerIntoView() {
 function openCitation(citation, citationList = [citation], index = 0) {
   state.citationList = citationList;
   state.citationIndex = index;
+  document.querySelector('.source-viewer').classList.remove('hidden');
   const empty = document.getElementById('source-empty');
   const view = document.getElementById('source-view');
   empty.classList.add('hidden');
@@ -635,8 +687,12 @@ function openCitation(citation, citationList = [citation], index = 0) {
 
 function renderSourceViewer(citation) {
   const { contentAvailable } = serviceAvailability();
-  document.getElementById('source-meta').textContent = `${citation.material_title || citation.material_id || 'Source'} • slide ${citation.slide_number || '?'} • ${citation.support_type || ''}`;
-  document.getElementById('source-snippet').textContent = citation.snippet_text || 'No snippet available.';
+  document.getElementById('source-meta').textContent = `${citation.material_title || citation.material_id || 'Source'} · slide ${citation.slide_number || '?'}`;
+  const snippetEl = document.getElementById('source-snippet');
+  const snippetText = citation.snippet_text || '';
+  snippetEl.innerHTML = snippetText
+    ? `<div class="source-snippet-label small muted">Cited passage</div><div class="source-snippet-text">${escapeHtml(snippetText)}</div>`
+    : `<div class="source-snippet-label small muted">No snippet available.</div>`;
   document.getElementById('source-preview').src = citation.preview_url || '';
   if (!contentAvailable) {
     document.getElementById('source-message').textContent = 'Preview unavailable because the content service is offline. Citation metadata is still shown.';
@@ -706,13 +762,17 @@ function bindEvents() {
   document.getElementById('material-import-form').addEventListener('submit', async (event) => {
     event.preventDefault();
     if (!state.activeWorkspace) return;
-    const submitButton = event.currentTarget.querySelector('button[type="submit"]');
-    if (submitButton) submitButton.disabled = true;
     const fileInput = document.getElementById('material-file');
     const files = Array.from(fileInput.files || []);
+    const text = document.getElementById('material-text').value.trim();
+    if (!files.length && !text) {
+      showTransientMessage('Please enter text or select a file to import.', 'warning');
+      return;
+    }
+    const submitButton = event.currentTarget.querySelector('button[type="submit"]');
+    if (submitButton) submitButton.disabled = true;
     const title = document.getElementById('material-title').value;
     const role = document.getElementById('material-role').value;
-    const text = document.getElementById('material-text').value;
 
     try {
       if (files.length) {

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from contextlib import asynccontextmanager
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 from fastapi import FastAPI, File, Form, HTTPException, Query, Request, UploadFile
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, Response
@@ -114,11 +114,11 @@ def create_app(*, env_override: dict[str, str] | None = None) -> FastAPI:
         workspace_id: str,
         title: str = Form(default=""),
         role: str = Form(default="notes"),
-        kind: str | None = Form(default=None),
-        text: str | None = Form(default=None),
-        source_text: str | None = Form(default=None),
-        text_body: str | None = Form(default=None),
-        file: UploadFile | None = File(default=None),
+        kind: Optional[str] = Form(default=None),
+        text: Optional[str] = Form(default=None),
+        source_text: Optional[str] = Form(default=None),
+        text_body: Optional[str] = Form(default=None),
+        file: Optional[UploadFile] = File(default=None),
     ) -> dict[str, Any]:
         file_payload = None
         if file is not None:
@@ -176,6 +176,10 @@ def create_app(*, env_override: dict[str, str] | None = None) -> FastAPI:
     async def api_revise_practice(workspace_id: str, practice_set_id: str, request: Request) -> dict[str, Any]:
         payload = await request.json()
         return {"job": shell_service.revise_practice_set(workspace_id, practice_set_id, payload)}
+
+    @app.delete("/api/workspaces/{workspace_id}/materials/{material_id}")
+    async def api_delete_material(workspace_id: str, material_id: str) -> dict[str, Any]:
+        return {"workspace": shell_service.delete_material(workspace_id, material_id)}
 
     @app.post("/api/workspaces/{workspace_id}/materials/{material_id}/preference")
     async def api_set_material_preference(workspace_id: str, material_id: str, request: Request) -> dict[str, Any]:

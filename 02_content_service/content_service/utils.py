@@ -8,7 +8,7 @@ import textwrap
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Iterable, Sequence
+from typing import Iterable, Optional, Sequence, Tuple
 
 
 def now_iso() -> str:
@@ -112,7 +112,7 @@ def split_text_into_units(text: str, max_chars: int = 1800) -> list[str]:
     return blocks or [normalized]
 
 
-def extract_title_guess(text: str) -> str | None:
+def extract_title_guess(text: str) -> Optional[str]:
     for line in (text or "").splitlines():
         candidate = line.strip().strip("#").strip()
         if len(candidate) >= 3:
@@ -120,19 +120,19 @@ def extract_title_guess(text: str) -> str | None:
     return None
 
 
-def quality_rank(value: str | None) -> int:
+def quality_rank(value: Optional[str]) -> int:
     mapping = {"low": 1, "medium": 2, "high": 3}
     return mapping.get((value or "low").lower(), 1)
 
 
-def clamp_quality(value: str | None) -> str:
+def clamp_quality(value: Optional[str]) -> str:
     value = (value or "low").lower()
     if value in {"low", "medium", "high"}:
         return value
     return "low"
 
 
-def summarize_quality(values: Sequence[str], previews_available: bool, has_text_ratio: float) -> tuple[str, str | None]:
+def summarize_quality(values: Sequence[str], previews_available: bool, has_text_ratio: float) -> Tuple[str, Optional[str]]:
     if not values:
         return "low", "No slide-level content was extracted."
     highs = sum(1 for v in values if v == "high")

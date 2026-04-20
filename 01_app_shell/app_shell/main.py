@@ -179,7 +179,13 @@ def create_app(*, env_override: dict[str, str] | None = None) -> FastAPI:
 
     @app.delete("/api/workspaces/{workspace_id}/materials/{material_id}")
     async def api_delete_material(workspace_id: str, material_id: str) -> dict[str, Any]:
-        return {"workspace": shell_service.delete_material(workspace_id, material_id)}
+        import traceback
+        try:
+            return {"workspace": shell_service.delete_material(workspace_id, material_id)}
+        except ShellError:
+            raise
+        except Exception as exc:
+            raise HTTPException(status_code=500, detail=traceback.format_exc()) from exc
 
     @app.post("/api/workspaces/{workspace_id}/materials/{material_id}/preference")
     async def api_set_material_preference(workspace_id: str, material_id: str, request: Request) -> dict[str, Any]:

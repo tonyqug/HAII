@@ -591,6 +591,38 @@
       "user_action": null,
       "workspace_id": "workspace_119cfa5ac40c"
     },
+    "job_710b8c785655": {
+      "context": {
+        "dedup_key": "notes:5fc4e21756db5f315478528dd6e73b4547336a5fd8c8b618defdaa3ef87ac430",
+        "normalized_request": {
+          "role": "notes",
+          "source_kind": "file",
+          "title": "03133 Exam 3 Cheat sheet.pdf",
+          "workspace_id": "workspace_cd0fc75267fd"
+        }
+      },
+      "created_at": "2026-04-20T20:03:32Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": null
+      },
+      "finalized": true,
+      "job_id": "job_710b8c785655",
+      "message": "Material import completed successfully.",
+      "operation": "import_material",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_44b741f5741e45158be035af1789b7b9",
+      "result_id": "mat_e0a2cff8173c47cd8bec90ac65e44b48",
+      "result_type": "material",
+      "service": "content",
+      "stage": "completed",
+      "status": "succeeded",
+      "updated_at": "2026-04-20T20:03:33Z",
+      "user_action": null,
+      "workspace_id": "workspace_cd0fc75267fd"
+    },
     "job_7a721d56b68b": {
       "context": {
         "conversation_id": "conversation_f9e766f9579f",
@@ -885,6 +917,38 @@
       "user_action": null,
       "workspace_id": "workspace_538aaf9f4515"
     },
+    "job_cbdf6e10a83a": {
+      "context": {
+        "dedup_key": "notes:5fc4e21756db5f315478528dd6e73b4547336a5fd8c8b618defdaa3ef87ac430",
+        "normalized_request": {
+          "role": "notes",
+          "source_kind": "file",
+          "title": "03133 Exam 3 Cheat sheet.pdf",
+          "workspace_id": "workspace_cd0fc75267fd"
+        }
+      },
+      "created_at": "2026-04-20T20:04:40Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": null
+      },
+      "finalized": true,
+      "job_id": "job_cbdf6e10a83a",
+      "message": "Material import completed successfully.",
+      "operation": "import_material",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_0d3ecc38d7a942d8a890cf3005370db1",
+      "result_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+      "result_type": "material",
+      "service": "content",
+      "stage": "completed",
+      "status": "succeeded",
+      "updated_at": "2026-04-20T20:04:40Z",
+      "user_action": null,
+      "workspace_id": "workspace_cd0fc75267fd"
+    },
     "job_cdfefa6befde": {
       "context": {
         "normalized_request": {
@@ -1053,6 +1117,38 @@
       "user_action": null,
       "workspace_id": "workspace_538aaf9f4515"
     },
+    "job_df0a3e5828aa": {
+      "context": {
+        "dedup_key": "notes:a2c6d873eaa6f128a21674192f55b8b814af319ae4971c4b6a671c81e75271c0",
+        "normalized_request": {
+          "role": "notes",
+          "source_kind": "file",
+          "title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+          "workspace_id": "workspace_cd0fc75267fd"
+        }
+      },
+      "created_at": "2026-04-20T20:04:07Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": null
+      },
+      "finalized": true,
+      "job_id": "job_df0a3e5828aa",
+      "message": "Material import completed successfully.",
+      "operation": "import_material",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_f96c17ee74d84f4e818c430d194d3219",
+      "result_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+      "result_type": "material",
+      "service": "content",
+      "stage": "completed",
+      "status": "succeeded",
+      "updated_at": "2026-04-20T20:04:07Z",
+      "user_action": null,
+      "workspace_id": "workspace_cd0fc75267fd"
+    },
     "job_e9b026e61011": {
       "context": {
         "normalized_request": {
@@ -1201,7 +1297,7 @@
         "study_plan_abc1b5e76fc0",
         "study_plan_44d939bc1634"
       ],
-      "last_opened_at": "2026-04-20T19:55:20Z",
+      "last_opened_at": "2026-04-20T20:04:41Z",
       "local_edits": {},
       "material_preferences": {
         "material_057153c6600f": "focus",
@@ -1287,13 +1383,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-20T19:55:20Z",
+            "last_checked_at": "2026-04-20T20:04:41Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-20T19:55:20Z",
+            "last_checked_at": "2026-04-20T20:04:41Z",
             "mode": "integrated"
           }
         },
@@ -1674,7 +1770,7 @@
         "study_plan_dabb59dffded",
         "study_plan_aea042ccf526"
       ],
-      "last_opened_at": "2026-04-20T19:55:20Z",
+      "last_opened_at": "2026-04-20T20:04:41Z",
       "local_edits": {},
       "material_preferences": {
         "material_753ac7b44e1e": "default",
@@ -1789,13 +1885,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-20T19:55:20Z",
+            "last_checked_at": "2026-04-20T20:04:41Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-20T19:55:20Z",
+            "last_checked_at": "2026-04-20T20:04:41Z",
             "mode": "integrated"
           }
         },
@@ -2265,7 +2361,7 @@
       "known_study_plan_ids": [
         "study_plan_67ff13d34387"
       ],
-      "last_opened_at": "2026-04-20T19:55:20Z",
+      "last_opened_at": "2026-04-20T20:04:41Z",
       "local_edits": {},
       "material_preferences": {
         "mat_0d4cf2e5271346b2afc8b1a4422e6a0e": "default",
@@ -10810,13 +10906,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-20T19:55:20Z",
+            "last_checked_at": "2026-04-20T20:04:41Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-20T19:55:20Z",
+            "last_checked_at": "2026-04-20T20:04:41Z",
             "mode": "integrated"
           }
         },
@@ -12005,7 +12101,7 @@
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-20T19:55:21Z",
+      "last_opened_at": "2026-04-20T20:04:41Z",
       "local_edits": {},
       "material_preferences": {
         "material_f90e97c0bfa9": "default"
@@ -12056,13 +12152,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-20T19:55:20Z",
+            "last_checked_at": "2026-04-20T20:04:41Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-20T19:55:20Z",
+            "last_checked_at": "2026-04-20T20:04:41Z",
             "mode": "integrated"
           }
         },
@@ -12086,12 +12182,12 @@
     },
     "workspace_cd0fc75267fd": {
       "active_material_ids": {
-        "notes": [],
+        "notes": [
+          "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+          "mat_847bd8990d0e4197bca3c9d70a571ec2"
+        ],
         "practice_template": [],
-        "slides": [
-          "material_390aae065c51",
-          "material_af944947654f"
-        ]
+        "slides": []
       },
       "active_practice_set_id": null,
       "active_study_plan_id": "study_plan_ce3122d0b471",
@@ -12103,6 +12199,8 @@
       "display_name": "Neurobiology of Disease Preparation",
       "feedback_history": [],
       "file_import_dedup": {
+        "notes:5fc4e21756db5f315478528dd6e73b4547336a5fd8c8b618defdaa3ef87ac430": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+        "notes:a2c6d873eaa6f128a21674192f55b8b814af319ae4971c4b6a671c81e75271c0": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
         "slides:5fc4e21756db5f315478528dd6e73b4547336a5fd8c8b618defdaa3ef87ac430": "material_390aae065c51",
         "slides:a2c6d873eaa6f128a21674192f55b8b814af319ae4971c4b6a671c81e75271c0": "material_af944947654f"
       },
@@ -12122,77 +12220,93 @@
       "known_study_plan_ids": [
         "study_plan_ce3122d0b471"
       ],
-      "last_opened_at": "2026-04-20T19:55:28Z",
+      "last_opened_at": "2026-04-20T20:04:41Z",
       "local_edits": {},
       "material_preferences": {
-        "material_390aae065c51": "default",
-        "material_af944947654f": "default"
+        "mat_2f09c1feaeca4fbe81e2ab67795171e4": "default",
+        "mat_847bd8990d0e4197bca3c9d70a571ec2": "default"
       },
       "material_sync_annotations": {
-        "material_390aae065c51": {},
-        "material_af944947654f": {}
+        "mat_2f09c1feaeca4fbe81e2ab67795171e4": {},
+        "mat_847bd8990d0e4197bca3c9d70a571ec2": {}
       },
       "materials": {
-        "material_390aae065c51": {
-          "created_at": "2026-04-20T19:38:40Z",
+        "mat_2f09c1feaeca4fbe81e2ab67795171e4": {
+          "created_at": "2026-04-20T20:04:07+00:00",
           "kind": "pdf",
-          "material_id": "material_390aae065c51",
-          "page_count": 1,
+          "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+          "page_count": 2,
           "processing_status": "ready",
           "quality_summary": {
-            "notes": "Locally generated mock material preview.",
-            "overall": "medium"
+            "notes": null,
+            "overall": "high"
           },
-          "role": "slides",
+          "role": "notes",
           "slides": [
             {
-              "bullets": [
-                "Imported file: 03133 Exam 3 Cheat sheet.pdf"
-              ],
-              "material_id": "material_390aae065c51",
-              "material_title": "03133 Exam 3 Cheat sheet.pdf",
-              "preview_url": null,
-              "slide_id": "slide_03133-exam-3-cheat-sheet-pdf_1",
+              "extraction_quality": "high",
+              "has_text": true,
+              "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+              "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+              "preview_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/preview",
+              "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1",
               "slide_number": 1,
-              "snippet_text": "Imported file: 03133 Exam 3 Cheat sheet.pdf",
-              "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/source",
-              "title": "03133 Exam 3 Cheat sheet.pdf"
+              "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/source",
+              "title_guess": "\u200bPersonalized medicine\u200b"
+            },
+            {
+              "extraction_quality": "high",
+              "has_text": true,
+              "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+              "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+              "preview_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:2/preview",
+              "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:2",
+              "slide_number": 2,
+              "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:2/source",
+              "title_guess": "\u200bFirst question for Welch & colleagues study: how does removal of the Sapap3 gene (knockout mice) affect\u200b"
             }
           ],
-          "source_view_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_390aae065c51/slides/slide_03133-exam-3-cheat-sheet-pdf_1/source",
-          "text_body": "",
-          "title": "03133 Exam 3 Cheat sheet.pdf",
+          "source_view_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/source",
+          "title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
           "workspace_id": "workspace_cd0fc75267fd"
         },
-        "material_af944947654f": {
-          "created_at": "2026-04-20T19:38:48Z",
+        "mat_847bd8990d0e4197bca3c9d70a571ec2": {
+          "created_at": "2026-04-20T20:04:40+00:00",
           "kind": "pdf",
-          "material_id": "material_af944947654f",
-          "page_count": 1,
+          "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+          "page_count": 2,
           "processing_status": "ready",
           "quality_summary": {
-            "notes": "Locally generated mock material preview.",
-            "overall": "medium"
+            "notes": null,
+            "overall": "high"
           },
-          "role": "slides",
+          "role": "notes",
           "slides": [
             {
-              "bullets": [
-                "Imported file: 03133 Exam 2 Cheat sheet - Google Docs.pdf"
-              ],
-              "material_id": "material_af944947654f",
-              "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
-              "preview_url": null,
-              "slide_id": "slide_03133-exam-2-cheat-sheet-google-docs-pdf_1",
+              "extraction_quality": "high",
+              "has_text": true,
+              "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+              "material_title": "03133 Exam 3 Cheat sheet.pdf",
+              "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1/preview",
+              "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1",
               "slide_number": 1,
-              "snippet_text": "Imported file: 03133 Exam 2 Cheat sheet - Google Docs.pdf",
-              "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_af944947654f/slides/slide_03133-exam-2-cheat-sheet-google-docs-pdf_1/source",
-              "title": "03133 Exam 2 Cheat sheet - Google Docs.pdf"
+              "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1/source",
+              "title_guess": "\u200bConcordance vs. Comorbidity\u200b"
+            },
+            {
+              "extraction_quality": "high",
+              "has_text": true,
+              "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+              "material_title": "03133 Exam 3 Cheat sheet.pdf",
+              "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/preview",
+              "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2",
+              "slide_number": 2,
+              "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/source",
+              "title_guess": "\u200bParkinson\u2019s Disease\u200b"
             }
           ],
-          "source_view_url": "http://127.0.0.1:38410/local/workspaces/workspace_cd0fc75267fd/materials/material_af944947654f/slides/slide_03133-exam-2-cheat-sheet-google-docs-pdf_1/source",
-          "text_body": "",
-          "title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+          "source_view_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/source",
+          "title": "03133 Exam 3 Cheat sheet.pdf",
           "workspace_id": "workspace_cd0fc75267fd"
         }
       },
@@ -12201,20 +12315,20 @@
       "selected_active_conversation_id": null,
       "status": {
         "last_successful_sync": {
-          "content": "2026-04-20T19:55:28Z",
-          "learning": "2026-04-20T19:55:28Z"
+          "content": "2026-04-20T20:04:41Z",
+          "learning": "2026-04-20T20:04:41Z"
         },
         "services": {
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-20T19:55:28Z",
+            "last_checked_at": "2026-04-20T20:04:41Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-20T19:55:28Z",
+            "last_checked_at": "2026-04-20T20:04:41Z",
             "mode": "integrated"
           }
         },

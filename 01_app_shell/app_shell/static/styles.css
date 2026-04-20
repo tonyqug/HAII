@@ -426,6 +426,12 @@ label {
   gap: 6px;
 }
 
+.message-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.6;
+}
+
 .source-snippet-card {
   border: 1px solid var(--line);
   border-radius: 12px;

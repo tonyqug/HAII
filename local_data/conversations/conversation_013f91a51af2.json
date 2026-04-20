@@ -1,0 +1,64 @@
+{
+  "_meta": {
+    "evidence_bundle": null,
+    "grounding_input_mode": "integrated",
+    "include_annotations": true,
+    "material_ids": [
+      "material_390aae065c51",
+      "material_af944947654f",
+      "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+      "mat_847bd8990d0e4197bca3c9d70a571ec2"
+    ]
+  },
+  "conversation_id": "conversation_013f91a51af2",
+  "created_at": "2026-04-20T20:37:27Z",
+  "grounding_mode": "strict_lecture_only",
+  "messages": [
+    {
+      "created_at": "2026-04-20T20:37:30Z",
+      "message_id": "msg_049bafe1bdcf",
+      "role": "user",
+      "text": "what are Basic neurotransmitter functions"
+    },
+    {
+      "created_at": "2026-04-20T20:37:30Z",
+      "message_id": "msg_617c136b86e2",
+      "reply_sections": [
+        {
+          "citations": [
+            {
+              "citation_id": "cit_a9a6e627618c162682913f64",
+              "confidence": "high",
+              "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+              "material_title": "03133 Exam 3 Cheat sheet.pdf",
+              "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/preview",
+              "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2",
+              "slide_number": 2,
+              "snippet_text": "…binds to a receptor but blocks its activity​, preventing the normal effect of a neurotransmitter or​ ​hormone. NALOXONE. LESS SIGNAL,​​# of receptors:​​↑ (upregulation),​​Effect on signal:​​↑ sensitivity over time​ ​Agonist:​​substance that​​binds to a receptor and activates it​, producing a biological effect (mimics t…",
+              "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/source",
+              "support_type": "explicit"
+            },
+            {
+              "citation_id": "cit_059ad0ddf58b4ef290ee0d1a",
+              "confidence": "high",
+              "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+              "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+              "preview_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/preview",
+              "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1",
+              "slide_number": 1,
+              "snippet_text": "…of the cases, then the concordance rate = 300 / 400= 75%​ ​Tourette Syndrome​ ​Basics: Motor and vocal tics present for at least a year, symptoms presenting under the age of 18.​ ​Dopamine​ ​Dopamine in Striatum​ ​It inhibits stop cells and excites go cells, resulting in​​increased movement​ ​Dopamine in VTA -> Nucleu…",
+              "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/source",
+              "support_type": "explicit"
+            }
+          ],
+          "heading": "Grounded answer",
+          "support_status": "inferred_from_slides",
+          "text": "​Parkinson’s Disease​ ​-​ ​Second most common neurological disorder.​ ​-​ ​Caused by degeneration of dopamine neurons in the substantia nigra pars compacta (SnC).​ ​-​... For​ ​example, many people who have no dopamine related genetic risk factors for ADHD still respond well​ ​to Ritalin and other DAT blockers to treat their ADHD​ ​Dopamine..."
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "title": "Workspace Q&A",
+  "workspace_id": "workspace_cd0fc75267fd"
+}

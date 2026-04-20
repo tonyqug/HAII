@@ -29,7 +29,7 @@
       </section>
 
       <section class="panel">
-        <div id="workspace-empty-state" class="muted">Open a workspace to view materials, study-plan controls, grounded chat, practice generation, and history.</div>
+        <div id="workspace-empty-state" class="muted">Open a workspace to view materials, study-plan controls, grounded chat, and history.</div>
         <div id="workspace-view" class="hidden stack">
           <div>
             <h2 id="workspace-title"></h2>
@@ -50,7 +50,6 @@
                   <select id="material-role">
                     <option value="slides">Slides</option>
                     <option value="notes">Notes</option>
-                    <option value="practice_template">Practice template</option>
                   </select>
                 </label>
               </div>
@@ -80,7 +79,6 @@
             <div class="tabs">
               <button class="tab-button active" data-tab="overview" type="button">Overview</button>
               <button class="tab-button" data-tab="ask" type="button">Ask</button>
-              <button class="tab-button" data-tab="practice" type="button">Practice</button>
               <button class="tab-button" data-tab="history" type="button">History</button>
             </div>
 
@@ -161,55 +159,6 @@
                 </form>
               </div>
               <div id="chat-output" class="message-list"></div>
-            </div>
-
-            <div id="tab-practice" class="tab-panel stack">
-              <div class="card">
-                <h3>Practice generation</h3>
-                <div id="practice-service-note" class="service-note small warning hidden"></div>
-                <form id="practice-form" class="stack">
-                  <div class="row">
-                    <label style="flex:1 1 180px;">
-                      Mode
-                      <select id="practice-mode">
-                        <option value="short_answer">Short answer</option>
-                        <option value="long_answer">Long answer</option>
-                        <option value="mixed">Mixed</option>
-                        <option value="template_mimic">Template mimic</option>
-                      </select>
-                    </label>
-                    <label style="flex:1 1 160px;">
-                      Question count
-                      <input id="practice-count" type="number" min="1" value="3" />
-                    </label>
-                    <label style="flex:1 1 160px;">
-                      Difficulty
-                      <select id="practice-difficulty">
-                        <option value="easier">Easier</option>
-                        <option value="mixed" selected>Mixed</option>
-                        <option value="harder">Harder</option>
-                      </select>
-                    </label>
-                  </div>
-                  <div class="row">
-                    <label style="flex:1 1 180px;">
-                      Template material
-                      <select id="practice-template"></select>
-                    </label>
-                    <label style="flex:1 1 160px;">
-                      <input id="practice-answer-key" type="checkbox" checked /> Include answer key
-                    </label>
-                    <label style="flex:1 1 160px;">
-                      <input id="practice-rubrics" type="checkbox" checked /> Include rubrics
-                    </label>
-                  </div>
-                  <div class="row">
-                    <button type="submit">Generate practice</button>
-                    <button id="revise-practice" class="secondary" type="button">Create new variant</button>
-                  </div>
-                </form>
-              </div>
-              <div id="practice-output" class="question-list"></div>
             </div>
 
             <div id="tab-history" class="tab-panel stack">

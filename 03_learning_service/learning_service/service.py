@@ -90,7 +90,6 @@ class LearningService:
             "capabilities": [
                 "study_plan",
                 "conversation_qa",
-                "practice_generation",
                 "artifact_revision",
                 "inline_evidence_mode",
             ],

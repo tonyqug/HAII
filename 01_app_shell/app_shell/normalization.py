@@ -62,7 +62,7 @@ def select_material_ids(workspace: dict, *, allowed_roles: Sequence[str] | set[s
         role_label = _role_label(relevant_roles or {"materials"})
         if relevant_roles == LECTURE_GROUNDING_ROLES:
             raise ShellError(
-                "No ready slides or notes are available yet. Practice-template materials are not used as lecture-grounding evidence.",
+                "No ready slides or notes are available yet.",
                 status_code=400,
             )
         raise ShellError(
@@ -87,8 +87,8 @@ def normalize_material_import(
     filename: str | None,
 ) -> Dict[str, Any]:
     role_value = _text(role)
-    if role_value not in {"slides", "notes", "practice_template"}:
-        raise ShellError("Material role must be slides, notes, or practice_template.")
+    if role_value not in {"slides", "notes"}:
+        raise ShellError("Material role must be slides or notes.")
     title_value = _text(title) or _text(filename) or "Untitled material"
     incoming_kind = _text(kind)
     if filename:

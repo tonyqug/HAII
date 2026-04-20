@@ -273,6 +273,17 @@ class GroundedGenerator:
             topic,
             normalized_context,
         )
+        explicit_topic = bool(normalize_whitespace(topic_text or ""))
+        if explicit_topic:
+            strongest_topic_score = max(
+                int((record.get("_plan_features") or {}).get("topic_score", 0))
+                for record in ranked_records
+            )
+            if strongest_topic_score <= 1:
+                raise NeedsUserInputError(
+                    f"I could not find strong lecture evidence for '{topic}'. Please name a lecture concept, keyword, or slide number to focus the plan.",
+                    options=accessor.options_for_clarification(lecture_material_ids, limit=5),
+                )
         selected_sequence_records = self._select_study_sequence_records(
             ranked_records,
             time_budget_minutes,
@@ -323,6 +334,13 @@ class GroundedGenerator:
                 {
                     "code": "sparse_evidence",
                     "message": "The study plan was built from a small evidence set, so coverage may be incomplete.",
+                }
+            )
+        if inferred_topic and len(concept_records) >= 6:
+            uncertainty.append(
+                {
+                    "code": "topic_still_broad",
+                    "message": "The uploaded materials cover several concepts, so adding a topic focus next time would produce a tighter plan.",
                 }
             )
 
@@ -472,7 +490,7 @@ class GroundedGenerator:
             prerequisite_pool = list(concept_records)
 
         items: List[Dict[str, Any]] = []
-        for record in prerequisite_pool[:3]:
+        for record in self._dedupe_records(prerequisite_pool)[:2]:
             summary = take_sentences(record["summary_text"], 1) or record["summary_text"]
             overlap_with_prior = self._record_overlap(record, prior_knowledge) > 0
             overlap_with_topic = self._record_overlap(record, topic_text) > 0
@@ -494,8 +512,6 @@ class GroundedGenerator:
                     "citations": record["citations"][:2],
                 }
             )
-        while len(items) < 3:
-            items.append(self._padding_item("prereq", grounding_mode, hint="Review baseline background knowledge that the lecture seems to assume before later steps build on it."))
         return items
 
     def _build_study_sequence(
@@ -508,7 +524,7 @@ class GroundedGenerator:
         prerequisites: Sequence[Dict[str, Any]],
         student_context: Dict[str, Any],
     ) -> List[Dict[str, Any]]:
-        sequence_records = list(concept_records)[:6]
+        sequence_records = self._dedupe_records(concept_records)[:6]
         weak_areas = normalize_whitespace((student_context or {}).get("weak_areas", ""))
         goals = normalize_whitespace((student_context or {}).get("goals", ""))
         prior_knowledge = normalize_whitespace((student_context or {}).get("prior_knowledge", ""))
@@ -524,26 +540,17 @@ class GroundedGenerator:
             slide_numbers = distinct_slide_numbers(record.get("citations") or []) or [int(record.get("slide_number") or 0)]
             slide_label = ", ".join(str(number) for number in slide_numbers if number)
             quick_bridge = self._record_overlap(record, prior_knowledge) > 0
-            tasks = [
-                f"Review slide {slide_label or '?'} and restate {record['concept_name']} in your own words.",
-            ]
-            if quick_bridge and prior_knowledge:
-                tasks.append(
-                    f"Use what you already know about {prior_knowledge} as a quick bridge, then note what the lecture adds or changes."
-                )
-            else:
-                tasks.append(
-                    f"Write a short checkpoint explaining why this matters: {take_sentences(record['summary_text'], 1)}"
-                )
-            if index > 1:
-                prev = sequence_records[index - 2]["concept_name"]
-                tasks.append(f"Connect {record['concept_name']} to the earlier topic {prev}.")
-            if weak_areas and self._record_overlap(record, weak_areas) > 0:
-                tasks.append(f"Spend extra practice time here because it overlaps your stated weak area: {weak_areas}.")
-            elif goals:
-                tasks.append(f"Check how this step supports your goal: {goals}.")
-            else:
-                tasks.append("Turn this step into one self-test question you can answer without reopening the slide.")
+            previous_concept = sequence_records[index - 2]["concept_name"] if index > 1 else None
+            tasks = self._build_step_tasks(
+                record=record,
+                step_index=index,
+                slide_label=slide_label or "?",
+                previous_concept=previous_concept,
+                quick_bridge=quick_bridge,
+                prior_knowledge=prior_knowledge,
+                weak_areas=weak_areas,
+                goals=goals,
+            )
             milestone = self._step_milestone(record["concept_name"], topic_text, goals)
             steps.append(
                 {
@@ -592,7 +599,8 @@ class GroundedGenerator:
         if sequence_pool:
             first = sequence_pool[0]
             second = sequence_pool[1] if len(sequence_pool) > 1 else first
-            mistakes.append(
+            self._append_mistake(
+                mistakes,
                 {
                     "item_id": make_id("mistake"),
                     "pattern": f"Confusing {first['concept_name']} with {second['concept_name']}",
@@ -600,11 +608,12 @@ class GroundedGenerator:
                     "prevention_advice": f"After studying, write one sentence that distinguishes {first['concept_name']} from {second['concept_name']}.",
                     "support_status": "inferred_from_slides",
                     "citations": dedupe_citations(first["citations"] + second["citations"])[:3],
-                }
+                },
             )
         weak_area_candidate = self._find_record_by_text(sequence_pool or concept_records, weak_areas)
         if weak_areas and weak_area_candidate:
-            mistakes.append(
+            self._append_mistake(
+                mistakes,
                 {
                     "item_id": make_id("mistake"),
                     "pattern": f"Leaving your weak area around {weak_areas} at the recognition level instead of practicing it actively",
@@ -612,11 +621,12 @@ class GroundedGenerator:
                     "prevention_advice": f"After reviewing the cited slide, answer one no-notes question focused on {weak_areas} before moving on.",
                     "support_status": "inferred_from_slides",
                     "citations": weak_area_candidate["citations"][:2],
-                }
+                },
             )
         candidate = self._find_record_by_keywords(sequence_pool or concept_records, ["assumption", "condition", "validation", "rate", "penalty", "error", "overfit"])
         if candidate:
-            mistakes.append(
+            self._append_mistake(
+                mistakes,
                 {
                     "item_id": make_id("mistake"),
                     "pattern": f"Ignoring the conditions or tuning choices around {candidate['concept_name']}",
@@ -624,11 +634,12 @@ class GroundedGenerator:
                     "prevention_advice": "When reviewing the slide, list the condition, tuning choice, or warning next to the main concept before moving on.",
                     "support_status": "inferred_from_slides",
                     "citations": candidate["citations"][:2],
-                }
+                },
             )
         candidate = self._find_record_by_keywords(sequence_pool or concept_records, ["example", "generalization", "training", "validation", "compare", "procedure"])
         if candidate and len(mistakes) < 3:
-            mistakes.append(
+            self._append_mistake(
+                mistakes,
                 {
                     "item_id": make_id("mistake"),
                     "pattern": "Memorizing the wording without practicing when or how to apply it",
@@ -636,11 +647,12 @@ class GroundedGenerator:
                     "prevention_advice": "Turn each major slide into a quick self-test: what is the idea, when do you use it, and what failure mode should you watch for?",
                     "support_status": "inferred_from_slides",
                     "citations": candidate["citations"][:2],
-                }
+                },
             )
         goal_candidate = self._find_record_by_text(sequence_pool or concept_records, goals)
         if goals and goal_candidate and len(mistakes) < 3:
-            mistakes.append(
+            self._append_mistake(
+                mistakes,
                 {
                     "item_id": make_id("mistake"),
                     "pattern": f"Studying passively even though your goal is {goals}",
@@ -648,15 +660,7 @@ class GroundedGenerator:
                     "prevention_advice": f"Use the cited slide to create one retrieval-style checkpoint that matches your goal: {goals}.",
                     "support_status": "inferred_from_slides",
                     "citations": goal_candidate["citations"][:2],
-                }
-            )
-        while len(mistakes) < 3:
-            mistakes.append(
-                self._padding_item(
-                    "mistake",
-                    grounding_mode,
-                    hint="A likely mistake is moving too quickly from a definition to an answer without checking assumptions, examples, or edge cases.",
-                )
+                },
             )
         return mistakes[:3]
 
@@ -749,7 +753,7 @@ class GroundedGenerator:
         if not ranked_records:
             return []
         target_steps = max(2, min(6, math.ceil(time_budget_minutes / 25)))
-        selected = list(ranked_records[:target_steps])
+        selected = list(self._dedupe_records(ranked_records)[:target_steps])
         selected.sort(
             key=lambda record: (
                 int(record.get("slide_number") or 0),
@@ -758,6 +762,58 @@ class GroundedGenerator:
             )
         )
         return selected
+
+    def _dedupe_records(self, records: Sequence[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        seen: set[tuple[str, str, int]] = set()
+        deduped: List[Dict[str, Any]] = []
+        for record in records:
+            key = (
+                normalize_whitespace(record.get("concept_name", "")).lower(),
+                str(record.get("material_id") or ""),
+                int(record.get("slide_number") or 0),
+            )
+            if key in seen:
+                continue
+            seen.add(key)
+            deduped.append(record)
+        return deduped
+
+    def _build_step_tasks(
+        self,
+        *,
+        record: Dict[str, Any],
+        step_index: int,
+        slide_label: str,
+        previous_concept: Optional[str],
+        quick_bridge: bool,
+        prior_knowledge: str,
+        weak_areas: str,
+        goals: str,
+    ) -> List[str]:
+        summary = take_sentences(record.get("summary_text", ""), 1) or safe_excerpt(record.get("summary_text", ""), 120)
+        task_options = [
+            f"Review slide {slide_label} and restate {record['concept_name']} in your own words.",
+            f"Write one checkpoint sentence for this idea: {summary}",
+            f"Turn {record['concept_name']} into one no-notes self-test question.",
+        ]
+        if quick_bridge and prior_knowledge:
+            task_options[1] = f"Use what you already know about {prior_knowledge} as a bridge, then note what the lecture adds or changes."
+        if previous_concept:
+            task_options.append(f"Connect {record['concept_name']} to the earlier topic {previous_concept}.")
+        if weak_areas and self._record_overlap(record, weak_areas) > 0:
+            task_options.append(f"Spend extra practice time here because it overlaps your stated weak area: {weak_areas}.")
+        elif goals:
+            task_options.append(f"Check how this step supports your goal: {goals}.")
+        task_options.append(f"Capture the key condition, trade-off, or example tied to {record['concept_name']} before moving on.")
+        return task_options[:4]
+
+    def _append_mistake(self, mistakes: List[Dict[str, Any]], candidate: Dict[str, Any]) -> None:
+        normalized_pattern = normalize_whitespace(candidate.get("pattern", "")).lower()
+        if not normalized_pattern:
+            return
+        if any(normalize_whitespace(item.get("pattern", "")).lower() == normalized_pattern for item in mistakes):
+            return
+        mistakes.append(candidate)
 
     def _allocate_step_minutes(self, total_minutes: int, weights: Sequence[int]) -> List[int]:
         if not weights:
@@ -947,7 +1003,7 @@ class GroundedGenerator:
         normalized_message = normalize_whitespace(message_text)
         query = self._resolve_query_context(normalized_message, previous_messages, accessor)
 
-        relevant_items = accessor.search(query, lecture_material_ids, top_k=4)
+        relevant_items = self._select_chat_evidence(accessor, query, lecture_material_ids)
         user_message = {
             "message_id": make_id("msg"),
             "role": "user",
@@ -962,18 +1018,18 @@ class GroundedGenerator:
             "reply_sections": [],
         }
 
-        if not relevant_items:
+        if not relevant_items or self._chat_match_is_weak(query, relevant_items):
             assistant_message["reply_sections"].append(
                 {
                     "heading": "Insufficient evidence from your materials",
-                    "text": "I could not find grounded slide evidence that directly answers this question from the current materials.",
+                    "text": "I could not find enough grounded lecture evidence to answer this confidently from the current materials.",
                     "support_status": "insufficient_evidence",
                     "citations": [],
                 }
             )
             assistant_message["clarifying_question"] = {
-                "prompt": "Point me to a topic, term, or slide number and I can answer more precisely.",
-                "reason": "The current question did not match grounded lecture evidence closely enough.",
+                "prompt": "Point me to a lecture concept, keyword, or slide number and I can answer more precisely.",
+                "reason": "The current question did not match grounded lecture evidence strongly enough.",
             }
             if grounding_mode == "lecture_with_fallback":
                 assistant_message["reply_sections"].append(
@@ -1009,6 +1065,57 @@ class GroundedGenerator:
                 }
             )
         return user_message, assistant_message
+
+    def _select_chat_evidence(
+        self,
+        accessor: EvidenceAccessor,
+        query: str,
+        material_ids: Optional[Sequence[str]],
+    ) -> List[Dict[str, Any]]:
+        scored: List[tuple[int, Dict[str, Any]]] = []
+        for item in accessor.filter_items(material_ids):
+            haystack = " ".join(
+                [
+                    item.get("material_title", ""),
+                    str(item.get("slide_number") or ""),
+                    item.get("text", ""),
+                ]
+            )
+            score = lexical_overlap_score(query, haystack)
+            if score <= 0:
+                continue
+            scored.append((score, item))
+        scored.sort(key=lambda pair: (-pair[0], int(pair[1].get("slide_number") or 0), pair[1].get("item_id", "")))
+        deduped: List[Dict[str, Any]] = []
+        seen_slide_keys: set[tuple[str, str]] = set()
+        for _score, item in scored:
+            slide_key = (str(item.get("material_id") or ""), str(item.get("slide_id") or item.get("item_id") or ""))
+            if slide_key in seen_slide_keys:
+                continue
+            seen_slide_keys.add(slide_key)
+            deduped.append(item)
+            if len(deduped) >= 3:
+                break
+        return deduped
+
+    def _chat_match_is_weak(self, query: str, relevant_items: Sequence[Dict[str, Any]]) -> bool:
+        if not relevant_items:
+            return True
+        informative_query_tokens = informative_tokens(query)
+        if not informative_query_tokens:
+            return True
+        strongest = max(
+            lexical_overlap_score(
+                query,
+                " ".join([item.get("material_title", ""), item.get("text", "")]),
+            )
+            for item in relevant_items
+        )
+        grounded_tokens = set()
+        for item in relevant_items:
+            grounded_tokens.update(informative_tokens(item.get("text", "")))
+        coverage = len(set(informative_query_tokens) & grounded_tokens)
+        return strongest <= 1 or coverage == 0
 
     def _resolve_query_context(
         self,
@@ -1151,7 +1258,7 @@ class GroundedGenerator:
             covered_tokens.update(informative_tokens(item.get("text", "")))
         uncovered = [token for token in question_tokens if token not in covered_tokens]
         broad_cues = {"history", "intuitively", "outside", "broader", "real", "practical", "example"}
-        return bool(uncovered) or bool(question_tokens & broad_cues) or len(relevant_items) < 2
+        return bool(question_tokens & broad_cues) or (len(uncovered) >= 2 and bool(question_tokens))
 
     def _external_supplement_text(self, question_text: str, grounded_answer: str) -> str:
         supplement = self.gemini.external_supplement(question_text, grounded_answer)

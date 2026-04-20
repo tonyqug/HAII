@@ -56,15 +56,17 @@ def build_workspace_from_fixture() -> dict:
     workspace = raw["workspace"]
     workspace_id = workspace["workspace_id"]
     now = utc_now_iso()
-    materials = {material["material_id"]: material for material in deep_copy(raw.get("materials", []))}
+    materials = {
+        material["material_id"]: material
+        for material in deep_copy(raw.get("materials", []))
+        if material.get("role") != "practice_template"
+    }
     for material in materials.values():
         material.setdefault("workspace_id", workspace_id)
         material.setdefault("source_view_url", f"/mock/workspaces/{workspace_id}/materials/{material['material_id']}/slides/{material['slides'][0]['slide_id']}/source")
 
     study_plan = _enrich_citations_in_object(workspace_id, raw.get("study_plan"), fixture_mode=True)
     conversation = _enrich_citations_in_object(workspace_id, raw.get("conversation"), fixture_mode=True)
-    practice_set = _enrich_citations_in_object(workspace_id, raw.get("practice_set"), fixture_mode=True)
-
     history = [
         {
             "artifact_type": "study_plan",
@@ -82,14 +84,6 @@ def build_workspace_from_fixture() -> dict:
             "active": True,
             "title": conversation.get("title") or "Conversation",
         },
-        {
-            "artifact_type": "practice_set",
-            "artifact_id": practice_set["practice_set_id"],
-            "created_at": practice_set["created_at"],
-            "parent_artifact_id": practice_set.get("parent_practice_set_id"),
-            "active": True,
-            "title": practice_set.get("generation_mode") or "Practice set",
-        },
     ]
 
     return {
@@ -106,13 +100,13 @@ def build_workspace_from_fixture() -> dict:
         "active_material_ids": _group_material_ids(materials),
         "selected_active_conversation_id": conversation["conversation_id"],
         "active_study_plan_id": study_plan["study_plan_id"],
-        "active_practice_set_id": practice_set["practice_set_id"],
+        "active_practice_set_id": None,
         "known_study_plan_ids": [study_plan["study_plan_id"]],
-        "known_practice_set_ids": [practice_set["practice_set_id"]],
+        "known_practice_set_ids": [],
         "known_conversation_ids": [conversation["conversation_id"]],
         "materials": materials,
         "study_plans": {study_plan["study_plan_id"]: study_plan},
-        "practice_sets": {practice_set["practice_set_id"]: practice_set},
+        "practice_sets": {},
         "conversations": {conversation["conversation_id"]: conversation},
         "annotations": [],
         "material_preferences": {material_id: "default" for material_id in materials},

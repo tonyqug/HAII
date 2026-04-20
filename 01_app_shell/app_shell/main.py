@@ -62,7 +62,6 @@ def create_app(*, env_override: dict[str, str] | None = None) -> FastAPI:
                 "material_upload",
                 "study_plan_ui",
                 "chat_ui",
-                "practice_ui",
                 "source_viewer",
                 "history",
                 "mock_mode",
@@ -166,16 +165,6 @@ def create_app(*, env_override: dict[str, str] | None = None) -> FastAPI:
     @app.post("/api/workspaces/{workspace_id}/conversations/{conversation_id}/clear")
     async def api_clear_conversation(workspace_id: str, conversation_id: str) -> dict[str, Any]:
         return shell_service.clear_conversation(workspace_id, conversation_id)
-
-    @app.post("/api/workspaces/{workspace_id}/practice-sets/generate")
-    async def api_generate_practice(workspace_id: str, request: Request) -> dict[str, Any]:
-        payload = await request.json()
-        return {"job": shell_service.generate_practice_set(workspace_id, payload)}
-
-    @app.post("/api/workspaces/{workspace_id}/practice-sets/{practice_set_id}/revise")
-    async def api_revise_practice(workspace_id: str, practice_set_id: str, request: Request) -> dict[str, Any]:
-        payload = await request.json()
-        return {"job": shell_service.revise_practice_set(workspace_id, practice_set_id, payload)}
 
     @app.delete("/api/workspaces/{workspace_id}/materials/{material_id}")
     async def api_delete_material(workspace_id: str, material_id: str) -> dict[str, Any]:

@@ -107,33 +107,4 @@ def create_app(settings: Optional[Settings] = None) -> FastAPI:
             raise HTTPException(status_code=404, detail="conversation not found")
         return result
 
-    @app.post("/v1/practice-sets")
-    def create_practice_set(request: Dict[str, Any] = Body(...)) -> Dict[str, str]:
-        try:
-            job_id = service.submit_practice_set(request)
-        except RequestValidationError as exc:
-            raise _request_error_to_http(exc)
-        return {"job_id": job_id}
-
-    @app.get("/v1/practice-sets")
-    def list_practice_sets(workspace_id: str = Query(...)) -> Dict[str, Any]:
-        return service.list_practice_sets(workspace_id)
-
-    @app.get("/v1/practice-sets/{practice_set_id}")
-    def read_practice_set(practice_set_id: str) -> Dict[str, Any]:
-        artifact = service.get_practice_set(practice_set_id)
-        if artifact is None:
-            raise HTTPException(status_code=404, detail="practice_set not found")
-        return artifact
-
-    @app.post("/v1/practice-sets/{practice_set_id}/revise")
-    def revise_practice_set(practice_set_id: str, request: Dict[str, Any] = Body(...)) -> Dict[str, str]:
-        try:
-            job_id = service.submit_practice_set_revision(practice_set_id, request)
-        except KeyError:
-            raise HTTPException(status_code=404, detail="practice_set not found")
-        except RequestValidationError as exc:
-            raise _request_error_to_http(exc)
-        return {"job_id": job_id}
-
     return app

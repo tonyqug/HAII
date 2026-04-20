@@ -205,7 +205,7 @@ function applyServiceGating() {
     : 'Content service is unavailable. Imports, ingestion updates, and source-grounded previews are disabled until it is healthy.';
   const learningMessage = learningAvailable
     ? ''
-    : 'Learning service is unavailable. Study plans, grounded chat, and practice generation are disabled until it is healthy.';
+    : 'Learning service is unavailable. Study plans and grounded chat are disabled until it is healthy.';
 
   setServiceNote('materials-service-note', contentMessage);
   setServiceNote(
@@ -214,7 +214,6 @@ function applyServiceGating() {
   );
   setServiceNote('study-service-note', learningMessage);
   setServiceNote('chat-service-note', learningMessage);
-  setServiceNote('practice-service-note', learningMessage);
 
   setDisabledForSelectors(
     [
@@ -241,10 +240,6 @@ function applyServiceGating() {
       '#chat-form textarea',
       '#chat-form select',
       '#chat-form button',
-      '#practice-form input',
-      '#practice-form select',
-      '#practice-form button',
-      '#revise-practice',
     ],
     !learningAvailable
   );
@@ -281,7 +276,6 @@ function renderWorkspaceList() {
         <span class="ws-stat-sep">·</span>
         <span class="ws-stat">${workspace.artifact_counts.conversations} chat${workspace.artifact_counts.conversations !== 1 ? 's' : ''}</span>
         <span class="ws-stat-sep">·</span>
-        <span class="ws-stat">${workspace.artifact_counts.practice_sets} practice</span>
       </div>
       <div class="workspace-card-actions">
         <button type="button" class="ws-open-btn" data-open-workspace="${workspace.workspace_id}">${isActive ? 'Active' : 'Open'}</button>
@@ -501,6 +495,18 @@ function optionalPositiveIntegerValue(inputId) {
   return Math.floor(parsed);
 }
 
+function renderPlanUncertainty(items = []) {
+  if (!items.length) return '';
+  return `
+    <div class="card">
+      <div class="small muted" style="margin-bottom:8px;">Transparency notes</div>
+      <div class="stack">
+        ${items.map((item) => `<div class="warning small">${escapeHtml(item.message || '')}</div>`).join('')}
+      </div>
+    </div>
+  `;
+}
+
 function renderStudyPlan() {
   const output = document.getElementById('study-plan-output');
   const workspace = state.activeWorkspace;
@@ -533,6 +539,7 @@ function renderStudyPlan() {
       <div class="small muted" style="margin-top:6px;">Each item below links back to its cited slide(s) in the source viewer.</div>
     </div>
     ${renderTailoringSummary(plan.tailoring_summary)}
+    ${renderPlanUncertainty(plan.uncertainty || [])}
     ${renderSection('Prerequisite knowledge', plan.prerequisites, (item) => `
       <div><strong>${escapeHtml(item.concept_name)}</strong></div>
       <div class="small">${escapeHtml(item.why_needed)}</div>
@@ -584,14 +591,14 @@ function renderChat() {
       return `
         <div class="card">
           <div><strong>You</strong></div>
-          <div>${escapeHtml(message.text || '')}</div>
+          <div class="message-text">${escapeHtml(message.text || '')}</div>
           <div class="small muted">${escapeHtml(formatDate(message.created_at))}${message.pending ? ' • pending' : ''}</div>
         </div>`;
     }
     const sections = (message.reply_sections || []).map((section, index) => `
       <div class="card" data-section-citations='${JSON.stringify(section.citations || []).replace(/'/g, '&apos;')}'>
         <div><strong>${escapeHtml(section.heading || `Section ${index + 1}`)}</strong></div>
-        <div>${escapeHtml(section.text || '')}</div>
+        <div class="message-text">${escapeHtml(section.text || '')}</div>
         <div class="small muted">${escapeHtml(formatSupportStatus(section.support_status))}</div>
         <div>${renderCitationButtons(section.citations || [])}</div>
       </div>
@@ -646,7 +653,7 @@ function renderPractice() {
 
 function renderHistory() {
   const output = document.getElementById('history-output');
-  const history = state.activeWorkspace?.history || [];
+  const history = (state.activeWorkspace?.history || []).filter((entry) => entry.artifact_type !== 'practice_set');
   if (!history.length) {
     output.innerHTML = '<div class="muted">No history yet.</div>';
     return;
@@ -671,7 +678,6 @@ function renderHistory() {
       renderWorkspace();
       if (button.dataset.artifactType === 'study_plan') setTab('overview');
       if (button.dataset.artifactType === 'conversation') setTab('ask');
-      if (button.dataset.artifactType === 'practice_set') setTab('practice');
     });
   });
 }
@@ -712,7 +718,6 @@ function renderWorkspace() {
   renderJobs();
   renderStudyPlan();
   renderChat();
-  renderPractice();
   renderHistory();
   applyServiceGating();
 }
@@ -980,41 +985,6 @@ function bindEvents() {
     } finally {
       if (sendButton) sendButton.disabled = false;
     }
-  });
-
-  document.getElementById('practice-form').addEventListener('submit', async (event) => {
-    event.preventDefault();
-    if (!state.activeWorkspace) return;
-    const payload = await api(`/api/workspaces/${state.activeWorkspace.workspace_id}/practice-sets/generate`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        generation_mode: document.getElementById('practice-mode').value,
-        question_count: Number(document.getElementById('practice-count').value),
-        difficulty: document.getElementById('practice-difficulty').value,
-        answer_key: document.getElementById('practice-answer-key').checked,
-        rubric: document.getElementById('practice-rubrics').checked,
-        template_material_id: document.getElementById('practice-template').value || null,
-        grounding_mode: state.activeWorkspace.grounding_mode,
-      }),
-    });
-    await pollJob(payload.job.job_id);
-    await loadWorkspaces();
-  });
-
-  document.getElementById('revise-practice').addEventListener('click', async () => {
-    if (!state.activeWorkspace?.active_practice_set) return;
-    const practiceSet = state.activeWorkspace.active_practice_set;
-    const payload = await api(`/api/workspaces/${state.activeWorkspace.workspace_id}/practice-sets/${practiceSet.practice_set_id}/revise`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        action: 'create_variant',
-        locked_question_ids: practiceSet.questions.slice(0, 1).map((item) => item.question_id),
-      }),
-    });
-    await pollJob(payload.job.job_id);
-    await loadWorkspaces();
   });
 
   document.getElementById('source-prev').addEventListener('click', () => {

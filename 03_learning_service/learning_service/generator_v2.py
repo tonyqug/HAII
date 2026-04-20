@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 import json
 import math
+import re
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 import requests
@@ -634,6 +635,9 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             "Questions must feel like challenging exam questions, not study-guide prompts.\n"
             "Prefer comparison, diagnosis, trade-offs, failure modes, application, or justification over simple definition recall.\n"
             "Do not copy slide or study-guide wording directly into stems, answer choices, or expected answers; paraphrase into a consistent exam voice.\n"
+            "For multiple choice, generate four options that are stylistically parallel, similar in length, and equally plausible at a glance.\n"
+            "Do not use equations, variable-style symbols, quotation marks, slide headers, or visibly source-like formatting in only one option.\n"
+            "Do not make the correct option stand out by specificity, formatting, or length.\n"
             "Expected answers should read like concise evaluator notes, not pasted lecture prose.\n"
             "template_mimic may borrow style only, not template topic content outside the lecture evidence.\n"
         )
@@ -675,6 +679,14 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             if include_rubrics:
                 rubric = self._sanitize_rubric(raw.get("rubric")) or self._rubric_for_question(question_type, concept, True, difficulty)
             scoring_guide = self._safe_text(raw.get("scoring_guide_text"))
+            answer_choices: List[str] = []
+            expected_answer = self._safe_text(raw.get("expected_answer"), fallback="") if include_answer_key else ""
+            if question_type == "multiple_choice":
+                answer_choices = self._sanitize_answer_choices(raw.get("answer_choices"))
+                if len(answer_choices) != 4:
+                    return None
+                if not scoring_guide:
+                    scoring_guide = "Award credit only for the option that best matches the lecture-grounded reasoning, not the most generic-sounding statement."
             if question_type == "long_answer" and not scoring_guide:
                 scoring_guide = (
                     f"Full credit requires a correct explanation of {concept}, a grounded connection to the lecture context, "
@@ -685,8 +697,8 @@ class GroundedGenerator(HeuristicGroundedGenerator):
                     "question_id": make_id("question"),
                     "question_type": question_type,
                     "stem": self._safe_text(raw.get("stem"), fallback=f"Explain {concept} using the grounded lecture evidence."),
-                    "expected_answer": self._safe_text(raw.get("expected_answer"), fallback="") if include_answer_key else "",
-                    "answer_choices": self._sanitize_answer_choices(raw.get("answer_choices")) if question_type == "multiple_choice" else [],
+                    "expected_answer": expected_answer,
+                    "answer_choices": answer_choices,
                     "rubric": rubric,
                     "scoring_guide_text": scoring_guide,
                     "citations": citations,
@@ -699,7 +711,7 @@ class GroundedGenerator(HeuristicGroundedGenerator):
         cited_slides = sorted({slide for question in questions for slide in question.get("covered_slides", [])})
         considered_slides = accessor.distinct_slide_numbers(lecture_material_ids)
         uncited_or_skipped = sorted(set(considered_slides) - set(cited_slides))
-        notes = self._coverage_notes(coverage_mode, considered_slides, cited_slides, question_count)
+        notes = self._coverage_notes(coverage_mode, considered_slides, cited_slides, question_count, topic_text or "")
         return {
             "practice_set_id": make_id("practice_set"),
             "parent_practice_set_id": parent_practice_set_id,
@@ -1104,9 +1116,25 @@ class GroundedGenerator(HeuristicGroundedGenerator):
         output: List[str] = []
         for item in value or []:
             text = self._safe_text(item)
+            text = re.sub(r"^\s*[\(\[]?[A-Da-d1-4][\)\].:-]\s*", "", text)
+            text = re.sub(r"^[\"'`]+|[\"'`]+$", "", text)
+            text = re.sub(r"\s+", " ", text).strip()
+            text = re.sub(r"\s+[.;:,]+$", "", text)
+            if text:
+                text = text[:1].upper() + text[1:]
+                if text[-1] not in ".!?":
+                    text = f"{text}."
             if text:
                 output.append(text)
-        return output[:4]
+        deduped: List[str] = []
+        seen: set[str] = set()
+        for item in output:
+            key = item.lower()
+            if key in seen:
+                continue
+            seen.add(key)
+            deduped.append(item)
+        return deduped[:4]
 
     def _coerce_estimated_minutes(self, value: Any, question_type: str, difficulty: str) -> int:
         try:

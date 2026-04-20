@@ -1617,25 +1617,16 @@ class GroundedGenerator:
         difficulty_profile: str,
         include_answer_key: bool,
     ) -> Tuple[List[str], str]:
-        core = self._summary_fragment(summary)
+        role_statement = self._role_statement(summary, concept)
         comparison_name = comparison_record.get("concept_name") if comparison_record else None
-        correct = f"It treats {concept} as {core}."
-        distractors = [
-            f"It treats {concept} as mainly a surface label or reporting detail rather than a reasoning tool or condition.",
-            f"It treats {concept} as sufficient on its own, with no need to check trade-offs, assumptions, or failure cases.",
-            f"It treats {concept} as interchangeable with {comparison_name}."
-            if comparison_name
-            else f"It treats {concept} as a universal shortcut that should be applied the same way in every setting.",
-        ]
-        if difficulty_profile == "harder":
-            distractors[0] = f"It narrows {concept} to one superficial feature while ignoring the lecture's procedural or evaluative role for it."
-            distractors[1] = f"It reverses the lecture's caution by treating {concept} as a complete solution rather than something that must be checked in context."
+        correct = f"It is mainly used to {role_statement}."
+        distractors = self._multiple_choice_distractors(concept, comparison_name, difficulty_profile)
         options = [correct] + distractors
         rotation = (question_index - 1) % len(options)
         rotated = options[rotation:] + options[:rotation]
         expected = ""
         if include_answer_key:
-            expected = f"The correct choice is the option that treats {concept} as {core}."
+            expected = f"The correct choice is the option that treats {concept} as something mainly used to {role_statement}."
             if comparison_name:
                 expected += f" It should not collapse {concept} into {comparison_name}."
         return rotated, expected
@@ -1683,6 +1674,48 @@ class GroundedGenerator:
             if candidate.get("concept_name") != current_record.get("concept_name"):
                 return candidate
         return None
+
+    def _role_statement(self, summary: str, concept: str) -> str:
+        text = normalize_whitespace(summary).lower()
+        if any(token in text for token in ["validation", "generalize", "generalization", "holdout", "dev set", "development set", "hyperparameter", "tuning"]):
+            return "check whether a modeling choice generalizes before the final evaluation step"
+        if any(token in text for token in ["training", "train", "gradient", "optimiz", "update", "backprop"]):
+            return "update model behavior during learning rather than only judge the final result"
+        if any(token in text for token in ["regularization", "penalty", "overfit", "complexity", "constraint"]):
+            return "limit model flexibility so the method does not overfit the available data"
+        if any(token in text for token in ["accuracy", "error", "metric", "measure", "loss", "evaluation"]) and "final evaluation" not in text:
+            return "evaluate performance against a defined criterion rather than modify the model directly"
+        if any(token in text for token in ["feature", "embedding", "representation", "encode"]):
+            return "encode useful information so later parts of the method can use it effectively"
+        if any(token in text for token in ["assumption", "condition", "bias", "variance", "constraint", "caution"]):
+            return "state a condition or caution that determines when the method can be trusted"
+        if any(token in text for token in ["compare", "selection", "choose", "baseline", "alternative"]):
+            return "compare alternatives and justify a design or modeling decision"
+        concept_text = normalize_whitespace(concept).lower()
+        if concept_text:
+            return f"support the lecture's key reasoning step about {concept_text}"
+        return "support the lecture's key reasoning step in context"
+
+    def _multiple_choice_distractors(
+        self,
+        concept: str,
+        comparison_name: Optional[str],
+        difficulty_profile: str,
+    ) -> List[str]:
+        candidates = [
+            "It is mainly used to rename parts of the workflow without changing how the main decision is made.",
+            "It is mainly used to replace evidence checks with a fixed rule that supposedly works in every setting.",
+            "It is mainly used to report the final result after the important design choices are already locked.",
+            (
+                f"It is mainly used to make {normalize_whitespace(comparison_name).lower()} interchangeable with {normalize_whitespace(concept).lower()}."
+                if comparison_name
+                else "It is mainly used to make neighboring concepts interchangeable even when the lecture keeps them separate."
+            ),
+        ]
+        if difficulty_profile == "harder":
+            candidates[0] = "It is mainly used to emphasize one surface feature while ignoring the lecture's deeper procedural role."
+            candidates[1] = "It is mainly used to avoid trade-offs entirely by pretending the method needs no contextual checks."
+        return candidates[:3]
 
     def _estimated_minutes(self, question_type: str, difficulty_profile: str) -> int:
         base = {

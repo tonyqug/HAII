@@ -4,6 +4,12 @@ const state = {
   activeWorkspace: null,
   citationList: [],
   citationIndex: 0,
+  currentTab: 'practice',
+  ui: {
+    practiceDrafts: {},
+    chatDrafts: {},
+    review: null,
+  },
 };
 
 const SUPPORT_STATUS_LABELS = {
@@ -14,8 +20,10 @@ const SUPPORT_STATUS_LABELS = {
   partially_grounded: 'Partially grounded',
   insufficient_evidence: 'Insufficient lecture evidence',
   external_supplement: 'External supplement',
+  supplemental_note: 'Supplemental note',
   not_grounded: 'Not grounded',
   ungrounded: 'Not grounded',
+  source_preview: 'Source preview',
 };
 
 async function api(path, options = {}) {
@@ -35,6 +43,14 @@ function escapeHtml(value) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
+}
+
+function humanize(value) {
+  return String(value ?? '').replace(/_/g, ' ').trim();
+}
+
+function titleCaseLabel(value) {
+  return humanize(value).replace(/\b\w/g, (match) => match.toUpperCase());
 }
 
 function formatDate(value) {
@@ -58,11 +74,31 @@ function formatBytes(bytes) {
 }
 
 function badge(text, cls = '') {
-  return `<span class="badge ${cls}">${escapeHtml(text)}</span>`;
+  const className = cls ? `badge ${cls}` : 'badge';
+  return `<span class="${className}">${escapeHtml(text)}</span>`;
+}
+
+function encodeData(value) {
+  return encodeURIComponent(JSON.stringify(value ?? []));
+}
+
+function decodeData(value) {
+  try {
+    return JSON.parse(decodeURIComponent(value || ''));
+  } catch (error) {
+    console.warn('Could not decode dataset payload', error);
+    return [];
+  }
 }
 
 function formatSupportStatus(status) {
-  return SUPPORT_STATUS_LABELS[status] || String(status || '').replace(/_/g, ' ');
+  return SUPPORT_STATUS_LABELS[status] || titleCaseLabel(status || 'Unknown');
+}
+
+function supportStatusClass(status) {
+  if (['insufficient_evidence', 'not_grounded', 'ungrounded'].includes(status)) return 'danger';
+  if (['external_supplement', 'partially_grounded', 'supplemental_note'].includes(status)) return 'warn';
+  return 'ok';
 }
 
 function showTransientMessage(text, type = 'muted') {
@@ -72,7 +108,9 @@ function showTransientMessage(text, type = 'muted') {
   toast.className = `toast ${type}`;
   toast.textContent = text;
   container.append(toast);
-  if (container.children.length > 5) container.removeChild(container.firstElementChild);
+  if (container.children.length > 5) {
+    container.removeChild(container.firstElementChild);
+  }
   setTimeout(() => {
     if (toast.parentNode) toast.parentNode.removeChild(toast);
   }, 5000);
@@ -92,6 +130,12 @@ function setGlobalActivity(message, busy = true) {
 
 function clearGlobalActivitySoon(delayMs = 1200) {
   setTimeout(() => setGlobalActivity(''), delayMs);
+}
+
+function handleError(error) {
+  console.error(error);
+  showTransientMessage(error.message || 'Something went wrong.', 'error');
+  setGlobalActivity('');
 }
 
 function selectedFileKey(file) {
@@ -114,8 +158,12 @@ function optionalPositiveIntegerValue(inputId) {
   return Math.floor(parsed);
 }
 
+function currentServices() {
+  return state.activeWorkspace?.status?.services || state.status?.services || {};
+}
+
 function serviceAvailability() {
-  const services = state.status?.services || {};
+  const services = currentServices();
   return {
     contentAvailable: Boolean(services.content?.available),
     learningAvailable: Boolean(services.learning?.available),
@@ -142,6 +190,136 @@ function setDisabledForSelectors(selectors, disabled) {
   });
 }
 
+function groundedMaterials(workspace) {
+  const materials = workspace?.materials || [];
+  const preferences = workspace?.material_preferences || {};
+  return materials.filter((material) => {
+    const preference = preferences[material.material_id] || 'default';
+    return material.processing_status === 'ready' && preference !== 'exclude' && material.role !== 'practice_template';
+  });
+}
+
+function readyMaterialCount(workspace) {
+  return groundedMaterials(workspace).length;
+}
+
+function allReadyMaterials(workspace) {
+  return (workspace?.materials || []).filter((material) => material.processing_status === 'ready');
+}
+
+function countPreferences(workspace, value) {
+  return Object.values(workspace?.material_preferences || {}).filter((preference) => preference === value).length;
+}
+
+function collectPracticeCitations(practice) {
+  return (practice?.questions || []).flatMap((question) => question.citations || []);
+}
+
+function collectConversationCitations(conversation) {
+  return (conversation?.messages || []).flatMap((message) =>
+    (message.reply_sections || []).flatMap((section) => section.citations || [])
+  );
+}
+
+function uniqueCitationCount(workspace) {
+  const citations = [
+    ...collectPracticeCitations(workspace?.active_practice_set),
+    ...collectConversationCitations(workspace?.active_conversation),
+  ];
+  const unique = new Set(citations.map((citation) => citation.citation_id || `${citation.material_id}|${citation.slide_id}|${citation.slide_number}`));
+  return unique.size;
+}
+
+function defaultPracticeDraft(workspace) {
+  const preferences = workspace?.practice_preferences || {};
+  return {
+    topic_text: preferences.topic_text || '',
+    question_count: preferences.question_count || 6,
+    generation_mode: preferences.generation_mode || 'mixed',
+    difficulty_profile: preferences.difficulty_profile || 'harder',
+    coverage_mode: preferences.coverage_mode || 'balanced',
+    grounding_mode: workspace?.grounding_mode || 'strict_lecture_only',
+    include_answer_key: preferences.include_answer_key === true,
+    include_rubrics: preferences.include_rubrics !== false,
+  };
+}
+
+function ensurePracticeDraft(workspace) {
+  if (!workspace) return defaultPracticeDraft(null);
+  const workspaceId = workspace.workspace_id;
+  if (!state.ui.practiceDrafts[workspaceId]) {
+    state.ui.practiceDrafts[workspaceId] = defaultPracticeDraft(workspace);
+  }
+  return state.ui.practiceDrafts[workspaceId];
+}
+
+function setPracticeDraft(workspace, partial) {
+  if (!workspace) return;
+  const current = ensurePracticeDraft(workspace);
+  state.ui.practiceDrafts[workspace.workspace_id] = {
+    ...current,
+    ...partial,
+  };
+}
+
+function defaultChatDraft(workspace) {
+  return {
+    text: '',
+    grounding_mode: workspace?.grounding_mode || 'strict_lecture_only',
+    response_style: 'standard',
+  };
+}
+
+function ensureChatDraft(workspace) {
+  if (!workspace) return defaultChatDraft(null);
+  const workspaceId = workspace.workspace_id;
+  if (!state.ui.chatDrafts[workspaceId]) {
+    state.ui.chatDrafts[workspaceId] = defaultChatDraft(workspace);
+  }
+  return state.ui.chatDrafts[workspaceId];
+}
+
+function setChatDraft(workspace, partial) {
+  if (!workspace) return;
+  const current = ensureChatDraft(workspace);
+  state.ui.chatDrafts[workspace.workspace_id] = {
+    ...current,
+    ...partial,
+  };
+}
+
+function syncBodyLayout() {
+  const viewer = document.querySelector('.source-viewer');
+  const open = Boolean(viewer) && !viewer.classList.contains('hidden');
+  document.body.classList.toggle('source-viewer-open', open);
+}
+
+function closeSourceViewer() {
+  state.citationList = [];
+  state.citationIndex = 0;
+  document.querySelector('.source-viewer')?.classList.add('hidden');
+  document.getElementById('source-view')?.classList.add('hidden');
+  document.getElementById('source-empty')?.classList.remove('hidden');
+  const counter = document.getElementById('source-counter');
+  if (counter) counter.textContent = '';
+  syncBodyLayout();
+}
+
+function setActiveWorkspace(workspace, { resetSource = false } = {}) {
+  const previousWorkspaceId = state.activeWorkspace?.workspace_id;
+  state.activeWorkspace = workspace;
+  if (resetSource || previousWorkspaceId !== workspace?.workspace_id) {
+    closeSourceViewer();
+  }
+  if (!workspace) {
+    closeDecisionReview();
+  } else {
+    ensurePracticeDraft(workspace);
+    ensureChatDraft(workspace);
+  }
+  renderWorkspace();
+}
+
 function renderMaterialUploadStatus(items, active = false) {
   const container = document.getElementById('material-upload-status');
   const summary = document.getElementById('material-upload-summary');
@@ -156,7 +334,6 @@ function renderMaterialUploadStatus(items, active = false) {
     count.textContent = '';
     progress.value = 0;
     list.innerHTML = '';
-    setGlobalActivity('');
     return;
   }
 
@@ -177,8 +354,6 @@ function renderMaterialUploadStatus(items, active = false) {
       <div class="muted">${escapeHtml(formatBytes(item.size))}</div>
     </div>
   `).join('');
-  setGlobalActivity(summary.textContent, active);
-  if (!active) clearGlobalActivitySoon(3000);
 }
 
 async function loadStatus() {
@@ -190,22 +365,41 @@ function renderSystemStatus() {
   const container = document.getElementById('system-status');
   if (!container) return;
   if (!state.status) {
-    container.innerHTML = '<div class="muted small">Loading service status...</div>';
+    container.innerHTML = '<div class="card small muted">Loading service status...</div>';
     return;
   }
+
   const content = state.status.services.content;
   const learning = state.status.services.learning;
   const mode = state.status.effective_mode;
   const degraded = !content.available || !learning.available;
-  const openAttr = degraded && mode !== 'mock' ? 'open' : '';
+
   container.innerHTML = `
-    <details ${openAttr} style="margin-bottom:8px;">
-      <summary class="small muted" style="cursor:pointer;">Mode: ${escapeHtml(mode)}${degraded && mode !== 'mock' ? ' - services offline' : ''}</summary>
-      <div class="card" style="margin-top:8px;">
-        <div>${badge(`content: ${content.available ? 'available' : 'unavailable'}`, content.available ? 'ok' : 'danger')} ${badge(`learning: ${learning.available ? 'available' : 'unavailable'}`, learning.available ? 'ok' : 'danger')}</div>
+    <div class="card">
+      <div class="eyebrow">Runtime Health</div>
+      <div class="service-status-grid">
+        <div class="status-card">
+          <div class="small muted">Mode</div>
+          <strong>${escapeHtml(titleCaseLabel(mode))}</strong>
+          <div class="small muted">The app shell stays visible even when sibling services are degraded.</div>
+        </div>
+        <div class="status-card">
+          <div class="small muted">Content service</div>
+          <strong>${content.available ? 'Available' : 'Unavailable'}</strong>
+          <div>${badge(content.available ? 'Evidence viewer ready' : 'Imports and previews paused', content.available ? 'ok' : 'danger')}</div>
+        </div>
+        <div class="status-card">
+          <div class="small muted">Learning service</div>
+          <strong>${learning.available ? 'Available' : 'Unavailable'}</strong>
+          <div>${badge(learning.available ? 'Practice and Ask ready' : 'Generation paused', learning.available ? 'ok' : 'danger')}</div>
+        </div>
       </div>
-    </details>
+      ${degraded && mode !== 'mock'
+        ? '<div class="service-note small warning" style="margin-top:12px;">Unavailable features stay disabled instead of failing silently, so the interface remains honest about what the system can do right now.</div>'
+        : ''}
+    </div>
   `;
+
   applyServiceGating();
 }
 
@@ -261,6 +455,12 @@ function applyServiceGating() {
 async function loadWorkspaces() {
   const payload = await api('/api/workspaces');
   state.workspaces = payload.workspaces || [];
+  if (state.activeWorkspace) {
+    const stillExists = state.workspaces.some((workspace) => workspace.workspace_id === state.activeWorkspace.workspace_id);
+    if (!stillExists) {
+      setActiveWorkspace(null, { resetSource: true });
+    }
+  }
   renderWorkspaceList();
 }
 
@@ -268,30 +468,34 @@ function renderWorkspaceList() {
   const container = document.getElementById('workspace-list');
   if (!container) return;
   if (!state.workspaces.length) {
-    container.innerHTML = '<div class="muted">No workspaces yet.</div>';
+    container.innerHTML = '<div class="card muted">No workspaces yet. Create one to start a grounded study loop.</div>';
     return;
   }
+
   container.innerHTML = state.workspaces.map((workspace) => {
     const active = state.activeWorkspace?.workspace_id === workspace.workspace_id;
     const hasProcessing = workspace.material_counts.processing > 0;
+    const statusBadge = workspace.material_counts.ready
+      ? badge(`${workspace.material_counts.ready} ready`, 'ok')
+      : badge('No ready sources', 'warn');
     return `
       <div class="workspace-card${active ? ' active' : ''}">
         <div class="workspace-card-header">
-          <span class="workspace-card-name">${escapeHtml(workspace.display_name)}</span>
-          ${badge(workspace.grounding_mode || 'strict_lecture_only')}
+          <div>
+            <div class="workspace-card-name">${escapeHtml(workspace.display_name)}</div>
+            <div class="workspace-card-meta small muted">Opened ${escapeHtml(formatDate(workspace.last_opened_at))}</div>
+          </div>
+          ${badge(titleCaseLabel(workspace.grounding_mode || 'strict_lecture_only'))}
         </div>
-        <div class="workspace-card-meta small muted">Opened ${escapeHtml(formatDate(workspace.last_opened_at))}</div>
-        <div class="workspace-card-stats small">
-          <span class="ws-stat${hasProcessing ? ' processing' : ''}">
-            ${workspace.material_counts.ready} material${workspace.material_counts.ready !== 1 ? 's' : ''}${hasProcessing ? ` - ${workspace.material_counts.processing} processing` : ''}
-          </span>
-          <span class="ws-stat-sep">|</span>
-          <span class="ws-stat">${workspace.artifact_counts.practice_sets} test${workspace.artifact_counts.practice_sets !== 1 ? 's' : ''}</span>
-          <span class="ws-stat-sep">|</span>
-          <span class="ws-stat">${workspace.artifact_counts.conversations} chat${workspace.artifact_counts.conversations !== 1 ? 's' : ''}</span>
+        <div class="workspace-card-stats">
+          ${statusBadge}
+          ${hasProcessing ? badge(`${workspace.material_counts.processing} processing`, 'warn') : ''}
+          ${badge(`${workspace.artifact_counts.practice_sets} practice`) }
+          ${badge(`${workspace.artifact_counts.conversations} chats`) }
         </div>
+        <div class="small muted">Each workspace keeps its own evidence library, grounded outputs, and audit trail.</div>
         <div class="workspace-card-actions">
-          <button type="button" class="ws-open-btn" data-open-workspace="${workspace.workspace_id}">${active ? 'Active' : 'Open'}</button>
+          <button type="button" class="ws-open-btn" data-open-workspace="${workspace.workspace_id}">${active ? 'Active workspace' : 'Open workspace'}</button>
           <button type="button" class="secondary ws-action-btn" data-duplicate-workspace="${workspace.workspace_id}">Duplicate</button>
           <button type="button" class="secondary ws-action-btn" data-archive-workspace="${workspace.workspace_id}">Archive</button>
           <button type="button" class="danger ws-action-btn" data-delete-workspace="${workspace.workspace_id}">Delete</button>
@@ -301,40 +505,63 @@ function renderWorkspaceList() {
   }).join('');
 
   container.querySelectorAll('[data-open-workspace]').forEach((button) => {
-    button.addEventListener('click', () => openWorkspace(button.dataset.openWorkspace));
+    button.addEventListener('click', async () => {
+      try {
+        await openWorkspace(button.dataset.openWorkspace);
+      } catch (error) {
+        handleError(error);
+      }
+    });
   });
+
   container.querySelectorAll('[data-duplicate-workspace]').forEach((button) => {
     button.addEventListener('click', async () => {
-      await api(`/api/workspaces/${button.dataset.duplicateWorkspace}/duplicate`, { method: 'POST' });
-      await loadWorkspaces();
+      try {
+        await api(`/api/workspaces/${button.dataset.duplicateWorkspace}/duplicate`, { method: 'POST' });
+        showTransientMessage('Workspace duplicated.', 'success');
+        await loadWorkspaces();
+      } catch (error) {
+        handleError(error);
+      }
     });
   });
+
   container.querySelectorAll('[data-archive-workspace]').forEach((button) => {
     button.addEventListener('click', async () => {
-      await api(`/api/workspaces/${button.dataset.archiveWorkspace}/archive`, { method: 'POST' });
-      await loadWorkspaces();
+      try {
+        await api(`/api/workspaces/${button.dataset.archiveWorkspace}/archive`, { method: 'POST' });
+        showTransientMessage('Workspace archived.', 'success');
+        await loadWorkspaces();
+      } catch (error) {
+        handleError(error);
+      }
     });
   });
+
   container.querySelectorAll('[data-delete-workspace]').forEach((button) => {
     button.addEventListener('click', async () => {
       if (!window.confirm('Delete this workspace?')) return;
-      await api(`/api/workspaces/${button.dataset.deleteWorkspace}`, { method: 'DELETE' });
-      if (state.activeWorkspace?.workspace_id === button.dataset.deleteWorkspace) {
-        state.activeWorkspace = null;
-        renderWorkspace();
+      try {
+        await api(`/api/workspaces/${button.dataset.deleteWorkspace}`, { method: 'DELETE' });
+        if (state.activeWorkspace?.workspace_id === button.dataset.deleteWorkspace) {
+          setActiveWorkspace(null, { resetSource: true });
+        }
+        showTransientMessage('Workspace deleted.', 'success');
+        await loadWorkspaces();
+      } catch (error) {
+        handleError(error);
       }
-      await loadWorkspaces();
     });
   });
 }
 
 async function openWorkspace(workspaceId) {
   const payload = await api(`/api/workspaces/${workspaceId}`);
-  state.activeWorkspace = payload.workspace;
-  renderWorkspace();
+  setActiveWorkspace(payload.workspace, { resetSource: true });
 }
 
 function setTab(tabName) {
+  state.currentTab = tabName;
   document.querySelectorAll('.tab-button').forEach((button) => {
     button.classList.toggle('active', button.dataset.tab === tabName);
   });
@@ -345,8 +572,84 @@ function setTab(tabName) {
 
 function materialPreferenceOptions(current) {
   return ['default', 'focus', 'exclude']
-    .map((option) => `<option value="${option}" ${current === option ? 'selected' : ''}>${option}</option>`)
+    .map((option) => `<option value="${option}" ${current === option ? 'selected' : ''}>${titleCaseLabel(option)}</option>`)
     .join('');
+}
+
+function renderWorkspaceOverview() {
+  const workspace = state.activeWorkspace;
+  if (!workspace) return;
+
+  const groundedReady = readyMaterialCount(workspace);
+  const totalReady = allReadyMaterials(workspace).length;
+  const historyCount = (workspace.history || []).length;
+  const citationCount = uniqueCitationCount(workspace);
+  const pendingAction = latestPracticeUserAction();
+  const focusCount = countPreferences(workspace, 'focus');
+  const excludeCount = countPreferences(workspace, 'exclude');
+  const jobs = (workspace.jobs || []).filter((job) => ['queued', 'running', 'submitted', 'waiting_for_service', 'needs_user_input'].includes(job.status));
+  const pills = document.getElementById('workspace-health-pills');
+  const overview = document.getElementById('workspace-overview');
+  const loopMap = document.getElementById('workspace-loop-map');
+
+  if (pills) {
+    pills.innerHTML = `
+      ${badge(`${groundedReady} grounded source${groundedReady !== 1 ? 's' : ''}`, groundedReady ? 'ok' : 'warn')}
+      ${badge(`${citationCount} visible citation${citationCount !== 1 ? 's' : ''}`, citationCount ? 'ok' : 'warn')}
+      ${badge(`${historyCount} audit item${historyCount !== 1 ? 's' : ''}`, historyCount ? 'ok' : 'warn')}
+      ${pendingAction ? badge('Clarification waiting', 'warn') : badge('Review gates active', 'ok')}
+    `;
+  }
+
+  if (overview) {
+    overview.innerHTML = `
+      <div class="insight-card is-accent">
+        <div class="small muted">Ready evidence base</div>
+        <div class="insight-value">${groundedReady}<span class="small muted"> / ${totalReady || 0}</span></div>
+        <div class="insight-caption">Only ready, non-excluded lecture materials feed grounded generation and Q&amp;A.</div>
+      </div>
+      <div class="insight-card">
+        <div class="small muted">Grounding controls</div>
+        <div class="insight-value">${focusCount}<span class="small muted"> focus</span></div>
+        <div class="insight-caption">${excludeCount} excluded source${excludeCount !== 1 ? 's' : ''} stay out of grounding unless you change the preference.</div>
+      </div>
+      <div class="insight-card">
+        <div class="small muted">Visible evidence</div>
+        <div class="insight-value">${citationCount}</div>
+        <div class="insight-caption">Citations stay attached to questions and answers so users can verify what the assistant relied on.</div>
+      </div>
+      <div class="insight-card">
+        <div class="small muted">Current oversight state</div>
+        <div class="insight-value">${pendingAction ? 'Hold' : jobs.length ? 'Live' : 'Ready'}</div>
+        <div class="insight-caption">${pendingAction ? 'The system asked for a narrower topic before generating.' : jobs.length ? 'Background jobs are visible and auditable while they run.' : 'The workspace is ready for guided generation or grounded chat.'}</div>
+      </div>
+    `;
+  }
+
+  if (loopMap) {
+    loopMap.innerHTML = `
+      <div class="principle-card">
+        <div class="principle-step">1</div>
+        <strong>Frame the task</strong>
+        <p class="small muted">Materials, topic, difficulty, and grounding mode are explicit user-visible inputs rather than hidden assumptions.</p>
+      </div>
+      <div class="principle-card">
+        <div class="principle-step">2</div>
+        <strong>Approve before generation</strong>
+        <p class="small muted">Practice generation opens a review step so the user confirms the exact request before the AI acts.</p>
+      </div>
+      <div class="principle-card">
+        <div class="principle-step">3</div>
+        <strong>Inspect the evidence</strong>
+        <p class="small muted">Citation chips open the source viewer with the exact slide or page so grounding stays legible and contestable.</p>
+      </div>
+      <div class="principle-card">
+        <div class="principle-step">4</div>
+        <strong>Audit and revise</strong>
+        <p class="small muted">History preserves prior artifacts, and practice revision can target weak questions while locking the good ones.</p>
+      </div>
+    `;
+  }
 }
 
 function renderMaterials() {
@@ -355,9 +658,10 @@ function renderMaterials() {
   const materials = workspace?.materials || [];
   if (!list) return;
   if (!materials.length) {
-    list.innerHTML = '<div class="muted">No materials in this workspace yet.</div>';
+    list.innerHTML = '<div class="card muted">No materials in this workspace yet. Add lecture evidence before asking or generating grounded outputs.</div>';
     return;
   }
+
   list.innerHTML = materials.map((material) => {
     const preference = workspace.material_preferences?.[material.material_id] || 'default';
     const statusClass = material.processing_status === 'ready'
@@ -365,24 +669,34 @@ function renderMaterials() {
       : material.processing_status === 'failed'
         ? 'danger'
         : 'warn';
+    const preferenceLabel = preference === 'focus'
+      ? 'Prioritized for grounding'
+      : preference === 'exclude'
+        ? 'Excluded from grounding'
+        : 'Used normally';
     return `
-      <div class="card">
-        <div class="row" style="justify-content:space-between;align-items:flex-start;">
+      <div class="material-card">
+        <div class="material-card-header">
           <div>
             <div><strong>${escapeHtml(material.title)}</strong></div>
-            <div class="small muted">${escapeHtml(material.role)} | ${escapeHtml(material.kind)} | ${material.page_count ?? 0} pages/slides</div>
-            <div>${badge(material.processing_status, statusClass)} ${badge(preference)}</div>
+            <div class="small muted">${escapeHtml(titleCaseLabel(material.role))} | ${escapeHtml(titleCaseLabel(material.kind))} | ${escapeHtml(String(material.page_count ?? 0))} page(s)</div>
+            <div class="card-chip-row">
+              ${badge(titleCaseLabel(material.processing_status), statusClass)}
+              ${badge(preferenceLabel, preference === 'exclude' ? 'danger' : preference === 'focus' ? 'ok' : '')}
+            </div>
           </div>
-          <div style="display:flex;gap:6px;">
+          <div class="material-actions">
             <button type="button" class="secondary open-material-source" data-material-id="${material.material_id}">Open source</button>
             <button type="button" class="danger delete-material" data-material-id="${material.material_id}">Delete</button>
           </div>
         </div>
-        <div class="small muted" style="margin-top:8px;">${escapeHtml(material.quality_summary?.notes || '')}</div>
-        <div class="row" style="margin-top:10px;">
-          <label style="flex:1 1 220px; margin:0;">
+        <div class="small muted">${escapeHtml(material.quality_summary?.notes || 'No quality note available.')}</div>
+        <div class="row" style="margin-top:12px;">
+          <label class="field-grow">
             Grounding preference
-            <select class="material-preference" data-material-id="${material.material_id}">${materialPreferenceOptions(preference)}</select>
+            <select class="material-preference" data-material-id="${material.material_id}">
+              ${materialPreferenceOptions(preference)}
+            </select>
           </label>
         </div>
       </div>
@@ -391,14 +705,17 @@ function renderMaterials() {
 
   list.querySelectorAll('.material-preference').forEach((select) => {
     select.addEventListener('change', async () => {
-      const payload = await api(`/api/workspaces/${workspace.workspace_id}/materials/${select.dataset.materialId}/preference`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ preference: select.value }),
-      });
-      state.activeWorkspace = payload.workspace;
-      renderWorkspace();
-      if (payload.warning) showTransientMessage(payload.warning, 'warning');
+      try {
+        const payload = await api(`/api/workspaces/${workspace.workspace_id}/materials/${select.dataset.materialId}/preference`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ preference: select.value }),
+        });
+        setActiveWorkspace(payload.workspace);
+        if (payload.warning) showTransientMessage(payload.warning, 'warning');
+      } catch (error) {
+        handleError(error);
+      }
     });
   });
 
@@ -431,21 +748,27 @@ function renderMaterials() {
   list.querySelectorAll('.delete-material').forEach((button) => {
     button.addEventListener('click', async () => {
       if (!window.confirm('Delete this material? This cannot be undone.')) return;
-      await api(`/api/workspaces/${workspace.workspace_id}/materials/${button.dataset.materialId}`, { method: 'DELETE' });
-      const refreshed = await api(`/api/workspaces/${workspace.workspace_id}`);
-      state.activeWorkspace = refreshed.workspace;
-      renderWorkspace();
-      await loadWorkspaces();
+      try {
+        const payload = await api(`/api/workspaces/${workspace.workspace_id}/materials/${button.dataset.materialId}`, { method: 'DELETE' });
+        setActiveWorkspace(payload.workspace);
+        await loadWorkspaces();
+        showTransientMessage('Material deleted.', 'success');
+      } catch (error) {
+        handleError(error);
+      }
     });
   });
 }
 
 function renderCitationButtons(citations = []) {
-  return citations.map((citation, index) => `
-    <button type="button" class="secondary citation-button" data-citation-index="${index}" title="View source slide in the source viewer">
-      Slide ${escapeHtml(String(citation.slide_number || '?'))}
-    </button>
-  `).join('');
+  if (!citations.length) return '';
+  return `<div class="citation-row">${
+    citations.map((citation, index) => `
+      <button type="button" class="secondary citation-button" data-citation-index="${index}" title="Open the cited source in the evidence viewer">
+        Slide ${escapeHtml(String(citation.slide_number || '?'))}
+      </button>
+    `).join('')
+  }</div>`;
 }
 
 function wireCitationButtons(container, citations) {
@@ -459,7 +782,7 @@ function wireCitationButtons(container, citations) {
 
 function scrollSourceViewerIntoView() {
   const panel = document.querySelector('.source-viewer');
-  if (!panel) return;
+  if (!panel || panel.classList.contains('hidden')) return;
   const rect = panel.getBoundingClientRect();
   const visible = rect.top >= 0 && rect.bottom <= window.innerHeight;
   if (!visible) panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -473,6 +796,7 @@ function openCitation(citation, citationList = [citation], index = 0) {
   document.getElementById('source-empty')?.classList.add('hidden');
   document.getElementById('source-view')?.classList.remove('hidden');
   renderSourceViewer(citation);
+  syncBodyLayout();
   scrollSourceViewerIntoView();
 }
 
@@ -481,18 +805,36 @@ function renderSourceViewer(citation) {
   const preview = document.getElementById('source-preview');
   const openButton = document.getElementById('source-open');
   const message = document.getElementById('source-message');
+  const counter = document.getElementById('source-counter');
+
   document.getElementById('source-meta').textContent = `${citation.material_title || citation.material_id || 'Source'} | slide ${citation.slide_number || '?'}`;
   document.getElementById('source-snippet').innerHTML = citation.snippet_text
-    ? `<div class="source-snippet-label small muted">Cited passage</div><div class="source-snippet-text">${escapeHtml(citation.snippet_text)}</div>`
+    ? `<div class="source-snippet-label small muted">Cited passage</div><div class="source-snippet-text">${escapeHtml(citation.snippet_text)}</div><div class="small muted" style="margin-top:10px;">${escapeHtml(formatSupportStatus(citation.support_type))}</div>`
     : '<div class="source-snippet-label small muted">No snippet available.</div>';
-  if (preview) preview.src = citation.preview_url || '';
+
+  if (counter) {
+    counter.textContent = state.citationList.length ? `Citation ${state.citationIndex + 1} of ${state.citationList.length}` : '';
+  }
+
+  if (preview) {
+    if (citation.preview_url) {
+      preview.src = citation.preview_url;
+      preview.classList.remove('hidden');
+    } else {
+      preview.classList.add('hidden');
+      preview.removeAttribute('src');
+    }
+  }
+
   if (message) {
-    message.textContent = !contentAvailable
+    const visibilityMessage = !contentAvailable
       ? 'Preview unavailable because the content service is offline. Citation metadata is still shown.'
       : citation.preview_url
-        ? ''
-        : 'Preview unavailable. Citation metadata is still shown.';
+        ? 'Evidence preview loaded. Use Open source page for the full source.'
+        : 'Preview unavailable. Citation metadata is still shown so you can still inspect the grounding trace.';
+    message.textContent = visibilityMessage;
   }
+
   if (openButton) {
     openButton.disabled = !contentAvailable || !citation.source_open_url;
     openButton.onclick = () => {
@@ -503,53 +845,102 @@ function renderSourceViewer(citation) {
   }
 }
 
+function renderAskPolicy() {
+  const container = document.getElementById('ask-policy');
+  const workspace = state.activeWorkspace;
+  if (!container || !workspace) return;
+  const draft = ensureChatDraft(workspace);
+  const strictMode = draft.grounding_mode === 'strict_lecture_only';
+
+  container.innerHTML = `
+    <div class="audit-summary-card">
+      <div class="eyebrow">Trust and transparency</div>
+      <h3>Answer policy for this chat</h3>
+      <div class="policy-grid">
+        <div class="policy-card">
+          <div class="small muted">Evidence boundary</div>
+          <strong>${strictMode ? 'Lecture-only grounding' : 'Lecture first, fallback labeled'}</strong>
+          <div class="small muted">${strictMode ? 'Weak matches should decline or ask for clarification instead of inventing an answer.' : 'If the system needs outside knowledge, it should mark that content as an external supplement rather than blending it invisibly into lecture evidence.'}</div>
+        </div>
+        <div class="policy-card">
+          <div class="small muted">Interpretability</div>
+          <strong>Every assistant section keeps visible citations</strong>
+          <div class="small muted">Use the evidence viewer to inspect the exact page or slide behind a grounded answer.</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 function renderChat() {
   const workspace = state.activeWorkspace;
   const output = document.getElementById('chat-output');
+  if (!workspace || !output) return;
+
+  const draft = ensureChatDraft(workspace);
   const grounding = document.getElementById('chat-grounding-mode');
   const responseStyle = document.getElementById('chat-response-style');
-  if (grounding) grounding.value = workspace?.grounding_mode || 'strict_lecture_only';
-  if (responseStyle && !['standard', 'concise', 'step_by_step'].includes(responseStyle.value)) {
-    responseStyle.value = 'standard';
-  }
-  const conversation = workspace?.active_conversation;
-  if (!output) return;
+  const questionInput = document.getElementById('chat-question');
+  if (grounding) grounding.value = draft.grounding_mode;
+  if (responseStyle) responseStyle.value = ['standard', 'concise', 'step_by_step'].includes(draft.response_style) ? draft.response_style : 'standard';
+  if (questionInput && questionInput.value !== draft.text) questionInput.value = draft.text;
+
+  const conversation = workspace.active_conversation;
   if (!conversation) {
-    output.innerHTML = '<div class="muted">No active chat yet. Start a new chat on the current materials.</div>';
+    output.innerHTML = '<div class="card muted">No active chat yet. Start a new chat to ask grounded questions about the current materials.</div>';
     return;
   }
+
   output.innerHTML = (conversation.messages || []).map((message) => {
     if (message.role === 'user') {
       return `
-        <div class="card">
-          <div><strong>You</strong></div>
+        <div class="message-item user">
+          <div class="message-meta">
+            <strong>You</strong>
+            <div class="small muted">${escapeHtml(formatDate(message.created_at))}${message.pending ? ' | pending' : ''}</div>
+          </div>
           <div class="message-text">${escapeHtml(message.text || '')}</div>
-          <div class="small muted">${escapeHtml(formatDate(message.created_at))}${message.pending ? ' | pending' : ''}</div>
         </div>
       `;
     }
+
     const sections = (message.reply_sections || []).map((section, index) => `
-      <div class="card" data-section-citations='${JSON.stringify(section.citations || []).replace(/'/g, '&apos;')}'>
-        <div><strong>${escapeHtml(section.heading || `Section ${index + 1}`)}</strong></div>
+      <div class="assistant-section" data-section-citations="${encodeData(section.citations || [])}">
+        <div class="message-meta">
+          <strong>${escapeHtml(section.heading || `Section ${index + 1}`)}</strong>
+          ${badge(formatSupportStatus(section.support_status), supportStatusClass(section.support_status))}
+        </div>
         <div class="message-text">${escapeHtml(section.text || '')}</div>
-        <div class="small muted">${escapeHtml(formatSupportStatus(section.support_status))}</div>
-        <div>${renderCitationButtons(section.citations || [])}</div>
+        ${renderCitationButtons(section.citations || [])}
       </div>
     `).join('');
+
     const clarifying = message.clarifying_question?.prompt
-      ? `<div class="warning">Clarifying question: ${escapeHtml(message.clarifying_question.prompt)}</div>`
+      ? `<div class="service-note warning small">Clarifying question: ${escapeHtml(message.clarifying_question.prompt)}</div>`
       : '';
-    return `<div class="stack"><div class="small muted">Assistant | ${escapeHtml(formatDate(message.created_at))}</div>${sections}${clarifying}</div>`;
+
+    return `
+      <div class="message-item assistant">
+        <div class="message-meta">
+          <strong>Assistant</strong>
+          <div class="small muted">${escapeHtml(formatDate(message.created_at))}</div>
+        </div>
+        <div class="assistant-stack">
+          ${sections || '<div class="small muted">No assistant sections returned.</div>'}
+          ${clarifying}
+        </div>
+      </div>
+    `;
   }).join('');
+
   output.querySelectorAll('[data-section-citations]').forEach((section) => {
-    const citations = JSON.parse(section.dataset.sectionCitations);
+    const citations = decodeData(section.dataset.sectionCitations);
     wireCitationButtons(section, citations);
   });
-  output.scrollTop = output.scrollHeight;
 }
 
 function formatQuestionType(questionType) {
-  return String(questionType || 'question').replace(/_/g, ' ');
+  return titleCaseLabel(questionType || 'question');
 }
 
 function latestPracticeUserAction() {
@@ -564,11 +955,13 @@ function renderHumanLoopSummary(summary) {
   if (!summary) return '';
   const usedInputs = summary.used_inputs || [];
   const followUps = summary.follow_up_actions || [];
+
   return `
-    <div class="card">
-      <div class="small muted" style="margin-bottom:8px;">Human-in-the-loop summary</div>
+    <div class="audit-summary-card">
+      <div class="eyebrow">Human-in-the-loop summary</div>
+      <h3>What shaped this draft</h3>
       ${usedInputs.length ? `
-        <div class="plan-input-grid" style="margin-bottom:10px;">
+        <div class="plan-input-grid">
           ${usedInputs.map((item) => `
             <div class="plan-input-item">
               <div class="small muted">${escapeHtml(item.label || item.key || 'Input')}</div>
@@ -578,11 +971,55 @@ function renderHumanLoopSummary(summary) {
         </div>
       ` : '<div class="small muted">No explicit inputs were captured for this draft.</div>'}
       ${followUps.length ? `
-        <div class="small muted" style="margin-bottom:6px;">Recommended next checks</div>
+        <div class="small muted" style="margin-top:12px;">Recommended next checks</div>
         <ul class="task-list">
           ${followUps.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}
         </ul>
       ` : ''}
+    </div>
+  `;
+}
+
+function renderPracticePreflight() {
+  const container = document.getElementById('practice-preflight');
+  const workspace = state.activeWorkspace;
+  if (!container || !workspace) return;
+
+  const draft = ensurePracticeDraft(workspace);
+  const readyCount = readyMaterialCount(workspace);
+  const processingCount = (workspace.materials || []).filter((material) => material.processing_status !== 'ready').length;
+  const pendingAction = latestPracticeUserAction();
+
+  container.innerHTML = `
+    <div class="preflight-card">
+      <div class="eyebrow">Visible review step</div>
+      <h3>What will be reviewed before generation</h3>
+      <div class="review-grid">
+        <div class="review-item">
+          <div class="small muted">Topic</div>
+          <div>${escapeHtml(draft.topic_text || 'All ready lecture materials')}</div>
+        </div>
+        <div class="review-item">
+          <div class="small muted">Format and size</div>
+          <div>${escapeHtml(titleCaseLabel(draft.generation_mode))} | ${escapeHtml(String(draft.question_count))} questions</div>
+        </div>
+        <div class="review-item">
+          <div class="small muted">Difficulty and coverage</div>
+          <div>${escapeHtml(titleCaseLabel(draft.difficulty_profile))} | ${escapeHtml(titleCaseLabel(draft.coverage_mode))}</div>
+        </div>
+        <div class="review-item">
+          <div class="small muted">Grounding and outputs</div>
+          <div>${escapeHtml(titleCaseLabel(draft.grounding_mode))} | ${draft.include_answer_key ? 'answer key' : 'no answer key'} | ${draft.include_rubrics ? 'rubrics' : 'no rubrics'}</div>
+        </div>
+      </div>
+      <div class="small muted" style="margin-top:12px;">
+        Clicking <strong>Review request</strong> opens an approval step. The system should not silently generate a test from an ambiguous or weakly grounded request.
+      </div>
+      <div class="card-chip-row" style="margin-top:12px;">
+        ${readyCount ? badge(`${readyCount} grounded source${readyCount !== 1 ? 's' : ''} ready`, 'ok') : badge('No ready grounded sources', 'warn')}
+        ${processingCount ? badge(`${processingCount} source${processingCount !== 1 ? 's' : ''} still processing`, 'warn') : ''}
+        ${pendingAction ? badge('Clarification requested', 'warn') : badge('Approval required before generation', 'ok')}
+      </div>
     </div>
   `;
 }
@@ -595,24 +1032,30 @@ function renderPracticeClarification() {
     container.innerHTML = '';
     return;
   }
+
   const options = pendingAction.user_action?.options || [];
   container.innerHTML = `
-    <div class="card">
-      <div class="small muted" style="margin-bottom:6px;">Confirmation needed before generation</div>
-      <div class="warning" style="margin-bottom:10px;">${escapeHtml(pendingAction.user_action.prompt || '')}</div>
+    <div class="service-note">
+      <div class="eyebrow">Clarification instead of guessing</div>
+      <h3>Generation paused for a narrower request</h3>
+      <div class="warning">${escapeHtml(pendingAction.user_action.prompt || '')}</div>
       ${options.length ? `
-        <div class="small muted" style="margin-bottom:8px;">Suggested narrower grounded topics</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          ${options.map((option) => `<button type="button" class="secondary clarification-option" data-topic-option="${escapeHtml(option)}">${escapeHtml(option)}</button>`).join('')}
+        <div class="small muted" style="margin-top:12px;">Suggested grounded topics from your uploaded evidence</div>
+        <div class="citation-row" style="margin-top:8px;">
+          ${options.map((option) => `
+            <button type="button" class="secondary clarification-option" data-topic-option="${escapeHtml(option)}">${escapeHtml(option)}</button>
+          `).join('')}
         </div>
       ` : ''}
-      <div class="small muted" style="margin-top:10px;">Choose a narrower topic or edit the topic field, then generate again. Weakly covered areas remain marked instead of being presented as fully grounded.</div>
+      <div class="small muted" style="margin-top:12px;">Choose a narrower topic or edit the form, then review the request again. Weak coverage stays visible instead of being presented as fully grounded.</div>
     </div>
   `;
+
   container.querySelectorAll('.clarification-option').forEach((button) => {
     button.addEventListener('click', () => {
-      const input = document.getElementById('practice-topic-text');
-      if (input) input.value = button.dataset.topicOption || '';
+      const topic = button.dataset.topicOption || '';
+      setPracticeDraft(state.activeWorkspace, { topic_text: topic });
+      renderPractice();
       showTransientMessage('Topic focus updated. Review the request and generate again.', 'success');
     });
   });
@@ -622,7 +1065,7 @@ function renderQuestionChoices(question) {
   const choices = question.answer_choices || [];
   if (!choices.length) return '';
   return `
-    <div class="stack" style="gap:6px;margin-top:8px;">
+    <div class="question-stack">
       ${choices.map((choice, index) => `
         <div class="small"><strong>${String.fromCharCode(65 + index)}.</strong> ${escapeHtml(choice)}</div>
       `).join('')}
@@ -634,7 +1077,7 @@ function renderQuestionRubric(question) {
   const rubric = question.rubric || [];
   if (!rubric.length) return '';
   return `
-    <details style="margin-top:10px;">
+    <details>
       <summary>Rubric</summary>
       <div class="stack" style="margin-top:8px;">
         ${rubric.map((item) => `
@@ -650,42 +1093,79 @@ function renderQuestionRubric(question) {
 
 function renderPracticeQuestion(question, index) {
   return `
-    <div class="card" data-section-citations='${JSON.stringify(question.citations || []).replace(/'/g, '&apos;')}'>
-      <div class="row" style="justify-content:space-between;align-items:flex-start;gap:12px;">
+    <div class="question-card" data-section-citations="${encodeData(question.citations || [])}">
+      <div class="question-header">
         <div>
           <div><strong>Question ${index + 1}</strong></div>
-          <div class="small muted">${escapeHtml(formatQuestionType(question.question_type))} | ${escapeHtml(question.difficulty || 'mixed difficulty')} | ${escapeHtml(String(question.estimated_minutes || '?'))} min</div>
+          <div class="small muted">${escapeHtml(formatQuestionType(question.question_type))} | ${escapeHtml(titleCaseLabel(question.difficulty || 'mixed'))} | ${escapeHtml(String(question.estimated_minutes || '?'))} min</div>
         </div>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;">
-          <label class="small" style="margin:0;">
+        <div class="question-controls">
+          <label class="inline-toggle">
             <input type="checkbox" class="practice-target-toggle" data-question-id="${escapeHtml(question.question_id)}" />
-            Regenerate
+            <span>Regenerate</span>
           </label>
-          <label class="small" style="margin:0;">
+          <label class="inline-toggle">
             <input type="checkbox" class="practice-lock-toggle" data-question-id="${escapeHtml(question.question_id)}" />
-            Lock
+            <span>Lock</span>
           </label>
         </div>
       </div>
-      <div class="message-text" style="margin-top:10px;">${escapeHtml(question.stem || '')}</div>
-      ${renderQuestionChoices(question)}
-      ${question.expected_answer ? `
-        <details style="margin-top:10px;">
-          <summary>Answer key</summary>
-          <div class="message-text small" style="margin-top:8px;">${escapeHtml(question.expected_answer)}</div>
-          ${question.scoring_guide_text ? `<div class="small muted" style="margin-top:8px;">${escapeHtml(question.scoring_guide_text)}</div>` : ''}
-        </details>
-      ` : ''}
-      ${renderQuestionRubric(question)}
-      <div class="small muted" style="margin-top:10px;">Covered slides: ${escapeHtml((question.covered_slides || []).join(', ') || 'not specified')}</div>
-      <div>${renderCitationButtons(question.citations || [])}</div>
+      <div class="question-stack">
+        <div class="message-text">${escapeHtml(question.stem || '')}</div>
+        ${renderQuestionChoices(question)}
+        ${question.expected_answer ? `
+          <details>
+            <summary>Answer key</summary>
+            <div class="message-text small" style="margin-top:8px;">${escapeHtml(question.expected_answer)}</div>
+            ${question.scoring_guide_text ? `<div class="small muted" style="margin-top:8px;">${escapeHtml(question.scoring_guide_text)}</div>` : ''}
+          </details>
+        ` : ''}
+        ${renderQuestionRubric(question)}
+        <div class="small muted">Covered slides: ${escapeHtml((question.covered_slides || []).join(', ') || 'not specified')}</div>
+        ${renderCitationButtons(question.citations || [])}
+      </div>
+    </div>
+  `;
+}
+
+function updatePracticeSelectionSummary() {
+  const summary = document.getElementById('practice-selection-summary');
+  if (!summary || !state.activeWorkspace?.active_practice_set) return;
+  const targetQuestionIds = Array.from(document.querySelectorAll('.practice-target-toggle:checked'))
+    .map((input) => input.dataset.questionId)
+    .filter(Boolean);
+  const lockedQuestionIds = Array.from(document.querySelectorAll('.practice-lock-toggle:checked'))
+    .map((input) => input.dataset.questionId)
+    .filter(Boolean);
+  const overlapping = targetQuestionIds.filter((questionId) => lockedQuestionIds.includes(questionId));
+
+  summary.innerHTML = `
+    <div class="review-item">
+      <div class="small muted">Questions to regenerate</div>
+      <div>${escapeHtml(String(targetQuestionIds.length))}</div>
+    </div>
+    <div class="review-item">
+      <div class="small muted">Questions to lock</div>
+      <div>${escapeHtml(String(lockedQuestionIds.length))}</div>
+    </div>
+    <div class="review-item">
+      <div class="small muted">Coverage rule</div>
+      <div>Maintain coverage</div>
+    </div>
+    <div class="review-item">
+      <div class="small muted">Conflict check</div>
+      <div>${overlapping.length ? `${overlapping.length} overlap${overlapping.length !== 1 ? 's' : ''}` : 'No conflicts'}</div>
     </div>
   `;
 }
 
 function renderPractice() {
   const workspace = state.activeWorkspace;
-  const preferences = workspace?.practice_preferences || {};
+  const output = document.getElementById('practice-output');
+  const reviseButton = document.getElementById('revise-practice');
+  if (!workspace || !output || !reviseButton) return;
+
+  const draft = ensurePracticeDraft(workspace);
   const topicInput = document.getElementById('practice-topic-text');
   const countInput = document.getElementById('practice-count');
   const modeInput = document.getElementById('practice-mode');
@@ -694,51 +1174,90 @@ function renderPractice() {
   const groundingInput = document.getElementById('practice-grounding-mode');
   const answerKeyInput = document.getElementById('practice-answer-key');
   const rubricsInput = document.getElementById('practice-rubrics');
-  if (topicInput) topicInput.value = preferences.topic_text || '';
-  if (countInput) countInput.value = preferences.question_count || 6;
-  if (modeInput) modeInput.value = preferences.generation_mode || 'mixed';
-  if (difficultyInput) difficultyInput.value = preferences.difficulty_profile || 'harder';
-  if (coverageInput) coverageInput.value = preferences.coverage_mode || 'balanced';
-  if (groundingInput) groundingInput.value = workspace?.grounding_mode || 'strict_lecture_only';
-  if (answerKeyInput) answerKeyInput.checked = preferences.include_answer_key === true;
-  if (rubricsInput) rubricsInput.checked = preferences.include_rubrics !== false;
+  if (topicInput && topicInput.value !== draft.topic_text) topicInput.value = draft.topic_text || '';
+  if (countInput && String(countInput.value) !== String(draft.question_count)) countInput.value = draft.question_count || 6;
+  if (modeInput) modeInput.value = draft.generation_mode || 'mixed';
+  if (difficultyInput) difficultyInput.value = draft.difficulty_profile || 'harder';
+  if (coverageInput) coverageInput.value = draft.coverage_mode || 'balanced';
+  if (groundingInput) groundingInput.value = draft.grounding_mode || workspace.grounding_mode || 'strict_lecture_only';
+  if (answerKeyInput) answerKeyInput.checked = draft.include_answer_key === true;
+  if (rubricsInput) rubricsInput.checked = draft.include_rubrics !== false;
 
+  renderPracticePreflight();
   renderPracticeClarification();
 
-  const output = document.getElementById('practice-output');
-  const reviseButton = document.getElementById('revise-practice');
-  const practice = workspace?.active_practice_set;
-  if (reviseButton) reviseButton.classList.toggle('hidden', !practice);
-  if (!output) return;
+  const practice = workspace.active_practice_set;
+  reviseButton.classList.toggle('hidden', !practice);
   if (!practice) {
-    output.innerHTML = '<div class="muted">No practice test yet. Confirm a format and generate a grounded draft.</div>';
+    output.innerHTML = '<div class="card muted">No practice test yet. Review the request, approve it, and generate a grounded draft.</div>';
     return;
   }
+
   const coverage = practice.coverage_report || {};
   output.innerHTML = `
-    <div class="card">
-      <div class="row" style="justify-content:space-between;align-items:flex-start;gap:12px;">
+    <div class="audit-summary-card">
+      <div class="panel-subheading">
         <div>
-          <h3 style="margin:0 0 6px;">Active practice test</h3>
-          <div style="display:flex;gap:6px;flex-wrap:wrap;">
-            ${badge(practice.generation_mode || 'mixed')}
-            ${badge(`${practice.questions?.length || 0} questions`)}
-            ${badge(`${practice.estimated_duration_minutes || '?'} min`)}
-          </div>
+          <div class="eyebrow">Current practice artifact</div>
+          <h3>Active grounded practice test</h3>
         </div>
-        <div class="small muted">Created ${escapeHtml(formatDate(practice.created_at))}</div>
+        <div class="card-chip-row">
+          ${badge(titleCaseLabel(practice.generation_mode || 'mixed'))}
+          ${badge(`${practice.questions?.length || 0} questions`)}
+          ${badge(`${practice.estimated_duration_minutes || '?'} min`)}
+        </div>
       </div>
-      ${practice.topic_text ? `<div class="small" style="margin-top:10px;"><strong>Topic focus:</strong> ${escapeHtml(practice.topic_text)}</div>` : ''}
+      ${practice.topic_text ? `<div class="small"><strong>Topic focus:</strong> ${escapeHtml(practice.topic_text)}</div>` : ''}
       <div class="small muted" style="margin-top:8px;">${escapeHtml(coverage.notes || 'Coverage notes are not available yet.')}</div>
-      ${coverage.uncited_or_skipped_slides?.length ? `<div class="warning small" style="margin-top:8px;">Areas still marked as weak or uncovered: slides ${escapeHtml(coverage.uncited_or_skipped_slides.join(', '))}</div>` : ''}
+      ${coverage.uncited_or_skipped_slides?.length ? `<div class="service-note warning small" style="margin-top:12px;">Areas still marked as weak or uncovered: slides ${escapeHtml(coverage.uncited_or_skipped_slides.join(', '))}</div>` : ''}
     </div>
     ${renderHumanLoopSummary(practice.human_loop_summary)}
+    <div class="audit-summary-card">
+      <div class="eyebrow">Selective revision</div>
+      <h3>Keep the strong questions and target the weak ones</h3>
+      <div id="practice-selection-summary" class="review-grid"></div>
+      <div class="small muted" style="margin-top:12px;">Use the checkboxes below, then choose <strong>Review revision</strong>. The old practice set stays in history so you can audit what changed.</div>
+    </div>
     ${(practice.questions || []).map((question, index) => renderPracticeQuestion(question, index)).join('')}
   `;
+
   output.querySelectorAll('[data-section-citations]').forEach((section) => {
-    const citations = JSON.parse(section.dataset.sectionCitations);
+    const citations = decodeData(section.dataset.sectionCitations);
     wireCitationButtons(section, citations);
   });
+
+  output.querySelectorAll('.practice-target-toggle, .practice-lock-toggle').forEach((input) => {
+    input.addEventListener('change', updatePracticeSelectionSummary);
+  });
+  updatePracticeSelectionSummary();
+}
+
+function renderHistorySummary() {
+  const container = document.getElementById('history-summary');
+  const workspace = state.activeWorkspace;
+  if (!container || !workspace) return;
+  const history = (workspace.history || []).filter((entry) => entry.artifact_type !== 'study_plan');
+  const currentPractice = history.filter((entry) => entry.artifact_type === 'practice_set' && entry.active).length;
+  const currentConversation = history.filter((entry) => entry.artifact_type === 'conversation' && entry.active).length;
+
+  container.innerHTML = `
+    <div class="audit-summary-card">
+      <div class="eyebrow">Auditability</div>
+      <h3>Why history matters in this design</h3>
+      <div class="policy-grid">
+        <div class="policy-card">
+          <div class="small muted">Stored artifacts</div>
+          <strong>${history.length}</strong>
+          <div class="small muted">Prior practice sets and conversations remain accessible instead of being overwritten invisibly.</div>
+        </div>
+        <div class="policy-card">
+          <div class="small muted">Current active artifacts</div>
+          <strong>${currentPractice + currentConversation}</strong>
+          <div class="small muted">Only one practice set and one conversation stay active at a time, so the current state stays legible.</div>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 function renderHistory() {
@@ -746,33 +1265,41 @@ function renderHistory() {
   const history = (state.activeWorkspace?.history || []).filter((entry) => entry.artifact_type !== 'study_plan');
   if (!output) return;
   if (!history.length) {
-    output.innerHTML = '<div class="muted">No history yet.</div>';
+    output.innerHTML = '<div class="card muted">No history yet. Generated artifacts and chat threads will appear here for audit and replay.</div>';
     return;
   }
+
   output.innerHTML = history
     .slice()
     .sort((left, right) => (left.created_at > right.created_at ? -1 : 1))
     .map((entry) => `
-      <div class="card">
-        <div class="row" style="justify-content:space-between;align-items:flex-start;gap:12px;">
+      <div class="history-card">
+        <div class="history-card-header">
           <div>
-            <div><strong>${escapeHtml(entry.artifact_type)}</strong> | ${escapeHtml(entry.title || '')}</div>
-            <div class="small muted">${escapeHtml(formatDate(entry.created_at))} | parent ${escapeHtml(entry.parent_artifact_id || '-')} | ${entry.active ? 'current' : 'prior'}</div>
+            <div><strong>${escapeHtml(titleCaseLabel(entry.artifact_type))}</strong> | ${escapeHtml(entry.title || '')}</div>
+            <div class="small muted">${escapeHtml(formatDate(entry.created_at))} | parent ${escapeHtml(entry.parent_artifact_id || '-')}</div>
           </div>
-          <button type="button" class="secondary history-open" data-artifact-type="${escapeHtml(entry.artifact_type)}" data-artifact-id="${escapeHtml(entry.artifact_id)}">Open</button>
+          <div class="card-chip-row">
+            ${badge(entry.active ? 'Current' : 'Prior', entry.active ? 'ok' : '')}
+            <button type="button" class="secondary history-open" data-artifact-type="${escapeHtml(entry.artifact_type)}" data-artifact-id="${escapeHtml(entry.artifact_id)}">Open</button>
+          </div>
         </div>
       </div>
     `)
     .join('');
+
   output.querySelectorAll('.history-open').forEach((button) => {
     button.addEventListener('click', async () => {
-      const payload = await api(`/api/workspaces/${state.activeWorkspace.workspace_id}/history/${button.dataset.artifactType}/${button.dataset.artifactId}/activate`, {
-        method: 'POST',
-      });
-      state.activeWorkspace = payload.workspace;
-      renderWorkspace();
-      if (button.dataset.artifactType === 'practice_set') setTab('practice');
-      if (button.dataset.artifactType === 'conversation') setTab('ask');
+      try {
+        const payload = await api(`/api/workspaces/${state.activeWorkspace.workspace_id}/history/${button.dataset.artifactType}/${button.dataset.artifactId}/activate`, {
+          method: 'POST',
+        });
+        setActiveWorkspace(payload.workspace);
+        if (button.dataset.artifactType === 'practice_set') setTab('practice');
+        if (button.dataset.artifactType === 'conversation') setTab('ask');
+      } catch (error) {
+        handleError(error);
+      }
     });
   });
 }
@@ -785,15 +1312,24 @@ function renderJobs() {
     container.innerHTML = '';
     return;
   }
+
   const activeStatuses = new Set(['queued', 'running', 'submitted', 'waiting_for_service', 'needs_user_input']);
   const currentJobs = jobs.filter((job) => activeStatuses.has(job.status) || (job.status === 'failed' && !job.finalized));
+  if (!currentJobs.length) {
+    container.innerHTML = '';
+    return;
+  }
+
   container.innerHTML = currentJobs.map((job) => `
-    <div class="card">
-      <div><strong>${escapeHtml(job.operation)}</strong></div>
-      <div class="small muted">${escapeHtml(job.stage || '')} | ${escapeHtml(job.status || '')} | progress ${escapeHtml(String(job.progress || 0))}%</div>
+    <div class="job-card">
+      <div class="message-meta">
+        <strong>${escapeHtml(titleCaseLabel(job.operation))}</strong>
+        ${badge(titleCaseLabel(job.status || 'unknown'), job.status === 'failed' ? 'danger' : job.status === 'needs_user_input' ? 'warn' : 'ok')}
+      </div>
+      <div class="small muted">${escapeHtml(job.stage || 'Waiting')} | progress ${escapeHtml(String(job.progress || 0))}%</div>
       <div class="small">${escapeHtml(job.message || '')}</div>
       ${job.error?.message ? `<div class="error small">${escapeHtml(job.error.message)}</div>` : ''}
-      ${job.user_action?.prompt ? `<div class="warning small">Needs input: ${escapeHtml(job.user_action.prompt)}</div>` : ''}
+      ${job.user_action?.prompt ? `<div class="service-note warning small">Needs input: ${escapeHtml(job.user_action.prompt)}</div>` : ''}
     </div>
   `).join('');
 }
@@ -804,18 +1340,31 @@ function renderWorkspace() {
   if (!state.activeWorkspace) {
     emptyState?.classList.remove('hidden');
     view?.classList.add('hidden');
+    closeSourceViewer();
     return;
   }
+
   emptyState?.classList.add('hidden');
   view?.classList.remove('hidden');
   document.getElementById('workspace-title').textContent = state.activeWorkspace.display_name;
-  document.getElementById('workspace-meta').textContent = `Opened ${formatDate(state.activeWorkspace.last_opened_at)} | ${state.activeWorkspace.grounding_mode}`;
+  document.getElementById('workspace-meta').textContent = `Opened ${formatDate(state.activeWorkspace.last_opened_at)} | ${titleCaseLabel(state.activeWorkspace.grounding_mode)}`;
+  renderWorkspaceOverview();
   renderMaterials();
   renderJobs();
   renderPractice();
+  renderAskPolicy();
   renderChat();
+  renderHistorySummary();
   renderHistory();
   applyServiceGating();
+  setTab(state.currentTab);
+}
+
+async function refreshActiveWorkspace() {
+  if (!state.activeWorkspace) return null;
+  const payload = await api(`/api/workspaces/${state.activeWorkspace.workspace_id}`);
+  setActiveWorkspace(payload.workspace);
+  return payload.workspace;
 }
 
 async function pollJob(jobId) {
@@ -824,10 +1373,8 @@ async function pollJob(jobId) {
   while (true) {
     const payload = await api(`/api/jobs/${jobId}?workspace_id=${workspaceId}`);
     const job = payload.job;
-    setGlobalActivity(job.message || `${job.operation || 'Operation'} is running`, true);
-    const refreshed = await api(`/api/workspaces/${workspaceId}`);
-    state.activeWorkspace = refreshed.workspace;
-    renderWorkspace();
+    setGlobalActivity(job.message || `${titleCaseLabel(job.operation || 'operation')} is running`, true);
+    await refreshActiveWorkspace();
     if (['succeeded', 'failed', 'needs_user_input'].includes(job.status)) {
       if (job.status === 'succeeded') showTransientMessage(job.message || 'Operation completed.', 'success');
       if (job.status === 'failed') showTransientMessage(job.error?.message || job.message || 'Operation failed.', 'error');
@@ -841,15 +1388,119 @@ async function pollJob(jobId) {
 
 async function createConversationIfNeeded() {
   if (state.activeWorkspace?.active_conversation) return state.activeWorkspace.active_conversation;
+  const chatDraft = ensureChatDraft(state.activeWorkspace);
   const payload = await api(`/api/workspaces/${state.activeWorkspace.workspace_id}/conversations`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ title: 'Workspace Q&A', grounding_mode: state.activeWorkspace.grounding_mode }),
+    body: JSON.stringify({ title: 'Workspace Q&A', grounding_mode: chatDraft.grounding_mode }),
   });
-  const refreshed = await api(`/api/workspaces/${state.activeWorkspace.workspace_id}`);
-  state.activeWorkspace = refreshed.workspace;
-  renderWorkspace();
+  await refreshActiveWorkspace();
   return payload.conversation;
+}
+
+function buildPracticeRequestFromForm() {
+  return {
+    topic_text: document.getElementById('practice-topic-text').value.trim(),
+    question_count: optionalPositiveIntegerValue('practice-count') || 6,
+    generation_mode: document.getElementById('practice-mode').value,
+    difficulty_profile: document.getElementById('practice-difficulty').value,
+    coverage_mode: document.getElementById('practice-coverage').value,
+    grounding_mode: document.getElementById('practice-grounding-mode').value,
+    include_answer_key: document.getElementById('practice-answer-key').checked,
+    include_rubrics: document.getElementById('practice-rubrics').checked,
+  };
+}
+
+function capturePracticeDraft() {
+  if (!state.activeWorkspace) return;
+  setPracticeDraft(state.activeWorkspace, buildPracticeRequestFromForm());
+  renderPracticePreflight();
+}
+
+function captureChatDraft() {
+  if (!state.activeWorkspace) return;
+  setChatDraft(state.activeWorkspace, {
+    text: document.getElementById('chat-question').value,
+    grounding_mode: document.getElementById('chat-grounding-mode').value,
+    response_style: document.getElementById('chat-response-style').value,
+  });
+  renderAskPolicy();
+}
+
+function openDecisionReview(review) {
+  state.ui.review = review;
+  renderDecisionReview();
+}
+
+function closeDecisionReview() {
+  state.ui.review = null;
+  renderDecisionReview();
+}
+
+function renderDecisionReview() {
+  const overlay = document.getElementById('decision-review');
+  const review = state.ui.review;
+  if (!overlay) return;
+  if (!review) {
+    overlay.classList.add('hidden');
+    overlay.setAttribute('aria-hidden', 'true');
+    return;
+  }
+
+  overlay.classList.remove('hidden');
+  overlay.setAttribute('aria-hidden', 'false');
+  document.getElementById('decision-review-kicker').textContent = review.kicker || '';
+  document.getElementById('decision-review-title').textContent = review.title || '';
+  document.getElementById('decision-review-description').textContent = review.description || '';
+  document.getElementById('decision-review-body').innerHTML = review.sections?.length
+    ? `<div class="review-grid">${
+        review.sections.map((section) => `
+          <div class="review-item">
+            <div class="small muted">${escapeHtml(section.label)}</div>
+            <div>${escapeHtml(section.value)}</div>
+          </div>
+        `).join('')
+      }</div>`
+    : '<div class="small muted">No review details available.</div>';
+  document.getElementById('decision-review-footnote').textContent = review.footnote || '';
+  document.getElementById('decision-review-confirm').textContent = review.confirmLabel || 'Approve and continue';
+
+  const noteWrap = document.getElementById('decision-review-note-wrap');
+  const noteLabel = document.getElementById('decision-review-note-label');
+  const noteInput = document.getElementById('decision-review-note');
+  if (review.noteField) {
+    noteWrap.classList.remove('hidden');
+    noteLabel.textContent = review.noteField.label;
+    noteInput.placeholder = review.noteField.placeholder || '';
+    noteInput.value = review.noteField.defaultValue || '';
+  } else {
+    noteWrap.classList.add('hidden');
+    noteInput.value = '';
+    noteInput.placeholder = '';
+  }
+}
+
+function buildPracticeReviewSections(request) {
+  return [
+    { label: 'Topic', value: request.topic_text || 'All ready lecture materials' },
+    { label: 'Format', value: titleCaseLabel(request.generation_mode) },
+    { label: 'Question count', value: String(request.question_count) },
+    { label: 'Difficulty', value: titleCaseLabel(request.difficulty_profile) },
+    { label: 'Coverage', value: titleCaseLabel(request.coverage_mode) },
+    { label: 'Grounding mode', value: titleCaseLabel(request.grounding_mode) },
+    { label: 'Answer key', value: request.include_answer_key ? 'Included' : 'Not included' },
+    { label: 'Rubrics', value: request.include_rubrics ? 'Included' : 'Not included' },
+  ];
+}
+
+function buildRevisionSelections() {
+  const targetQuestionIds = Array.from(document.querySelectorAll('.practice-target-toggle:checked'))
+    .map((input) => input.dataset.questionId)
+    .filter(Boolean);
+  const lockedQuestionIds = Array.from(document.querySelectorAll('.practice-lock-toggle:checked'))
+    .map((input) => input.dataset.questionId)
+    .filter(Boolean);
+  return { targetQuestionIds, lockedQuestionIds };
 }
 
 function bindEvents() {
@@ -859,17 +1510,26 @@ function bindEvents() {
 
   document.getElementById('create-workspace-form').addEventListener('submit', async (event) => {
     event.preventDefault();
-    const displayName = document.getElementById('workspace-name').value.trim();
-    const payload = await api('/api/workspaces', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ display_name: displayName }),
-    });
-    document.getElementById('workspace-name').value = '';
-    await loadWorkspaces();
-    state.activeWorkspace = payload.workspace;
-    renderWorkspace();
+    try {
+      const displayName = document.getElementById('workspace-name').value.trim();
+      const payload = await api('/api/workspaces', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ display_name: displayName }),
+      });
+      document.getElementById('workspace-name').value = '';
+      await loadWorkspaces();
+      setActiveWorkspace(payload.workspace, { resetSource: true });
+      showTransientMessage('Workspace created.', 'success');
+    } catch (error) {
+      handleError(error);
+    }
   });
+
+  document.getElementById('practice-form').addEventListener('input', capturePracticeDraft);
+  document.getElementById('practice-form').addEventListener('change', capturePracticeDraft);
+  document.getElementById('chat-form').addEventListener('input', captureChatDraft);
+  document.getElementById('chat-form').addEventListener('change', captureChatDraft);
 
   document.getElementById('material-import-form').addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -881,6 +1541,7 @@ function bindEvents() {
       showTransientMessage('Please enter text or select a file to import.', 'warning');
       return;
     }
+
     const submitButton = event.currentTarget.querySelector('button[type="submit"]');
     if (submitButton) submitButton.disabled = true;
     const title = document.getElementById('material-title').value;
@@ -939,6 +1600,10 @@ function bindEvents() {
       document.getElementById('material-text').value = '';
       document.getElementById('material-file').value = '';
       await loadWorkspaces();
+      await refreshActiveWorkspace();
+      showTransientMessage('Material import finished.', 'success');
+    } catch (error) {
+      handleError(error);
     } finally {
       if (submitButton) submitButton.disabled = false;
     }
@@ -947,132 +1612,141 @@ function bindEvents() {
   document.getElementById('practice-form').addEventListener('submit', async (event) => {
     event.preventDefault();
     if (!state.activeWorkspace) return;
-    const request = {
-      topic_text: document.getElementById('practice-topic-text').value.trim(),
-      question_count: optionalPositiveIntegerValue('practice-count') || 6,
-      generation_mode: document.getElementById('practice-mode').value,
-      difficulty_profile: document.getElementById('practice-difficulty').value,
-      coverage_mode: document.getElementById('practice-coverage').value,
-      grounding_mode: document.getElementById('practice-grounding-mode').value,
-      include_answer_key: document.getElementById('practice-answer-key').checked,
-      include_rubrics: document.getElementById('practice-rubrics').checked,
-    };
-    const confirmation = [
-      'Generate this grounded practice test?',
-      `Topic: ${request.topic_text || 'all ready lecture materials'}`,
-      `Format: ${request.generation_mode}`,
-      `Question count: ${request.question_count}`,
-      `Difficulty: ${request.difficulty_profile}`,
-      `Coverage: ${request.coverage_mode}`,
-      `Grounding: ${request.grounding_mode}`,
-      `Answer key: ${request.include_answer_key ? 'yes' : 'no'}`,
-      `Rubrics: ${request.include_rubrics ? 'yes' : 'no'}`,
-    ].join('\n');
-    if (!window.confirm(confirmation)) return;
-    const payload = await api(`/api/workspaces/${state.activeWorkspace.workspace_id}/practice-sets/generate`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(request),
+
+    const request = buildPracticeRequestFromForm();
+    setPracticeDraft(state.activeWorkspace, request);
+
+    openDecisionReview({
+      kicker: 'Human approval before generation',
+      title: 'Review this grounded practice request',
+      description: 'The system should only generate after you confirm the exact topic, format, coverage, difficulty, and grounding behavior.',
+      sections: buildPracticeReviewSections(request),
+      footnote: 'If the topic is weakly grounded, the service can pause and request clarification instead of silently producing a brittle draft.',
+      confirmLabel: 'Generate grounded draft',
+      onConfirm: async () => {
+        const payload = await api(`/api/workspaces/${state.activeWorkspace.workspace_id}/practice-sets/generate`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(request),
+        });
+        await pollJob(payload.job.job_id);
+        await loadWorkspaces();
+      },
     });
-    await pollJob(payload.job.job_id);
-    await loadWorkspaces();
   });
 
-  document.getElementById('revise-practice').addEventListener('click', async () => {
+  document.getElementById('revise-practice').addEventListener('click', () => {
     const practice = state.activeWorkspace?.active_practice_set;
     if (!practice) return;
-    const targetQuestionIds = Array.from(document.querySelectorAll('.practice-target-toggle:checked'))
-      .map((input) => input.dataset.questionId)
-      .filter(Boolean);
-    const lockedQuestionIds = Array.from(document.querySelectorAll('.practice-lock-toggle:checked'))
-      .map((input) => input.dataset.questionId)
-      .filter(Boolean);
+
+    const { targetQuestionIds, lockedQuestionIds } = buildRevisionSelections();
     const overlapping = targetQuestionIds.filter((questionId) => lockedQuestionIds.includes(questionId));
     if (overlapping.length) {
       showTransientMessage('A question cannot be both locked and marked for regeneration.', 'warning');
       return;
     }
-    const feedbackNote = window.prompt(
-      'Optional note for this revision.',
-      targetQuestionIds.length
-        ? 'Regenerate the selected questions with less redundancy and stronger lecture grounding.'
-        : 'Create a cleaner variant while preserving the locked questions and overall coverage.'
-    ) || '';
-    const confirmation = [
-      'Revise this practice test?',
-      `Regenerate: ${targetQuestionIds.length} question(s)`,
-      `Lock: ${lockedQuestionIds.length} question(s)`,
-      'Maintain coverage: yes',
-    ].join('\n');
-    if (!window.confirm(confirmation)) return;
-    const payload = await api(`/api/workspaces/${state.activeWorkspace.workspace_id}/practice-sets/${practice.practice_set_id}/revise`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        target_question_ids: targetQuestionIds,
-        locked_question_ids: lockedQuestionIds,
-        feedback_note: feedbackNote,
-        maintain_coverage: true,
-        action: targetQuestionIds.length ? 'revise_selected' : 'create_variant',
-      }),
+
+    openDecisionReview({
+      kicker: 'Selective revision',
+      title: targetQuestionIds.length ? 'Review this targeted practice revision' : 'Review this practice variant request',
+      description: 'Locked questions stay fixed while selected questions regenerate. If you regenerate nothing, the system creates a cleaner variant while preserving the locked questions and coverage.',
+      sections: [
+        { label: 'Questions to regenerate', value: String(targetQuestionIds.length) },
+        { label: 'Questions to lock', value: String(lockedQuestionIds.length) },
+        { label: 'Coverage rule', value: 'Maintain coverage' },
+        { label: 'History behavior', value: 'Prior practice set stays available in audit history' },
+      ],
+      noteField: {
+        label: 'Revision note',
+        placeholder: 'Describe what should improve in the regenerated questions.',
+        defaultValue: targetQuestionIds.length
+          ? 'Regenerate the selected questions with less redundancy and stronger lecture grounding.'
+          : 'Create a cleaner variant while preserving the locked questions and overall coverage.',
+      },
+      footnote: 'This review step makes the revision intent explicit before the assistant changes any questions.',
+      confirmLabel: 'Revise practice test',
+      onConfirm: async (note) => {
+        const payload = await api(`/api/workspaces/${state.activeWorkspace.workspace_id}/practice-sets/${practice.practice_set_id}/revise`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            target_question_ids: targetQuestionIds,
+            locked_question_ids: lockedQuestionIds,
+            feedback_note: note,
+            maintain_coverage: true,
+            action: targetQuestionIds.length ? 'revise_selected' : 'create_variant',
+          }),
+        });
+        await pollJob(payload.job.job_id);
+        await loadWorkspaces();
+      },
     });
-    await pollJob(payload.job.job_id);
-    await loadWorkspaces();
   });
 
   document.getElementById('new-conversation').addEventListener('click', async () => {
     if (!state.activeWorkspace) return;
-    await api(`/api/workspaces/${state.activeWorkspace.workspace_id}/conversations`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title: `Chat ${new Date().toLocaleTimeString()}`, grounding_mode: state.activeWorkspace.grounding_mode }),
-    });
-    const refreshed = await api(`/api/workspaces/${state.activeWorkspace.workspace_id}`);
-    state.activeWorkspace = refreshed.workspace;
-    renderWorkspace();
-    setTab('ask');
+    try {
+      const chatDraft = ensureChatDraft(state.activeWorkspace);
+      await api(`/api/workspaces/${state.activeWorkspace.workspace_id}/conversations`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: `Chat ${new Date().toLocaleTimeString()}`,
+          grounding_mode: chatDraft.grounding_mode,
+        }),
+      });
+      await refreshActiveWorkspace();
+      setTab('ask');
+      showTransientMessage('New grounded chat started.', 'success');
+    } catch (error) {
+      handleError(error);
+    }
   });
 
   document.getElementById('clear-conversation').addEventListener('click', async () => {
     if (!state.activeWorkspace?.active_conversation) return;
-    await api(`/api/workspaces/${state.activeWorkspace.workspace_id}/conversations/${state.activeWorkspace.active_conversation.conversation_id}/clear`, { method: 'POST' });
-    const refreshed = await api(`/api/workspaces/${state.activeWorkspace.workspace_id}`);
-    state.activeWorkspace = refreshed.workspace;
-    renderWorkspace();
+    try {
+      await api(`/api/workspaces/${state.activeWorkspace.workspace_id}/conversations/${state.activeWorkspace.active_conversation.conversation_id}/clear`, { method: 'POST' });
+      await refreshActiveWorkspace();
+      showTransientMessage('Current chat cleared.', 'success');
+    } catch (error) {
+      handleError(error);
+    }
   });
 
   document.getElementById('chat-form').addEventListener('submit', async (event) => {
     event.preventDefault();
     if (!state.activeWorkspace) return;
+
     const sendButton = event.currentTarget.querySelector('button[type="submit"]');
-    const questionInput = document.getElementById('chat-question');
     if (sendButton) sendButton.disabled = true;
-    const questionText = questionInput.value.trim();
-    if (!questionText) {
-      if (sendButton) sendButton.disabled = false;
-      return;
-    }
+
     try {
+      captureChatDraft();
+      const draft = ensureChatDraft(state.activeWorkspace);
+      const questionText = draft.text.trim();
+      if (!questionText) {
+        if (sendButton) sendButton.disabled = false;
+        return;
+      }
+
       const conversation = await createConversationIfNeeded();
-      setGlobalActivity('Sending your question...', true);
+      setGlobalActivity('Sending your grounded question...', true);
       const payload = await api(`/api/workspaces/${state.activeWorkspace.workspace_id}/conversations/${conversation.conversation_id}/messages`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           text: questionText,
-          grounding_mode: document.getElementById('chat-grounding-mode').value,
-          response_style: document.getElementById('chat-response-style').value,
+          grounding_mode: draft.grounding_mode,
+          response_style: draft.response_style,
         }),
       });
-      questionInput.value = '';
-      const refreshed = await api(`/api/workspaces/${state.activeWorkspace.workspace_id}`);
-      state.activeWorkspace = refreshed.workspace;
-      renderWorkspace();
+      setChatDraft(state.activeWorkspace, { text: '' });
+      await refreshActiveWorkspace();
       await pollJob(payload.job.job_id);
       await loadWorkspaces();
     } catch (error) {
-      showTransientMessage(error.message, 'error');
-      clearGlobalActivitySoon();
+      handleError(error);
     } finally {
       if (sendButton) sendButton.disabled = false;
     }
@@ -1089,15 +1763,38 @@ function bindEvents() {
     state.citationIndex = (state.citationIndex + 1) % state.citationList.length;
     renderSourceViewer(state.citationList[state.citationIndex]);
   });
+
+  document.getElementById('source-close').addEventListener('click', closeSourceViewer);
+
+  ['decision-review-dismiss', 'decision-review-close', 'decision-review-cancel'].forEach((id) => {
+    document.getElementById(id).addEventListener('click', closeDecisionReview);
+  });
+
+  document.getElementById('decision-review-confirm').addEventListener('click', async () => {
+    const review = state.ui.review;
+    if (!review) return;
+
+    const confirmButton = document.getElementById('decision-review-confirm');
+    const note = document.getElementById('decision-review-note').value.trim();
+    confirmButton.disabled = true;
+    try {
+      await review.onConfirm?.(note);
+      closeDecisionReview();
+    } catch (error) {
+      handleError(error);
+    } finally {
+      confirmButton.disabled = false;
+    }
+  });
 }
 
 async function init() {
   bindEvents();
   await loadStatus();
   await loadWorkspaces();
+  syncBodyLayout();
 }
 
 init().catch((error) => {
-  console.error(error);
-  showTransientMessage(error.message, 'error');
+  handleError(error);
 });

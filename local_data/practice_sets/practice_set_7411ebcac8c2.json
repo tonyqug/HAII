@@ -1,0 +1,431 @@
+{
+  "_meta": {
+    "coverage_mode": "balanced",
+    "difficulty_profile": "mixed",
+    "generation_path": "heuristic_fallback",
+    "grounding_mode": "strict_lecture_only",
+    "grounding_source": {
+      "bundle_id": "bundle_0991df6e2948af9ab26d392b",
+      "evidence_bundle": {
+        "bundle_id": "bundle_0991df6e2948af9ab26d392b",
+        "bundle_mode": "coverage",
+        "items": [
+          {
+            "citation": {
+              "citation_id": "cit_a1ee70d7234a2d0c92cf3d03",
+              "confidence": "high",
+              "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+              "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+              "preview_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/preview",
+              "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1",
+              "slide_number": 1,
+              "snippet_text": "…​Relatedness:​ ​-​ ​ID twins are 100%​ ​-​ ​Fraternal twins, parents/children, full siblings are all 50%​ ​-​ ​Half siblings, aunt/uncle/niece/nephew, grandparent/grandchild are all 25%​ ​-​ ​Cousins are 12.5%​ ​-​ ​Concordance: 2 people same disorder​ ​-​ ​Calculating observed concordance rates:​ ​-​ ​Example 1: out…",
+              "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/source",
+              "support_type": "explicit"
+            },
+            "extraction_quality": "high",
+            "item_id": "bundle_0991df6e2948af9ab26d392b:item:1",
+            "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+            "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+            "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1",
+            "slide_number": 1,
+            "text": "​Personalized medicine​\n​●​ ​General idea and benefits: a 10% increase in knowing the right medicine to try can help millions of​\n​people get faster and better treatment for a disease​\n​●​ ​Specific logic with NE receptor vs. DA receptor genetic deficiencies and how that can inform ADHD​\n​medication choices (targeted towards deficiency)​\n​●​ ​Limitations: even with all genetic knowledge, no guarantee of the predicted medicine working. For​\n​example, many people who have no dopamine related genetic risk factors for ADHD still respond well​\n​to Ritalin and other DAT blockers to treat their ADHD​\n​Dopamine deficit → increase dopamine → DAT blocker​\n​Norepinephrine deficit → increase norepinephrine → NET blocker​\n​Heritability​\n​-​\n​Heritability (genetic contribution) = (rateID - rateFRAT)/(relID - relFRAT) = (rateID - rateFRAT)/0.5 =​\n​2*(rateID - rateFRAT)​\n​-​\n​Relatedness:​\n​-​\n​ID twins are 100%​\n​-​\n​Fraternal twins, parents/children, full siblings are all 50%​\n​-​\n​Half siblings, aunt/uncle/niece/nephew, grandparent/grandchild are all 25%​\n​-​\n​Cousins are 12.5%​\n​-​\n​Concordance: 2 people same disorder​\n​-​\n​Calculating observed concordance rates:​\n​-​\n​Example 1: out of a group of 400 identical twins where one has a disorder, if we find that the​\n​other has the disorder in 300 of the cases, then the concordance rate = 300 / 400=  75%​\n​Tourette Syndrome​\n​Basics: Motor and vocal tics present for at least a year, symptoms presenting under the age of 18.​\n​Dopamine​\n​Dopamine in Striatum​\n​It inhibits stop cells and excites go cells, resulting in​​increased movement​\n​Dopamine in VTA -> Nucleus accumbens​\n​Causes pleasure, brain reward system, reinforces behaviours we want to repeat​\n​Dopamine in VTA -> Frontal Lobe​\n​Promotes attention, thinking, self control, low dopamine -> ADHD symptoms​\n​OCD​\n​Obsessions are intrusive thoughts that are anxiety-inducing (unpleasant, worrisome) AND persists or​\n​recoccurs. Compulsions are an urge to do a particular behavior in response to an obsession. Some examples​\n​might include checking, washing, counting, tapping, gestures, needing to ask/confess or hoarding.​\n​“OCD cycle”: Intrusive thoughts,​​obsessions, anxiety, compulsions, temporary relief​, re-emergence of​\n​intrusive/worrisome thoughts.​\n​In addition to talk therapy, the most common first medication for OCD is a selective-serotonin reuptake inhibitor​\n​(SSRI), which blocks the serotonin transporter (SerT, the protein the removes serotonin from synapses and​\n​brings it back into the presynaptic terminal); this has the effect of extending the serotonin signal and can help​\n​with many types of anxiety and depression including the anxiety in OCD.​"
+          },
+          {
+            "citation": {
+              "citation_id": "cit_29770fa3728d4a4eac3f613f",
+              "confidence": "high",
+              "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+              "material_title": "03133 Exam 3 Cheat sheet.pdf",
+              "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1/preview",
+              "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1",
+              "slide_number": 1,
+              "snippet_text": "​Concordance vs. Comorbidity​ ​Concordance: relatives tend to share the same disorder at higher-than-chance rates.​ ​Comorbidity: two disorders occur together in the same person more often than expected.​ ​Similarity: both suggest some kind of relationship.​ ​Difference: concordance is about shared disorder in relativ…",
+              "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1/source",
+              "support_type": "explicit"
+            },
+            "extraction_quality": "high",
+            "item_id": "bundle_0991df6e2948af9ab26d392b:item:2",
+            "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+            "material_title": "03133 Exam 3 Cheat sheet.pdf",
+            "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1",
+            "slide_number": 1,
+            "text": "​Concordance vs. Comorbidity​\n​Concordance: relatives tend to share the same disorder at higher-than-chance rates.​\n​Comorbidity: two disorders occur together in the same person more often than expected.​\n​Similarity: both suggest some kind of relationship.​\n​Difference: concordance is about shared disorder in relatives; comorbidity is about two disorders in one individual.​\n​Expected comorbidity if independent:​​P(A and B) =​​P(A) × P(B)​\n​Calculating observed comorbidity as follows:​\n​-​\n​Overall comorbidity rate = percent of all people with comorbid A&B = number_of_people_with_comorbid_A&B /​\n​total_number_of_people_in_whole_set​\n​-​\n​Comorbidity rate in disease A = percent of people with disease A who have comorbid A&B =​\n​number_of_people_with_comorbid_A&B / total_number_of_people_with_A​\n​-​\n​Comorbidity rate in disease B = percent of people with disease B who have comorbid A&B =​\n​number_of_people_with_comorbid_A&B / total_number_of_people_with_B​\n​-​\n​Assuming that one of the diseases always comes first, we will simplify our lives in this class by considering the two most common​\n​explanations for a correlation between two diseases:​\n​1)​\n​A single set of genes gives rise to risk of both disease 1 and disease 2. People may get one, both, or neither.​\n​2)​\n​Disease 1 causes increased risk for disease 2.​\n​a)​\n​Genes increase risk for Disease 1.Getting Disease 1 increases the chance of Disease 2. Not everyone with Disease​\n​1 gets Disease 2, just more than expected.​\n​b)​\n​If some people still get Disease 2 alone → there must be separate genes for Disease 2.​\n​3)​\n​Disease 2 causes increased risk for disease 1. Same idea as above. Can be ruled out if Disease 1 always occurs first.​\n​Testing the hypothesis that TS and OCD have common genetic risk factors (Pauls & colleagues)​\n​-​\n​Look at relatives of probands to identify people who may carry risk genes without necessarily showing both disorders.​\n​compare with controls who don’t have risk genes​\n​-​\n​Relatives of probands with nephritis only (no colon cancer) → have nephritis risk genes but no nephritis​\n​-​\n​Controls → no family history of nephritis or colon cancer​\n​-​\n​Why these groups:​\n​-​\n​Isolates genetic risk (genes only) without the effect of actually having nephritis​\n​-​\n​Predictions: If shared risk genes → relatives (no nephritis) have higher colon cancer rate than controls, If nephritis causes later​\n​cancer → relatives (no nephritis) have same (or lower) colon cancer rate as controls​\n​-​\n​Key detail to include: Must measure colon cancer rate in relatives WITHOUT nephritis, Must use probands who had nephritis​\n​but NOT colon cancer​\n​How to identify specific risk genes (or, more precisely, specific alleles, or versions, of genes that correlate with a disease and thus are​\n​likely to increase risk).​\n​-​\n​Collect genomic data for people with disease vs. without disease​\n​-​\n​Protective alleles appear more often in people without the disease.​\n​-​\n​Different alleles can have different effect sizes.​\n​-​\n​Genetic overlap across disorders can confirm earlier family-study conclusions.​\n​-​\n​How you can then confirm a study like the Pauls study​\n​-​\n​Specifically, the Pauls study first demonstrated that OCD and TS must have a large overlap in the set of alleles that​\n​cause risk but didn’t identify any specific genes. But then decades later finding alleles for TS and for OCD and seeing​\n​a large overlap confirmed that finding​\n​-​\n​Vocal Learning & Autism​\n​-​\n​Modular hypothesis of vocal learning​\n​-​\n​Vocal Coordination: Chorusing, turn-taking, rhythmic entertainment​\n​-​\n​Ex. Gibbons chorusing, echolocation, human sign language​\n​-​\n​Vocal Production Variability: Babbling, critical periods of learning​\n​-​\n​Ex. birds babbling to learn how to sing specific songs​\n​-​\n​Vocal Versatility: Acoustic repertoire complexity, pitch matching, imitation, mimicking​\n​-​\n​Ex. songbird with syrinx, humans with lips and tongue​\n​-​\n​Autism Spectrum Disorder​\n​-​\n​Prevalence: 1/32 of population. Developmental disability caused by brain differences, diagnosed starting at three​\n​years old. Comorbid with anxiety, depression and ADHD​\n​-​\n​Symptoms limited eye contact, sensory stimuli sensitivity, difficulty with social communication​\n​-​\n​Treatments: speech therapy, occupational therapy, cognitive behavioral therapy. Medications: SSRIs, antipsychotics,​\n​ADHD stimulants​"
+          },
+          {
+            "citation": {
+              "citation_id": "cit_bcfe17fcf4f6b3cb1f17e71b",
+              "confidence": "high",
+              "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+              "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+              "preview_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:2/preview",
+              "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:2",
+              "slide_number": 2,
+              "snippet_text": "​First question for Welch & colleagues study: how does removal of the Sapap3 gene (knockout mice) affect​ ​OCD-like behavior in mice? Result: mice show​​OCD-like behaviors​​(excessive grooming, anxiety)​ ​Basal ganglia activity is different in patients with OCD vs. controls (in complicated ways that you don’t need to​…",
+              "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:2/source",
+              "support_type": "explicit"
+            },
+            "extraction_quality": "high",
+            "item_id": "bundle_0991df6e2948af9ab26d392b:item:3",
+            "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+            "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+            "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:2",
+            "slide_number": 2,
+            "text": "​First question for Welch & colleagues study: how does removal of the Sapap3 gene (knockout mice) affect​\n​OCD-like behavior in mice? Result: mice show​​OCD-like behaviors​​(excessive grooming, anxiety)​\n​Basal ganglia activity is different in patients with OCD vs. controls (in complicated ways that you don’t need to​\n​know). That, connected with the changes in OFC activity in OCD (above), leads to the second question in the​\n​Welch study.​\n​Basal ganglia​​and​​OFC (orbitofrontal cortex)​​show abnormal activity in OCD.​\n​These regions help control​​habits and behavior.​\n​Know about the second question of the Welch study: How do mice with OCD-like behaviors differ from control​\n​mice in OFC to Striatum connection? Know the methods for studying that question. As with all questions, you​\n​should also be prepared to apply similar methods to a new situation.​\n​Brain recordings​​to measure synapse strength​\n​Compare​​OFC–striatum signaling​​in mutant vs. normal​​mice​\n​Found​​weaker synaptic connections​​in OCD-like mice​\n​Groups: Same 2 groups, control mice (normal) and knockout mice (missing Sapap3 Gene)​\n​Manipulation:  Stimulate axons from cortex.​\n​Measured variable: Record voltage in Striatum when OFC stimulated​\n​Possible results: If stronger, then bigger response. If weaker, then smaller response. If no change, then same​\n​voltage response.​\n​Results: The response in KO striatum neurons is weaker.​\n​Interpretation: Weaker synapse from OFC -> Striatum in OCD. This would relate to the idea that people with​\n​OCD have difficulty breaking out of their obsessive-compulsive cycles, perhaps due to the lack of synapse​\n​strength.​\n​ADHD continued (and some highly relevant material from unit 1 to remember​\n​Roles of dopamine​\n​VTA -> Frontal lobes (relationship to sustained attention and also to seeking more stimulation causes​\n​inattentive/attention switching)​\n​Role of NE: similar to dopamine, receptors in frontal lobe important for symptoms​\n​ADHD genetics​\n​Underactive Dopamine receptors - Use DAT blocker (Ritalin), less dopamine produced and released​\n​Underactive NE receptors - Use NET blocker (Atomoxetine)​\n​ADHD treatments​\n​Ritalin: dopamine transporter (DAT) blocker​\n​Comparison to cocaine: difference in which areas are affected​\n​Overdose of Ritalin:​\n​Moderate overdose -> Too much dopamine in reward and movement circuits (SnC-Striatum and​\n​VTA-nAC circuits), causing increased hyperactivity and pleasure​\n​Severe overdose -> excessive neuron firing (too much dopamine), leading to seizures, respiratory​\n​and/or cardiovascular failure and death​"
+          },
+          {
+            "citation": {
+              "citation_id": "cit_47b00f16d4ab0666ffb1c42a",
+              "confidence": "high",
+              "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+              "material_title": "03133 Exam 3 Cheat sheet.pdf",
+              "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/preview",
+              "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2",
+              "slide_number": 2,
+              "snippet_text": "…son’s Disease​ ​-​ ​Second most common neurological disorder.​ ​-​ ​Caused by degeneration of dopamine neurons in the substantia nigra pars compacta (SnC).​ ​-​ ​Symptoms: tremor, rigidity, reduced movement, shuffling gait.​ ​-​ ​Loss of SnC dopamine causes basal ganglia dysfunction.​ ​-​ ​SnC: movement, VTA: mood and…",
+              "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/source",
+              "support_type": "explicit"
+            },
+            "extraction_quality": "high",
+            "item_id": "bundle_0991df6e2948af9ab26d392b:item:4",
+            "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+            "material_title": "03133 Exam 3 Cheat sheet.pdf",
+            "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2",
+            "slide_number": 2,
+            "text": "​Parkinson’s Disease​\n​-​\n​Second most common neurological disorder.​\n​-​\n​Caused by degeneration of dopamine neurons in the substantia nigra pars compacta (SnC).​\n​-​\n​Symptoms: tremor, rigidity, reduced movement, shuffling gait.​\n​-​\n​Loss of SnC dopamine causes basal ganglia dysfunction.​\n​-​\n​SnC: movement, VTA: mood and attention​\n​-​\n​Other DA-related disorders: ADHD, depression, anxiety, OCD, Tourette’s, addiction.​\n​-​\n​L-dopa / dopamine replacement,​​Taken several times​​a day.Often works only for 5–10 years. Can cause major side effects.​\n​-​\n​Deep brain stimulation,​​Effective only while stimulation​​is on. Masks symptoms but does not repair underlying degeneration.​\n​Addiction​\n​-​\n​Receptor compensation:​​The brain adjusts to repeated​​drug use (e.g., reduces receptor number or sensitivity) to maintain​\n​balance.​\n​-​\n​Tolerance:​​Prolonged agonist use causes​​downregulation (fewer GABA receptors)​, so there are fewer receptors for the​\n​drug to act on →​​weaker signal → reduced effect → tolerance develops.​\n​-​\n​Withdrawal:​​Drug is stopped → normal GABA release but​​fewer receptors​​→​​less inhibitory GABA signaling than​\n​baseline​​→ brain becomes​​overactive​​→ symptoms like​​anxiety, agitation, seizures​.​\n​-​\n​Cocaine​: Increases dopamine signaling. Tolerance/withdrawal are linked to compensation in dopamine receptor number, not​\n​DAT.​\n​-​\n​Opioids and Pain​: Opioids reduce pain by inhibiting glutamate pain signals entering the spinal cord.​\n​-​\n​Opioids and Reward:​​Opioids increase dopamine release from the​​VTA to nucleus accumbens​.​\n​-​\n​Important circuit: GABA neurons in VTA normally inhibit dopamine neurons. Opioids inhibit those GABA neurons. This​\n​disinhibits dopamine neurons, so dopamine release increases.​\n​ACC​\n​-​\n​Reduce the emotional/affective component of pain (how unpleasant it feels)​\n​-​\n​Produce analgesia and relief​\n​-​\n​Can also contribute to reward/pleasant feelings​\n​Fibromyalgia: Fewer receptors →​​less natural pain inhibition → heightened pain experience​, which matches fibromyalgia​\n​symptoms​\n​Anxiety & Depression​\n​-​\n​Both diseases also have same biomarkers (changes in stress hormones, changes in shape and activity in various brain areas)​\n​-​\n​Both diseases have almost 100% identical genetic risk factors, high comorbidity​\n​-​\n​This set of correlations doesn’t prove that they are caused by a common set of biological changes but all of them are​\n​consistent with the idea that a common set of biological causes both​\n​Serotonin (5-HT):​​monoamine (not catecholamine), broken down by MAO​\n​5-HT1:​​inhibitory, calming, low compensation​\n​5-HT2:​​stress-related, complex effects, high compensation​\n​MDD:​​low mood, anhedonia, ± psychosis​\n​GAD:​​excessive persistent anxiety​\n​PTSD:​​trauma, flashbacks, hyperarousal​\n​Episode vs Disorder:​​single episode vs recurring condition​\n​Meds:​​SSRI, SNRI, NRI, MAOI (↑ monoamines)​\n​SSRI hypothesis:​​↑ serotonin immediately, mood improves later → due to receptor compensation​\n​5-HT2:​​blocking serotonin improves mood (↓ stress effects), fits compensation model​\n​Environmental Causes:​​epigenetics/stochastic development, as discussed in class.​\n​Antagonist:​​a substance that​​binds to a receptor but blocks its activity​, preventing the normal effect of a neurotransmitter or​\n​hormone. NALOXONE. LESS SIGNAL,​​# of receptors:​​↑ (upregulation),​​Effect on signal:​​↑ sensitivity over time​\n​Agonist:​​substance that​​binds to a receptor and activates it​, producing a biological effect (mimics the natural​\n​neurotransmitter/hormone). MORPHINE. MORE SIGNAL,​​# of receptors:​​↓ (downregulation)​​Effect on signal:​​↓ over time (tolerance)​"
+          }
+        ],
+        "material_ids": [
+          "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+          "mat_847bd8990d0e4197bca3c9d70a571ec2",
+          "material_390aae065c51",
+          "material_af944947654f"
+        ],
+        "query_text": "full lecture coverage for practice generation",
+        "summary": {
+          "low_confidence_item_count": 0,
+          "total_items": 4,
+          "total_slides": 4
+        },
+        "workspace_id": "workspace_cd0fc75267fd"
+      },
+      "material_ids": [
+        "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+        "mat_847bd8990d0e4197bca3c9d70a571ec2",
+        "material_390aae065c51",
+        "material_af944947654f"
+      ],
+      "workspace_id": "workspace_cd0fc75267fd"
+    },
+    "include_answer_key": true,
+    "include_rubrics": true,
+    "template_material_id": null
+  },
+  "coverage_report": {
+    "cited_slide_count": 2,
+    "considered_slide_count": 2,
+    "notes": "Balanced mode cycled through grounded topics to keep the set representative without forcing full slide-by-slide coverage.",
+    "uncited_or_skipped_slides": []
+  },
+  "created_at": "2026-04-20T22:11:53Z",
+  "estimated_duration_minutes": 38,
+  "generation_mode": "mixed",
+  "human_loop_summary": {
+    "follow_up_actions": [
+      "Lock the strongest questions before revising.",
+      "Regenerate only the questions that feel unclear or off-target.",
+      "Narrow the topic if the current set is too broad."
+    ],
+    "used_inputs": [
+      {
+        "label": "Topic focus",
+        "value": "All ready grounded materials"
+      },
+      {
+        "label": "Question format",
+        "value": "mixed"
+      },
+      {
+        "label": "Question count",
+        "value": "6"
+      },
+      {
+        "label": "Coverage mode",
+        "value": "balanced"
+      },
+      {
+        "label": "Difficulty",
+        "value": "mixed"
+      },
+      {
+        "label": "Answer key",
+        "value": "Included"
+      },
+      {
+        "label": "Rubrics",
+        "value": "Included"
+      }
+    ]
+  },
+  "parent_practice_set_id": null,
+  "practice_set_id": "practice_set_7411ebcac8c2",
+  "questions": [
+    {
+      "answer_choices": [
+        "It treats Medicine Personalized as ​Personalized medicine​ ​●​ ​General idea and benefits: a 10% increase in knowing the right medicine to try can help millions of​ ​people get faster and better treatment for a disease​ ​●​ ​Specific logic with NE receptor vs.",
+        "It treats Medicine Personalized as mainly a surface label or reporting detail rather than a reasoning tool or condition.",
+        "It treats Medicine Personalized as sufficient on its own, with no need to check trade-offs, assumptions, or failure cases.",
+        "It treats Medicine Personalized as interchangeable with Concordance."
+      ],
+      "citations": [
+        {
+          "citation_id": "cit_a1ee70d7234a2d0c92cf3d03",
+          "confidence": "high",
+          "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+          "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+          "preview_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/preview",
+          "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1",
+          "slide_number": 1,
+          "snippet_text": "…​Relatedness:​ ​-​ ​ID twins are 100%​ ​-​ ​Fraternal twins, parents/children, full siblings are all 50%​ ​-​ ​Half siblings, aunt/uncle/niece/nephew, grandparent/grandchild are all 25%​ ​-​ ​Cousins are 12.5%​ ​-​ ​Concordance: 2 people same disorder​ ​-​ ​Calculating observed concordance rates:​ ​-​ ​Example 1: out…",
+          "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/source",
+          "support_type": "explicit"
+        }
+      ],
+      "covered_slides": [
+        1
+      ],
+      "difficulty": "mixed",
+      "estimated_minutes": 3,
+      "expected_answer": "The correct choice is the option that treats Medicine Personalized as ​Personalized medicine​ ​●​ ​General idea and benefits: a 10% increase in knowing the right medicine to try can help millions of​ ​people get faster and better treatment for a disease​ ​●​ ​Specific logic with NE receptor vs. It should not collapse Medicine Personalized into Concordance.",
+      "question_id": "question_cd2497cd0d00",
+      "question_type": "multiple_choice",
+      "rubric": [
+        {
+          "criterion": "Core idea",
+          "description": "Accurately states the main lecture-supported idea behind Medicine Personalized.",
+          "points": 2
+        },
+        {
+          "criterion": "Grounded detail",
+          "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+          "points": 2
+        }
+      ],
+      "scoring_guide_text": "Award credit only for the option that best matches the lecture-grounded reasoning, not the most generic-sounding statement.",
+      "stem": "Explain the most defensible lecture-grounded interpretation of Medicine Personalized."
+    },
+    {
+      "answer_choices": [],
+      "citations": [
+        {
+          "citation_id": "cit_29770fa3728d4a4eac3f613f",
+          "confidence": "high",
+          "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+          "material_title": "03133 Exam 3 Cheat sheet.pdf",
+          "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1/preview",
+          "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1",
+          "slide_number": 1,
+          "snippet_text": "​Concordance vs. Comorbidity​ ​Concordance: relatives tend to share the same disorder at higher-than-chance rates.​ ​Comorbidity: two disorders occur together in the same person more often than expected.​ ​Similarity: both suggest some kind of relationship.​ ​Difference: concordance is about shared disorder in relativ…",
+          "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1/source",
+          "support_type": "explicit"
+        }
+      ],
+      "covered_slides": [
+        1
+      ],
+      "difficulty": "mixed",
+      "estimated_minutes": 6,
+      "expected_answer": "A strong answer identifies Concordance as ​Concordance vs. It also distinguishes Concordance from Mice First.",
+      "question_id": "question_f56fb6215623",
+      "question_type": "short_answer",
+      "rubric": [
+        {
+          "criterion": "Core idea",
+          "description": "Accurately states the main lecture-supported idea behind Concordance.",
+          "points": 2
+        },
+        {
+          "criterion": "Grounded detail",
+          "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+          "points": 2
+        }
+      ],
+      "scoring_guide_text": null,
+      "stem": "Explain Concordance using grounded lecture evidence, then state why it matters in the larger method or evaluation flow."
+    },
+    {
+      "answer_choices": [],
+      "citations": [
+        {
+          "citation_id": "cit_bcfe17fcf4f6b3cb1f17e71b",
+          "confidence": "high",
+          "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+          "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+          "preview_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:2/preview",
+          "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:2",
+          "slide_number": 2,
+          "snippet_text": "​First question for Welch & colleagues study: how does removal of the Sapap3 gene (knockout mice) affect​ ​OCD-like behavior in mice? Result: mice show​​OCD-like behaviors​​(excessive grooming, anxiety)​ ​Basal ganglia activity is different in patients with OCD vs. controls (in complicated ways that you don’t need to​…",
+          "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:2/source",
+          "support_type": "explicit"
+        }
+      ],
+      "covered_slides": [
+        2
+      ],
+      "difficulty": "mixed",
+      "estimated_minutes": 10,
+      "expected_answer": "A strong answer identifies Mice First as ​First question for Welch & colleagues study: how does removal of the Sapap3 gene (knockout mice) affect​ ​OCD-like behavior in mice?. It should name a concrete condition, trade-off, application detail, or failure mode supported by the lecture.",
+      "question_id": "question_59bc69f8717f",
+      "question_type": "long_answer",
+      "rubric": [
+        {
+          "criterion": "Core idea",
+          "description": "Accurately states the main lecture-supported idea behind Mice First.",
+          "points": 2
+        },
+        {
+          "criterion": "Grounded detail",
+          "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+          "points": 2
+        },
+        {
+          "criterion": "Reasoning / application",
+          "description": "Explains how the concept is used, connected, or checked in context.",
+          "points": 3
+        }
+      ],
+      "scoring_guide_text": "Full credit requires a correct explanation of Mice First, a grounded connection to the lecture context, and one clearly stated caution or application detail.",
+      "stem": "Explain a realistic failure case or design decision involving Mice First. Explain how it should be handled, why it should not be confused with Dopamine Snc, and what evidence or caution from the lecture supports your reasoning."
+    },
+    {
+      "answer_choices": [
+        "It treats Dopamine Snc as interchangeable with Medicine Personalized.",
+        "It treats Dopamine Snc as ​Parkinson’s Disease​ ​-​ ​Second most common neurological disorder.​ ​-​ ​Caused by degeneration of dopamine neurons in the substantia nigra pars compacta (SnC).​ ​-​ ​Symptoms: tremor, rigidity, reduced movement, shuffling gait.​ ​-​ ​Loss of SnC dopamine causes basal ganglia dysfunction.​ ​-​ ​SnC: movement, VTA: mood and attention​ ​-​ ​Other DA-related disorders: ADHD, depression, anxiety, OCD, Tourette’s, addiction.​ ​-​ ​L-dopa / dopamine replacement,​​Taken several times​​a day.Often works only for 5–10 years.",
+        "It treats Dopamine Snc as mainly a surface label or reporting detail rather than a reasoning tool or condition.",
+        "It treats Dopamine Snc as sufficient on its own, with no need to check trade-offs, assumptions, or failure cases."
+      ],
+      "citations": [
+        {
+          "citation_id": "cit_47b00f16d4ab0666ffb1c42a",
+          "confidence": "high",
+          "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+          "material_title": "03133 Exam 3 Cheat sheet.pdf",
+          "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/preview",
+          "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2",
+          "slide_number": 2,
+          "snippet_text": "…son’s Disease​ ​-​ ​Second most common neurological disorder.​ ​-​ ​Caused by degeneration of dopamine neurons in the substantia nigra pars compacta (SnC).​ ​-​ ​Symptoms: tremor, rigidity, reduced movement, shuffling gait.​ ​-​ ​Loss of SnC dopamine causes basal ganglia dysfunction.​ ​-​ ​SnC: movement, VTA: mood and…",
+          "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/source",
+          "support_type": "explicit"
+        }
+      ],
+      "covered_slides": [
+        2
+      ],
+      "difficulty": "mixed",
+      "estimated_minutes": 3,
+      "expected_answer": "The correct choice is the option that treats Dopamine Snc as ​Parkinson’s Disease​ ​-​ ​Second most common neurological disorder.​ ​-​ ​Caused by degeneration of dopamine neurons in the substantia nigra pars compacta (SnC).​ ​-​ ​Symptoms: tremor, rigidity, reduced movement, shuffling gait.​ ​-​ ​Loss of SnC dopamine causes basal ganglia dysfunction.​ ​-​ ​SnC: movement, VTA: mood and attention​ ​-​ ​Other DA-related disorders: ADHD, depression, anxiety, OCD, Tourette’s, addiction.​ ​-​ ​L-dopa / dopamine replacement,​​Taken several times​​a day.Often works only for 5–10 years. It should not collapse Dopamine Snc into Medicine Personalized.",
+      "question_id": "question_42d18715eb50",
+      "question_type": "multiple_choice",
+      "rubric": [
+        {
+          "criterion": "Core idea",
+          "description": "Accurately states the main lecture-supported idea behind Dopamine Snc.",
+          "points": 2
+        },
+        {
+          "criterion": "Grounded detail",
+          "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+          "points": 2
+        }
+      ],
+      "scoring_guide_text": "Award credit only for the option that best matches the lecture-grounded reasoning, not the most generic-sounding statement.",
+      "stem": "Explain the most defensible lecture-grounded interpretation of Dopamine Snc."
+    },
+    {
+      "answer_choices": [],
+      "citations": [
+        {
+          "citation_id": "cit_a1ee70d7234a2d0c92cf3d03",
+          "confidence": "high",
+          "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+          "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+          "preview_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/preview",
+          "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1",
+          "slide_number": 1,
+          "snippet_text": "…​Relatedness:​ ​-​ ​ID twins are 100%​ ​-​ ​Fraternal twins, parents/children, full siblings are all 50%​ ​-​ ​Half siblings, aunt/uncle/niece/nephew, grandparent/grandchild are all 25%​ ​-​ ​Cousins are 12.5%​ ​-​ ​Concordance: 2 people same disorder​ ​-​ ​Calculating observed concordance rates:​ ​-​ ​Example 1: out…",
+          "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/source",
+          "support_type": "explicit"
+        }
+      ],
+      "covered_slides": [
+        1
+      ],
+      "difficulty": "mixed",
+      "estimated_minutes": 6,
+      "expected_answer": "A strong answer identifies Medicine Personalized as ​Personalized medicine​ ​●​ ​General idea and benefits: a 10% increase in knowing the right medicine to try can help millions of​ ​people get faster and better treatment for a disease​ ​●​ ​Specific logic with NE receptor vs. It also distinguishes Medicine Personalized from Concordance.",
+      "question_id": "question_2611a457a2a4",
+      "question_type": "short_answer",
+      "rubric": [
+        {
+          "criterion": "Core idea",
+          "description": "Accurately states the main lecture-supported idea behind Medicine Personalized.",
+          "points": 2
+        },
+        {
+          "criterion": "Grounded detail",
+          "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+          "points": 2
+        }
+      ],
+      "scoring_guide_text": null,
+      "stem": "Explain Medicine Personalized using grounded lecture evidence, then state why it matters in the larger method or evaluation flow."
+    },
+    {
+      "answer_choices": [],
+      "citations": [
+        {
+          "citation_id": "cit_29770fa3728d4a4eac3f613f",
+          "confidence": "high",
+          "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+          "material_title": "03133 Exam 3 Cheat sheet.pdf",
+          "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1/preview",
+          "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1",
+          "slide_number": 1,
+          "snippet_text": "​Concordance vs. Comorbidity​ ​Concordance: relatives tend to share the same disorder at higher-than-chance rates.​ ​Comorbidity: two disorders occur together in the same person more often than expected.​ ​Similarity: both suggest some kind of relationship.​ ​Difference: concordance is about shared disorder in relativ…",
+          "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1/source",
+          "support_type": "explicit"
+        }
+      ],
+      "covered_slides": [
+        1
+      ],
+      "difficulty": "mixed",
+      "estimated_minutes": 10,
+      "expected_answer": "A strong answer identifies Concordance as ​Concordance vs. It should name a concrete condition, trade-off, application detail, or failure mode supported by the lecture.",
+      "question_id": "question_0d7aad05abe7",
+      "question_type": "long_answer",
+      "rubric": [
+        {
+          "criterion": "Core idea",
+          "description": "Accurately states the main lecture-supported idea behind Concordance.",
+          "points": 2
+        },
+        {
+          "criterion": "Grounded detail",
+          "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+          "points": 2
+        },
+        {
+          "criterion": "Reasoning / application",
+          "description": "Explains how the concept is used, connected, or checked in context.",
+          "points": 3
+        }
+      ],
+      "scoring_guide_text": "Full credit requires a correct explanation of Concordance, a grounded connection to the lecture context, and one clearly stated caution or application detail.",
+      "stem": "Explain a realistic failure case or design decision involving Concordance. Explain how it should be handled, why it should not be confused with Medicine Personalized, and what evidence or caution from the lecture supports your reasoning."
+    }
+  ],
+  "template_style_summary": null,
+  "topic_text": "",
+  "workspace_id": "workspace_cd0fc75267fd"
+}

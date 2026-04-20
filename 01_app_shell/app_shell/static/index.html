@@ -7,211 +7,365 @@
     <link rel="stylesheet" href="/static/styles.css" />
   </head>
   <body>
-    <header>
-      <h1>Study Helper</h1>
-      <p>Your AI-powered study assistant.</p>
-    </header>
-    <main>
-      <section class="panel">
-        <h2>Library</h2>
-        <div class="system-status" id="system-status"></div>
-        <div class="workspace-list" id="workspace-list"></div>
-        <div class="card">
-          <h3>Create workspace</h3>
-          <form id="create-workspace-form" class="stack">
-            <label>
-              Workspace name
-              <input id="workspace-name" placeholder="e.g. Week 5 backprop prep" />
-            </label>
-            <button type="submit">Create workspace</button>
-          </form>
+    <div class="app-shell">
+      <header class="app-header">
+        <div class="brand-block">
+          <div class="eyebrow">Study Helper MVP</div>
+          <h1>Beautiful study workflows that keep humans in the loop.</h1>
+          <p class="hero-copy">
+            Scope the request, review what the AI will use, inspect the evidence, and keep an auditable revision trail without
+            losing the grounded study experience.
+          </p>
         </div>
-      </section>
+        <div class="header-callout">
+          <div class="eyebrow">Responsible Interaction Pattern</div>
+          <strong>Human-guided, lecture-grounded, revision-friendly</strong>
+          <p>
+            The interface pauses on ambiguity, keeps citations visible, labels uncertainty, and preserves prior drafts so users
+            can challenge and refine the system instead of trusting it blindly.
+          </p>
+        </div>
+      </header>
 
-      <section class="panel">
-        <div id="workspace-empty-state" class="muted">Open a workspace to view materials, practice-test controls, grounded chat, and history.</div>
-        <div id="workspace-view" class="hidden stack">
-          <div>
-            <h2 id="workspace-title"></h2>
-            <div id="workspace-meta" class="muted small"></div>
+      <main class="app-layout">
+        <aside class="panel library-panel">
+          <div class="panel-heading">
+            <div>
+              <div class="eyebrow">Control Center</div>
+              <h2>Workspaces and system state</h2>
+            </div>
           </div>
 
-          <div class="card">
-            <h3>Materials</h3>
-            <div id="materials-service-note" class="service-note small warning hidden"></div>
-            <form id="material-import-form" class="stack">
-              <div class="row">
-                <label style="flex:1 1 200px;">
-                  Title
-                  <input id="material-title" placeholder="Optional display title" />
-                </label>
-                <label style="flex:1 1 180px;">
-                  Role
-                  <select id="material-role">
-                    <option value="slides">Slides</option>
-                    <option value="notes">Notes</option>
-                  </select>
-                </label>
+          <div class="card guide-card">
+            <div class="guide-chip-row">
+              <span class="guide-chip">1. Add materials</span>
+              <span class="guide-chip">2. Review request</span>
+              <span class="guide-chip">3. Inspect evidence</span>
+              <span class="guide-chip">4. Revise safely</span>
+            </div>
+            <p class="small muted">
+              Each workspace makes the AI loop visible: the user chooses inputs, approves generation, opens citations, and can
+              compare or restore prior artifacts from history.
+            </p>
+          </div>
+
+          <div class="system-status" id="system-status"></div>
+          <div class="workspace-list" id="workspace-list"></div>
+
+          <div class="card create-card">
+            <div class="panel-subheading">
+              <div>
+                <div class="eyebrow">Start Fresh</div>
+                <h3>Create workspace</h3>
               </div>
+            </div>
+            <form id="create-workspace-form" class="stack">
               <label>
-                Paste notes/text
-                <textarea id="material-text" placeholder="Paste notes here, or leave blank and choose a file below."></textarea>
+                Workspace name
+                <input id="workspace-name" placeholder="e.g. Week 5 backprop prep" />
               </label>
-              <label>
-                Upload file(s)
-                <input id="material-file" type="file" multiple />
-              </label>
-              <div id="material-upload-status" class="upload-status hidden">
-                <div class="row" style="justify-content:space-between;">
-                  <strong id="material-upload-summary">No upload in progress.</strong>
-                  <span id="material-upload-count" class="small muted"></span>
-                </div>
-                <progress id="material-upload-progress" max="100" value="0"></progress>
-                <div id="material-upload-list" class="upload-list small"></div>
-              </div>
-              <button type="submit">Import material</button>
+              <button type="submit">Create workspace</button>
             </form>
-            <div id="material-jobs" class="stack"></div>
-            <div id="material-list" class="material-list"></div>
+          </div>
+        </aside>
+
+        <section class="workspace-column">
+          <div id="workspace-empty-state" class="panel workspace-empty-state">
+            <div class="eyebrow">Guided Workflow</div>
+            <h2>Open a workspace to see the full human-AI study loop.</h2>
+            <p class="muted">
+              Materials, grounded practice generation, cited lecture Q&amp;A, and artifact history all appear here with the
+              review and evidence controls surfaced directly in the interface.
+            </p>
+            <div class="empty-grid">
+              <div class="empty-step">
+                <div class="empty-step-number">1</div>
+                <strong>Frame the task</strong>
+                <span class="small muted">Upload lecture materials and choose the exact scope you want the assistant to use.</span>
+              </div>
+              <div class="empty-step">
+                <div class="empty-step-number">2</div>
+                <strong>Approve before generation</strong>
+                <span class="small muted">Practice generation pauses for a visible review step instead of guessing silently.</span>
+              </div>
+              <div class="empty-step">
+                <div class="empty-step-number">3</div>
+                <strong>Inspect citations</strong>
+                <span class="small muted">Open the cited slide or page from answers and questions to verify the grounding.</span>
+              </div>
+              <div class="empty-step">
+                <div class="empty-step-number">4</div>
+                <strong>Audit and revise</strong>
+                <span class="small muted">Lock good questions, regenerate weak ones, and revisit older artifacts from history.</span>
+              </div>
+            </div>
           </div>
 
-          <div>
-            <div class="tabs">
-              <button class="tab-button active" data-tab="practice" type="button">Practice</button>
-              <button class="tab-button" data-tab="ask" type="button">Ask</button>
-              <button class="tab-button" data-tab="history" type="button">History</button>
-            </div>
-
-            <div id="tab-practice" class="tab-panel active stack">
-              <div class="card">
-                <h3>Practice test generator</h3>
-                <div id="practice-service-note" class="service-note small warning hidden"></div>
-                <form id="practice-form" class="stack">
-                  <div class="row">
-                    <label style="flex:2 1 220px;">
-                      Topic focus
-                      <input id="practice-topic-text" placeholder="Optional narrower topic, term, or slide cluster" />
-                    </label>
-                    <label style="flex:1 1 160px;">
-                      Question count
-                      <input id="practice-count" type="number" min="1" placeholder="6" value="6" />
-                    </label>
-                  </div>
-                  <div class="row">
-                    <label style="flex:1 1 180px;">
-                      Format
-                      <select id="practice-mode">
-                        <option value="multiple_choice">Multiple choice</option>
-                        <option value="short_answer">Short answer</option>
-                        <option value="long_answer">Long answer</option>
-                        <option value="mixed" selected>Mixed</option>
-                      </select>
-                    </label>
-                    <label style="flex:1 1 180px;">
-                      Difficulty
-                      <select id="practice-difficulty">
-                        <option value="easier">Easier</option>
-                        <option value="mixed">Mixed</option>
-                        <option value="harder" selected>Harder</option>
-                      </select>
-                    </label>
-                    <label style="flex:1 1 180px;">
-                      Coverage
-                      <select id="practice-coverage">
-                        <option value="balanced" selected>Balanced</option>
-                        <option value="high_coverage">High coverage</option>
-                        <option value="exhaustive">Exhaustive</option>
-                      </select>
-                    </label>
-                  </div>
-                  <div class="row">
-                    <label style="flex:1 1 180px;">
-                      Grounding mode
-                      <select id="practice-grounding-mode">
-                        <option value="strict_lecture_only">Strict (lecture only)</option>
-                        <option value="lecture_with_fallback">Lecture + fallback</option>
-                      </select>
-                    </label>
-                    <label style="flex:1 1 160px;">
-                      <input id="practice-answer-key" type="checkbox" /> Include answer key
-                    </label>
-                    <label style="flex:1 1 160px;">
-                      <input id="practice-rubrics" type="checkbox" checked /> Include rubrics
-                    </label>
-                  </div>
-                  <div class="row">
-                    <button type="submit">Review and generate</button>
-                    <button id="revise-practice" class="secondary" type="button">Revise selected questions</button>
-                  </div>
-                </form>
-              </div>
-              <div id="practice-clarification" class="stack"></div>
-              <div id="practice-output" class="question-list"></div>
-            </div>
-
-            <div id="tab-ask" class="tab-panel stack">
-              <div class="card">
-                <h3>Grounded chat</h3>
-                <div id="chat-service-note" class="service-note small warning hidden"></div>
-                <div class="row">
-                  <button id="new-conversation" type="button">Start new chat</button>
-                  <button id="clear-conversation" class="secondary" type="button">Clear current chat</button>
+          <div id="workspace-view" class="hidden stack">
+            <section class="panel workspace-hero">
+              <div class="workspace-hero-header">
+                <div>
+                  <div class="eyebrow">Active Workspace</div>
+                  <h2 id="workspace-title"></h2>
+                  <div id="workspace-meta" class="muted small"></div>
                 </div>
-                <form id="chat-form" class="stack" style="margin-top:12px;">
-                  <label>
-                    Question
-                    <textarea id="chat-question" placeholder="Ask a grounded question about the current materials."></textarea>
-                  </label>
+                <div id="workspace-health-pills" class="hero-pill-row"></div>
+              </div>
+              <div id="workspace-overview" class="hero-grid"></div>
+              <div id="workspace-loop-map" class="principles-grid"></div>
+            </section>
+
+            <div class="workspace-main-grid">
+              <section class="panel">
+                <div class="panel-heading">
+                  <div>
+                    <div class="eyebrow">Evidence Base</div>
+                    <h3>Materials and grounding controls</h3>
+                  </div>
+                </div>
+
+                <div id="materials-service-note" class="service-note small warning hidden"></div>
+
+                <form id="material-import-form" class="stack">
                   <div class="row">
-                    <label style="flex:1 1 180px;">
-                      Grounding mode
-                      <select id="chat-grounding-mode">
-                        <option value="strict_lecture_only">Strict (lecture only)</option>
-                        <option value="lecture_with_fallback">Lecture + fallback</option>
-                      </select>
+                    <label class="field-grow">
+                      Title
+                      <input id="material-title" placeholder="Optional display title" />
                     </label>
-                    <label style="flex:1 1 180px;">
-                      Response style
-                      <select id="chat-response-style">
-                        <option value="standard" selected>standard</option>
-                        <option value="concise">concise</option>
-                        <option value="step_by_step">step by step</option>
+                    <label class="field-narrow">
+                      Role
+                      <select id="material-role">
+                        <option value="slides">Slides</option>
+                        <option value="notes">Notes</option>
                       </select>
                     </label>
                   </div>
-                  <button type="submit">Send message</button>
+                  <label>
+                    Paste notes/text
+                    <textarea id="material-text" placeholder="Paste notes here, or leave blank and choose a file below."></textarea>
+                  </label>
+                  <label>
+                    Upload file(s)
+                    <input id="material-file" type="file" multiple />
+                  </label>
+                  <div id="material-upload-status" class="upload-status hidden">
+                    <div class="row split-row">
+                      <strong id="material-upload-summary">No upload in progress.</strong>
+                      <span id="material-upload-count" class="small muted"></span>
+                    </div>
+                    <progress id="material-upload-progress" max="100" value="0"></progress>
+                    <div id="material-upload-list" class="upload-list small"></div>
+                  </div>
+                  <button type="submit">Import material</button>
                 </form>
-              </div>
-              <div id="chat-output" class="message-list"></div>
-            </div>
 
-            <div id="tab-history" class="tab-panel stack">
-              <div class="card">
-                <h3>History</h3>
-                <div id="history-output" class="history-list"></div>
-              </div>
+                <div id="material-jobs" class="stack"></div>
+                <div id="material-list" class="material-list"></div>
+              </section>
+
+              <section class="panel">
+                <div class="panel-heading">
+                  <div>
+                    <div class="eyebrow">AI Workflows</div>
+                    <h3>Practice, ask, and audit</h3>
+                  </div>
+                </div>
+
+                <div class="tabs" role="tablist" aria-label="Workspace sections">
+                  <button class="tab-button active" data-tab="practice" type="button">Practice</button>
+                  <button class="tab-button" data-tab="ask" type="button">Ask</button>
+                  <button class="tab-button" data-tab="history" type="button">History</button>
+                </div>
+
+                <div id="tab-practice" class="tab-panel active stack">
+                  <div class="card flow-card">
+                    <div class="flow-card-header">
+                      <div>
+                        <div class="eyebrow">Human Approval</div>
+                        <h3>Practice test generator</h3>
+                      </div>
+                    </div>
+                    <div id="practice-service-note" class="service-note small warning hidden"></div>
+                    <form id="practice-form" class="stack">
+                      <div class="row">
+                        <label class="field-grow">
+                          Topic focus
+                          <input id="practice-topic-text" placeholder="Optional narrower topic, term, or slide cluster" />
+                        </label>
+                        <label class="field-narrow">
+                          Question count
+                          <input id="practice-count" type="number" min="1" placeholder="6" value="6" />
+                        </label>
+                      </div>
+                      <div class="row">
+                        <label class="field-third">
+                          Format
+                          <select id="practice-mode">
+                            <option value="multiple_choice">Multiple choice</option>
+                            <option value="short_answer">Short answer</option>
+                            <option value="long_answer">Long answer</option>
+                            <option value="mixed" selected>Mixed</option>
+                          </select>
+                        </label>
+                        <label class="field-third">
+                          Difficulty
+                          <select id="practice-difficulty">
+                            <option value="easier">Easier</option>
+                            <option value="mixed">Mixed</option>
+                            <option value="harder" selected>Harder</option>
+                          </select>
+                        </label>
+                        <label class="field-third">
+                          Coverage
+                          <select id="practice-coverage">
+                            <option value="balanced" selected>Balanced</option>
+                            <option value="high_coverage">High coverage</option>
+                            <option value="exhaustive">Exhaustive</option>
+                          </select>
+                        </label>
+                      </div>
+                      <div class="row">
+                        <label class="field-third">
+                          Grounding mode
+                          <select id="practice-grounding-mode">
+                            <option value="strict_lecture_only">Strict (lecture only)</option>
+                            <option value="lecture_with_fallback">Lecture + fallback</option>
+                          </select>
+                        </label>
+                        <label class="inline-toggle">
+                          <input id="practice-answer-key" type="checkbox" />
+                          <span>Include answer key</span>
+                        </label>
+                        <label class="inline-toggle">
+                          <input id="practice-rubrics" type="checkbox" checked />
+                          <span>Include rubrics</span>
+                        </label>
+                      </div>
+                      <div class="row">
+                        <button type="submit">Review request</button>
+                        <button id="revise-practice" class="secondary" type="button">Review revision</button>
+                      </div>
+                    </form>
+                  </div>
+
+                  <div id="practice-preflight" class="stack"></div>
+                  <div id="practice-clarification" class="stack"></div>
+                  <div id="practice-output" class="question-list"></div>
+                </div>
+
+                <div id="tab-ask" class="tab-panel stack">
+                  <div id="ask-policy" class="stack"></div>
+                  <div class="card flow-card">
+                    <div class="flow-card-header">
+                      <div>
+                        <div class="eyebrow">Grounded Answers</div>
+                        <h3>Ask the current materials</h3>
+                      </div>
+                    </div>
+                    <div id="chat-service-note" class="service-note small warning hidden"></div>
+                    <div class="row">
+                      <button id="new-conversation" type="button">Start new chat</button>
+                      <button id="clear-conversation" class="secondary" type="button">Clear current chat</button>
+                    </div>
+                    <form id="chat-form" class="stack chat-form">
+                      <label>
+                        Question
+                        <textarea id="chat-question" placeholder="Ask a grounded question about the current materials."></textarea>
+                      </label>
+                      <div class="row">
+                        <label class="field-third">
+                          Grounding mode
+                          <select id="chat-grounding-mode">
+                            <option value="strict_lecture_only">Strict (lecture only)</option>
+                            <option value="lecture_with_fallback">Lecture + fallback</option>
+                          </select>
+                        </label>
+                        <label class="field-third">
+                          Response style
+                          <select id="chat-response-style">
+                            <option value="standard" selected>standard</option>
+                            <option value="concise">concise</option>
+                            <option value="step_by_step">step by step</option>
+                          </select>
+                        </label>
+                      </div>
+                      <button type="submit">Send grounded question</button>
+                    </form>
+                  </div>
+                  <div id="chat-output" class="message-list"></div>
+                </div>
+
+                <div id="tab-history" class="tab-panel stack">
+                  <div id="history-summary" class="stack"></div>
+                  <div class="card flow-card">
+                    <div class="flow-card-header">
+                      <div>
+                        <div class="eyebrow">Audit Trail</div>
+                        <h3>Artifact history</h3>
+                      </div>
+                    </div>
+                    <div id="history-output" class="history-list"></div>
+                  </div>
+                </div>
+              </section>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="panel source-viewer hidden">
-        <h2>Source viewer</h2>
-        <div id="source-service-note" class="service-note small warning hidden"></div>
-        <div id="source-empty" class="muted">Click any citation chip to inspect the exact slide or page used for grounding.</div>
-        <div id="source-view" class="hidden stack">
-          <div id="source-meta" class="small muted"></div>
-          <div id="source-snippet" class="source-snippet-card"></div>
-          <img id="source-preview" alt="Cited source preview" style="display:none;" onerror="this.style.display='none'" onload="this.style.display=''" />
+        <aside class="panel source-viewer hidden">
+          <div class="panel-heading">
+            <div>
+              <div class="eyebrow">Transparency</div>
+              <h2>Evidence viewer</h2>
+            </div>
+            <button id="source-close" class="secondary" type="button">Hide viewer</button>
+          </div>
+          <div id="source-service-note" class="service-note small warning hidden"></div>
+          <div id="source-empty" class="muted">Click any citation chip to inspect the exact slide or page used for grounding.</div>
+          <div id="source-view" class="hidden stack">
+            <div class="source-meta-row">
+              <div id="source-meta" class="small muted"></div>
+              <div id="source-counter" class="badge"></div>
+            </div>
+            <div id="source-snippet" class="source-snippet-card"></div>
+            <img id="source-preview" alt="Cited source preview" class="source-preview hidden" onerror="this.classList.add('hidden')" onload="this.classList.remove('hidden')" />
+            <div class="row">
+              <button id="source-prev" class="secondary" type="button">Previous citation</button>
+              <button id="source-next" class="secondary" type="button">Next citation</button>
+              <button id="source-open" class="secondary" type="button">Open source page</button>
+            </div>
+            <div id="source-message" class="muted small"></div>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <div id="decision-review" class="decision-review hidden" aria-hidden="true">
+      <div id="decision-review-dismiss" class="decision-review-backdrop"></div>
+      <div class="decision-review-card" role="dialog" aria-modal="true" aria-labelledby="decision-review-title">
+        <div class="decision-review-header">
+          <div>
+            <div id="decision-review-kicker" class="eyebrow"></div>
+            <h3 id="decision-review-title"></h3>
+            <p id="decision-review-description" class="muted"></p>
+          </div>
+          <button id="decision-review-close" class="secondary" type="button">Close</button>
+        </div>
+        <div id="decision-review-body" class="decision-review-body"></div>
+        <label id="decision-review-note-wrap" class="stack hidden">
+          <span id="decision-review-note-label">Note</span>
+          <textarea id="decision-review-note" placeholder=""></textarea>
+        </label>
+        <div class="decision-review-footer">
+          <div id="decision-review-footnote" class="small muted"></div>
           <div class="row">
-            <button id="source-prev" class="secondary" type="button">Previous citation</button>
-            <button id="source-next" class="secondary" type="button">Next citation</button>
-            <button id="source-open" class="secondary" type="button">Open source page</button>
+            <button id="decision-review-cancel" class="secondary" type="button">Keep editing</button>
+            <button id="decision-review-confirm" type="button">Approve and continue</button>
           </div>
-          <div id="source-message" class="muted small"></div>
         </div>
-      </section>
-    </main>
+      </div>
+    </div>
+
     <div id="global-activity" class="global-activity hidden"></div>
     <div id="global-toast-stack" class="toast-stack"></div>
 

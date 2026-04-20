@@ -753,6 +753,49 @@
       "user_action": null,
       "workspace_id": "workspace_119cfa5ac40c"
     },
+    "job_6d62e6313c53": {
+      "context": {
+        "normalized_request": {
+          "instruction_text": "Regenerate the selected questions with less redundancy and stronger lecture grounding.",
+          "locked_question_ids": [
+            "question_56470efc0e2c",
+            "question_93dc902ec4f0",
+            "question_30da45954d5b"
+          ],
+          "maintain_coverage": true,
+          "target_question_ids": [
+            "question_8a8e4e7ba86d",
+            "question_c7028c175578"
+          ]
+        },
+        "practice_set_id": "practice_set_e4c4fddb3b89"
+      },
+      "created_at": "2026-04-20T22:11:07Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_6d62e6313c53",
+      "message": "Practice set revision created.",
+      "operation": "practice_revise",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_4ae07824b6d4",
+      "result_id": "practice_set_dec1b5dd830a",
+      "result_type": "practice_set",
+      "service": "learning",
+      "stage": "done",
+      "status": "succeeded",
+      "updated_at": "2026-04-20T22:11:11Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_cd0fc75267fd"
+    },
     "job_7a721d56b68b": {
       "context": {
         "conversation_id": "conversation_f9e766f9579f",
@@ -1128,6 +1171,54 @@
       "user_action": null,
       "workspace_id": "workspace_538aaf9f4515"
     },
+    "job_c1e8066a306f": {
+      "context": {
+        "normalized_request": {
+          "coverage_mode": "balanced",
+          "difficulty_profile": "mixed",
+          "generation_mode": "mixed",
+          "grounding_mode": "strict_lecture_only",
+          "include_annotations": true,
+          "include_answer_key": true,
+          "include_rubrics": true,
+          "material_ids": [
+            "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+            "mat_847bd8990d0e4197bca3c9d70a571ec2",
+            "material_390aae065c51",
+            "material_af944947654f"
+          ],
+          "question_count": 6,
+          "topic_text": "",
+          "workspace_id": "workspace_cd0fc75267fd"
+        },
+        "warnings": []
+      },
+      "created_at": "2026-04-20T22:11:41Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_c1e8066a306f",
+      "message": "Practice set created.",
+      "operation": "practice_generate",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_e71ff28d87bf",
+      "result_id": "practice_set_7411ebcac8c2",
+      "result_type": "practice_set",
+      "service": "learning",
+      "stage": "done",
+      "status": "succeeded",
+      "updated_at": "2026-04-20T22:11:54Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_cd0fc75267fd"
+    },
     "job_cdfefa6befde": {
       "context": {
         "normalized_request": {
@@ -1424,7 +1515,7 @@
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-20T22:03:49Z",
+      "last_opened_at": "2026-04-20T22:11:55Z",
       "local_edits": {},
       "material_preferences": {
         "material_057153c6600f": "focus",
@@ -1510,13 +1601,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-20T22:03:49Z",
+            "last_checked_at": "2026-04-20T22:11:55Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-20T22:03:49Z",
+            "last_checked_at": "2026-04-20T22:11:55Z",
             "mode": "integrated"
           }
         },
@@ -1568,7 +1659,7 @@
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-20T22:03:49Z",
+      "last_opened_at": "2026-04-20T22:11:56Z",
       "local_edits": {},
       "material_preferences": {
         "material_753ac7b44e1e": "default",
@@ -1683,13 +1774,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-20T22:03:49Z",
+            "last_checked_at": "2026-04-20T22:11:55Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-20T22:03:49Z",
+            "last_checked_at": "2026-04-20T22:11:55Z",
             "mode": "integrated"
           }
         },
@@ -1840,7 +1931,7 @@
       ],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-20T22:03:49Z",
+      "last_opened_at": "2026-04-20T22:11:56Z",
       "local_edits": {},
       "material_preferences": {
         "mat_0d4cf2e5271346b2afc8b1a4422e6a0e": "default",
@@ -10385,13 +10476,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-20T22:03:49Z",
+            "last_checked_at": "2026-04-20T22:11:55Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-20T22:03:49Z",
+            "last_checked_at": "2026-04-20T22:11:55Z",
             "mode": "integrated"
           }
         },
@@ -11425,7 +11516,7 @@
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-20T22:03:49Z",
+      "last_opened_at": "2026-04-20T22:11:56Z",
       "local_edits": {},
       "material_preferences": {
         "material_f90e97c0bfa9": "default"
@@ -11476,13 +11567,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-20T22:03:49Z",
+            "last_checked_at": "2026-04-20T22:11:55Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-20T22:03:49Z",
+            "last_checked_at": "2026-04-20T22:11:55Z",
             "mode": "integrated"
           }
         },
@@ -11515,7 +11606,7 @@
           "material_af944947654f"
         ]
       },
-      "active_practice_set_id": "practice_set_e4c4fddb3b89",
+      "active_practice_set_id": "practice_set_7411ebcac8c2",
       "active_study_plan_id": null,
       "annotations": [],
       "archived": false,
@@ -11721,10 +11812,26 @@
           "title": "Chat 5:13:30 PM"
         },
         {
-          "active": true,
+          "active": false,
           "artifact_id": "practice_set_e4c4fddb3b89",
           "artifact_type": "practice_set",
           "created_at": "2026-04-20T22:03:47Z",
+          "parent_artifact_id": null,
+          "title": "mixed"
+        },
+        {
+          "active": false,
+          "artifact_id": "practice_set_dec1b5dd830a",
+          "artifact_type": "practice_set",
+          "created_at": "2026-04-20T22:11:10Z",
+          "parent_artifact_id": "practice_set_e4c4fddb3b89",
+          "title": "mixed"
+        },
+        {
+          "active": true,
+          "artifact_id": "practice_set_7411ebcac8c2",
+          "artifact_type": "practice_set",
+          "created_at": "2026-04-20T22:11:53Z",
           "parent_artifact_id": null,
           "title": "mixed"
         }
@@ -11735,10 +11842,12 @@
         "conversation_adab45d0370a"
       ],
       "known_practice_set_ids": [
-        "practice_set_e4c4fddb3b89"
+        "practice_set_e4c4fddb3b89",
+        "practice_set_dec1b5dd830a",
+        "practice_set_7411ebcac8c2"
       ],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-20T22:03:49Z",
+      "last_opened_at": "2026-04-20T22:11:55Z",
       "local_edits": {},
       "material_preferences": {
         "mat_2f09c1feaeca4fbe81e2ab67795171e4": "default",
@@ -11905,6 +12014,624 @@
         "topic_text": ""
       },
       "practice_sets": {
+        "practice_set_7411ebcac8c2": {
+          "coverage_report": {
+            "cited_slide_count": 2,
+            "considered_slide_count": 2,
+            "notes": "Balanced mode cycled through grounded topics to keep the set representative without forcing full slide-by-slide coverage.",
+            "uncited_or_skipped_slides": []
+          },
+          "created_at": "2026-04-20T22:11:53Z",
+          "estimated_duration_minutes": 38,
+          "generation_mode": "mixed",
+          "human_loop_summary": {
+            "follow_up_actions": [
+              "Lock the strongest questions before revising.",
+              "Regenerate only the questions that feel unclear or off-target.",
+              "Narrow the topic if the current set is too broad."
+            ],
+            "used_inputs": [
+              {
+                "label": "Topic focus",
+                "value": "All ready grounded materials"
+              },
+              {
+                "label": "Question format",
+                "value": "mixed"
+              },
+              {
+                "label": "Question count",
+                "value": "6"
+              },
+              {
+                "label": "Coverage mode",
+                "value": "balanced"
+              },
+              {
+                "label": "Difficulty",
+                "value": "mixed"
+              },
+              {
+                "label": "Answer key",
+                "value": "Included"
+              },
+              {
+                "label": "Rubrics",
+                "value": "Included"
+              }
+            ]
+          },
+          "parent_practice_set_id": null,
+          "practice_set_id": "practice_set_7411ebcac8c2",
+          "questions": [
+            {
+              "answer_choices": [
+                "It treats Medicine Personalized as \u200bPersonalized medicine\u200b \u200b\u25cf\u200b \u200bGeneral idea and benefits: a 10% increase in knowing the right medicine to try can help millions of\u200b \u200bpeople get faster and better treatment for a disease\u200b \u200b\u25cf\u200b \u200bSpecific logic with NE receptor vs.",
+                "It treats Medicine Personalized as mainly a surface label or reporting detail rather than a reasoning tool or condition.",
+                "It treats Medicine Personalized as sufficient on its own, with no need to check trade-offs, assumptions, or failure cases.",
+                "It treats Medicine Personalized as interchangeable with Concordance."
+              ],
+              "citations": [
+                {
+                  "citation_id": "cit_a1ee70d7234a2d0c92cf3d03",
+                  "confidence": "high",
+                  "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+                  "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/preview",
+                  "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1",
+                  "slide_number": 1,
+                  "snippet_text": "\u2026\u200bRelatedness:\u200b \u200b-\u200b \u200bID twins are 100%\u200b \u200b-\u200b \u200bFraternal twins, parents/children, full siblings are all 50%\u200b \u200b-\u200b \u200bHalf siblings, aunt/uncle/niece/nephew, grandparent/grandchild are all 25%\u200b \u200b-\u200b \u200bCousins are 12.5%\u200b \u200b-\u200b \u200bConcordance: 2 people same disorder\u200b \u200b-\u200b \u200bCalculating observed concordance rates:\u200b \u200b-\u200b \u200bExample 1: out\u2026",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                1
+              ],
+              "difficulty": "mixed",
+              "estimated_minutes": 3,
+              "expected_answer": "The correct choice is the option that treats Medicine Personalized as \u200bPersonalized medicine\u200b \u200b\u25cf\u200b \u200bGeneral idea and benefits: a 10% increase in knowing the right medicine to try can help millions of\u200b \u200bpeople get faster and better treatment for a disease\u200b \u200b\u25cf\u200b \u200bSpecific logic with NE receptor vs. It should not collapse Medicine Personalized into Concordance.",
+              "question_id": "question_cd2497cd0d00",
+              "question_type": "multiple_choice",
+              "rubric": [
+                {
+                  "criterion": "Core idea",
+                  "description": "Accurately states the main lecture-supported idea behind Medicine Personalized.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Grounded detail",
+                  "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+                  "points": 2
+                }
+              ],
+              "scoring_guide_text": "Award credit only for the option that best matches the lecture-grounded reasoning, not the most generic-sounding statement.",
+              "stem": "Explain the most defensible lecture-grounded interpretation of Medicine Personalized."
+            },
+            {
+              "answer_choices": [],
+              "citations": [
+                {
+                  "citation_id": "cit_29770fa3728d4a4eac3f613f",
+                  "confidence": "high",
+                  "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+                  "material_title": "03133 Exam 3 Cheat sheet.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1/preview",
+                  "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1",
+                  "slide_number": 1,
+                  "snippet_text": "\u200bConcordance vs. Comorbidity\u200b \u200bConcordance: relatives tend to share the same disorder at higher-than-chance rates.\u200b \u200bComorbidity: two disorders occur together in the same person more often than expected.\u200b \u200bSimilarity: both suggest some kind of relationship.\u200b \u200bDifference: concordance is about shared disorder in relativ\u2026",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                1
+              ],
+              "difficulty": "mixed",
+              "estimated_minutes": 6,
+              "expected_answer": "A strong answer identifies Concordance as \u200bConcordance vs. It also distinguishes Concordance from Mice First.",
+              "question_id": "question_f56fb6215623",
+              "question_type": "short_answer",
+              "rubric": [
+                {
+                  "criterion": "Core idea",
+                  "description": "Accurately states the main lecture-supported idea behind Concordance.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Grounded detail",
+                  "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+                  "points": 2
+                }
+              ],
+              "scoring_guide_text": null,
+              "stem": "Explain Concordance using grounded lecture evidence, then state why it matters in the larger method or evaluation flow."
+            },
+            {
+              "answer_choices": [],
+              "citations": [
+                {
+                  "citation_id": "cit_bcfe17fcf4f6b3cb1f17e71b",
+                  "confidence": "high",
+                  "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+                  "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:2/preview",
+                  "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:2",
+                  "slide_number": 2,
+                  "snippet_text": "\u200bFirst question for Welch & colleagues study: how does removal of the Sapap3 gene (knockout mice) affect\u200b \u200bOCD-like behavior in mice? Result: mice show\u200b\u200bOCD-like behaviors\u200b\u200b(excessive grooming, anxiety)\u200b \u200bBasal ganglia activity is different in patients with OCD vs. controls (in complicated ways that you don\u2019t need to\u200b\u2026",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:2/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                2
+              ],
+              "difficulty": "mixed",
+              "estimated_minutes": 10,
+              "expected_answer": "A strong answer identifies Mice First as \u200bFirst question for Welch & colleagues study: how does removal of the Sapap3 gene (knockout mice) affect\u200b \u200bOCD-like behavior in mice?. It should name a concrete condition, trade-off, application detail, or failure mode supported by the lecture.",
+              "question_id": "question_59bc69f8717f",
+              "question_type": "long_answer",
+              "rubric": [
+                {
+                  "criterion": "Core idea",
+                  "description": "Accurately states the main lecture-supported idea behind Mice First.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Grounded detail",
+                  "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Reasoning / application",
+                  "description": "Explains how the concept is used, connected, or checked in context.",
+                  "points": 3
+                }
+              ],
+              "scoring_guide_text": "Full credit requires a correct explanation of Mice First, a grounded connection to the lecture context, and one clearly stated caution or application detail.",
+              "stem": "Explain a realistic failure case or design decision involving Mice First. Explain how it should be handled, why it should not be confused with Dopamine Snc, and what evidence or caution from the lecture supports your reasoning."
+            },
+            {
+              "answer_choices": [
+                "It treats Dopamine Snc as interchangeable with Medicine Personalized.",
+                "It treats Dopamine Snc as \u200bParkinson\u2019s Disease\u200b \u200b-\u200b \u200bSecond most common neurological disorder.\u200b \u200b-\u200b \u200bCaused by degeneration of dopamine neurons in the substantia nigra pars compacta (SnC).\u200b \u200b-\u200b \u200bSymptoms: tremor, rigidity, reduced movement, shuffling gait.\u200b \u200b-\u200b \u200bLoss of SnC dopamine causes basal ganglia dysfunction.\u200b \u200b-\u200b \u200bSnC: movement, VTA: mood and attention\u200b \u200b-\u200b \u200bOther DA-related disorders: ADHD, depression, anxiety, OCD, Tourette\u2019s, addiction.\u200b \u200b-\u200b \u200bL-dopa / dopamine replacement,\u200b\u200bTaken several times\u200b\u200ba day.Often works only for 5\u201310 years.",
+                "It treats Dopamine Snc as mainly a surface label or reporting detail rather than a reasoning tool or condition.",
+                "It treats Dopamine Snc as sufficient on its own, with no need to check trade-offs, assumptions, or failure cases."
+              ],
+              "citations": [
+                {
+                  "citation_id": "cit_47b00f16d4ab0666ffb1c42a",
+                  "confidence": "high",
+                  "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+                  "material_title": "03133 Exam 3 Cheat sheet.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/preview",
+                  "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2",
+                  "slide_number": 2,
+                  "snippet_text": "\u2026son\u2019s Disease\u200b \u200b-\u200b \u200bSecond most common neurological disorder.\u200b \u200b-\u200b \u200bCaused by degeneration of dopamine neurons in the substantia nigra pars compacta (SnC).\u200b \u200b-\u200b \u200bSymptoms: tremor, rigidity, reduced movement, shuffling gait.\u200b \u200b-\u200b \u200bLoss of SnC dopamine causes basal ganglia dysfunction.\u200b \u200b-\u200b \u200bSnC: movement, VTA: mood and\u2026",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                2
+              ],
+              "difficulty": "mixed",
+              "estimated_minutes": 3,
+              "expected_answer": "The correct choice is the option that treats Dopamine Snc as \u200bParkinson\u2019s Disease\u200b \u200b-\u200b \u200bSecond most common neurological disorder.\u200b \u200b-\u200b \u200bCaused by degeneration of dopamine neurons in the substantia nigra pars compacta (SnC).\u200b \u200b-\u200b \u200bSymptoms: tremor, rigidity, reduced movement, shuffling gait.\u200b \u200b-\u200b \u200bLoss of SnC dopamine causes basal ganglia dysfunction.\u200b \u200b-\u200b \u200bSnC: movement, VTA: mood and attention\u200b \u200b-\u200b \u200bOther DA-related disorders: ADHD, depression, anxiety, OCD, Tourette\u2019s, addiction.\u200b \u200b-\u200b \u200bL-dopa / dopamine replacement,\u200b\u200bTaken several times\u200b\u200ba day.Often works only for 5\u201310 years. It should not collapse Dopamine Snc into Medicine Personalized.",
+              "question_id": "question_42d18715eb50",
+              "question_type": "multiple_choice",
+              "rubric": [
+                {
+                  "criterion": "Core idea",
+                  "description": "Accurately states the main lecture-supported idea behind Dopamine Snc.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Grounded detail",
+                  "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+                  "points": 2
+                }
+              ],
+              "scoring_guide_text": "Award credit only for the option that best matches the lecture-grounded reasoning, not the most generic-sounding statement.",
+              "stem": "Explain the most defensible lecture-grounded interpretation of Dopamine Snc."
+            },
+            {
+              "answer_choices": [],
+              "citations": [
+                {
+                  "citation_id": "cit_a1ee70d7234a2d0c92cf3d03",
+                  "confidence": "high",
+                  "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+                  "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/preview",
+                  "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1",
+                  "slide_number": 1,
+                  "snippet_text": "\u2026\u200bRelatedness:\u200b \u200b-\u200b \u200bID twins are 100%\u200b \u200b-\u200b \u200bFraternal twins, parents/children, full siblings are all 50%\u200b \u200b-\u200b \u200bHalf siblings, aunt/uncle/niece/nephew, grandparent/grandchild are all 25%\u200b \u200b-\u200b \u200bCousins are 12.5%\u200b \u200b-\u200b \u200bConcordance: 2 people same disorder\u200b \u200b-\u200b \u200bCalculating observed concordance rates:\u200b \u200b-\u200b \u200bExample 1: out\u2026",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                1
+              ],
+              "difficulty": "mixed",
+              "estimated_minutes": 6,
+              "expected_answer": "A strong answer identifies Medicine Personalized as \u200bPersonalized medicine\u200b \u200b\u25cf\u200b \u200bGeneral idea and benefits: a 10% increase in knowing the right medicine to try can help millions of\u200b \u200bpeople get faster and better treatment for a disease\u200b \u200b\u25cf\u200b \u200bSpecific logic with NE receptor vs. It also distinguishes Medicine Personalized from Concordance.",
+              "question_id": "question_2611a457a2a4",
+              "question_type": "short_answer",
+              "rubric": [
+                {
+                  "criterion": "Core idea",
+                  "description": "Accurately states the main lecture-supported idea behind Medicine Personalized.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Grounded detail",
+                  "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+                  "points": 2
+                }
+              ],
+              "scoring_guide_text": null,
+              "stem": "Explain Medicine Personalized using grounded lecture evidence, then state why it matters in the larger method or evaluation flow."
+            },
+            {
+              "answer_choices": [],
+              "citations": [
+                {
+                  "citation_id": "cit_29770fa3728d4a4eac3f613f",
+                  "confidence": "high",
+                  "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+                  "material_title": "03133 Exam 3 Cheat sheet.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1/preview",
+                  "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1",
+                  "slide_number": 1,
+                  "snippet_text": "\u200bConcordance vs. Comorbidity\u200b \u200bConcordance: relatives tend to share the same disorder at higher-than-chance rates.\u200b \u200bComorbidity: two disorders occur together in the same person more often than expected.\u200b \u200bSimilarity: both suggest some kind of relationship.\u200b \u200bDifference: concordance is about shared disorder in relativ\u2026",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                1
+              ],
+              "difficulty": "mixed",
+              "estimated_minutes": 10,
+              "expected_answer": "A strong answer identifies Concordance as \u200bConcordance vs. It should name a concrete condition, trade-off, application detail, or failure mode supported by the lecture.",
+              "question_id": "question_0d7aad05abe7",
+              "question_type": "long_answer",
+              "rubric": [
+                {
+                  "criterion": "Core idea",
+                  "description": "Accurately states the main lecture-supported idea behind Concordance.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Grounded detail",
+                  "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Reasoning / application",
+                  "description": "Explains how the concept is used, connected, or checked in context.",
+                  "points": 3
+                }
+              ],
+              "scoring_guide_text": "Full credit requires a correct explanation of Concordance, a grounded connection to the lecture context, and one clearly stated caution or application detail.",
+              "stem": "Explain a realistic failure case or design decision involving Concordance. Explain how it should be handled, why it should not be confused with Medicine Personalized, and what evidence or caution from the lecture supports your reasoning."
+            }
+          ],
+          "template_style_summary": null,
+          "topic_text": "",
+          "workspace_id": "workspace_cd0fc75267fd"
+        },
+        "practice_set_dec1b5dd830a": {
+          "coverage_report": {
+            "cited_slide_count": 2,
+            "considered_slide_count": 2,
+            "notes": "Balanced mode cycled through grounded topics to keep the set representative without forcing full slide-by-slide coverage. Revised after feedback while preserving stored history.",
+            "uncited_or_skipped_slides": []
+          },
+          "created_at": "2026-04-20T22:11:10Z",
+          "estimated_duration_minutes": 38,
+          "generation_mode": "mixed",
+          "human_loop_summary": {
+            "follow_up_actions": [
+              "Lock the strongest questions before revising.",
+              "Regenerate only the questions that feel unclear or off-target.",
+              "Narrow the topic if the current set is too broad."
+            ],
+            "used_inputs": [
+              {
+                "label": "Topic focus",
+                "value": "All ready grounded materials"
+              },
+              {
+                "label": "Question format",
+                "value": "mixed"
+              },
+              {
+                "label": "Question count",
+                "value": "6"
+              },
+              {
+                "label": "Coverage mode",
+                "value": "balanced"
+              },
+              {
+                "label": "Difficulty",
+                "value": "mixed"
+              },
+              {
+                "label": "Answer key",
+                "value": "Included"
+              },
+              {
+                "label": "Rubrics",
+                "value": "Included"
+              }
+            ]
+          },
+          "parent_practice_set_id": "practice_set_e4c4fddb3b89",
+          "practice_set_id": "practice_set_dec1b5dd830a",
+          "questions": [
+            {
+              "answer_choices": [
+                "\u200bPersonalized medicine\u200b \u200b\u25cf\u200b \u200bGeneral idea and benefits: a 10% increase in knowing the right medicine to try can help...",
+                "It is mainly a naming convention for Medicine Personalized with no effect on model behavior.",
+                "It means skipping evaluation entirely and relying only on intuition.",
+                "It is a generic rule that always improves every model without trade-offs."
+              ],
+              "citations": [
+                {
+                  "citation_id": "cit_a1ee70d7234a2d0c92cf3d03",
+                  "confidence": "high",
+                  "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+                  "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/preview",
+                  "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1",
+                  "slide_number": 1,
+                  "snippet_text": "\u2026\u200bRelatedness:\u200b \u200b-\u200b \u200bID twins are 100%\u200b \u200b-\u200b \u200bFraternal twins, parents/children, full siblings are all 50%\u200b \u200b-\u200b \u200bHalf siblings, aunt/uncle/niece/nephew, grandparent/grandchild are all 25%\u200b \u200b-\u200b \u200bCousins are 12.5%\u200b \u200b-\u200b \u200bConcordance: 2 people same disorder\u200b \u200b-\u200b \u200bCalculating observed concordance rates:\u200b \u200b-\u200b \u200bExample 1: out\u2026",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                1
+              ],
+              "difficulty": "mixed",
+              "estimated_minutes": 3,
+              "expected_answer": "\u200bPersonalized medicine\u200b \u200b\u25cf\u200b \u200bGeneral idea and benefits: a 10% increase in knowing the right medicine to try can help...",
+              "question_id": "question_8a8e4e7ba86d",
+              "question_type": "multiple_choice",
+              "rubric": [
+                {
+                  "criterion": "Core idea",
+                  "description": "Accurately states the main lecture-supported idea behind Medicine Personalized.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Grounded detail",
+                  "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+                  "points": 2
+                }
+              ],
+              "scoring_guide_text": "Award credit only for the option that matches the lecture-grounded idea most closely.",
+              "stem": "Explain which option best matches how the lecture presents Medicine Personalized."
+            },
+            {
+              "answer_choices": [],
+              "citations": [
+                {
+                  "citation_id": "cit_29770fa3728d4a4eac3f613f",
+                  "confidence": "high",
+                  "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+                  "material_title": "03133 Exam 3 Cheat sheet.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1/preview",
+                  "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1",
+                  "slide_number": 1,
+                  "snippet_text": "\u200bConcordance vs. Comorbidity\u200b \u200bConcordance: relatives tend to share the same disorder at higher-than-chance rates.\u200b \u200bComorbidity: two disorders occur together in the same person more often than expected.\u200b \u200bSimilarity: both suggest some kind of relationship.\u200b \u200bDifference: concordance is about shared disorder in relativ\u2026",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                1
+              ],
+              "difficulty": "mixed",
+              "estimated_minutes": 6,
+              "expected_answer": "\u200bConcordance vs. Comorbidity\u200b \u200bConcordance: relatives tend to share the same disorder at higher-than-chance rates.\u200b \u200bComorbidity: two disorders occur together in the same person more often than expected.\u200b \u200bSimilarity: both suggest some kind of relationship.\u200b \u200bDifference: concordance is about shared disorder in relatives; comorbidity is about two disorders in one individual.\u200b \u200bExpected comorbidity if independent:\u200b\u200bP(A and B) =\u200b\u200bP(A) \u00d7 P(B)\u200b \u200bCalculating observed comorbidity as follows:\u200b \u200b-\u200b \u200bOverall comorbidity rate = percent of all people with comorbid A&B = number_of_people_with_comorbid_A&B /\u200b \u200btotal_number_of_people_in_whole_set\u200b \u200b-\u200b \u200bComorbidity rate in disease A = percent of people with disease A who have comorbid A&B =\u200b \u200bnumber_of_people_with_comorbid_A&B / total_number_of_people_with_A\u200b \u200b-\u200b \u200bComorbidity rate in disease B = percent of people with disease B who have comorbid A&B =\u200b \u200bnumber_of_people_with_comorbid_A&B / total_number_of_people_with_B\u200b \u200b-\u200b \u200bAssuming that one of the diseases always comes first, we will simplify our lives in this class by considering the two most common\u200b \u200bexplanations for a correlation between two diseases:\u200b \u200b1)\u200b \u200bA single set of genes gives rise to risk of both disease 1 and disease 2.",
+              "question_id": "question_56470efc0e2c",
+              "question_type": "short_answer",
+              "rubric": [
+                {
+                  "criterion": "Core idea",
+                  "description": "Accurately states the main lecture-supported idea behind Concordance.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Grounded detail",
+                  "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+                  "points": 2
+                }
+              ],
+              "scoring_guide_text": null,
+              "stem": "Define Concordance as presented in the lecture materials, and state why it matters."
+            },
+            {
+              "answer_choices": [],
+              "citations": [
+                {
+                  "citation_id": "cit_bcfe17fcf4f6b3cb1f17e71b",
+                  "confidence": "high",
+                  "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+                  "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:2/preview",
+                  "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:2",
+                  "slide_number": 2,
+                  "snippet_text": "\u200bFirst question for Welch & colleagues study: how does removal of the Sapap3 gene (knockout mice) affect\u200b \u200bOCD-like behavior in mice? Result: mice show\u200b\u200bOCD-like behaviors\u200b\u200b(excessive grooming, anxiety)\u200b \u200bBasal ganglia activity is different in patients with OCD vs. controls (in complicated ways that you don\u2019t need to\u200b\u2026",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:2/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                2
+              ],
+              "difficulty": "mixed",
+              "estimated_minutes": 10,
+              "expected_answer": "\u200bFirst question for Welch & colleagues study: how does removal of the Sapap3 gene (knockout mice) affect\u200b \u200bOCD-like behavior in mice? Result: mice show\u200b\u200bOCD-like behaviors\u200b\u200b(excessive grooming, anxiety)\u200b \u200bBasal ganglia activity is different in patients with OCD vs.",
+              "question_id": "question_1a757e4fd552",
+              "question_type": "long_answer",
+              "rubric": [
+                {
+                  "criterion": "Core idea",
+                  "description": "Accurately states the main lecture-supported idea behind Mice First.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Grounded detail",
+                  "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Reasoning / application",
+                  "description": "Explains how the concept is used, connected, or checked in context.",
+                  "points": 3
+                }
+              ],
+              "scoring_guide_text": "Full credit requires a correct explanation of Mice First, a grounded connection to the lecture context, and one clearly stated caution or application detail.",
+              "stem": "Explain Mice First, connect it to the lecture's broader procedure or evaluation logic, and explain how you would avoid a common mistake when using it."
+            },
+            {
+              "answer_choices": [
+                "\u200bParkinson\u2019s Disease\u200b \u200b-\u200b \u200bSecond most common neurological disorder.\u200b \u200b-\u200b \u200bCaused by degeneration of dopamine...",
+                "It is mainly a naming convention for Dopamine Snc with no effect on model behavior.",
+                "It means skipping evaluation entirely and relying only on intuition.",
+                "It is a generic rule that always improves every model without trade-offs."
+              ],
+              "citations": [
+                {
+                  "citation_id": "cit_47b00f16d4ab0666ffb1c42a",
+                  "confidence": "high",
+                  "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+                  "material_title": "03133 Exam 3 Cheat sheet.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/preview",
+                  "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2",
+                  "slide_number": 2,
+                  "snippet_text": "\u2026son\u2019s Disease\u200b \u200b-\u200b \u200bSecond most common neurological disorder.\u200b \u200b-\u200b \u200bCaused by degeneration of dopamine neurons in the substantia nigra pars compacta (SnC).\u200b \u200b-\u200b \u200bSymptoms: tremor, rigidity, reduced movement, shuffling gait.\u200b \u200b-\u200b \u200bLoss of SnC dopamine causes basal ganglia dysfunction.\u200b \u200b-\u200b \u200bSnC: movement, VTA: mood and\u2026",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                2
+              ],
+              "difficulty": "mixed",
+              "estimated_minutes": 3,
+              "expected_answer": "\u200bParkinson\u2019s Disease\u200b \u200b-\u200b \u200bSecond most common neurological disorder.\u200b \u200b-\u200b \u200bCaused by degeneration of dopamine...",
+              "question_id": "question_c7028c175578",
+              "question_type": "multiple_choice",
+              "rubric": [
+                {
+                  "criterion": "Core idea",
+                  "description": "Accurately states the main lecture-supported idea behind Dopamine Snc.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Grounded detail",
+                  "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+                  "points": 2
+                }
+              ],
+              "scoring_guide_text": "Award credit only for the option that matches the lecture-grounded idea most closely.",
+              "stem": "Explain which option best matches how the lecture presents Dopamine Snc."
+            },
+            {
+              "answer_choices": [],
+              "citations": [
+                {
+                  "citation_id": "cit_a1ee70d7234a2d0c92cf3d03",
+                  "confidence": "high",
+                  "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+                  "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/preview",
+                  "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1",
+                  "slide_number": 1,
+                  "snippet_text": "\u2026\u200bRelatedness:\u200b \u200b-\u200b \u200bID twins are 100%\u200b \u200b-\u200b \u200bFraternal twins, parents/children, full siblings are all 50%\u200b \u200b-\u200b \u200bHalf siblings, aunt/uncle/niece/nephew, grandparent/grandchild are all 25%\u200b \u200b-\u200b \u200bCousins are 12.5%\u200b \u200b-\u200b \u200bConcordance: 2 people same disorder\u200b \u200b-\u200b \u200bCalculating observed concordance rates:\u200b \u200b-\u200b \u200bExample 1: out\u2026",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                1
+              ],
+              "difficulty": "mixed",
+              "estimated_minutes": 6,
+              "expected_answer": "\u200bPersonalized medicine\u200b \u200b\u25cf\u200b \u200bGeneral idea and benefits: a 10% increase in knowing the right medicine to try can help millions of\u200b \u200bpeople get faster and better treatment for a disease\u200b \u200b\u25cf\u200b \u200bSpecific logic with NE receptor vs. DA receptor genetic deficiencies and how that can inform ADHD\u200b \u200bmedication choices (targeted towards deficiency)\u200b \u200b\u25cf\u200b \u200bLimitations: even with all genetic knowledge, no guarantee of the predicted medicine working.",
+              "question_id": "question_93dc902ec4f0",
+              "question_type": "short_answer",
+              "rubric": [
+                {
+                  "criterion": "Core idea",
+                  "description": "Accurately states the main lecture-supported idea behind Medicine Personalized.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Grounded detail",
+                  "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+                  "points": 2
+                }
+              ],
+              "scoring_guide_text": null,
+              "stem": "Define Medicine Personalized as presented in the lecture materials, and state why it matters."
+            },
+            {
+              "answer_choices": [],
+              "citations": [
+                {
+                  "citation_id": "cit_29770fa3728d4a4eac3f613f",
+                  "confidence": "high",
+                  "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+                  "material_title": "03133 Exam 3 Cheat sheet.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1/preview",
+                  "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1",
+                  "slide_number": 1,
+                  "snippet_text": "\u200bConcordance vs. Comorbidity\u200b \u200bConcordance: relatives tend to share the same disorder at higher-than-chance rates.\u200b \u200bComorbidity: two disorders occur together in the same person more often than expected.\u200b \u200bSimilarity: both suggest some kind of relationship.\u200b \u200bDifference: concordance is about shared disorder in relativ\u2026",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                1
+              ],
+              "difficulty": "mixed",
+              "estimated_minutes": 10,
+              "expected_answer": "\u200bConcordance vs. Comorbidity\u200b \u200bConcordance: relatives tend to share the same disorder at higher-than-chance rates.\u200b \u200bComorbidity: two disorders occur together in the same person more often than expected.\u200b \u200bSimilarity: both suggest some kind of relationship.\u200b \u200bDifference: concordance is about shared disorder in relatives; comorbidity is about two disorders in one individual.\u200b \u200bExpected comorbidity if independent:\u200b\u200bP(A and B) =\u200b\u200bP(A) \u00d7 P(B)\u200b \u200bCalculating observed comorbidity as follows:\u200b \u200b-\u200b \u200bOverall comorbidity rate = percent of all people with comorbid A&B = number_of_people_with_comorbid_A&B /\u200b \u200btotal_number_of_people_in_whole_set\u200b \u200b-\u200b \u200bComorbidity rate in disease A = percent of people with disease A who have comorbid A&B =\u200b \u200bnumber_of_people_with_comorbid_A&B / total_number_of_people_with_A\u200b \u200b-\u200b \u200bComorbidity rate in disease B = percent of people with disease B who have comorbid A&B =\u200b \u200bnumber_of_people_with_comorbid_A&B / total_number_of_people_with_B\u200b \u200b-\u200b \u200bAssuming that one of the diseases always comes first, we will simplify our lives in this class by considering the two most common\u200b \u200bexplanations for a correlation between two diseases:\u200b \u200b1)\u200b \u200bA single set of genes gives rise to risk of both disease 1 and disease 2.",
+              "question_id": "question_30da45954d5b",
+              "question_type": "long_answer",
+              "rubric": [
+                {
+                  "criterion": "Core idea",
+                  "description": "Accurately states the main lecture-supported idea behind Concordance.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Grounded detail",
+                  "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Reasoning / application",
+                  "description": "Explains how the concept is used, connected, or checked in context.",
+                  "points": 3
+                }
+              ],
+              "scoring_guide_text": "Full credit requires a correct explanation of Concordance, a grounded connection to the lecture context, and one clearly stated caution or application detail.",
+              "stem": "Explain Concordance, connect it to the lecture's broader procedure or evaluation logic, and explain how you would avoid a common mistake when using it."
+            }
+          ],
+          "template_style_summary": null,
+          "topic_text": "",
+          "workspace_id": "workspace_cd0fc75267fd"
+        },
         "practice_set_e4c4fddb3b89": {
           "coverage_report": {
             "cited_slide_count": 2,
@@ -12218,20 +12945,20 @@
       "selected_active_conversation_id": "conversation_adab45d0370a",
       "status": {
         "last_successful_sync": {
-          "content": "2026-04-20T22:03:48Z",
-          "learning": "2026-04-20T22:03:48Z"
+          "content": "2026-04-20T22:11:55Z",
+          "learning": "2026-04-20T22:11:55Z"
         },
         "services": {
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-20T22:03:49Z",
+            "last_checked_at": "2026-04-20T22:11:55Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-20T22:03:49Z",
+            "last_checked_at": "2026-04-20T22:11:55Z",
             "mode": "integrated"
           }
         },

@@ -576,12 +576,18 @@ class ShellService:
             if response.status_code >= 400:
                 message = None
                 if isinstance(payload, dict):
-                    message = (
-                        payload.get("error", {}).get("message")
-                        if isinstance(payload.get("error"), dict)
-                        else payload.get("message")
-                    )
-                raise ShellError(message or f"{service.title()} service request failed with HTTP {response.status_code}.", status_code=502, details={"remote_status_code": response.status_code, "service": service})
+                    if isinstance(payload.get("error"), dict):
+                        message = payload.get("error", {}).get("message")
+                    message = message or payload.get("message")
+                    detail = payload.get("detail")
+                    if not message and isinstance(detail, str):
+                        message = detail
+                status_code = response.status_code if 400 <= response.status_code < 500 else 502
+                raise ShellError(
+                    message or f"{service.title()} service request failed with HTTP {response.status_code}.",
+                    status_code=status_code,
+                    details={"remote_status_code": response.status_code, "service": service},
+                )
             if isinstance(payload, dict):
                 return payload
             raise ShellError("Remote service returned a non-JSON response.", status_code=502)
@@ -990,7 +996,21 @@ class ShellService:
         snapshot = self.refresh_status(force=True)
         if not snapshot["services"]["learning"]["available"]:
             return self._fail_job(workspace_id, "study_plan_revise", "The learning service is unavailable, so study-plan revision cannot proceed right now.", service="learning")
-        payload_out = self._remote_json("learning", "POST", f"/v1/study-plans/{study_plan_id}/revise", json_body=normalized)
+        try:
+            payload_out = self._remote_json("learning", "POST", f"/v1/study-plans/{study_plan_id}/revise", json_body=normalized)
+        except ShellError as exc:
+            if exc.status_code == 404:
+                latest_workspace = self._workspace_or_error(workspace_id)
+                if latest_workspace.get("active_study_plan_id") == study_plan_id:
+                    latest_workspace["active_study_plan_id"] = None
+                    self._sync_history_flags(latest_workspace)
+                    self.storage.save_workspace(latest_workspace)
+                raise ShellError(
+                    "The active study plan is no longer available in the learning service. Generate a new study plan first.",
+                    status_code=404,
+                    details=exc.details,
+                ) from exc
+            raise
         remote_job_id = payload_out.get("job_id") or payload_out.get("job", {}).get("job_id")
         if not remote_job_id:
             raise ShellError("The learning service did not return a job_id for study-plan revision.", status_code=502)

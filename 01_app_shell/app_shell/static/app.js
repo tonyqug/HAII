@@ -493,11 +493,19 @@ function renderTailoringSummary(summary) {
   `;
 }
 
+function optionalPositiveIntegerValue(inputId) {
+  const raw = document.getElementById(inputId)?.value?.trim() || '';
+  if (!raw) return null;
+  const parsed = Number(raw);
+  if (!Number.isFinite(parsed) || parsed <= 0) return null;
+  return Math.floor(parsed);
+}
+
 function renderStudyPlan() {
   const output = document.getElementById('study-plan-output');
   const workspace = state.activeWorkspace;
   document.getElementById('topic-text').value = workspace?.topic_text || '';
-  document.getElementById('time-budget').value = workspace?.time_budget_minutes || '';
+  document.getElementById('time-budget').value = workspace?.time_budget_minutes || '90';
   document.getElementById('grounding-mode').value = workspace?.grounding_mode || 'strict_lecture_only';
   document.getElementById('student-known').value = workspace?.student_context?.known || '';
   document.getElementById('student-weak').value = workspace?.student_context?.weak_areas || '';
@@ -881,12 +889,13 @@ function bindEvents() {
   document.getElementById('study-plan-form').addEventListener('submit', async (event) => {
     event.preventDefault();
     if (!state.activeWorkspace) return;
+    const timeBudgetMinutes = optionalPositiveIntegerValue('time-budget');
     const payload = await api(`/api/workspaces/${state.activeWorkspace.workspace_id}/study-plans/generate`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         topic_text: document.getElementById('topic-text').value,
-        time_budget_minutes: Number(document.getElementById('time-budget').value),
+        time_budget_minutes: timeBudgetMinutes,
         grounding_mode: document.getElementById('grounding-mode').value,
         student_context: {
           known: document.getElementById('student-known').value,

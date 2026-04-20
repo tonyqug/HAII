@@ -631,12 +631,17 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             + "\n\nReturn JSON with keys template_style_summary and questions.\n"
             "Each question must have question_type, stem, expected_answer, citation_ids, and optional difficulty, rubric, scoring_guide_text, answer_choices, estimated_minutes.\n"
             "Use only allowed citation ids. Every question must cite lecture evidence.\n"
+            "Questions must feel like challenging exam questions, not study-guide prompts.\n"
+            "Prefer comparison, diagnosis, trade-offs, failure modes, application, or justification over simple definition recall.\n"
+            "Do not copy slide or study-guide wording directly into stems, answer choices, or expected answers; paraphrase into a consistent exam voice.\n"
+            "Expected answers should read like concise evaluator notes, not pasted lecture prose.\n"
             "template_mimic may borrow style only, not template topic content outside the lecture evidence.\n"
         )
         payload = self.gemini.generate_json(
             system_instruction=(
                 "You create grounded practice questions from lecture evidence. Return valid JSON only. "
-                "Every question must be supported by allowed citation ids."
+                "Every question must be supported by allowed citation ids. "
+                "Write serious, high-difficulty assessment items when the request asks for harder questions."
             ),
             user_prompt=prompt,
             max_output_tokens=2200,
@@ -681,11 +686,13 @@ class GroundedGenerator(HeuristicGroundedGenerator):
                     "question_type": question_type,
                     "stem": self._safe_text(raw.get("stem"), fallback=f"Explain {concept} using the grounded lecture evidence."),
                     "expected_answer": self._safe_text(raw.get("expected_answer"), fallback="") if include_answer_key else "",
+                    "answer_choices": self._sanitize_answer_choices(raw.get("answer_choices")) if question_type == "multiple_choice" else [],
                     "rubric": rubric,
                     "scoring_guide_text": scoring_guide,
                     "citations": citations,
                     "covered_slides": distinct_slide_numbers(citations),
                     "difficulty": difficulty,
+                    "estimated_minutes": self._coerce_estimated_minutes(raw.get("estimated_minutes"), question_type, difficulty),
                 }
             )
 
@@ -698,14 +705,32 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             "parent_practice_set_id": parent_practice_set_id,
             "workspace_id": bundle.get("workspace_id"),
             "created_at": utc_now_iso(),
+            "topic_text": topic_text or "",
             "generation_mode": generation_mode,
             "template_style_summary": self._safe_text(payload.get("template_style_summary"), fallback=template_style_summary),
+            "estimated_duration_minutes": sum(int(question.get("estimated_minutes") or 0) for question in questions),
             "questions": questions,
             "coverage_report": {
                 "considered_slide_count": len(considered_slides),
                 "cited_slide_count": len(cited_slides),
                 "uncited_or_skipped_slides": uncited_or_skipped,
                 "notes": notes,
+            },
+            "human_loop_summary": {
+                "used_inputs": [
+                    {"label": "Topic focus", "value": topic_text or "All ready grounded materials"},
+                    {"label": "Question format", "value": generation_mode.replace("_", " ")},
+                    {"label": "Question count", "value": str(question_count)},
+                    {"label": "Coverage mode", "value": coverage_mode.replace("_", " ")},
+                    {"label": "Difficulty", "value": difficulty_profile},
+                    {"label": "Answer key", "value": "Included" if include_answer_key else "Hidden"},
+                    {"label": "Rubrics", "value": "Included" if include_rubrics else "Hidden"},
+                ],
+                "follow_up_actions": [
+                    "Lock the strongest questions before revising.",
+                    "Regenerate only the questions that feel unclear or off-target.",
+                    "Narrow the topic if the current set is too broad.",
+                ],
             },
             "_meta": {
                 "grounding_source": self._grounding_source_from_bundle(bundle),
@@ -1074,6 +1099,21 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             if criterion and description:
                 output.append({"criterion": criterion, "description": description, "points": max(0, points)})
         return output
+
+    def _sanitize_answer_choices(self, value: Any) -> List[str]:
+        output: List[str] = []
+        for item in value or []:
+            text = self._safe_text(item)
+            if text:
+                output.append(text)
+        return output[:4]
+
+    def _coerce_estimated_minutes(self, value: Any, question_type: str, difficulty: str) -> int:
+        try:
+            minutes = int(value)
+        except Exception:
+            minutes = self._estimated_minutes(question_type, difficulty)
+        return max(2, min(25, minutes))
 
     def _study_item_should_modify(
         self,

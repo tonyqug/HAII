@@ -697,10 +697,10 @@ function renderPractice() {
   if (topicInput) topicInput.value = preferences.topic_text || '';
   if (countInput) countInput.value = preferences.question_count || 6;
   if (modeInput) modeInput.value = preferences.generation_mode || 'mixed';
-  if (difficultyInput) difficultyInput.value = preferences.difficulty_profile || 'mixed';
+  if (difficultyInput) difficultyInput.value = preferences.difficulty_profile || 'harder';
   if (coverageInput) coverageInput.value = preferences.coverage_mode || 'balanced';
   if (groundingInput) groundingInput.value = workspace?.grounding_mode || 'strict_lecture_only';
-  if (answerKeyInput) answerKeyInput.checked = preferences.include_answer_key !== false;
+  if (answerKeyInput) answerKeyInput.checked = preferences.include_answer_key === true;
   if (rubricsInput) rubricsInput.checked = preferences.include_rubrics !== false;
 
   renderPracticeClarification();

@@ -1321,9 +1321,11 @@ class GroundedGenerator:
         questions = []
         question_types = self._question_types_for_mode(generation_mode, len(selected_records), template_items_present=bool(template_material_id))
         for index, (record, question_type) in enumerate(zip(selected_records, question_types), start=1):
+            comparison_record = self._comparison_record(selected_records, index - 1, record)
             questions.append(
                 self._build_question(
                     record=record,
+                    comparison_record=comparison_record,
                     question_index=index,
                     question_type=question_type,
                     generation_mode=generation_mode,
@@ -1496,6 +1498,7 @@ class GroundedGenerator:
         self,
         *,
         record: Dict[str, Any],
+        comparison_record: Optional[Dict[str, Any]],
         question_index: int,
         question_type: str,
         generation_mode: str,
@@ -1506,32 +1509,59 @@ class GroundedGenerator:
     ) -> Dict[str, Any]:
         concept = record["concept_name"]
         summary = take_sentences(record["summary_text"], 2) or record["summary_text"]
-        related = concept
         if generation_mode == "template_mimic" and template_verbs:
             lead = template_verbs[(question_index - 1) % len(template_verbs)]
         else:
             lead = self._default_lead_verb(question_type, difficulty_profile, question_index)
 
         if question_type == "multiple_choice":
-            stem = f"{lead} which option best matches how the lecture presents {concept}."
-            answer_choices, expected_answer = self._multiple_choice_options(concept, summary, record)
-            scoring_guide = "Award credit only for the option that matches the lecture-grounded idea most closely."
-        elif question_type == "short_answer":
-            stem = f"{lead} {concept} as presented in the lecture materials, and state why it matters."
+            stem = f"{lead} the most defensible lecture-grounded interpretation of {concept}."
             if difficulty_profile == "harder":
-                stem = f"{lead} {concept} and identify one trade-off, condition, or failure mode implied by the lecture materials."
+                stem = (
+                    f"{lead} which interpretation of {concept} is most defensible given the lecture evidence, "
+                    "especially when distinguishing it from nearby concepts or common mistakes."
+                )
+            answer_choices, expected_answer = self._multiple_choice_options(
+                concept,
+                summary,
+                record,
+                comparison_record,
+                question_index,
+                difficulty_profile,
+                include_answer_key,
+            )
+            scoring_guide = "Award credit only for the option that best matches the lecture-grounded reasoning, not the most generic-sounding statement."
+        elif question_type == "short_answer":
+            if difficulty_profile == "harder":
+                if comparison_record:
+                    stem = (
+                        f"{lead} {concept} in a way that distinguishes it from {comparison_record['concept_name']}, "
+                        "then identify one condition, trade-off, or failure mode that matters in practice."
+                    )
+                else:
+                    stem = f"{lead} {concept} and identify one condition, trade-off, or failure mode implied by the lecture materials."
+            else:
+                stem = f"{lead} {concept} using grounded lecture evidence, then state why it matters in the larger method or evaluation flow."
             answer_choices = []
-            expected_answer = summary if include_answer_key else ""
+            expected_answer = self._reference_answer(question_type, concept, summary, comparison_record, difficulty_profile, include_answer_key)
             scoring_guide = None
         else:
-            stem = (
-                f"{lead} {concept}, connect it to the lecture's broader procedure or evaluation logic, "
-                "and explain how you would avoid a common mistake when using it."
-            )
             if difficulty_profile == "easier":
                 stem = f"{lead} {concept} and summarize the main idea in the lecture in a well-structured paragraph."
+            elif comparison_record:
+                stem = (
+                    f"{lead} a realistic failure case or design decision involving {concept}. "
+                    f"Explain how it should be handled, why it should not be confused with {comparison_record['concept_name']}, "
+                    "and what evidence or caution from the lecture supports your reasoning."
+                )
+            else:
+                stem = (
+                    f"{lead} a realistic failure case or design decision involving {concept}. "
+                    "Explain how it should be handled, connect it to the lecture's broader procedure or evaluation logic, "
+                    "and state one caution that would prevent a common mistake."
+                )
             answer_choices = []
-            expected_answer = summary if include_answer_key else ""
+            expected_answer = self._reference_answer(question_type, concept, summary, comparison_record, difficulty_profile, include_answer_key)
             scoring_guide = None
         rubric = self._rubric_for_question(question_type, concept, include_rubrics, difficulty_profile)
         if question_type == "long_answer":
@@ -1582,15 +1612,77 @@ class GroundedGenerator:
         concept: str,
         summary: str,
         record: Dict[str, Any],
+        comparison_record: Optional[Dict[str, Any]],
+        question_index: int,
+        difficulty_profile: str,
+        include_answer_key: bool,
     ) -> Tuple[List[str], str]:
-        correct = safe_excerpt(summary, 120)
+        core = self._summary_fragment(summary)
+        comparison_name = comparison_record.get("concept_name") if comparison_record else None
+        correct = f"It treats {concept} as {core}."
         distractors = [
-            f"It is mainly a naming convention for {concept} with no effect on model behavior.",
-            f"It means skipping evaluation entirely and relying only on intuition.",
-            f"It is a generic rule that always improves every model without trade-offs.",
+            f"It treats {concept} as mainly a surface label or reporting detail rather than a reasoning tool or condition.",
+            f"It treats {concept} as sufficient on its own, with no need to check trade-offs, assumptions, or failure cases.",
+            f"It treats {concept} as interchangeable with {comparison_name}."
+            if comparison_name
+            else f"It treats {concept} as a universal shortcut that should be applied the same way in every setting.",
         ]
+        if difficulty_profile == "harder":
+            distractors[0] = f"It narrows {concept} to one superficial feature while ignoring the lecture's procedural or evaluative role for it."
+            distractors[1] = f"It reverses the lecture's caution by treating {concept} as a complete solution rather than something that must be checked in context."
         options = [correct] + distractors
-        return options, correct
+        rotation = (question_index - 1) % len(options)
+        rotated = options[rotation:] + options[:rotation]
+        expected = ""
+        if include_answer_key:
+            expected = f"The correct choice is the option that treats {concept} as {core}."
+            if comparison_name:
+                expected += f" It should not collapse {concept} into {comparison_name}."
+        return rotated, expected
+
+    def _reference_answer(
+        self,
+        question_type: str,
+        concept: str,
+        summary: str,
+        comparison_record: Optional[Dict[str, Any]],
+        difficulty_profile: str,
+        include_answer_key: bool,
+    ) -> str:
+        if not include_answer_key:
+            return ""
+        core = self._summary_fragment(summary)
+        comparison_name = comparison_record.get("concept_name") if comparison_record else ""
+        answer = f"A strong answer identifies {concept} as {core}."
+        if question_type == "short_answer" and comparison_name:
+            answer += f" It also distinguishes {concept} from {comparison_name}."
+        if question_type == "long_answer" or difficulty_profile == "harder":
+            answer += " It should name a concrete condition, trade-off, application detail, or failure mode supported by the lecture."
+        return answer
+
+    def _summary_fragment(self, summary: str) -> str:
+        fragment = take_sentences(summary, 1) or safe_excerpt(summary, 220)
+        fragment = normalize_whitespace(fragment).rstrip(".")
+        if not fragment:
+            return "the lecture-grounded role described in the cited material"
+        first = fragment[:1]
+        if first.isupper():
+            fragment = first.lower() + fragment[1:]
+        return fragment
+
+    def _comparison_record(
+        self,
+        records: Sequence[Dict[str, Any]],
+        current_index: int,
+        current_record: Dict[str, Any],
+    ) -> Optional[Dict[str, Any]]:
+        if len(records) < 2:
+            return None
+        for offset in range(1, len(records)):
+            candidate = records[(current_index + offset) % len(records)]
+            if candidate.get("concept_name") != current_record.get("concept_name"):
+                return candidate
+        return None
 
     def _estimated_minutes(self, question_type: str, difficulty_profile: str) -> int:
         base = {
@@ -1737,10 +1829,10 @@ class GroundedGenerator:
     def _default_lead_verb(self, question_type: str, difficulty_profile: str, index: int) -> str:
         if question_type == "short_answer":
             if difficulty_profile == "harder":
-                return "Explain"
-            return "Define"
+                return "Analyze"
+            return "Explain"
         if difficulty_profile == "easier":
             return "Describe"
         if difficulty_profile == "harder":
-            return "Analyze"
+            return "Justify"
         return "Explain"

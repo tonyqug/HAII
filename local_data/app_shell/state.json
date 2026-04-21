@@ -1,5 +1,38 @@
 {
   "jobs": {
+    "job_012a696215b8": {
+      "context": {
+        "conversation_id": "conversation_f9e766f9579f",
+        "grounding_mode": "strict_lecture_only",
+        "message_text": "what is back propagation",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-21T04:18:01Z",
+      "error": {
+        "code": "content_service_error",
+        "message": "Content service evidence bundle request failed across compatible endpoints. Tried: /v1/evidence-bundles [with_query_text]: 500 Internal Server Error; /v1/retrieval/bundle [with_query_text]: 500 Internal Server Error; /v1/evidence/bundles [with_query_text]: 404 {'detail': 'Not Found'}; /v1/retrieval/evidence-bundles [with_query_text]: 404 {'detail': 'Not Found'}; /v1/retrieve/evidence-bundle [with_query_text]: 404 {'detail': 'Not Found'}; /v1/materials/evidence-bundle [with_query_text]: 405 {'detail': 'Method Not Allowed'}",
+        "retryable": true
+      },
+      "finalized": true,
+      "job_id": "job_012a696215b8",
+      "message": "Content service evidence bundle request failed across compatible endpoints. Tried: /v1/evidence-bundles [with_query_text]: 500 Internal Server Error; /v1/retrieval/bundle [with_query_text]: 500 Internal Server Error; /v1/evidence/bundles [with_query_text]: 404 {'detail': 'Not Found'}; /v1/retrieval/evidence-bundles [with_query_text]: 404 {'detail': 'Not Found'}; /v1/retrieve/evidence-bundle [with_query_text]: 404 {'detail': 'Not Found'}; /v1/materials/evidence-bundle [with_query_text]: 405 {'detail': 'Method Not Allowed'}",
+      "operation": "conversation_message",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_869ac3f9415e",
+      "result_id": null,
+      "result_type": null,
+      "service": "learning",
+      "stage": "failed",
+      "status": "failed",
+      "updated_at": "2026-04-21T04:18:01Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_538aaf9f4515"
+    },
     "job_0374130dc7b8": {
       "context": {
         "normalized_request": {
@@ -662,6 +695,39 @@
       },
       "workspace_id": "workspace_cd0fc75267fd"
     },
+    "job_5714daa6fd10": {
+      "context": {
+        "conversation_id": "conversation_adab45d0370a",
+        "grounding_mode": "lecture_with_fallback",
+        "message_text": "whats the difference between 5HT1 and 5HT2",
+        "response_style": "concise"
+      },
+      "created_at": "2026-04-21T04:08:25Z",
+      "error": {
+        "code": "content_service_error",
+        "message": "Content service evidence bundle request failed across compatible endpoints. Tried: /v1/evidence-bundles [with_query_text]: 500 Internal Server Error; /v1/retrieval/bundle [with_query_text]: 500 Internal Server Error; /v1/evidence/bundles [with_query_text]: 404 {'detail': 'Not Found'}; /v1/retrieval/evidence-bundles [with_query_text]: 404 {'detail': 'Not Found'}; /v1/retrieve/evidence-bundle [with_query_text]: 404 {'detail': 'Not Found'}; /v1/materials/evidence-bundle [with_query_text]: 405 {'detail': 'Method Not Allowed'}",
+        "retryable": true
+      },
+      "finalized": true,
+      "job_id": "job_5714daa6fd10",
+      "message": "Content service evidence bundle request failed across compatible endpoints. Tried: /v1/evidence-bundles [with_query_text]: 500 Internal Server Error; /v1/retrieval/bundle [with_query_text]: 500 Internal Server Error; /v1/evidence/bundles [with_query_text]: 404 {'detail': 'Not Found'}; /v1/retrieval/evidence-bundles [with_query_text]: 404 {'detail': 'Not Found'}; /v1/retrieve/evidence-bundle [with_query_text]: 404 {'detail': 'Not Found'}; /v1/materials/evidence-bundle [with_query_text]: 405 {'detail': 'Method Not Allowed'}",
+      "operation": "conversation_message",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_9fd885b9666a",
+      "result_id": null,
+      "result_type": null,
+      "service": "learning",
+      "stage": "failed",
+      "status": "failed",
+      "updated_at": "2026-04-21T04:08:25Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_cd0fc75267fd"
+    },
     "job_582da1678027": {
       "context": {
         "normalized_request": {
@@ -894,6 +960,39 @@
         "prompt": null
       },
       "workspace_id": "workspace_cd0fc75267fd"
+    },
+    "job_76d5645f4b86": {
+      "context": {
+        "conversation_id": "conversation_f9e766f9579f",
+        "grounding_mode": "strict_lecture_only",
+        "message_text": "what is back propagation",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-21T04:17:18Z",
+      "error": {
+        "code": "content_service_error",
+        "message": "Content service evidence bundle request failed across compatible endpoints. Tried: /v1/evidence-bundles [with_query_text]: 500 Internal Server Error; /v1/retrieval/bundle [with_query_text]: 500 Internal Server Error; /v1/evidence/bundles [with_query_text]: 404 {'detail': 'Not Found'}; /v1/retrieval/evidence-bundles [with_query_text]: 404 {'detail': 'Not Found'}; /v1/retrieve/evidence-bundle [with_query_text]: 404 {'detail': 'Not Found'}; /v1/materials/evidence-bundle [with_query_text]: 405 {'detail': 'Method Not Allowed'}",
+        "retryable": true
+      },
+      "finalized": true,
+      "job_id": "job_76d5645f4b86",
+      "message": "Content service evidence bundle request failed across compatible endpoints. Tried: /v1/evidence-bundles [with_query_text]: 500 Internal Server Error; /v1/retrieval/bundle [with_query_text]: 500 Internal Server Error; /v1/evidence/bundles [with_query_text]: 404 {'detail': 'Not Found'}; /v1/retrieval/evidence-bundles [with_query_text]: 404 {'detail': 'Not Found'}; /v1/retrieve/evidence-bundle [with_query_text]: 404 {'detail': 'Not Found'}; /v1/materials/evidence-bundle [with_query_text]: 405 {'detail': 'Method Not Allowed'}",
+      "operation": "conversation_message",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_aa210f6dce3c",
+      "result_id": null,
+      "result_type": null,
+      "service": "learning",
+      "stage": "failed",
+      "status": "failed",
+      "updated_at": "2026-04-21T04:17:19Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_538aaf9f4515"
     },
     "job_7a721d56b68b": {
       "context": {
@@ -1356,6 +1455,39 @@
       "user_action": null,
       "workspace_id": "workspace_119cfa5ac40c"
     },
+    "job_cebce360172f": {
+      "context": {
+        "conversation_id": "conversation_adab45d0370a",
+        "grounding_mode": "lecture_with_fallback",
+        "message_text": "whats the difference between 5HT1 and 5HT2",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-21T04:08:10Z",
+      "error": {
+        "code": "content_service_error",
+        "message": "Content service evidence bundle request failed across compatible endpoints. Tried: /v1/evidence-bundles [with_query_text]: 500 Internal Server Error; /v1/retrieval/bundle [with_query_text]: 500 Internal Server Error; /v1/evidence/bundles [with_query_text]: 404 {'detail': 'Not Found'}; /v1/retrieval/evidence-bundles [with_query_text]: 404 {'detail': 'Not Found'}; /v1/retrieve/evidence-bundle [with_query_text]: 404 {'detail': 'Not Found'}; /v1/materials/evidence-bundle [with_query_text]: 405 {'detail': 'Method Not Allowed'}",
+        "retryable": true
+      },
+      "finalized": true,
+      "job_id": "job_cebce360172f",
+      "message": "Content service evidence bundle request failed across compatible endpoints. Tried: /v1/evidence-bundles [with_query_text]: 500 Internal Server Error; /v1/retrieval/bundle [with_query_text]: 500 Internal Server Error; /v1/evidence/bundles [with_query_text]: 404 {'detail': 'Not Found'}; /v1/retrieval/evidence-bundles [with_query_text]: 404 {'detail': 'Not Found'}; /v1/retrieve/evidence-bundle [with_query_text]: 404 {'detail': 'Not Found'}; /v1/materials/evidence-bundle [with_query_text]: 405 {'detail': 'Method Not Allowed'}",
+      "operation": "conversation_message",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_7862eb8169b5",
+      "result_id": null,
+      "result_type": null,
+      "service": "learning",
+      "stage": "failed",
+      "status": "failed",
+      "updated_at": "2026-04-21T04:08:10Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_cd0fc75267fd"
+    },
     "job_d3927f9c2b56": {
       "context": {
         "normalized_request": {
@@ -1580,6 +1712,39 @@
       "updated_at": "2026-03-30T15:33:22Z",
       "user_action": null,
       "workspace_id": "workspace_0c576b1f0e72"
+    },
+    "job_fec56a8f2116": {
+      "context": {
+        "conversation_id": "conversation_f9e766f9579f",
+        "grounding_mode": "strict_lecture_only",
+        "message_text": "what is back propagation",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-21T04:19:00Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_fec56a8f2116",
+      "message": "Conversation reply created.",
+      "operation": "conversation_message",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_4ef3aacc3171",
+      "result_id": "msg_6e66784d51b5",
+      "result_type": "message",
+      "service": "learning",
+      "stage": "done",
+      "status": "succeeded",
+      "updated_at": "2026-04-21T04:19:01Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_538aaf9f4515"
     }
   },
   "metadata": {
@@ -1614,7 +1779,7 @@
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T04:01:38Z",
+      "last_opened_at": "2026-04-21T04:19:02Z",
       "local_edits": {},
       "material_preferences": {
         "material_057153c6600f": "focus",
@@ -1700,13 +1865,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T04:01:38Z",
+            "last_checked_at": "2026-04-21T04:19:01Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T04:01:38Z",
+            "last_checked_at": "2026-04-21T04:19:01Z",
             "mode": "integrated"
           }
         },
@@ -1747,7 +1912,7 @@
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T04:01:38Z",
+      "last_opened_at": "2026-04-21T04:19:02Z",
       "local_edits": {},
       "material_preferences": {},
       "material_sync_annotations": {},
@@ -1765,13 +1930,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T04:01:38Z",
+            "last_checked_at": "2026-04-21T04:19:01Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T04:01:38Z",
+            "last_checked_at": "2026-04-21T04:19:01Z",
             "mode": "integrated"
           }
         },
@@ -1931,7 +2096,7 @@
       ],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T04:01:38Z",
+      "last_opened_at": "2026-04-21T04:19:02Z",
       "local_edits": {},
       "material_preferences": {
         "material_753ac7b44e1e": "default",
@@ -2043,20 +2208,20 @@
       "selected_active_conversation_id": "conversation_ecb11dc5e685",
       "status": {
         "last_successful_sync": {
-          "content": "2026-04-21T03:57:15Z",
-          "learning": "2026-04-21T03:57:15Z"
+          "content": "2026-04-21T04:07:20Z",
+          "learning": "2026-04-21T04:07:20Z"
         },
         "services": {
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T04:01:38Z",
+            "last_checked_at": "2026-04-21T04:19:01Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T04:01:38Z",
+            "last_checked_at": "2026-04-21T04:19:01Z",
             "mode": "integrated"
           }
         },
@@ -2216,6 +2381,62 @@
                 }
               ],
               "role": "assistant"
+            },
+            {
+              "created_at": "2026-04-21T04:19:01Z",
+              "message_id": "msg_e601c00cd698",
+              "role": "user",
+              "text": "what is back propagation"
+            },
+            {
+              "created_at": "2026-04-21T04:19:01Z",
+              "message_id": "msg_6e66784d51b5",
+              "reply_sections": [
+                {
+                  "citations": [
+                    {
+                      "citation_id": "cit_6a7d2368202a3d891ee153a3",
+                      "confidence": "high",
+                      "material_id": "mat_26ee4a6b46504aeebcb2ff00f706975a",
+                      "material_title": "lecture13-backprop-ii.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_26ee4a6b46504aeebcb2ff00f706975a/slides/mat_26ee4a6b46504aeebcb2ff00f706975a:slide:30/preview",
+                      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:30",
+                      "slide_number": 30,
+                      "snippet_text": "Backpropagation More efficient to start at the end and reuse values! \ud835\udc65 \ud835\udc4e1 \ud835\udc641 \ud835\udc671 \ud835\udc54 \ud835\udc53 \ud835\udc66 \u2113 \ud835\udc4e2 \ud835\udc642 \ud835\udc672 \ud835\udc54 \ud835\udc53 \ud835\udc4e3 \ud835\udc643 \ud835\udc673 \ud835\udc54 \ud835\udc53 \ud835\udc4e4 \ud835\udc644 \ud835\udc674 \ud835\udc54 \ud835\udc53 \ud835\udc4e5 = \u0ddc\ud835\udc66 \ud835\udc645 \ud835\udc675 \ud835\udc54 \ud835\udc53 \u0ddc\ud835\udc66= \u210e\ud835\udf3d\ud835\udc31= \ud835\udc54\ud835\udc645 \u22c5\ud835\udc54\ud835\udc644 \u22c5\ud835\udc54\ud835\udc643 \u22c5\ud835\udc54\ud835\udc642 \u22c5\ud835\udc54\ud835\udc641 \u22c5\ud835\udc65 To do gradient descent we need the partial derivative of the objective with respect to each parameter, w\u2113\u2190\ud835\udc64\u2113\u2212\ud835\udefc \ud835\udf15\ud835\udc3d/\ud835\udf15\ud835\udc64\u2113 The backward pass pro\u2026",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_26ee4a6b46504aeebcb2ff00f706975a/slides/mat_26ee4a6b46504aeebcb2ff00f706975a:slide:30/source",
+                      "support_type": "explicit"
+                    },
+                    {
+                      "citation_id": "cit_8099c98681b9612ea32fd986",
+                      "confidence": "high",
+                      "material_id": "mat_d0f5f0fcc4e24f9bb1abae14516b005e",
+                      "material_title": "lecture12-backprop.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_d0f5f0fcc4e24f9bb1abae14516b005e/slides/mat_d0f5f0fcc4e24f9bb1abae14516b005e:slide:1/preview",
+                      "slide_id": "mat_d0f5f0fcc4e24f9bb1abae14516b005e:slide:1",
+                      "slide_number": 1,
+                      "snippet_text": "Neural Networks + Backpropagation 1 10-301/10-601 Introduction to Machine Learning Matt Gormley Lecture 12 Feb. 18, 2026 Machine Learning Department School of Computer Science Carnegie Mellon University",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_d0f5f0fcc4e24f9bb1abae14516b005e/slides/mat_d0f5f0fcc4e24f9bb1abae14516b005e:slide:1/source",
+                      "support_type": "explicit"
+                    },
+                    {
+                      "citation_id": "cit_7ef2b1f3903993da64d39b9f",
+                      "confidence": "high",
+                      "material_id": "mat_26ee4a6b46504aeebcb2ff00f706975a",
+                      "material_title": "lecture13-backprop-ii.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_26ee4a6b46504aeebcb2ff00f706975a/slides/mat_26ee4a6b46504aeebcb2ff00f706975a:slide:1/preview",
+                      "slide_id": "mat_26ee4a6b46504aeebcb2ff00f706975a:slide:1",
+                      "slide_number": 1,
+                      "snippet_text": "Backpropagation II 1 10-301/10-601 Introduction to Machine Learning Pat Virtue & Matt Gormley Lecture 13 Feb. 23, 2026 Machine Learning Department School of Computer Science Carnegie Mellon University",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_26ee4a6b46504aeebcb2ff00f706975a/slides/mat_26ee4a6b46504aeebcb2ff00f706975a:slide:1/source",
+                      "support_type": "explicit"
+                    }
+                  ],
+                  "heading": "Grounded answer",
+                  "support_status": "inferred_from_slides",
+                  "text": "In these slides, back propagation is described as: Backpropagation More efficient to start at the end and reuse values! Related detail: Neural Networks + Backpropagation 1 Introduction to Machine Learning Feb."
+                }
+              ],
+              "role": "assistant"
             }
           ],
           "title": "Workspace Q&A",
@@ -2242,7 +2463,7 @@
       ],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T04:01:38Z",
+      "last_opened_at": "2026-04-21T04:19:02Z",
       "local_edits": {},
       "material_preferences": {
         "mat_0d4cf2e5271346b2afc8b1a4422e6a0e": "default",
@@ -10780,20 +11001,20 @@
       "selected_active_conversation_id": "conversation_f9e766f9579f",
       "status": {
         "last_successful_sync": {
-          "content": "2026-04-21T03:35:49Z",
-          "learning": "2026-04-21T03:35:49Z"
+          "content": "2026-04-21T04:19:01Z",
+          "learning": "2026-04-21T04:19:01Z"
         },
         "services": {
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T04:01:38Z",
+            "last_checked_at": "2026-04-21T04:19:01Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T04:01:38Z",
+            "last_checked_at": "2026-04-21T04:19:01Z",
             "mode": "integrated"
           }
         },
@@ -11756,7 +11977,7 @@
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T04:01:38Z",
+      "last_opened_at": "2026-04-21T04:19:02Z",
       "local_edits": {},
       "material_preferences": {},
       "material_sync_annotations": {},
@@ -11774,13 +11995,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T04:01:38Z",
+            "last_checked_at": "2026-04-21T04:19:01Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T04:01:38Z",
+            "last_checked_at": "2026-04-21T04:19:01Z",
             "mode": "integrated"
           }
         },
@@ -11892,7 +12113,7 @@
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T04:01:38Z",
+      "last_opened_at": "2026-04-21T04:19:02Z",
       "local_edits": {},
       "material_preferences": {
         "material_f90e97c0bfa9": "default"
@@ -11943,13 +12164,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T04:01:38Z",
+            "last_checked_at": "2026-04-21T04:19:01Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T04:01:38Z",
+            "last_checked_at": "2026-04-21T04:19:01Z",
             "mode": "integrated"
           }
         },
@@ -12088,6 +12309,22 @@
                 }
               ],
               "role": "assistant"
+            },
+            {
+              "created_at": "2026-04-21T04:08:10Z",
+              "job_id": "job_cebce360172f",
+              "message_id": "msg_user_ac97f95d11f0",
+              "pending": true,
+              "role": "user",
+              "text": "whats the difference between 5HT1 and 5HT2"
+            },
+            {
+              "created_at": "2026-04-21T04:08:25Z",
+              "job_id": "job_5714daa6fd10",
+              "message_id": "msg_user_f8037eaf125d",
+              "pending": true,
+              "role": "user",
+              "text": "whats the difference between 5HT1 and 5HT2"
             }
           ],
           "title": "Chat 5:13:30 PM",
@@ -12223,7 +12460,7 @@
         "practice_set_7411ebcac8c2"
       ],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T04:01:45Z",
+      "last_opened_at": "2026-04-21T04:19:02Z",
       "local_edits": {},
       "material_preferences": {
         "mat_2f09c1feaeca4fbe81e2ab67795171e4": "default",
@@ -13321,20 +13558,20 @@
       "selected_active_conversation_id": "conversation_adab45d0370a",
       "status": {
         "last_successful_sync": {
-          "content": "2026-04-21T04:01:45Z",
-          "learning": "2026-04-21T04:01:45Z"
+          "content": "2026-04-21T04:08:25Z",
+          "learning": "2026-04-21T04:08:25Z"
         },
         "services": {
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T04:01:45Z",
+            "last_checked_at": "2026-04-21T04:19:01Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T04:01:45Z",
+            "last_checked_at": "2026-04-21T04:19:01Z",
             "mode": "integrated"
           }
         },

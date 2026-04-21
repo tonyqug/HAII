@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python run_local.py)"
+      "Bash(python run_local.py)",
+      "Bash(curl *)",
+      "Bash(python3 *)"
     ]
   }
 }

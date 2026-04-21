@@ -331,7 +331,7 @@ class RetrievalEngine:
             return []
         focus_annotations = self._focus_annotations(workspace_id)
         base_scores = self._tfidf_scores(query_text, candidates)
-        for candidate, base in zip(candidates, base_scores, strict=False):
+        for candidate, base in zip(candidates, base_scores):
             candidate.score = self._candidate_score(
                 candidate=candidate,
                 base_score=base,

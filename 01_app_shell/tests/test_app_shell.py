@@ -541,6 +541,16 @@ def learning_stub_server():
                     "message_id": f"assistant_{len(conversation['messages'])+1}",
                     "role": "assistant",
                     "created_at": "2026-03-28T00:20:20Z",
+                    "answer_source": {
+                        "path": "llm",
+                        "provider": "gemini",
+                        "model": "gemini-3-flash-preview",
+                        "reasoning_enabled": True,
+                        "reasoning_mode": "dynamic",
+                        "matched_evidence_count": 1,
+                        "evidence_match": "strong_match",
+                        "rate_limited_models": [],
+                    },
                     "reply_sections": [{"heading": "Grounded reply", "text": f"Answer for: {message_text}", "support_status": "slide_grounded", "citations": [citation(material_id)]}],
                     "clarifying_question": {"prompt": None, "reason": None},
                 })
@@ -848,6 +858,8 @@ def test_integrated_conversation_job_flow_clear_and_reuse_materials(tmp_path: Pa
         assistant_messages = [message for message in workspace_after["active_conversation"]["messages"] if message["role"] == "assistant"]
         assert assistant_messages
         assert assistant_messages[-1]["reply_sections"][0]["citations"]
+        assert assistant_messages[-1]["answer_source"]["path"] == "llm"
+        assert assistant_messages[-1]["answer_source"]["model"] == "gemini-3-flash-preview"
 
         cleared = client.post(f"/api/workspaces/{workspace_id}/conversations/{conversation_id}/clear", json={}).json()["conversation"]
         assert cleared["messages"] == []

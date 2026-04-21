@@ -6,14 +6,13 @@ import math
 import re
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
-import requests
-
 from .config import Settings
 from .generation import (
     ArtifactValidationError,
     EvidenceAccessor,
     GroundedGenerator as HeuristicGroundedGenerator,
     NeedsUserInputError,
+    OptionalGeminiClient,
 )
 from .utils import (
     dedupe_citations,
@@ -38,93 +37,21 @@ ALLOWED_QUESTION_TYPES = {"short_answer", "long_answer"}
 ALLOWED_DIFFICULTIES = {"easier", "mixed", "harder"}
 
 
-class GeminiPrimaryClient:
-    def __init__(self, settings: Settings):
-        self.api_key = settings.gemini_api_key.strip()
-        self.model = settings.gemini_model.strip() or "gemini-2.5-flash"
-        self.timeout = settings.request_timeout_seconds
-
-    @property
-    def configured(self) -> bool:
-        return bool(self.api_key)
-
-    def _extract_text(self, payload: Dict[str, Any]) -> Optional[str]:
-        candidates = payload.get("candidates") or []
-        if not candidates:
-            return None
-        parts = ((candidates[0] or {}).get("content") or {}).get("parts") or []
-        text_parts = [part.get("text", "") for part in parts if part.get("text")]
-        combined = "\n".join(text_parts).strip()
-        return combined or None
-
+class GeminiPrimaryClient(OptionalGeminiClient):
     def generate_json(self, system_instruction: str, user_prompt: str, max_output_tokens: int = 2048) -> Optional[Dict[str, Any]]:
-        if not self.configured:
+        text = self._generate_content(
+            system_instruction=system_instruction,
+            user_prompt=user_prompt,
+            max_output_tokens=max_output_tokens,
+            response_mime_type="application/json",
+        )
+        if not text:
             return None
-        import time
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent?key={self.api_key}"
-        payload = {
-            "systemInstruction": {"parts": [{"text": system_instruction}]},
-            "contents": [{"role": "user", "parts": [{"text": user_prompt}]}],
-            "generationConfig": {
-                "temperature": 0.2,
-                "maxOutputTokens": max_output_tokens,
-                "responseMimeType": "application/json",
-            },
-        }
-        for attempt in range(3):
-            try:
-                response = requests.post(url, json=payload, timeout=self.timeout)
-                if response.status_code == 503 and attempt < 2:
-                    time.sleep(2 ** attempt)
-                    continue
-                response.raise_for_status()
-                text = self._extract_text(response.json())
-                if not text:
-                    return None
-                return json.loads(text)
-            except Exception:
-                if attempt < 2:
-                    time.sleep(2 ** attempt)
-                    continue
-                return None
-        return None
-
-    def generate_text(self, system_instruction: str, user_prompt: str, max_output_tokens: int = 256) -> Optional[str]:
-        if not self.configured:
-            return None
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent?key={self.api_key}"
-        payload = {
-            "systemInstruction": {"parts": [{"text": system_instruction}]},
-            "contents": [{"role": "user", "parts": [{"text": user_prompt}]}],
-            "generationConfig": {
-                "temperature": 0.2,
-                "maxOutputTokens": max_output_tokens,
-            },
-        }
         try:
-            response = requests.post(url, json=payload, timeout=self.timeout)
-            response.raise_for_status()
-            return self._extract_text(response.json())
-        except Exception:
+            return json.loads(text)
+        except ValueError:
+            self.last_call_info["failure_reason"] = "invalid_response_json"
             return None
-
-    def external_supplement(self, question_text: str, grounded_answer: str) -> Optional[str]:
-        prompt = (
-            "Question from a student: "
-            f"{question_text}\n\n"
-            "Grounded answer already supported by their lecture materials: "
-            f"{grounded_answer}\n\n"
-            "Write a brief external supplement that is clearly general background knowledge, not a claim about the student's slides. "
-            "Do not mention citations. Be concise and explicitly phrase this as supplementary background."
-        )
-        return self.generate_text(
-            system_instruction=(
-                "You provide carefully labeled supplemental background for students. "
-                "Never imply that external background came from the user's uploaded materials."
-            ),
-            user_prompt=prompt,
-            max_output_tokens=160,
-        )
 
 
 class GroundedGenerator(HeuristicGroundedGenerator):
@@ -400,20 +327,12 @@ class GroundedGenerator(HeuristicGroundedGenerator):
         lecture_material_ids = accessor.material_ids
         normalized_message = normalize_whitespace(message_text)
         query = self._resolve_query_context(normalized_message, previous_messages, accessor)
-        relevant_items = accessor.search(query, lecture_material_ids, top_k=4)
-        if not relevant_items:
-            return super().build_conversation_reply(
-                bundle=bundle,
-                message_text=message_text,
-                response_style=response_style,
-                grounding_mode=grounding_mode,
-                previous_messages=previous_messages,
-                conversation_id=conversation_id,
-            )
+        relevant_items = self._select_chat_evidence(accessor, query, lecture_material_ids)
 
         if self.gemini.configured:
             reply = self._build_conversation_reply_via_gemini(
                 bundle=bundle,
+                query=query,
                 normalized_message=normalized_message,
                 response_style=response_style,
                 grounding_mode=grounding_mode,
@@ -422,19 +341,28 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             )
             if reply is not None:
                 return reply
-        return super().build_conversation_reply(
-            bundle=bundle,
-            message_text=message_text,
-            response_style=response_style,
-            grounding_mode=grounding_mode,
-            previous_messages=previous_messages,
-            conversation_id=conversation_id,
+        gemini_failure = copy.deepcopy(getattr(self.gemini, "last_call_info", {}) or {})
+        return self._with_conversation_answer_source(
+            super().build_conversation_reply(
+                bundle=bundle,
+                message_text=message_text,
+                response_style=response_style,
+                grounding_mode=grounding_mode,
+                previous_messages=previous_messages,
+                conversation_id=conversation_id,
+            ),
+            generation_path="heuristic_fallback",
+            query=query,
+            relevant_items=relevant_items,
+            llm_call_info=gemini_failure,
+            fallback_reason=(gemini_failure.get("failure_reason") or self._default_chat_fallback_reason()),
         )
 
     def _build_conversation_reply_via_gemini(
         self,
         *,
         bundle: Dict[str, Any],
+        query: str,
         normalized_message: str,
         response_style: str,
         grounding_mode: str,
@@ -449,6 +377,8 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             evidence_lines.append(
                 f"citation_id={citation.get('citation_id')} | slide={item.get('slide_number')} | title={item.get('material_title')} | text={item.get('text')}"
             )
+        if not evidence_lines:
+            evidence_lines.append("No matched lecture evidence was retrieved for this question.")
         recent_user_turns = [msg.get("text", "") for msg in previous_messages if msg.get("role") == "user" and msg.get("text")][-2:]
         prompt = (
             f"Grounding mode: {grounding_mode}\n"
@@ -475,6 +405,7 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             user_prompt=prompt,
             max_output_tokens=1000,
         )
+        llm_call_info = copy.deepcopy(getattr(self.gemini, "last_call_info", {}) or {})
         if not isinstance(payload, dict):
             return None
 
@@ -534,7 +465,13 @@ class GroundedGenerator(HeuristicGroundedGenerator):
                 "prompt": self._safe_text(clarifying.get("prompt"), fallback="Please ask a more specific question."),
                 "reason": self._safe_text(clarifying.get("reason"), fallback="The question would benefit from a narrower grounded target."),
             }
-        return user_message, assistant_message
+        return self._with_conversation_answer_source(
+            (user_message, assistant_message),
+            generation_path="llm",
+            query=query,
+            relevant_items=relevant_items,
+            llm_call_info=llm_call_info,
+        )
 
     # --------------------------
     # Gemini-backed practice sets

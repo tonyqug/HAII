@@ -1,6 +1,10 @@
 from __future__ import annotations
 
+import json
+
 from .conftest import wait_for_job
+from learning_service.config import Settings
+from learning_service.generator_v2 import GeminiPrimaryClient
 
 
 
@@ -170,3 +174,123 @@ def test_gemini_validation_blocks_unsupported_citations_and_falls_back(app_facto
     bundle_citation_ids = {item["citation"]["citation_id"] for item in bundle["items"]}
     practice_citation_ids = {citation["citation_id"] for question in stored["questions"] for citation in question["citations"]}
     assert practice_citation_ids <= bundle_citation_ids
+
+
+def test_gemini_client_uses_rate_limit_model_ladder_and_reasoning(monkeypatch):
+    client = GeminiPrimaryClient(Settings(gemini_api_key="test-key"))
+    requests_seen = []
+
+    class FakeResponse:
+        def __init__(self, status_code, payload):
+            self.status_code = status_code
+            self._payload = payload
+
+        @property
+        def ok(self):
+            return self.status_code < 400
+
+        def json(self):
+            return self._payload
+
+    def fake_post(url, headers=None, json=None, timeout=None):
+        requests_seen.append((url, json, timeout))
+        if "gemini-3-flash-preview" in url:
+            return FakeResponse(429, {"error": {"status": "RESOURCE_EXHAUSTED"}})
+        if "gemini-2.5-flash:generateContent" in url:
+            return FakeResponse(429, {"error": {"status": "RESOURCE_EXHAUSTED"}})
+        return FakeResponse(
+            200,
+            {
+                "candidates": [
+                    {
+                        "content": {
+                            "parts": [
+                                {"text": json_module.dumps({"reply_sections": []})},
+                            ]
+                        }
+                    }
+                ]
+            },
+        )
+
+    json_module = json
+    monkeypatch.setattr("learning_service.generation.requests.post", fake_post)
+
+    payload = client.generate_json("system", "user prompt")
+
+    assert payload == {"reply_sections": []}
+    assert [url.split("/models/")[1].split(":generateContent")[0] for url, _body, _timeout in requests_seen] == [
+        "gemini-3-flash-preview",
+        "gemini-2.5-flash",
+        "gemini-2.5-flash-lite",
+    ]
+    assert requests_seen[0][1]["generationConfig"]["thinkingConfig"] == {"thinkingLevel": "high"}
+    assert requests_seen[1][1]["generationConfig"]["thinkingConfig"] == {"thinkingBudget": -1}
+    assert requests_seen[2][1]["generationConfig"]["thinkingConfig"] == {"thinkingBudget": -1}
+    assert client.last_call_info["used_model"] == "gemini-2.5-flash-lite"
+    assert client.last_call_info["rate_limited_models"] == ["gemini-3-flash-preview", "gemini-2.5-flash"]
+    assert client.last_call_info["reasoning_enabled"] is True
+
+
+def test_chat_uses_gemini_path_even_without_strong_local_match(app_factory, bundle, monkeypatch):
+    client = app_factory(gemini_api_key="test-key")
+    service = client.app.state.learning_service
+
+    def fake_generate_json(system_instruction, user_prompt, max_output_tokens=2048):
+        service.generator.gemini.last_call_info = {
+            "configured": True,
+            "provider": "gemini",
+            "generation_path": "llm",
+            "used_model": "gemini-3-flash-preview",
+            "reasoning_enabled": True,
+            "reasoning_mode": "dynamic",
+            "attempted_models": ["gemini-3-flash-preview"],
+            "rate_limited_models": [],
+            "failure_reason": None,
+        }
+        return {
+            "reply_sections": [
+                {
+                    "heading": "Not covered here",
+                    "text": "The current lecture materials do not cover that topic directly.",
+                    "support_status": "insufficient_evidence",
+                    "citation_ids": [],
+                }
+            ]
+        }
+
+    monkeypatch.setattr(service.generator.gemini, "generate_json", fake_generate_json)
+
+    create_response = client.post(
+        "/v1/conversations",
+        json={
+            "workspace_id": bundle["workspace_id"],
+            "material_ids": None,
+            "evidence_bundle": bundle,
+            "grounding_mode": "lecture_with_fallback",
+            "title": "Gemini first chat",
+            "include_annotations": True,
+        },
+    )
+    assert create_response.status_code == 200
+    conversation_id = create_response.json()["conversation_id"]
+
+    send = client.post(
+        f"/v1/conversations/{conversation_id}/messages",
+        json={
+            "message_text": "What is the history of neural networks?",
+            "response_style": "standard",
+            "grounding_mode": "lecture_with_fallback",
+            "include_citations": True,
+        },
+    )
+    assert send.status_code == 200
+    job = wait_for_job(client, send.json()["job_id"])
+    assert job["status"] == "succeeded"
+
+    conversation = client.get(f"/v1/conversations/{conversation_id}").json()
+    assistant = conversation["messages"][-1]
+    assert assistant["answer_source"]["path"] == "llm"
+    assert assistant["answer_source"]["model"] == "gemini-3-flash-preview"
+    assert assistant["answer_source"]["reasoning_enabled"] is True
+    assert assistant["reply_sections"][0]["support_status"] == "insufficient_evidence"

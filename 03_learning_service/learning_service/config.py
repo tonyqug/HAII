@@ -140,7 +140,7 @@ class Settings:
     content_service_url: str = "http://127.0.0.1:38410"
     gemini_api_key: str = ""
     local_data_dir: Path = Path("./local_data")
-    gemini_model: str = "gemini-2.5-flash"
+    gemini_model: str = "gemini-3-flash-preview"
     use_heuristic_fallback: bool = True
     request_timeout_seconds: int = 15
 
@@ -162,7 +162,7 @@ class Settings:
             content_service_url=env.get("CONTENT_SERVICE_URL", "http://127.0.0.1:38410"),
             gemini_api_key=env.get("GEMINI_API_KEY", "").strip(),
             local_data_dir=resolve_local_data_dir(env.get("LOCAL_DATA_DIR", "./local_data"), base_dir=context.config_base_dir),
-            gemini_model=env.get("GEMINI_MODEL", "gemini-2.5-flash"),
+            gemini_model=env.get("GEMINI_MODEL", "gemini-3-flash-preview"),
             use_heuristic_fallback=_parse_bool(env.get("USE_HEURISTIC_FALLBACK"), True),
             request_timeout_seconds=int(env.get("LEARNING_SERVICE_REQUEST_TIMEOUT_SECONDS", "15")),
         )

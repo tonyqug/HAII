@@ -24,7 +24,7 @@ Key behavior
 - Keeps artifact history instead of mutating prior versions in place
 - Returns explicit insufficient-evidence / clarification outcomes instead of fabricating certainty
 - Executes generation and revision endpoints as real background jobs that return immediately with job_id
-- Uses Gemini as the primary structured generation path when GEMINI_API_KEY is configured, with deterministic grounded fallback when Gemini is unavailable or validation fails
+- Uses Gemini as the primary structured generation path when GEMINI_API_KEY is configured, trying gemini-3-flash-preview first, then gemini-2.5-flash, then gemini-2.5-flash-lite on rate limits before falling back to the deterministic grounded path
 - Accepts canonical inputs plus the correction-spec alias inputs used by the shared app shell
 
 Runtime compatibility
@@ -60,7 +60,7 @@ Required by the spec
 - LOCAL_DATA_DIR=./local_data
 
 Optional convenience variables used by this implementation
-- GEMINI_MODEL=gemini-2.5-flash
+- GEMINI_MODEL=gemini-3-flash-preview
 - USE_HEURISTIC_FALLBACK=true
 - LEARNING_SERVICE_REQUEST_TIMEOUT_SECONDS=15
 

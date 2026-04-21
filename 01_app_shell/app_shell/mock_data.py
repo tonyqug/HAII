@@ -398,6 +398,16 @@ def generate_mock_assistant_message(workspace: dict, question_text: str, groundi
         "message_id": make_id("msg_assistant"),
         "role": "assistant",
         "created_at": utc_now_iso(),
+        "answer_source": {
+            "path": "llm",
+            "provider": "gemini",
+            "model": "gemini-3-flash-preview",
+            "reasoning_enabled": True,
+            "reasoning_mode": "dynamic",
+            "matched_evidence_count": 1,
+            "evidence_match": "strong_match",
+            "rate_limited_models": [],
+        },
         "reply_sections": [
             {
                 "heading": "Grounded answer",

@@ -4,6 +4,7 @@ import copy
 import json
 import math
 import re
+import time
 from collections import defaultdict
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
@@ -40,49 +41,160 @@ class ArtifactValidationError(RuntimeError):
     pass
 
 
+DEFAULT_GEMINI_MODEL_LADDER = (
+    "gemini-3-flash-preview",
+    "gemini-2.5-flash",
+    "gemini-2.5-flash-lite",
+)
+RATE_LIMIT_STATUS_CODE = 429
+TRANSIENT_GEMINI_STATUS_CODES = {503}
+
+
 class OptionalGeminiClient:
     def __init__(self, settings: Settings):
         self.settings = settings
         self.api_key = settings.gemini_api_key.strip()
-        self.model = settings.gemini_model.strip() or "gemini-2.5-flash"
         self.timeout = settings.request_timeout_seconds
+        configured_primary = settings.gemini_model.strip()
+        ordered_models = [configured_primary] if configured_primary else []
+        ordered_models.extend(DEFAULT_GEMINI_MODEL_LADDER)
+        self.model_ladder = tuple(dict.fromkeys(model for model in ordered_models if model))
+        self.last_call_info = self._fresh_call_info()
 
     @property
     def configured(self) -> bool:
         return bool(self.api_key)
 
-    def _generate_text(self, system_instruction: str, user_prompt: str, max_output_tokens: int = 256) -> Optional[str]:
-        if not self.configured:
+    def _fresh_call_info(self) -> Dict[str, Any]:
+        return {
+            "configured": bool(self.api_key),
+            "provider": "gemini",
+            "generation_path": "llm",
+            "used_model": None,
+            "reasoning_enabled": False,
+            "reasoning_mode": None,
+            "attempted_models": [],
+            "rate_limited_models": [],
+            "failure_reason": None,
+        }
+
+    def _thinking_config_for_model(self, model: str) -> Dict[str, Any]:
+        if model.startswith("gemini-3"):
+            return {"thinkingLevel": "high"}
+        if model.startswith("gemini-2.5"):
+            # Enable dynamic reasoning across the 2.5 fallback ladder, including Flash-Lite.
+            return {"thinkingBudget": -1}
+        return {}
+
+    def _extract_text(self, payload: Dict[str, Any]) -> Optional[str]:
+        candidates = payload.get("candidates") or []
+        if not candidates:
             return None
-        url = (
-            f"https://generativelanguage.googleapis.com/v1beta/models/"
-            f"{self.model}:generateContent"
-        )
+        parts = ((candidates[0] or {}).get("content") or {}).get("parts") or []
+        text_parts = [part.get("text", "") for part in parts if part.get("text")]
+        combined = "\n".join(text_parts).strip()
+        return combined or None
+
+    def _failure_reason_for_response(self, response: requests.Response) -> str:
+        if response.status_code == RATE_LIMIT_STATUS_CODE:
+            return "rate_limit_exceeded"
+        if response.status_code in TRANSIENT_GEMINI_STATUS_CODES:
+            return "service_unavailable"
+        if response.status_code in {401, 403}:
+            return "authentication_failed"
+        if response.status_code == 400:
+            return "bad_request"
+        if response.status_code >= 500:
+            return "upstream_error"
+        return "http_error"
+
+    def _generate_content(
+        self,
+        *,
+        system_instruction: str,
+        user_prompt: str,
+        max_output_tokens: int,
+        response_mime_type: Optional[str] = None,
+    ) -> Optional[str]:
+        self.last_call_info = self._fresh_call_info()
+        if not self.configured:
+            self.last_call_info["generation_path"] = "disabled"
+            self.last_call_info["failure_reason"] = "gemini_not_configured"
+            return None
+
         headers = {
             "x-goog-api-key": self.api_key,
             "Content-Type": "application/json",
         }
-        payload = {
-            "system_instruction": {"parts": [{"text": system_instruction}]},
-            "contents": [{"parts": [{"text": user_prompt}]}],
-            "generationConfig": {
+
+        for model in self.model_ladder:
+            self.last_call_info["attempted_models"].append(model)
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+            generation_config: Dict[str, Any] = {
                 "temperature": 0.2,
                 "maxOutputTokens": max_output_tokens,
-            },
-        }
-        try:
-            response = requests.post(url, headers=headers, json=payload, timeout=self.timeout)
-            response.raise_for_status()
-            data = response.json()
-            candidates = data.get("candidates") or []
-            if not candidates:
-                return None
-            parts = ((candidates[0] or {}).get("content") or {}).get("parts") or []
-            text_parts = [part.get("text", "") for part in parts if part.get("text")]
-            combined = "\n".join(text_parts).strip()
-            return combined or None
-        except Exception:
-            return None
+            }
+            if response_mime_type:
+                generation_config["responseMimeType"] = response_mime_type
+            thinking_config = self._thinking_config_for_model(model)
+            if thinking_config:
+                generation_config["thinkingConfig"] = thinking_config
+            payload = {
+                "systemInstruction": {"parts": [{"text": system_instruction}]},
+                "contents": [{"role": "user", "parts": [{"text": user_prompt}]}],
+                "generationConfig": generation_config,
+            }
+            for attempt in range(3):
+                try:
+                    response = requests.post(url, headers=headers, json=payload, timeout=self.timeout)
+                except requests.RequestException:
+                    if attempt < 2:
+                        time.sleep(2 ** attempt)
+                        continue
+                    self.last_call_info["failure_reason"] = "request_exception"
+                    return None
+
+                if response.status_code == RATE_LIMIT_STATUS_CODE:
+                    self.last_call_info["rate_limited_models"].append(model)
+                    self.last_call_info["failure_reason"] = "rate_limit_exceeded"
+                    break
+                if response.status_code in TRANSIENT_GEMINI_STATUS_CODES and attempt < 2:
+                    time.sleep(2 ** attempt)
+                    continue
+                if not response.ok:
+                    self.last_call_info["failure_reason"] = self._failure_reason_for_response(response)
+                    return None
+                try:
+                    data = response.json()
+                except ValueError:
+                    self.last_call_info["failure_reason"] = "invalid_response_json"
+                    return None
+                text = self._extract_text(data)
+                if not text:
+                    self.last_call_info["failure_reason"] = "empty_response"
+                    return None
+                self.last_call_info.update(
+                    {
+                        "used_model": model,
+                        "reasoning_enabled": bool(thinking_config),
+                        "reasoning_mode": "dynamic" if thinking_config else None,
+                        "failure_reason": None,
+                    }
+                )
+                return text
+
+        if self.last_call_info["rate_limited_models"]:
+            self.last_call_info["failure_reason"] = "rate_limit_exhausted"
+        elif not self.last_call_info["failure_reason"]:
+            self.last_call_info["failure_reason"] = "llm_generation_failed"
+        return None
+
+    def generate_text(self, system_instruction: str, user_prompt: str, max_output_tokens: int = 256) -> Optional[str]:
+        return self._generate_content(
+            system_instruction=system_instruction,
+            user_prompt=user_prompt,
+            max_output_tokens=max_output_tokens,
+        )
 
     def external_supplement(self, question_text: str, grounded_answer: str) -> Optional[str]:
         prompt = (
@@ -93,7 +205,7 @@ class OptionalGeminiClient:
             "Write a brief external supplement that is clearly general background knowledge, not a claim about the student's slides. "
             "Do not mention citations. Be concise and explicitly phrase this as supplementary background."
         )
-        return self._generate_text(
+        return self.generate_text(
             system_instruction=(
                 "You provide carefully labeled supplemental background for students. "
                 "Never imply that external background came from the user's uploaded materials."
@@ -233,6 +345,71 @@ class GroundedGenerator:
     def __init__(self, settings: Settings):
         self.settings = settings
         self.gemini = OptionalGeminiClient(settings)
+
+    def _chat_evidence_match(self, query: str, relevant_items: Sequence[Dict[str, Any]]) -> str:
+        if not relevant_items:
+            return "no_match"
+        return "weak_match" if self._chat_match_is_weak(query, relevant_items) else "strong_match"
+
+    def _default_chat_fallback_reason(self) -> str:
+        if getattr(self.gemini, "configured", False):
+            return "llm_generation_failed"
+        return "gemini_not_configured"
+
+    def _conversation_answer_source(
+        self,
+        *,
+        generation_path: str,
+        query: str,
+        relevant_items: Sequence[Dict[str, Any]],
+        llm_call_info: Optional[Dict[str, Any]] = None,
+        fallback_reason: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        evidence_match = self._chat_evidence_match(query, relevant_items)
+        matched_evidence_count = len(relevant_items)
+        if generation_path == "llm":
+            info = copy.deepcopy(llm_call_info or getattr(self.gemini, "last_call_info", {}) or {})
+            return {
+                "path": "llm",
+                "provider": "gemini",
+                "model": info.get("used_model"),
+                "reasoning_enabled": bool(info.get("reasoning_enabled")),
+                "reasoning_mode": info.get("reasoning_mode"),
+                "matched_evidence_count": matched_evidence_count,
+                "evidence_match": evidence_match,
+                "rate_limited_models": list(info.get("rate_limited_models") or []),
+            }
+        return {
+            "path": "heuristic_fallback",
+            "provider": "deterministic_fallback",
+            "model": None,
+            "reasoning_enabled": False,
+            "reasoning_mode": None,
+            "matched_evidence_count": matched_evidence_count,
+            "evidence_match": evidence_match,
+            "rate_limited_models": list((llm_call_info or {}).get("rate_limited_models") or []),
+            "fallback_reason": fallback_reason or self._default_chat_fallback_reason(),
+        }
+
+    def _with_conversation_answer_source(
+        self,
+        result: Tuple[Dict[str, Any], Dict[str, Any]],
+        *,
+        generation_path: str,
+        query: str,
+        relevant_items: Sequence[Dict[str, Any]],
+        llm_call_info: Optional[Dict[str, Any]] = None,
+        fallback_reason: Optional[str] = None,
+    ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+        user_message, assistant_message = result
+        assistant_message["answer_source"] = self._conversation_answer_source(
+            generation_path=generation_path,
+            query=query,
+            relevant_items=relevant_items,
+            llm_call_info=llm_call_info,
+            fallback_reason=fallback_reason,
+        )
+        return user_message, assistant_message
 
     # --------------------------
     # Study plan generation
@@ -1036,7 +1213,12 @@ class GroundedGenerator:
                         "citations": [],
                     }
                 )
-            return user_message, assistant_message
+            return self._with_conversation_answer_source(
+                (user_message, assistant_message),
+                generation_path="heuristic_fallback",
+                query=query,
+                relevant_items=relevant_items,
+            )
 
         grounded_citations = dedupe_citations(item.get("citation") for item in relevant_items)
         grounded_answer = self._compose_grounded_answer(normalized_message, relevant_items, response_style)
@@ -1059,7 +1241,12 @@ class GroundedGenerator:
                     "citations": [],
                 }
             )
-        return user_message, assistant_message
+        return self._with_conversation_answer_source(
+            (user_message, assistant_message),
+            generation_path="heuristic_fallback",
+            query=query,
+            relevant_items=relevant_items,
+        )
 
     def _select_chat_evidence(
         self,

@@ -44,6 +44,8 @@ def test_conversation_grounded_answer_clear_and_reuse(client, bundle):
     assistant_message = conversation["messages"][1]
     assert assistant_message["role"] == "assistant"
     assert assistant_message["reply_sections"][0]["citations"]
+    assert assistant_message["answer_source"]["path"] == "heuristic_fallback"
+    assert assistant_message["answer_source"]["provider"] == "deterministic_fallback"
 
     cleared = client.post(f"/v1/conversations/{conversation_id}/clear")
     assert cleared.status_code == 200
@@ -87,6 +89,8 @@ def test_conversation_strict_mode_returns_insufficient_evidence_without_fabricat
     first_section = assistant["reply_sections"][0]
     assert first_section["support_status"] == "insufficient_evidence"
     assert first_section["citations"] == []
+    assert assistant["answer_source"]["path"] == "heuristic_fallback"
+    assert assistant["answer_source"]["fallback_reason"] == "gemini_not_configured"
 
 
 

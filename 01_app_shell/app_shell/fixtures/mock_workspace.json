@@ -348,6 +348,16 @@
         "message_id": "msg_assistant_1",
         "role": "assistant",
         "created_at": "2026-03-20T14:20:10Z",
+        "answer_source": {
+          "path": "llm",
+          "provider": "gemini",
+          "model": "gemini-3-flash-preview",
+          "reasoning_enabled": true,
+          "reasoning_mode": "dynamic",
+          "matched_evidence_count": 1,
+          "evidence_match": "strong_match",
+          "rate_limited_models": []
+        },
         "reply_sections": [
           {
             "heading": "Lecture-grounded explanation",

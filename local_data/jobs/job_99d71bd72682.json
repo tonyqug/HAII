@@ -1,0 +1,22 @@
+{
+  "created_at": "2026-04-20T20:44:09Z",
+  "error": {
+    "code": null,
+    "message": null,
+    "retryable": false
+  },
+  "job_id": "job_99d71bd72682",
+  "job_type": "study_plan",
+  "message": "I need at least one evidence item to build a study plan.",
+  "progress": 100,
+  "result_id": null,
+  "result_type": null,
+  "stage": "needs_user_input",
+  "status": "needs_user_input",
+  "updated_at": "2026-04-20T20:44:09Z",
+  "user_action": {
+    "kind": "clarification",
+    "options": [],
+    "prompt": "I need at least one evidence item to build a study plan."
+  }
+}

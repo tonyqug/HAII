@@ -465,10 +465,15 @@ async function loadWorkspaces() {
 }
 
 function renderWorkspaceList() {
-  const container = document.getElementById('workspace-list');
+  renderWorkspaceListInto('workspace-list');
+  renderWorkspaceListInto('landing-workspace-list');
+}
+
+function renderWorkspaceListInto(containerId) {
+  const container = document.getElementById(containerId);
   if (!container) return;
   if (!state.workspaces.length) {
-    container.innerHTML = '<div class="card muted">No workspaces yet. Create one to start a grounded study loop.</div>';
+    container.innerHTML = '<div class="muted small">No workspaces yet.</div>';
     return;
   }
 
@@ -1338,12 +1343,14 @@ function renderWorkspace() {
   const emptyState = document.getElementById('workspace-empty-state');
   const view = document.getElementById('workspace-view');
   if (!state.activeWorkspace) {
+    document.body.classList.remove('has-workspace');
     emptyState?.classList.remove('hidden');
     view?.classList.add('hidden');
     closeSourceViewer();
     return;
   }
 
+  document.body.classList.add('has-workspace');
   emptyState?.classList.add('hidden');
   view?.classList.remove('hidden');
   document.getElementById('workspace-title').textContent = state.activeWorkspace.display_name;
@@ -1508,7 +1515,17 @@ function bindEvents() {
     button.addEventListener('click', () => setTab(button.dataset.tab));
   });
 
-  document.getElementById('create-workspace-form').addEventListener('submit', async (event) => {
+  document.getElementById('landing-new-workspace')?.addEventListener('click', () => {
+    document.getElementById('landing-create-form')?.classList.remove('hidden');
+    document.getElementById('workspace-name')?.focus();
+  });
+
+  document.getElementById('landing-cancel-create')?.addEventListener('click', () => {
+    document.getElementById('landing-create-form')?.classList.add('hidden');
+    document.getElementById('workspace-name').value = '';
+  });
+
+  document.getElementById('create-workspace-form')?.addEventListener('submit', async (event) => {
     event.preventDefault();
     try {
       const displayName = document.getElementById('workspace-name').value.trim();
@@ -1518,6 +1535,7 @@ function bindEvents() {
         body: JSON.stringify({ display_name: displayName }),
       });
       document.getElementById('workspace-name').value = '';
+      document.getElementById('landing-create-form')?.classList.add('hidden');
       await loadWorkspaces();
       setActiveWorkspace(payload.workspace, { resetSource: true });
       showTransientMessage('Workspace created.', 'success');
@@ -1764,13 +1782,20 @@ function bindEvents() {
     renderSourceViewer(state.citationList[state.citationIndex]);
   });
 
-  document.getElementById('source-close').addEventListener('click', closeSourceViewer);
+  function openSidebar() { document.body.classList.add('sidebar-open'); }
+  function closeSidebar() { document.body.classList.remove('sidebar-open'); }
+
+  document.getElementById('sidebar-toggle')?.addEventListener('click', openSidebar);
+  document.getElementById('sidebar-close')?.addEventListener('click', closeSidebar);
+  document.getElementById('sidebar-backdrop')?.addEventListener('click', closeSidebar);
+
+  document.getElementById('source-close')?.addEventListener('click', closeSourceViewer);
 
   ['decision-review-dismiss', 'decision-review-close', 'decision-review-cancel'].forEach((id) => {
-    document.getElementById(id).addEventListener('click', closeDecisionReview);
+    document.getElementById(id)?.addEventListener('click', closeDecisionReview);
   });
 
-  document.getElementById('decision-review-confirm').addEventListener('click', async () => {
+  document.getElementById('decision-review-confirm')?.addEventListener('click', async () => {
     const review = state.ui.review;
     if (!review) return;
 

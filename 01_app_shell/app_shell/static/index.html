@@ -27,77 +27,40 @@
         </div>
       </header>
 
+      <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-label="Toggle control center">&#9776;</button>
+      <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
       <main class="app-layout">
-        <aside class="panel library-panel">
+        <aside class="panel library-panel" id="library-panel">
           <div class="panel-heading">
             <div>
-              <div class="eyebrow">Control Center</div>
-              <h2>Workspaces and system state</h2>
+              <h2>Workspaces</h2>
             </div>
+            <button class="sidebar-close secondary" type="button" id="sidebar-close" aria-label="Hide">&times;</button>
           </div>
-
-          <div class="card guide-card">
-            <div class="guide-chip-row">
-              <span class="guide-chip">1. Add materials</span>
-              <span class="guide-chip">2. Review request</span>
-              <span class="guide-chip">3. Inspect evidence</span>
-              <span class="guide-chip">4. Revise safely</span>
-            </div>
-            <p class="small muted">
-              Each workspace makes the AI loop visible: the user chooses inputs, approves generation, opens citations, and can
-              compare or restore prior artifacts from history.
-            </p>
-          </div>
-
           <div class="system-status" id="system-status"></div>
-          <div class="workspace-list" id="workspace-list"></div>
-
-          <div class="card create-card">
-            <div class="panel-subheading">
-              <div>
-                <div class="eyebrow">Start Fresh</div>
-                <h3>Create workspace</h3>
-              </div>
-            </div>
-            <form id="create-workspace-form" class="stack">
-              <label>
-                Workspace name
-                <input id="workspace-name" placeholder="e.g. Week 5 backprop prep" />
-              </label>
-              <button type="submit">Create workspace</button>
-            </form>
-          </div>
+          <div id="workspace-list"></div>
         </aside>
 
         <section class="workspace-column">
-          <div id="workspace-empty-state" class="panel workspace-empty-state">
-            <div class="eyebrow">Guided Workflow</div>
-            <h2>Open a workspace to see the full human-AI study loop.</h2>
-            <p class="muted">
-              Materials, grounded practice generation, cited lecture Q&amp;A, and artifact history all appear here with the
-              review and evidence controls surfaced directly in the interface.
-            </p>
-            <div class="empty-grid">
-              <div class="empty-step">
-                <div class="empty-step-number">1</div>
-                <strong>Frame the task</strong>
-                <span class="small muted">Upload lecture materials and choose the exact scope you want the assistant to use.</span>
-              </div>
-              <div class="empty-step">
-                <div class="empty-step-number">2</div>
-                <strong>Approve before generation</strong>
-                <span class="small muted">Practice generation pauses for a visible review step instead of guessing silently.</span>
-              </div>
-              <div class="empty-step">
-                <div class="empty-step-number">3</div>
-                <strong>Inspect citations</strong>
-                <span class="small muted">Open the cited slide or page from answers and questions to verify the grounding.</span>
-              </div>
-              <div class="empty-step">
-                <div class="empty-step-number">4</div>
-                <strong>Audit and revise</strong>
-                <span class="small muted">Lock good questions, regenerate weak ones, and revisit older artifacts from history.</span>
-              </div>
+          <div id="workspace-empty-state" class="workspace-landing stack">
+            <div class="landing-header">
+              <h2>Your workspaces</h2>
+              <button id="landing-new-workspace" type="button">New workspace</button>
+            </div>
+            <div id="landing-workspace-list"></div>
+            <div id="landing-create-form" class="card hidden">
+              <h3>Create a workspace</h3>
+              <form id="create-workspace-form" class="stack">
+                <label>
+                  Name
+                  <input id="workspace-name" placeholder="e.g. Week 5 backprop prep" />
+                </label>
+                <div class="row">
+                  <button type="submit">Create</button>
+                  <button type="button" id="landing-cancel-create" class="secondary">Cancel</button>
+                </div>
+              </form>
             </div>
           </div>
 

@@ -1,0 +1,22 @@
+{
+  "created_at": "2026-04-20T20:44:49Z",
+  "error": {
+    "code": "content_service_error",
+    "message": "Content service evidence bundle request failed across compatible endpoints. Tried: /v1/evidence-bundles [with_query_text]: 500 Internal Server Error; /v1/evidence-bundles [without_query_text]: 500 Internal Server Error; /v1/retrieval/bundle [with_query_text]: 500 Internal Server Error; /v1/retrieval/bundle [without_query_text]: 500 Internal Server Error; /v1/evidence/bundles [with_query_text]: 404 {'detail': 'Not Found'}; /v1/evidence/bundles [without_query_text]: 404 {'detail': 'Not Found'}; /v1/retrieval/evidence-bundles [with_query_text]: 404 {'detail': 'Not Found'}; /v1/retrieval/evidence-bundles [without_query_text]: 404 {'detail': 'Not Found'}; /v1/retrieve/evidence-bundle [with_query_text]: 404 {'detail': 'Not Found'}; /v1/retrieve/evidence-bundle [without_query_text]: 404 {'detail': 'Not Found'}; /v1/materials/evidence-bundle [with_query_text]: 405 {'detail': 'Method Not Allowed'}; /v1/materials/evidence-bundle [without_query_text]: 405 {'detail': 'Method Not Allowed'}",
+    "retryable": true
+  },
+  "job_id": "job_711480c7251e",
+  "job_type": "study_plan",
+  "message": "Content service evidence bundle request failed across compatible endpoints. Tried: /v1/evidence-bundles [with_query_text]: 500 Internal Server Error; /v1/evidence-bundles [without_query_text]: 500 Internal Server Error; /v1/retrieval/bundle [with_query_text]: 500 Internal Server Error; /v1/retrieval/bundle [without_query_text]: 500 Internal Server Error; /v1/evidence/bundles [with_query_text]: 404 {'detail': 'Not Found'}; /v1/evidence/bundles [without_query_text]: 404 {'detail': 'Not Found'}; /v1/retrieval/evidence-bundles [with_query_text]: 404 {'detail': 'Not Found'}; /v1/retrieval/evidence-bundles [without_query_text]: 404 {'detail': 'Not Found'}; /v1/retrieve/evidence-bundle [with_query_text]: 404 {'detail': 'Not Found'}; /v1/retrieve/evidence-bundle [without_query_text]: 404 {'detail': 'Not Found'}; /v1/materials/evidence-bundle [with_query_text]: 405 {'detail': 'Method Not Allowed'}; /v1/materials/evidence-bundle [without_query_text]: 405 {'detail': 'Method Not Allowed'}",
+  "progress": 100,
+  "result_id": null,
+  "result_type": null,
+  "stage": "failed",
+  "status": "failed",
+  "updated_at": "2026-04-20T20:44:49Z",
+  "user_action": {
+    "kind": null,
+    "options": [],
+    "prompt": null
+  }
+}

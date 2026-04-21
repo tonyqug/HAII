@@ -75,7 +75,7 @@ body::after {
   position: relative;
   z-index: 1;
   min-height: 100vh;
-  padding: 24px;
+  padding: 24px 24px 24px 68px;
 }
 
 .app-header {
@@ -171,15 +171,88 @@ h3 {
   font-size: 1.08rem;
 }
 
+.sidebar-toggle {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 200;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  font-size: 1.1rem;
+  line-height: 1;
+  border-radius: var(--radius);
+  background: var(--text);
+  border: 1px solid var(--text);
+  color: #fff;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.15s;
+}
+
+body.sidebar-open .sidebar-toggle,
+body:not(.has-workspace) .sidebar-toggle {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sidebar-close {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  font-size: 1.2rem;
+  line-height: 1;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.library-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100dvh;
+  width: 480px;
+  overflow-y: auto;
+  z-index: 150;
+  border-radius: 0;
+  border-left: none;
+  border-top: none;
+  border-bottom: none;
+  transform: translateX(-100%);
+  transition: transform 0.22s ease;
+}
+
+body.sidebar-open .library-panel {
+  transform: translateX(0);
+}
+
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 140;
+}
+
+body.sidebar-open .sidebar-backdrop {
+  display: block;
+}
+
 .app-layout {
   display: grid;
-  grid-template-columns: 320px minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 18px;
   align-items: start;
 }
 
 body.source-viewer-open .app-layout {
-  grid-template-columns: 320px minmax(0, 1fr) 360px;
+  grid-template-columns: minmax(0, 1fr) 360px;
 }
 
 .workspace-column {
@@ -213,9 +286,19 @@ body.source-viewer-open .app-layout {
 .guide-card,
 .flow-card,
 .create-card,
-.workspace-empty-state,
 .workspace-hero {
   background: linear-gradient(180deg, rgba(255, 253, 248, 0.98), rgba(248, 250, 246, 0.84));
+}
+
+.workspace-landing {
+  max-width: 640px;
+}
+
+.landing-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
 }
 
 .workspace-hero {
@@ -989,11 +1072,6 @@ ul.task-list {
 }
 
 @media (max-width: 1320px) {
-  body.source-viewer-open .app-layout,
-  .app-layout {
-    grid-template-columns: 300px minmax(0, 1fr);
-  }
-
   .hero-grid,
   .principles-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1012,12 +1090,10 @@ ul.task-list {
 
 @media (max-width: 980px) {
   .app-shell {
-    padding: 14px;
+    padding: 14px 14px 14px 58px;
   }
 
   .app-header,
-  body.source-viewer-open .app-layout,
-  .app-layout,
   .empty-grid {
     grid-template-columns: 1fr;
   }

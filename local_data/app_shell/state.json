@@ -180,6 +180,39 @@
       "user_action": null,
       "workspace_id": "workspace_538aaf9f4515"
     },
+    "job_14503e538791": {
+      "context": {
+        "conversation_id": "conversation_ecb11dc5e685",
+        "grounding_mode": "lecture_with_fallback",
+        "message_text": "what is chebyshev's",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-21T03:57:14Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_14503e538791",
+      "message": "Conversation reply created.",
+      "operation": "conversation_message",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_9efb582c1f82",
+      "result_id": "msg_b1e6143d1914",
+      "result_type": "message",
+      "service": "learning",
+      "stage": "done",
+      "status": "succeeded",
+      "updated_at": "2026-04-21T03:57:15Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_119cfa5ac40c"
+    },
     "job_166dd3f76bec": {
       "context": {
         "dedup_key": "practice_template:fd0def8190fcb7b42fa01512a091071d1d7565998866c6ec1709fa69b5dcc97b",
@@ -484,6 +517,39 @@
       "user_action": null,
       "workspace_id": "workspace_b3262557b5dc"
     },
+    "job_51fba644b332": {
+      "context": {
+        "conversation_id": "conversation_ecb11dc5e685",
+        "grounding_mode": "lecture_with_fallback",
+        "message_text": "what is brownian motion",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-21T03:56:42Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_51fba644b332",
+      "message": "Conversation reply created.",
+      "operation": "conversation_message",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_64aa9d577998",
+      "result_id": "msg_616f0949bedc",
+      "result_type": "message",
+      "service": "learning",
+      "stage": "done",
+      "status": "succeeded",
+      "updated_at": "2026-04-21T03:56:43Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_119cfa5ac40c"
+    },
     "job_5366c04b564f": {
       "context": {
         "normalized_request": {
@@ -687,6 +753,39 @@
       "status": "succeeded",
       "updated_at": "2026-04-20T19:37:59Z",
       "user_action": null,
+      "workspace_id": "workspace_119cfa5ac40c"
+    },
+    "job_613be13c0c37": {
+      "context": {
+        "conversation_id": "conversation_ecb11dc5e685",
+        "grounding_mode": "lecture_with_fallback",
+        "message_text": "what is normal distribution",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-21T03:56:57Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_613be13c0c37",
+      "message": "Conversation reply created.",
+      "operation": "conversation_message",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_76deec811bb6",
+      "result_id": "msg_661e00879b06",
+      "result_type": "message",
+      "service": "learning",
+      "stage": "done",
+      "status": "succeeded",
+      "updated_at": "2026-04-21T03:56:57Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
       "workspace_id": "workspace_119cfa5ac40c"
     },
     "job_6907ca0ddd85": {
@@ -1515,7 +1614,7 @@
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-20T22:11:55Z",
+      "last_opened_at": "2026-04-21T04:01:38Z",
       "local_edits": {},
       "material_preferences": {
         "material_057153c6600f": "focus",
@@ -1601,13 +1700,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-20T22:11:55Z",
+            "last_checked_at": "2026-04-21T04:01:38Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-20T22:11:55Z",
+            "last_checked_at": "2026-04-21T04:01:38Z",
             "mode": "integrated"
           }
         },
@@ -1629,6 +1728,71 @@
       },
       "workspace_id": "workspace_0c576b1f0e72"
     },
+    "workspace_0e3251a923be": {
+      "active_material_ids": {
+        "notes": [],
+        "slides": []
+      },
+      "active_practice_set_id": null,
+      "active_study_plan_id": null,
+      "annotations": [],
+      "archived": false,
+      "conversations": {},
+      "created_at": "2026-04-21T03:35:46Z",
+      "deleted": false,
+      "display_name": "Probability Preparation",
+      "feedback_history": [],
+      "grounding_mode": "strict_lecture_only",
+      "history": [],
+      "known_conversation_ids": [],
+      "known_practice_set_ids": [],
+      "known_study_plan_ids": [],
+      "last_opened_at": "2026-04-21T04:01:38Z",
+      "local_edits": {},
+      "material_preferences": {},
+      "material_sync_annotations": {},
+      "materials": {},
+      "pending_user_actions": [],
+      "practice_preferences": {},
+      "practice_sets": {},
+      "selected_active_conversation_id": null,
+      "status": {
+        "last_successful_sync": {
+          "content": "2026-04-21T04:00:26Z",
+          "learning": "2026-04-21T04:00:26Z"
+        },
+        "services": {
+          "content": {
+            "available": true,
+            "base_url": "http://127.0.0.1:38410",
+            "last_checked_at": "2026-04-21T04:01:38Z",
+            "mode": "integrated"
+          },
+          "learning": {
+            "available": true,
+            "base_url": "http://127.0.0.1:38420",
+            "last_checked_at": "2026-04-21T04:01:38Z",
+            "mode": "integrated"
+          }
+        },
+        "warnings": []
+      },
+      "student_context": {
+        "goals": "",
+        "known": "",
+        "weak_areas": ""
+      },
+      "study_plans": {},
+      "time_budget_minutes": null,
+      "topic_text": "",
+      "ui_preferences": {
+        "current_tab": "Overview",
+        "last_active_citation": null,
+        "sidebar_open": true,
+        "source_viewer_open": false
+      },
+      "workspace_id": "workspace_0e3251a923be"
+    },
     "workspace_119cfa5ac40c": {
       "active_material_ids": {
         "notes": [],
@@ -1644,7 +1808,104 @@
       "active_study_plan_id": null,
       "annotations": [],
       "archived": false,
-      "conversations": {},
+      "conversations": {
+        "conversation_ecb11dc5e685": {
+          "conversation_id": "conversation_ecb11dc5e685",
+          "created_at": "2026-04-21T03:56:41Z",
+          "grounding_mode": "lecture_with_fallback",
+          "messages": [
+            {
+              "created_at": "2026-04-21T03:56:42Z",
+              "message_id": "msg_56185f6151fa",
+              "role": "user",
+              "text": "what is brownian motion"
+            },
+            {
+              "clarifying_question": {
+                "prompt": "Point me to a lecture concept, keyword, or slide number and I can answer more precisely.",
+                "reason": "The current question did not match grounded lecture evidence strongly enough."
+              },
+              "created_at": "2026-04-21T03:56:42Z",
+              "message_id": "msg_616f0949bedc",
+              "reply_sections": [
+                {
+                  "citations": [],
+                  "heading": "Insufficient evidence from your materials",
+                  "support_status": "insufficient_evidence",
+                  "text": "I could not find enough grounded lecture evidence to answer this confidently from the current materials."
+                },
+                {
+                  "citations": [],
+                  "heading": "External supplement",
+                  "support_status": "external_supplement",
+                  "text": "Supplementary background only: the uploaded materials do not fully cover 'brownian motion'. Use external references only as background, and verify any broader explanation against your lecture slides or course textbook before relying on it."
+                }
+              ],
+              "role": "assistant"
+            },
+            {
+              "created_at": "2026-04-21T03:56:57Z",
+              "message_id": "msg_cd400838460e",
+              "role": "user",
+              "text": "what is normal distribution"
+            },
+            {
+              "clarifying_question": {
+                "prompt": "Point me to a lecture concept, keyword, or slide number and I can answer more precisely.",
+                "reason": "The current question did not match grounded lecture evidence strongly enough."
+              },
+              "created_at": "2026-04-21T03:56:57Z",
+              "message_id": "msg_661e00879b06",
+              "reply_sections": [
+                {
+                  "citations": [],
+                  "heading": "Insufficient evidence from your materials",
+                  "support_status": "insufficient_evidence",
+                  "text": "I could not find enough grounded lecture evidence to answer this confidently from the current materials."
+                },
+                {
+                  "citations": [],
+                  "heading": "External supplement",
+                  "support_status": "external_supplement",
+                  "text": "Supplementary background only: the uploaded materials do not fully cover 'normal distribution'. Use external references only as background, and verify any broader explanation against your lecture slides or course textbook before relying on it."
+                }
+              ],
+              "role": "assistant"
+            },
+            {
+              "created_at": "2026-04-21T03:57:14Z",
+              "message_id": "msg_22e22c94580f",
+              "role": "user",
+              "text": "what is chebyshev's"
+            },
+            {
+              "clarifying_question": {
+                "prompt": "Point me to a lecture concept, keyword, or slide number and I can answer more precisely.",
+                "reason": "The current question did not match grounded lecture evidence strongly enough."
+              },
+              "created_at": "2026-04-21T03:57:14Z",
+              "message_id": "msg_b1e6143d1914",
+              "reply_sections": [
+                {
+                  "citations": [],
+                  "heading": "Insufficient evidence from your materials",
+                  "support_status": "insufficient_evidence",
+                  "text": "I could not find enough grounded lecture evidence to answer this confidently from the current materials."
+                },
+                {
+                  "citations": [],
+                  "heading": "External supplement",
+                  "support_status": "external_supplement",
+                  "text": "Supplementary background only: the uploaded materials do not fully cover 'chebyshev's'. Use external references only as background, and verify any broader explanation against your lecture slides or course textbook before relying on it."
+                }
+              ],
+              "role": "assistant"
+            }
+          ],
+          "title": "Workspace Q&A",
+          "workspace_id": "workspace_119cfa5ac40c"
+        }
+      },
       "created_at": "2026-04-20T19:15:31Z",
       "deleted": false,
       "display_name": "Probability Preparation",
@@ -1655,18 +1916,33 @@
         "slides:649ea9b8f4eea86928af3e67e095e5fbb0187d210a0ba49aadafe35785b73068": "material_bb72ae05041d"
       },
       "grounding_mode": "strict_lecture_only",
-      "history": [],
-      "known_conversation_ids": [],
+      "history": [
+        {
+          "active": true,
+          "artifact_id": "conversation_ecb11dc5e685",
+          "artifact_type": "conversation",
+          "created_at": "2026-04-21T03:56:41Z",
+          "parent_artifact_id": null,
+          "title": "Workspace Q&A"
+        }
+      ],
+      "known_conversation_ids": [
+        "conversation_ecb11dc5e685"
+      ],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-20T22:11:56Z",
+      "last_opened_at": "2026-04-21T04:01:38Z",
       "local_edits": {},
       "material_preferences": {
         "material_753ac7b44e1e": "default",
         "material_bb72ae05041d": "default",
         "material_e30914fa6b86": "default"
       },
-      "material_sync_annotations": {},
+      "material_sync_annotations": {
+        "material_753ac7b44e1e": {},
+        "material_bb72ae05041d": {},
+        "material_e30914fa6b86": {}
+      },
       "materials": {
         "material_753ac7b44e1e": {
           "created_at": "2026-04-20T19:30:13Z",
@@ -1764,23 +2040,23 @@
       },
       "pending_user_actions": [],
       "practice_sets": {},
-      "selected_active_conversation_id": null,
+      "selected_active_conversation_id": "conversation_ecb11dc5e685",
       "status": {
         "last_successful_sync": {
-          "content": null,
-          "learning": null
+          "content": "2026-04-21T03:57:15Z",
+          "learning": "2026-04-21T03:57:15Z"
         },
         "services": {
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-20T22:11:55Z",
+            "last_checked_at": "2026-04-21T04:01:38Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-20T22:11:55Z",
+            "last_checked_at": "2026-04-21T04:01:38Z",
             "mode": "integrated"
           }
         },
@@ -1805,7 +2081,6 @@
     "workspace_538aaf9f4515": {
       "active_material_ids": {
         "notes": [],
-        "practice_template": [],
         "slides": [
           "mat_0d4cf2e5271346b2afc8b1a4422e6a0e",
           "mat_26ee4a6b46504aeebcb2ff00f706975a",
@@ -1831,77 +2106,113 @@
           "grounding_mode": "strict_lecture_only",
           "messages": [
             {
-              "created_at": "2026-03-30T02:19:37Z",
-              "job_id": "job_c10c36fe08ea",
-              "message_id": "msg_user_c73fd8c07506",
-              "pending": false,
+              "created_at": "2026-03-30T02:12:43Z",
+              "message_id": "msg_488efd3162fa",
               "role": "user",
-              "text": "what is the formula for sample compelxity"
+              "text": "what is a transformer"
             },
             {
-              "clarifying_question": {
-                "prompt": null,
-                "reason": null
-              },
-              "created_at": "2026-03-30T02:19:39Z",
-              "message_id": "msg_assistant_da5cdf417f82",
+              "created_at": "2026-03-30T02:12:43Z",
+              "message_id": "msg_f41f65fb3855",
               "reply_sections": [
                 {
                   "citations": [
                     {
-                      "citation_id": "citation_mat_0d4cf2e5271346b2afc8b1a4422e6a0e_mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1_1",
+                      "citation_id": "cit_a258d51c0ac87fd880c9b6bf",
                       "confidence": "high",
-                      "material_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e",
-                      "material_title": "lecture10-feat-eng-reg.pdf",
-                      "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_538aaf9f4515/materials/mat_0d4cf2e5271346b2afc8b1a4422e6a0e/slides/mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1/preview",
-                      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1",
+                      "material_id": "mat_e1be8fa2f53b4d0680acef951832989a",
+                      "material_title": "lecture18-rnn-transformer.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_e1be8fa2f53b4d0680acef951832989a/slides/mat_e1be8fa2f53b4d0680acef951832989a:slide:1/preview",
+                      "slide_id": "mat_e1be8fa2f53b4d0680acef951832989a:slide:1",
                       "slide_number": 1,
-                      "snippet_text": "Preview unavailable.",
-                      "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_538aaf9f4515/materials/mat_0d4cf2e5271346b2afc8b1a4422e6a0e/slides/mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1/source",
+                      "snippet_text": "RNN LMs + Transformer LMs 1 10-301/10-601 Introduction to Machine Learning Pat Virtue & Matt Gormley Lecture 18 Mar. 18, 2026 Machine Learning Department School of Computer Science Carnegie Mellon University",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_e1be8fa2f53b4d0680acef951832989a/slides/mat_e1be8fa2f53b4d0680acef951832989a:slide:1/source",
+                      "support_type": "explicit"
+                    },
+                    {
+                      "citation_id": "cit_37d7da96aca796732c4d13b4",
+                      "confidence": "high",
+                      "material_id": "mat_e1be8fa2f53b4d0680acef951832989a",
+                      "material_title": "lecture18-rnn-transformer.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_e1be8fa2f53b4d0680acef951832989a/slides/mat_e1be8fa2f53b4d0680acef951832989a:slide:62/preview",
+                      "slide_id": "mat_e1be8fa2f53b4d0680acef951832989a:slide:62",
+                      "slide_number": 62,
+                      "snippet_text": "ATTENTION The key building block for Transformer language models 82",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_e1be8fa2f53b4d0680acef951832989a/slides/mat_e1be8fa2f53b4d0680acef951832989a:slide:62/source",
+                      "support_type": "explicit"
+                    },
+                    {
+                      "citation_id": "cit_e98d13bae0ae48fc2110518b",
+                      "confidence": "high",
+                      "material_id": "mat_e1be8fa2f53b4d0680acef951832989a",
+                      "material_title": "lecture18-rnn-transformer.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_e1be8fa2f53b4d0680acef951832989a/slides/mat_e1be8fa2f53b4d0680acef951832989a:slide:83/preview",
+                      "slide_id": "mat_e1be8fa2f53b4d0680acef951832989a:slide:83",
+                      "slide_number": 83,
+                      "snippet_text": "TRANSFORMER LANGUAGE MODELS Generative Pretrained Transformers (GPT) 103",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_e1be8fa2f53b4d0680acef951832989a/slides/mat_e1be8fa2f53b4d0680acef951832989a:slide:83/source",
                       "support_type": "explicit"
                     }
                   ],
-                  "heading": "Grounded answer",
-                  "support_status": "slide_grounded",
-                  "text": "Here is a grounded response based on the current workspace materials: what is the formula for sample compelxity. The shell preserved strict_lecture_only and response style standard while attaching a citation for inspection."
+                  "heading": "What is a Transformer?",
+                  "support_status": "inferred_from_slides",
+                  "text": "A Transformer is a type of language model, often referred to as a Transformer Language Model (LM) or Generative Pretrained Transformer (GPT) in the context of machine learning. The language model component of a Transformer LM functions similarly to an RNN-LM. A key building block for Transformer language models is attention. Each layer within a Transformer LM is comprised of several sublayers, which include attention, a feed-forward neural network, layer normalization, and residual connections."
                 }
               ],
               "role": "assistant"
             },
             {
-              "created_at": "2026-03-30T02:20:29Z",
-              "job_id": "job_b2585f2c24e4",
-              "message_id": "msg_user_1fd82272bea7",
-              "pending": false,
+              "created_at": "2026-03-30T02:18:46Z",
+              "message_id": "msg_f3c7abce6dcd",
               "role": "user",
-              "text": "what is 1 + 1"
+              "text": "what is the formula for vc dimension"
             },
             {
-              "clarifying_question": {
-                "prompt": null,
-                "reason": null
-              },
-              "created_at": "2026-03-30T02:20:31Z",
-              "message_id": "msg_assistant_237c878ddcd7",
+              "created_at": "2026-03-30T02:18:46Z",
+              "message_id": "msg_4a78671f76e6",
               "reply_sections": [
                 {
                   "citations": [
                     {
-                      "citation_id": "citation_mat_0d4cf2e5271346b2afc8b1a4422e6a0e_mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1_1",
+                      "citation_id": "cit_97d75bdf62a17b36af3d268c",
                       "confidence": "high",
-                      "material_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e",
-                      "material_title": "lecture10-feat-eng-reg.pdf",
-                      "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_538aaf9f4515/materials/mat_0d4cf2e5271346b2afc8b1a4422e6a0e/slides/mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1/preview",
-                      "slide_id": "mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1",
-                      "slide_number": 1,
-                      "snippet_text": "Preview unavailable.",
-                      "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_538aaf9f4515/materials/mat_0d4cf2e5271346b2afc8b1a4422e6a0e/slides/mat_0d4cf2e5271346b2afc8b1a4422e6a0e:slide:1/source",
+                      "material_id": "mat_e0af76caf64a48389f420041bdceeef9",
+                      "material_title": "lecture16-pac-map.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_e0af76caf64a48389f420041bdceeef9/slides/mat_e0af76caf64a48389f420041bdceeef9:slide:12/preview",
+                      "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:12",
+                      "slide_number": 12,
+                      "snippet_text": "Sample Complexity Results 18 Realizable Agnostic Four Cases we care about\u2026 For these two cases, we will use a new definition for the \u201ccomplexity\u201d of a Hypothesis space called VC Dimension",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_e0af76caf64a48389f420041bdceeef9/slides/mat_e0af76caf64a48389f420041bdceeef9:slide:12/source",
+                      "support_type": "explicit"
+                    },
+                    {
+                      "citation_id": "cit_0da066f0eaeb6290db642140",
+                      "confidence": "high",
+                      "material_id": "mat_e0af76caf64a48389f420041bdceeef9",
+                      "material_title": "lecture16-pac-map.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_e0af76caf64a48389f420041bdceeef9/slides/mat_e0af76caf64a48389f420041bdceeef9:slide:17/preview",
+                      "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:17",
+                      "slide_number": 17,
+                      "snippet_text": "Intuition for VC Dimension 24 \u25cfFor \u201cnice\u201d infinite hypothesis sets \u210b, many hypotheses in \u210bwill behave similarly \u25cfRelative to this dataset, these two hypotheses are identical! Slide from Henry Chai & Geoff Gordon",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_e0af76caf64a48389f420041bdceeef9/slides/mat_e0af76caf64a48389f420041bdceeef9:slide:17/source",
+                      "support_type": "explicit"
+                    },
+                    {
+                      "citation_id": "cit_fad7c54f69c2893e967cde75",
+                      "confidence": "high",
+                      "material_id": "mat_e0af76caf64a48389f420041bdceeef9",
+                      "material_title": "lecture16-pac-map.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_e0af76caf64a48389f420041bdceeef9/slides/mat_e0af76caf64a48389f420041bdceeef9:slide:18/preview",
+                      "slide_id": "mat_e0af76caf64a48389f420041bdceeef9:slide:18",
+                      "slide_number": 18,
+                      "snippet_text": "Intuition for VC Dimension 25 \u25cfFor \u201cnice\u201d infinite hypothesis sets \u210b, many hypotheses in \u210bwill behave similarly \u25cfRelative to this dataset, these two hypotheses are identical! Idea: instead of using full size of \u210b, count how many actually distinct hypotheses there are Slide from Henry Chai & Geoff Gordon",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_e0af76caf64a48389f420041bdceeef9/slides/mat_e0af76caf64a48389f420041bdceeef9:slide:18/source",
                       "support_type": "explicit"
                     }
                   ],
-                  "heading": "Grounded answer",
-                  "support_status": "slide_grounded",
-                  "text": "Here is a grounded response based on the current workspace materials: what is 1 + 1. The shell preserved strict_lecture_only and response style standard while attaching a citation for inspection."
+                  "heading": "VC Dimension",
+                  "support_status": "inferred_from_slides",
+                  "text": "The provided lecture materials introduce VC Dimension as a definition for the \"complexity\" of a Hypothesis space, particularly for realizable and agnostic cases, and for \"nice\" infinite hypothesis sets. It is described as an idea to count how many actually distinct hypotheses there are, rather than using the full size of the hypothesis set. However, the lecture slides do not provide a specific formula for calculating VC Dimension."
                 }
               ],
               "role": "assistant"
@@ -1931,7 +2242,7 @@
       ],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-20T22:11:56Z",
+      "last_opened_at": "2026-04-21T04:01:38Z",
       "local_edits": {},
       "material_preferences": {
         "mat_0d4cf2e5271346b2afc8b1a4422e6a0e": "default",
@@ -10469,20 +10780,20 @@
       "selected_active_conversation_id": "conversation_f9e766f9579f",
       "status": {
         "last_successful_sync": {
-          "content": "2026-03-30T02:18:48Z",
-          "learning": "2026-03-30T02:18:48Z"
+          "content": "2026-04-21T03:35:49Z",
+          "learning": "2026-04-21T03:35:49Z"
         },
         "services": {
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-20T22:11:55Z",
+            "last_checked_at": "2026-04-21T04:01:38Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-20T22:11:55Z",
+            "last_checked_at": "2026-04-21T04:01:38Z",
             "mode": "integrated"
           }
         },
@@ -11426,6 +11737,71 @@
       },
       "workspace_id": "workspace_6fbd2cc28c13"
     },
+    "workspace_70598ced9e67": {
+      "active_material_ids": {
+        "notes": [],
+        "slides": []
+      },
+      "active_practice_set_id": null,
+      "active_study_plan_id": null,
+      "annotations": [],
+      "archived": false,
+      "conversations": {},
+      "created_at": "2026-04-21T03:35:13Z",
+      "deleted": false,
+      "display_name": "Probability Preparation",
+      "feedback_history": [],
+      "grounding_mode": "strict_lecture_only",
+      "history": [],
+      "known_conversation_ids": [],
+      "known_practice_set_ids": [],
+      "known_study_plan_ids": [],
+      "last_opened_at": "2026-04-21T04:01:38Z",
+      "local_edits": {},
+      "material_preferences": {},
+      "material_sync_annotations": {},
+      "materials": {},
+      "pending_user_actions": [],
+      "practice_preferences": {},
+      "practice_sets": {},
+      "selected_active_conversation_id": null,
+      "status": {
+        "last_successful_sync": {
+          "content": null,
+          "learning": null
+        },
+        "services": {
+          "content": {
+            "available": true,
+            "base_url": "http://127.0.0.1:38410",
+            "last_checked_at": "2026-04-21T04:01:38Z",
+            "mode": "integrated"
+          },
+          "learning": {
+            "available": true,
+            "base_url": "http://127.0.0.1:38420",
+            "last_checked_at": "2026-04-21T04:01:38Z",
+            "mode": "integrated"
+          }
+        },
+        "warnings": []
+      },
+      "student_context": {
+        "goals": "",
+        "known": "",
+        "weak_areas": ""
+      },
+      "study_plans": {},
+      "time_budget_minutes": null,
+      "topic_text": "",
+      "ui_preferences": {
+        "current_tab": "Overview",
+        "last_active_citation": null,
+        "sidebar_open": true,
+        "source_viewer_open": false
+      },
+      "workspace_id": "workspace_70598ced9e67"
+    },
     "workspace_b26bafac48ad": {
       "active_material_ids": {
         "notes": [],
@@ -11516,7 +11892,7 @@
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-20T22:11:56Z",
+      "last_opened_at": "2026-04-21T04:01:38Z",
       "local_edits": {},
       "material_preferences": {
         "material_f90e97c0bfa9": "default"
@@ -11567,13 +11943,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-20T22:11:55Z",
+            "last_checked_at": "2026-04-21T04:01:38Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-20T22:11:55Z",
+            "last_checked_at": "2026-04-21T04:01:38Z",
             "mode": "integrated"
           }
         },
@@ -11847,7 +12223,7 @@
         "practice_set_7411ebcac8c2"
       ],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-20T22:11:55Z",
+      "last_opened_at": "2026-04-21T04:01:45Z",
       "local_edits": {},
       "material_preferences": {
         "mat_2f09c1feaeca4fbe81e2ab67795171e4": "default",
@@ -12945,20 +13321,20 @@
       "selected_active_conversation_id": "conversation_adab45d0370a",
       "status": {
         "last_successful_sync": {
-          "content": "2026-04-20T22:11:55Z",
-          "learning": "2026-04-20T22:11:55Z"
+          "content": "2026-04-21T04:01:45Z",
+          "learning": "2026-04-21T04:01:45Z"
         },
         "services": {
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-20T22:11:55Z",
+            "last_checked_at": "2026-04-21T04:01:45Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-20T22:11:55Z",
+            "last_checked_at": "2026-04-21T04:01:45Z",
             "mode": "integrated"
           }
         },

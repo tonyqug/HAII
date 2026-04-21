@@ -1,0 +1,105 @@
+{
+  "_meta": {
+    "evidence_bundle": null,
+    "grounding_input_mode": "integrated",
+    "include_annotations": true,
+    "material_ids": [
+      "material_753ac7b44e1e",
+      "material_bb72ae05041d"
+    ]
+  },
+  "conversation_id": "conversation_ecb11dc5e685",
+  "created_at": "2026-04-21T03:56:41Z",
+  "grounding_mode": "lecture_with_fallback",
+  "messages": [
+    {
+      "created_at": "2026-04-21T03:56:42Z",
+      "message_id": "msg_56185f6151fa",
+      "role": "user",
+      "text": "what is brownian motion"
+    },
+    {
+      "clarifying_question": {
+        "prompt": "Point me to a lecture concept, keyword, or slide number and I can answer more precisely.",
+        "reason": "The current question did not match grounded lecture evidence strongly enough."
+      },
+      "created_at": "2026-04-21T03:56:42Z",
+      "message_id": "msg_616f0949bedc",
+      "reply_sections": [
+        {
+          "citations": [],
+          "heading": "Insufficient evidence from your materials",
+          "support_status": "insufficient_evidence",
+          "text": "I could not find enough grounded lecture evidence to answer this confidently from the current materials."
+        },
+        {
+          "citations": [],
+          "heading": "External supplement",
+          "support_status": "external_supplement",
+          "text": "Supplementary background only: the uploaded materials do not fully cover 'brownian motion'. Use external references only as background, and verify any broader explanation against your lecture slides or course textbook before relying on it."
+        }
+      ],
+      "role": "assistant"
+    },
+    {
+      "created_at": "2026-04-21T03:56:57Z",
+      "message_id": "msg_cd400838460e",
+      "role": "user",
+      "text": "what is normal distribution"
+    },
+    {
+      "clarifying_question": {
+        "prompt": "Point me to a lecture concept, keyword, or slide number and I can answer more precisely.",
+        "reason": "The current question did not match grounded lecture evidence strongly enough."
+      },
+      "created_at": "2026-04-21T03:56:57Z",
+      "message_id": "msg_661e00879b06",
+      "reply_sections": [
+        {
+          "citations": [],
+          "heading": "Insufficient evidence from your materials",
+          "support_status": "insufficient_evidence",
+          "text": "I could not find enough grounded lecture evidence to answer this confidently from the current materials."
+        },
+        {
+          "citations": [],
+          "heading": "External supplement",
+          "support_status": "external_supplement",
+          "text": "Supplementary background only: the uploaded materials do not fully cover 'normal distribution'. Use external references only as background, and verify any broader explanation against your lecture slides or course textbook before relying on it."
+        }
+      ],
+      "role": "assistant"
+    },
+    {
+      "created_at": "2026-04-21T03:57:14Z",
+      "message_id": "msg_22e22c94580f",
+      "role": "user",
+      "text": "what is chebyshev's"
+    },
+    {
+      "clarifying_question": {
+        "prompt": "Point me to a lecture concept, keyword, or slide number and I can answer more precisely.",
+        "reason": "The current question did not match grounded lecture evidence strongly enough."
+      },
+      "created_at": "2026-04-21T03:57:14Z",
+      "message_id": "msg_b1e6143d1914",
+      "reply_sections": [
+        {
+          "citations": [],
+          "heading": "Insufficient evidence from your materials",
+          "support_status": "insufficient_evidence",
+          "text": "I could not find enough grounded lecture evidence to answer this confidently from the current materials."
+        },
+        {
+          "citations": [],
+          "heading": "External supplement",
+          "support_status": "external_supplement",
+          "text": "Supplementary background only: the uploaded materials do not fully cover 'chebyshev's'. Use external references only as background, and verify any broader explanation against your lecture slides or course textbook before relying on it."
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "title": "Workspace Q&A",
+  "workspace_id": "workspace_119cfa5ac40c"
+}

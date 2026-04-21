@@ -64,6 +64,39 @@
       "user_action": null,
       "workspace_id": "workspace_538aaf9f4515"
     },
+    "job_066107ff6d2f": {
+      "context": {
+        "conversation_id": "conversation_adab45d0370a",
+        "grounding_mode": "lecture_with_fallback",
+        "message_text": "what is parkinson's disease",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-21T16:37:47Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_066107ff6d2f",
+      "message": "Conversation reply created.",
+      "operation": "conversation_message",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_a39bb0b6f94a",
+      "result_id": "msg_f865b58d1d93",
+      "result_type": "message",
+      "service": "learning",
+      "stage": "done",
+      "status": "succeeded",
+      "updated_at": "2026-04-21T16:37:49Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_cd0fc75267fd"
+    },
     "job_09ae1030c635": {
       "context": {
         "dedup_key": "slides:a2c6d873eaa6f128a21674192f55b8b814af319ae4971c4b6a671c81e75271c0",
@@ -345,6 +378,72 @@
       "user_action": null,
       "workspace_id": "workspace_538aaf9f4515"
     },
+    "job_2a0c355c31c0": {
+      "context": {
+        "conversation_id": "conversation_adab45d0370a",
+        "grounding_mode": "lecture_with_fallback",
+        "message_text": "whats the difference between 5HT1 and 5HT2",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-21T16:36:12Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_2a0c355c31c0",
+      "message": "Conversation reply created.",
+      "operation": "conversation_message",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_9f2239f6e12b",
+      "result_id": "msg_fa343a9a7418",
+      "result_type": "message",
+      "service": "learning",
+      "stage": "done",
+      "status": "succeeded",
+      "updated_at": "2026-04-21T16:36:14Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_cd0fc75267fd"
+    },
+    "job_2a75748104fe": {
+      "context": {
+        "conversation_id": "conversation_adab45d0370a",
+        "grounding_mode": "strict_lecture_only",
+        "message_text": "what are Basic neurotransmitter functions",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-21T16:44:07Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_2a75748104fe",
+      "message": "Conversation reply created.",
+      "operation": "conversation_message",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_55e1eb2bfa0b",
+      "result_id": "msg_cdb74317a1a2",
+      "result_type": "message",
+      "service": "learning",
+      "stage": "done",
+      "status": "succeeded",
+      "updated_at": "2026-04-21T16:44:08Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_cd0fc75267fd"
+    },
     "job_2dbd26f279c2": {
       "context": {
         "normalized_request": {
@@ -456,6 +555,39 @@
         "prompt": null
       },
       "workspace_id": "workspace_538aaf9f4515"
+    },
+    "job_3d1d1ffec773": {
+      "context": {
+        "conversation_id": "conversation_adab45d0370a",
+        "grounding_mode": "strict_lecture_only",
+        "message_text": "what are Basic neurotransmitter functions",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-21T16:51:25Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_3d1d1ffec773",
+      "message": "Conversation reply created.",
+      "operation": "conversation_message",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_85d80d377171",
+      "result_id": "msg_bbddfd5842df",
+      "result_type": "message",
+      "service": "learning",
+      "stage": "done",
+      "status": "succeeded",
+      "updated_at": "2026-04-21T16:51:27Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_cd0fc75267fd"
     },
     "job_3e62c2316665": {
       "context": {
@@ -961,6 +1093,39 @@
       },
       "workspace_id": "workspace_cd0fc75267fd"
     },
+    "job_7089e94330e6": {
+      "context": {
+        "conversation_id": "conversation_adab45d0370a",
+        "grounding_mode": "strict_lecture_only",
+        "message_text": "what is parkinson's disease",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-21T16:40:05Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_7089e94330e6",
+      "message": "Conversation reply created.",
+      "operation": "conversation_message",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_1648b54c3037",
+      "result_id": "msg_aead2dfd717e",
+      "result_type": "message",
+      "service": "learning",
+      "stage": "done",
+      "status": "succeeded",
+      "updated_at": "2026-04-21T16:40:06Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_cd0fc75267fd"
+    },
     "job_76d5645f4b86": {
       "context": {
         "conversation_id": "conversation_f9e766f9579f",
@@ -1026,6 +1191,72 @@
         "prompt": null
       },
       "workspace_id": "workspace_538aaf9f4515"
+    },
+    "job_85d7f022cb80": {
+      "context": {
+        "conversation_id": "conversation_adab45d0370a",
+        "grounding_mode": "lecture_with_fallback",
+        "message_text": "whats the difference between 5HT1 and 5HT2",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-21T16:43:30Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_85d7f022cb80",
+      "message": "Conversation reply created.",
+      "operation": "conversation_message",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_6684aa584beb",
+      "result_id": "msg_885496f071ba",
+      "result_type": "message",
+      "service": "learning",
+      "stage": "done",
+      "status": "succeeded",
+      "updated_at": "2026-04-21T16:43:31Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_cd0fc75267fd"
+    },
+    "job_896a449e3b22": {
+      "context": {
+        "conversation_id": "conversation_adab45d0370a",
+        "grounding_mode": "strict_lecture_only",
+        "message_text": "what are Basic neurotransmitter functions",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-21T16:47:19Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_896a449e3b22",
+      "message": "Conversation reply created.",
+      "operation": "conversation_message",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_0d4937605451",
+      "result_id": "msg_1a6e66f884e7",
+      "result_type": "message",
+      "service": "learning",
+      "stage": "done",
+      "status": "succeeded",
+      "updated_at": "2026-04-21T16:47:20Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_cd0fc75267fd"
     },
     "job_9209ed47b4b2": {
       "context": {
@@ -1160,6 +1391,39 @@
       },
       "workspace_id": "workspace_cd0fc75267fd"
     },
+    "job_9f77b73de5d4": {
+      "context": {
+        "conversation_id": "conversation_adab45d0370a",
+        "grounding_mode": "strict_lecture_only",
+        "message_text": "what are Basic neurotransmitter functions",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-21T16:58:55Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_9f77b73de5d4",
+      "message": "Conversation reply created.",
+      "operation": "conversation_message",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_503a0d39809d",
+      "result_id": "msg_0c14b33d145b",
+      "result_type": "message",
+      "service": "learning",
+      "stage": "done",
+      "status": "succeeded",
+      "updated_at": "2026-04-21T16:59:00Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_cd0fc75267fd"
+    },
     "job_a121afa95044": {
       "context": {
         "dedup_key": "practice_template:01884b1bdd73ecee4543d51edbdcd21ee1a6abdcc0f0df526cf9f9f797978dfa",
@@ -1190,6 +1454,39 @@
       "updated_at": "2026-04-20T19:22:17Z",
       "user_action": null,
       "workspace_id": "workspace_119cfa5ac40c"
+    },
+    "job_ab374bcf40d3": {
+      "context": {
+        "conversation_id": "conversation_adab45d0370a",
+        "grounding_mode": "lecture_with_fallback",
+        "message_text": "what is receptor compensation",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-21T16:36:49Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_ab374bcf40d3",
+      "message": "Conversation reply created.",
+      "operation": "conversation_message",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_351c2a477f32",
+      "result_id": "msg_ec712a66d924",
+      "result_type": "message",
+      "service": "learning",
+      "stage": "done",
+      "status": "succeeded",
+      "updated_at": "2026-04-21T16:36:50Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_cd0fc75267fd"
     },
     "job_ac5526b27498": {
       "context": {
@@ -1779,7 +2076,7 @@
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T04:19:02Z",
+      "last_opened_at": "2026-04-21T16:59:00Z",
       "local_edits": {},
       "material_preferences": {
         "material_057153c6600f": "focus",
@@ -1865,13 +2162,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T04:19:01Z",
+            "last_checked_at": "2026-04-21T16:59:00Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T04:19:01Z",
+            "last_checked_at": "2026-04-21T16:59:00Z",
             "mode": "integrated"
           }
         },
@@ -1912,7 +2209,7 @@
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T04:19:02Z",
+      "last_opened_at": "2026-04-21T16:59:00Z",
       "local_edits": {},
       "material_preferences": {},
       "material_sync_annotations": {},
@@ -1930,13 +2227,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T04:19:01Z",
+            "last_checked_at": "2026-04-21T16:59:00Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T04:19:01Z",
+            "last_checked_at": "2026-04-21T16:59:00Z",
             "mode": "integrated"
           }
         },
@@ -2096,7 +2393,7 @@
       ],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T04:19:02Z",
+      "last_opened_at": "2026-04-21T16:59:00Z",
       "local_edits": {},
       "material_preferences": {
         "material_753ac7b44e1e": "default",
@@ -2215,13 +2512,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T04:19:01Z",
+            "last_checked_at": "2026-04-21T16:59:00Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T04:19:01Z",
+            "last_checked_at": "2026-04-21T16:59:00Z",
             "mode": "integrated"
           }
         },
@@ -2463,7 +2760,7 @@
       ],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T04:19:02Z",
+      "last_opened_at": "2026-04-21T16:59:00Z",
       "local_edits": {},
       "material_preferences": {
         "mat_0d4cf2e5271346b2afc8b1a4422e6a0e": "default",
@@ -11008,13 +11305,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T04:19:01Z",
+            "last_checked_at": "2026-04-21T16:59:00Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T04:19:01Z",
+            "last_checked_at": "2026-04-21T16:59:00Z",
             "mode": "integrated"
           }
         },
@@ -11977,7 +12274,7 @@
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T04:19:02Z",
+      "last_opened_at": "2026-04-21T16:59:00Z",
       "local_edits": {},
       "material_preferences": {},
       "material_sync_annotations": {},
@@ -11995,13 +12292,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T04:19:01Z",
+            "last_checked_at": "2026-04-21T16:59:00Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T04:19:01Z",
+            "last_checked_at": "2026-04-21T16:59:00Z",
             "mode": "integrated"
           }
         },
@@ -12113,7 +12410,7 @@
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T04:19:02Z",
+      "last_opened_at": "2026-04-21T16:59:00Z",
       "local_edits": {},
       "material_preferences": {
         "material_f90e97c0bfa9": "default"
@@ -12164,13 +12461,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T04:19:01Z",
+            "last_checked_at": "2026-04-21T16:59:00Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T04:19:01Z",
+            "last_checked_at": "2026-04-21T16:59:00Z",
             "mode": "integrated"
           }
         },
@@ -12267,14 +12564,14 @@
           "grounding_mode": "strict_lecture_only",
           "messages": [
             {
-              "created_at": "2026-04-20T21:13:38Z",
-              "message_id": "msg_285ec04e024b",
+              "created_at": "2026-04-21T16:58:59Z",
+              "message_id": "msg_9e68dd33cdb0",
               "role": "user",
               "text": "what are Basic neurotransmitter functions"
             },
             {
-              "created_at": "2026-04-20T21:13:38Z",
-              "message_id": "msg_07f1be938d5d",
+              "created_at": "2026-04-21T16:58:59Z",
+              "message_id": "msg_0c14b33d145b",
               "reply_sections": [
                 {
                   "citations": [
@@ -12303,28 +12600,12 @@
                       "support_type": "explicit"
                     }
                   ],
-                  "heading": "Basic Neurotransmitter Functions",
+                  "heading": "Grounded answer",
                   "support_status": "inferred_from_slides",
-                  "text": "Neurotransmitters function by binding to receptors and activating them, which in turn produces a biological effect or signal. For example, dopamine can inhibit 'stop' cells and excite 'go' cells to increase movement, cause pleasure in the brain's reward system, and promote attention, thinking, and self-control. Serotonin signals are involved in mood and can be extended to help with anxiety and depression."
+                  "text": "\u200bParkinson\u2019s Disease\u200b \u200b-\u200b \u200bSecond most common neurological disorder.\u200b \u200b-\u200b \u200bCaused by degeneration of dopamine neurons in the substantia nigra pars compacta (SnC).\u200b \u200b-\u200b \u200bSymptoms: tremor, rigidity, reduced movement, shuffling gait.\u200b \u200b-\u200b \u200bLoss of SnC dopamine causes basal ganglia dysfunction.\u200b \u200b-\u200b \u200bSnC: movement,... For\u200b \u200bexample, many people who have no dopamine related genetic risk factors for ADHD still respond well\u200b \u200bto Ritalin and other DAT blockers to treat their ADHD\u200b \u200bDopamine deficit \u2192 increase dopamine \u2192 DAT blocker\u200b \u200bNorepinephrine deficit \u2192 increase norepinephrine \u2192 NET blocker\u200b \u200bHeritability\u200b \u200b-\u200b \u200bHeritability..."
                 }
               ],
               "role": "assistant"
-            },
-            {
-              "created_at": "2026-04-21T04:08:10Z",
-              "job_id": "job_cebce360172f",
-              "message_id": "msg_user_ac97f95d11f0",
-              "pending": true,
-              "role": "user",
-              "text": "whats the difference between 5HT1 and 5HT2"
-            },
-            {
-              "created_at": "2026-04-21T04:08:25Z",
-              "job_id": "job_5714daa6fd10",
-              "message_id": "msg_user_f8037eaf125d",
-              "pending": true,
-              "role": "user",
-              "text": "whats the difference between 5HT1 and 5HT2"
             }
           ],
           "title": "Chat 5:13:30 PM",
@@ -12460,7 +12741,7 @@
         "practice_set_7411ebcac8c2"
       ],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T04:19:02Z",
+      "last_opened_at": "2026-04-21T16:59:32Z",
       "local_edits": {},
       "material_preferences": {
         "mat_2f09c1feaeca4fbe81e2ab67795171e4": "default",
@@ -13558,20 +13839,20 @@
       "selected_active_conversation_id": "conversation_adab45d0370a",
       "status": {
         "last_successful_sync": {
-          "content": "2026-04-21T04:08:25Z",
-          "learning": "2026-04-21T04:08:25Z"
+          "content": "2026-04-21T16:59:00Z",
+          "learning": "2026-04-21T16:59:00Z"
         },
         "services": {
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T04:19:01Z",
+            "last_checked_at": "2026-04-21T16:59:00Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T04:19:01Z",
+            "last_checked_at": "2026-04-21T16:59:00Z",
             "mode": "integrated"
           }
         },

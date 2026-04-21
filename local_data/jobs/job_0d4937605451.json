@@ -1,0 +1,22 @@
+{
+  "created_at": "2026-04-21T16:47:19Z",
+  "error": {
+    "code": null,
+    "message": null,
+    "retryable": false
+  },
+  "job_id": "job_0d4937605451",
+  "job_type": "chat_message",
+  "message": "Conversation reply created.",
+  "progress": 100,
+  "result_id": "msg_1a6e66f884e7",
+  "result_type": "message",
+  "stage": "done",
+  "status": "succeeded",
+  "updated_at": "2026-04-21T16:47:20Z",
+  "user_action": {
+    "kind": null,
+    "options": [],
+    "prompt": null
+  }
+}

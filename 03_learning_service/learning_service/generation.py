@@ -191,14 +191,9 @@ class EvidenceAccessor:
     ) -> List[Dict[str, Any]]:
         scored: List[Tuple[int, Dict[str, Any]]] = []
         for item in self.filter_items(material_ids):
-            haystack = " ".join(
-                [
-                    item.get("material_title", ""),
-                    str(item.get("slide_number") or ""),
-                    item.get("text", ""),
-                ]
-            )
-            score = lexical_overlap_score(query, haystack)
+            # Score on text content only — material_title would boost every slide from a matching
+            # lecture equally, causing unrelated slides to rank ahead of actually relevant ones.
+            score = lexical_overlap_score(query, item.get("text", ""))
             if score > 0:
                 scored.append((score, item))
         scored.sort(key=lambda pair: (-pair[0], int(pair[1].get("slide_number") or 0), pair[1].get("item_id", "")))
@@ -1074,14 +1069,7 @@ class GroundedGenerator:
     ) -> List[Dict[str, Any]]:
         scored: List[tuple[int, Dict[str, Any]]] = []
         for item in accessor.filter_items(material_ids):
-            haystack = " ".join(
-                [
-                    item.get("material_title", ""),
-                    str(item.get("slide_number") or ""),
-                    item.get("text", ""),
-                ]
-            )
-            score = lexical_overlap_score(query, haystack)
+            score = lexical_overlap_score(query, item.get("text", ""))
             if score <= 0:
                 continue
             scored.append((score, item))
@@ -1115,7 +1103,8 @@ class GroundedGenerator:
         for item in relevant_items:
             grounded_tokens.update(informative_tokens(item.get("text", "")))
         coverage = len(set(informative_query_tokens) & grounded_tokens)
-        return strongest <= 1 or coverage == 0
+        required_coverage = max(1, len(informative_query_tokens) // 2)
+        return strongest <= 1 or coverage < required_coverage
 
     def _resolve_query_context(
         self,

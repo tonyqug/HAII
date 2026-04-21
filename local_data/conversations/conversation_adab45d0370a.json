@@ -15,14 +15,14 @@
   "grounding_mode": "strict_lecture_only",
   "messages": [
     {
-      "created_at": "2026-04-20T21:13:38Z",
-      "message_id": "msg_285ec04e024b",
+      "created_at": "2026-04-21T16:58:59Z",
+      "message_id": "msg_9e68dd33cdb0",
       "role": "user",
       "text": "what are Basic neurotransmitter functions"
     },
     {
-      "created_at": "2026-04-20T21:13:38Z",
-      "message_id": "msg_07f1be938d5d",
+      "created_at": "2026-04-21T16:58:59Z",
+      "message_id": "msg_0c14b33d145b",
       "reply_sections": [
         {
           "citations": [
@@ -51,9 +51,9 @@
               "support_type": "explicit"
             }
           ],
-          "heading": "Basic Neurotransmitter Functions",
+          "heading": "Grounded answer",
           "support_status": "inferred_from_slides",
-          "text": "Neurotransmitters function by binding to receptors and activating them, which in turn produces a biological effect or signal. For example, dopamine can inhibit 'stop' cells and excite 'go' cells to increase movement, cause pleasure in the brain's reward system, and promote attention, thinking, and self-control. Serotonin signals are involved in mood and can be extended to help with anxiety and depression."
+          "text": "​Parkinson’s Disease​ ​-​ ​Second most common neurological disorder.​ ​-​ ​Caused by degeneration of dopamine neurons in the substantia nigra pars compacta (SnC).​ ​-​ ​Symptoms: tremor, rigidity, reduced movement, shuffling gait.​ ​-​ ​Loss of SnC dopamine causes basal ganglia dysfunction.​ ​-​ ​SnC: movement,... For​ ​example, many people who have no dopamine related genetic risk factors for ADHD still respond well​ ​to Ritalin and other DAT blockers to treat their ADHD​ ​Dopamine deficit → increase dopamine → DAT blocker​ ​Norepinephrine deficit → increase norepinephrine → NET blocker​ ​Heritability​ ​-​ ​Heritability..."
         }
       ],
       "role": "assistant"

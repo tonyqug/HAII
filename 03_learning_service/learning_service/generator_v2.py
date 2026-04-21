@@ -60,6 +60,7 @@ class GeminiPrimaryClient:
     def generate_json(self, system_instruction: str, user_prompt: str, max_output_tokens: int = 2048) -> Optional[Dict[str, Any]]:
         if not self.configured:
             return None
+        import time
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent?key={self.api_key}"
         payload = {
             "systemInstruction": {"parts": [{"text": system_instruction}]},
@@ -70,15 +71,23 @@ class GeminiPrimaryClient:
                 "responseMimeType": "application/json",
             },
         }
-        try:
-            response = requests.post(url, json=payload, timeout=self.timeout)
-            response.raise_for_status()
-            text = self._extract_text(response.json())
-            if not text:
+        for attempt in range(3):
+            try:
+                response = requests.post(url, json=payload, timeout=self.timeout)
+                if response.status_code == 503 and attempt < 2:
+                    time.sleep(2 ** attempt)
+                    continue
+                response.raise_for_status()
+                text = self._extract_text(response.json())
+                if not text:
+                    return None
+                return json.loads(text)
+            except Exception:
+                if attempt < 2:
+                    time.sleep(2 ** attempt)
+                    continue
                 return None
-            return json.loads(text)
-        except Exception:
-            return None
+        return None
 
     def generate_text(self, system_instruction: str, user_prompt: str, max_output_tokens: int = 256) -> Optional[str]:
         if not self.configured:
@@ -453,11 +462,15 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             "Each reply section must have heading, text, support_status, citation_ids.\n"
             "Grounded sections must cite allowed citation ids. External supplement sections must have no citation ids.\n"
             "strict_lecture_only must not include external_supplement sections.\n"
+            "CRITICAL: First check whether the evidence actually addresses the question. "
+            "If the evidence is about a different topic and does not answer the question, you MUST return a single section with support_status='insufficient_evidence', empty citation_ids=[], and text explaining the materials do not cover this specific topic. "
+            "Do NOT summarize unrelated evidence to answer a question it does not address.\n"
         )
         payload = self.gemini.generate_json(
             system_instruction=(
                 "You answer study questions grounded in lecture evidence. Return valid JSON only. "
-                "Do not use unsupported lecture claims or unsupported citation ids."
+                "Do not use unsupported lecture claims or unsupported citation ids. "
+                "If the provided evidence does not address the student's question, say so explicitly instead of repurposing unrelated content."
             ),
             user_prompt=prompt,
             max_output_tokens=1000,

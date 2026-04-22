@@ -1,5 +1,30 @@
 {
   "jobs": {
+    "job_0b0428215193": {
+      "context": {
+        "conversation_id": "conversation_3e243eb518e2",
+        "grounding_mode": "strict_lecture_only",
+        "message_text": "what is a neural network",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-22T20:35:20Z",
+      "error": null,
+      "finalized": true,
+      "job_id": "job_0b0428215193",
+      "message": "Grounded answer ready.",
+      "operation": "conversation_message",
+      "poll_count": 2,
+      "progress": 100,
+      "remote_job_id": null,
+      "result_id": "msg_assistant_e0bca3d3f7b2",
+      "result_type": "assistant_message",
+      "service": "local_mock",
+      "stage": "completed",
+      "status": "succeeded",
+      "updated_at": "2026-04-22T20:35:21Z",
+      "user_action": null,
+      "workspace_id": "workspace_f58b1a34802a"
+    },
     "job_27f27f00ea3c": {
       "context": {
         "dedup_key": "slides:963334108f740d035ad8233071fc754a35ddc0e10c0e088ad16247fd9d0a018b",
@@ -184,6 +209,54 @@
                 }
               ],
               "role": "assistant"
+            },
+            {
+              "created_at": "2026-04-22T20:35:20Z",
+              "job_id": "job_0b0428215193",
+              "message_id": "msg_user_072a50c42114",
+              "pending": false,
+              "role": "user",
+              "text": "what is a neural network"
+            },
+            {
+              "answer_source": {
+                "evidence_match": "strong_match",
+                "matched_evidence_count": 1,
+                "model": "gemini-3-flash-preview",
+                "path": "llm",
+                "provider": "gemini",
+                "rate_limited_models": [],
+                "reasoning_enabled": true,
+                "reasoning_mode": "dynamic"
+              },
+              "clarifying_question": {
+                "prompt": null,
+                "reason": null
+              },
+              "created_at": "2026-04-22T20:35:21Z",
+              "message_id": "msg_assistant_e0bca3d3f7b2",
+              "reply_sections": [
+                {
+                  "citations": [
+                    {
+                      "citation_id": "citation_mat_bb59052d364446d2a30319b565c099ae_mat_bb59052d364446d2a30319b565c099ae:slide:1_1",
+                      "confidence": "high",
+                      "material_id": "mat_bb59052d364446d2a30319b565c099ae",
+                      "material_title": "lecture13-backprop-ii.pdf",
+                      "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_f58b1a34802a/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:1/preview",
+                      "slide_id": "mat_bb59052d364446d2a30319b565c099ae:slide:1",
+                      "slide_number": 1,
+                      "snippet_text": "Preview unavailable.",
+                      "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_f58b1a34802a/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:1/source",
+                      "support_type": "explicit"
+                    }
+                  ],
+                  "heading": "Grounded answer",
+                  "support_status": "slide_grounded",
+                  "text": "Here is a grounded response based on the current workspace materials: what is a neural network. The shell preserved strict_lecture_only and response style standard while attaching a citation for inspection."
+                }
+              ],
+              "role": "assistant"
             }
           ],
           "title": "Workspace Q&A",
@@ -215,7 +288,7 @@
       ],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-22T20:30:34Z",
+      "last_opened_at": "2026-04-22T20:35:22Z",
       "local_edits": {},
       "material_preferences": {
         "mat_8d42b5f497924ba7b92aabff1c8941ae": "default",
@@ -2548,13 +2621,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-22T20:30:34Z",
+            "last_checked_at": "2026-04-22T20:35:21Z",
             "mode": "mock"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-22T20:30:34Z",
+            "last_checked_at": "2026-04-22T20:35:21Z",
             "mode": "mock"
           }
         },
@@ -2675,7 +2748,7 @@
         "practice_fixture_1"
       ],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-22T20:30:34Z",
+      "last_opened_at": "2026-04-22T20:35:22Z",
       "local_edits": {},
       "material_preferences": {
         "material_fixture_notes": "default",
@@ -2936,13 +3009,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-22T20:30:34Z",
+            "last_checked_at": "2026-04-22T20:35:22Z",
             "mode": "mock"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-22T20:30:34Z",
+            "last_checked_at": "2026-04-22T20:35:22Z",
             "mode": "mock"
           }
         },

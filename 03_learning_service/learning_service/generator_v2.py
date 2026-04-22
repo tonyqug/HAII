@@ -409,12 +409,14 @@ class GroundedGenerator(HeuristicGroundedGenerator):
         lecture_material_ids = accessor.material_ids
         normalized_message = normalize_whitespace(message_text)
         query = self._resolve_query_context(normalized_message, previous_messages, accessor)
-        relevant_items = self._select_chat_evidence(accessor, query, lecture_material_ids)
+        retrieval_query = normalize_whitespace(bundle.get("query_text") or query)
+        relevant_items = self._select_chat_evidence(accessor, query, lecture_material_ids, retrieval_query=retrieval_query)
 
         if self.gemini.configured:
             reply = self._build_conversation_reply_via_gemini(
                 bundle=bundle,
                 query=query,
+                retrieval_query=retrieval_query,
                 normalized_message=normalized_message,
                 response_style=response_style,
                 grounding_mode=grounding_mode,
@@ -452,6 +454,7 @@ class GroundedGenerator(HeuristicGroundedGenerator):
         *,
         bundle: Dict[str, Any],
         query: str,
+        retrieval_query: str,
         normalized_message: str,
         response_style: str,
         grounding_mode: str,
@@ -473,6 +476,7 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             f"Grounding mode: {grounding_mode}\n"
             f"Response style: {response_style if response_style in ALLOWED_RESPONSE_STYLES else 'standard'}\n"
             f"Question: {normalized_message}\n"
+            f"Retrieval query assist: {retrieval_query}\n"
             f"Recent user turns: {recent_user_turns}\n"
             f"Allowed citation ids: {allowed_citation_ids}\n"
             "Evidence digest:\n"
@@ -483,14 +487,16 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             "strict_lecture_only must not include external_supplement sections.\n"
             "Every grounded section must paraphrase the evidence into fresh wording. Do not quote or closely mirror the evidence digest.\n"
             "CRITICAL: First check whether the evidence actually addresses the question. "
-            "If the evidence is about a different topic and does not answer the question, you MUST return a single section with support_status='insufficient_evidence', empty citation_ids=[], and text explaining the materials do not cover this specific topic. "
+            "If the evidence is genuinely unrelated, return a single section with support_status='insufficient_evidence', empty citation_ids=[], and text explaining the mismatch. "
+            "If the evidence is close but only partially answers the question, give the best grounded partial answer first, explicitly name the limit of what the slides show, and use external_supplement only for a short clearly labeled bridge when grounding_mode allows it. "
             "Do NOT summarize unrelated evidence to answer a question it does not address.\n"
         )
         payload = self.gemini.generate_json(
             system_instruction=(
                 "You answer study questions grounded in lecture evidence. Return valid JSON only. "
                 "Do not use unsupported lecture claims or unsupported citation ids. "
-                "If the provided evidence does not address the student's question, say so explicitly instead of repurposing unrelated content. "
+                "Use insufficient_evidence only when the evidence is truly unrelated or too thin even for a partial lecture-grounded explanation. "
+                "When the slides provide a nearby mechanism or intuition, answer with that grounded connection before naming the missing detail. "
                 "Always paraphrase the evidence into your own words instead of repeating source phrasing."
             ),
             user_prompt=prompt,
@@ -550,6 +556,15 @@ class GroundedGenerator(HeuristicGroundedGenerator):
                 "The chat response did not include any grounded or insufficient_evidence section.",
                 payload=payload,
             )
+        if len(sections) == 1 and sections[0]["support_status"] == "insufficient_evidence":
+            partial_bridge = self._question_specific_partial_answer(normalized_message, relevant_items)
+            if partial_bridge:
+                return self._reject_gemini_output(
+                    "chat reply",
+                    "Gemini returned insufficient_evidence even though the retrieved lecture evidence supports a partial grounded explanation.",
+                    payload=payload,
+                    reason="over_strict_insufficient_evidence",
+                )
 
         if grounding_mode == "lecture_with_fallback" and any(
             section["support_status"] in {"slide_grounded", "inferred_from_slides"} for section in sections

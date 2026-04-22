@@ -109,6 +109,7 @@ function formatFallbackReason(reason) {
     invalid_response_text: 'Gemini returned invalid text output',
     invalid_response_json_text: 'Gemini returned invalid output',
     invalid_response_json_payload: 'Gemini returned invalid output',
+    over_strict_insufficient_evidence: 'Gemini was too strict about lecture coverage',
     request_exception: 'Gemini request failed',
     service_unavailable: 'Gemini temporarily unavailable',
     upstream_error: 'Gemini upstream error',

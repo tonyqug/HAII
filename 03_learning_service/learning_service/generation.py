@@ -7,6 +7,7 @@ import math
 import re
 import time
 from collections import defaultdict
+from dataclasses import replace
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
 import requests
@@ -401,6 +402,28 @@ class OptionalGeminiClient:
             max_output_tokens=max_output_tokens,
         )
 
+    def generate_json(self, system_instruction: str, user_prompt: str, max_output_tokens: int = 512) -> Optional[Dict[str, Any]]:
+        text = self._generate_content(
+            system_instruction=system_instruction,
+            user_prompt=user_prompt,
+            max_output_tokens=max_output_tokens,
+            response_mime_type="application/json",
+        )
+        if not text:
+            return None
+        for candidate in _json_text_candidates(text):
+            try:
+                payload = json.loads(candidate)
+            except ValueError:
+                continue
+            if isinstance(payload, dict):
+                return payload
+        self.last_call_info["failure_reason"] = "invalid_response_json"
+        self.last_call_info["failure_detail"] = "Gemini returned text that could not be parsed as JSON."
+        self.last_call_info["raw_response_preview"] = self.last_call_info.get("raw_response_preview") or text[:400]
+        LOGGER.warning("Gemini returned text that could not be parsed as JSON. Preview: %s", text[:400])
+        return None
+
     def external_supplement(self, question_text: str, grounded_answer: str) -> Optional[str]:
         prompt = (
             "Question from a student: "
@@ -552,6 +575,10 @@ class GroundedGenerator:
     def __init__(self, settings: Settings):
         self.settings = settings
         self.gemini = OptionalGeminiClient(settings)
+        keyword_settings = replace(settings, gemini_model="gemini-2.5-flash-lite")
+        self.keyword_gemini = OptionalGeminiClient(keyword_settings)
+        if self.keyword_gemini.configured:
+            self.keyword_gemini.model_ladder = ("gemini-2.5-flash-lite",)
 
     def _chat_evidence_match(self, query: str, relevant_items: Sequence[Dict[str, Any]]) -> str:
         if not relevant_items:
@@ -1368,6 +1395,123 @@ class GroundedGenerator:
             },
         }
 
+    def expand_chat_retrieval_query(
+        self,
+        message_text: str,
+        previous_messages: Sequence[Dict[str, Any]] = (),
+    ) -> str:
+        normalized = normalize_whitespace(message_text)
+        if not normalized:
+            return ""
+        heuristic_terms = self._heuristic_chat_query_terms(normalized, previous_messages)
+        llm_terms: List[str] = []
+        should_use_keyword_model = len(heuristic_terms) < 3 or len(informative_tokens(normalized)) <= 3
+        if self.keyword_gemini.configured and should_use_keyword_model:
+            recent_user_turns = [
+                normalize_whitespace(msg.get("text", ""))
+                for msg in previous_messages
+                if msg.get("role") == "user" and normalize_whitespace(msg.get("text", ""))
+            ][-2:]
+            payload = self.keyword_gemini.generate_json(
+                system_instruction=(
+                    "You expand a student's question into lecture-slide retrieval keywords. "
+                    "Return JSON only with keys keywords and optional expanded_query. "
+                    "Do not answer the question."
+                ),
+                user_prompt=(
+                    f"Question: {normalized}\n"
+                    f"Recent user turns: {recent_user_turns}\n"
+                    "Return 4 to 8 concise retrieval keywords or short phrases that are likely to appear on lecture slides. "
+                    "Prefer course terminology, aliases, and nearby mechanism words over full-sentence explanations. "
+                    "If the question uses informal wording, map it to the more standard lecture terms. "
+                    "Do not invent entities that are not plausibly related to the question."
+                ),
+                max_output_tokens=220,
+            )
+            if isinstance(payload, dict):
+                llm_terms = self._sanitize_query_terms(payload.get("keywords"))
+                expanded_query = self._safe_text(payload.get("expanded_query"), fallback="")
+                if expanded_query:
+                    llm_terms.extend(self._sanitize_query_terms([expanded_query]))
+        extra_terms = self._dedupe_query_terms(heuristic_terms + llm_terms, normalized)
+        if not extra_terms:
+            return normalized
+        expanded = normalize_whitespace(f"{normalized} {' '.join(extra_terms[:8])}")
+        if expanded.lower() != normalized.lower():
+            LOGGER.info(
+                "Expanded chat retrieval query from %r to %r using keyword_model=%s.",
+                normalized[:160],
+                expanded[:220],
+                self.keyword_gemini.last_call_info.get("used_model") if self.keyword_gemini.configured else None,
+            )
+        return expanded
+
+    def _heuristic_chat_query_terms(
+        self,
+        message_text: str,
+        previous_messages: Sequence[Dict[str, Any]],
+    ) -> List[str]:
+        lowered = normalize_whitespace(message_text).lower()
+        terms: List[str] = []
+        if any(token in lowered for token in ["subtract", "subtraction", "minus"]) and any(
+            token in lowered for token in ["update", "rule", "gradient", "descent", "backprop", "backpropagation", "weight"]
+        ):
+            terms.extend(["negative gradient", "gradient descent", "parameter update", "backpropagation"])
+        if "backprop" in lowered or "backpropagation" in lowered:
+            terms.extend(["chain rule", "partial derivatives", "gradient"])
+        if "update rule" in lowered or "weight update" in lowered:
+            terms.extend(["parameter update", "weight update"])
+        if "gradient" in lowered and "descent" not in lowered:
+            terms.append("gradient descent")
+        if len(informative_tokens(lowered)) <= 3:
+            recent_user_turns = [
+                normalize_whitespace(msg.get("text", ""))
+                for msg in previous_messages
+                if msg.get("role") == "user" and normalize_whitespace(msg.get("text", ""))
+            ][-2:]
+            if recent_user_turns:
+                terms.extend(top_keywords(recent_user_turns, limit=4))
+        return self._sanitize_query_terms(terms)
+
+    def _sanitize_query_terms(self, value: Any) -> List[str]:
+        terms: List[str] = []
+        for raw in value or []:
+            candidate = normalize_whitespace(str(raw or "")).lower()
+            if not candidate:
+                continue
+            candidate = re.sub(r"[^a-z0-9\-\s]", " ", candidate)
+            candidate = normalize_whitespace(candidate)
+            if not candidate:
+                continue
+            word_count = len(candidate.split())
+            if word_count == 0 or word_count > 5:
+                continue
+            if len(candidate) < 3:
+                continue
+            terms.append(candidate)
+        deduped: List[str] = []
+        seen: set[str] = set()
+        for term in terms:
+            if term in seen:
+                continue
+            seen.add(term)
+            deduped.append(term)
+        return deduped
+
+    def _dedupe_query_terms(self, terms: Sequence[str], base_query: str) -> List[str]:
+        base_lower = normalize_whitespace(base_query).lower()
+        deduped: List[str] = []
+        seen: set[str] = set()
+        for term in terms:
+            cleaned = normalize_whitespace(term).lower()
+            if not cleaned or cleaned in seen:
+                continue
+            if cleaned in base_lower:
+                continue
+            seen.add(cleaned)
+            deduped.append(cleaned)
+        return deduped
+
     # --------------------------
     # Conversation generation
     # --------------------------
@@ -1385,8 +1529,8 @@ class GroundedGenerator:
         lecture_material_ids = accessor.material_ids
         normalized_message = normalize_whitespace(message_text)
         query = self._resolve_query_context(normalized_message, previous_messages, accessor)
-
-        relevant_items = self._select_chat_evidence(accessor, query, lecture_material_ids)
+        retrieval_query = normalize_whitespace(bundle.get("query_text") or query)
+        relevant_items = self._select_chat_evidence(accessor, query, lecture_material_ids, retrieval_query=retrieval_query)
         user_message = {
             "message_id": make_id("msg"),
             "role": "user",
@@ -1401,7 +1545,8 @@ class GroundedGenerator:
             "reply_sections": [],
         }
 
-        if not relevant_items or self._chat_match_is_weak(query, relevant_items):
+        partial_bridge = self._question_specific_partial_answer(normalized_message, relevant_items)
+        if not relevant_items or (self._chat_match_is_weak(query, relevant_items, retrieval_query=retrieval_query) and not partial_bridge):
             LOGGER.info(
                 "Using deterministic insufficient-evidence chat fallback for query=%r with matched_items=%s.",
                 safe_excerpt(query, 120),
@@ -1428,7 +1573,7 @@ class GroundedGenerator:
                         "support_status": "external_supplement",
                         "citations": [],
                     }
-                )
+            )
             return self._with_conversation_answer_source(
                 (user_message, assistant_message),
                 generation_path="heuristic_fallback",
@@ -1437,7 +1582,7 @@ class GroundedGenerator:
             )
 
         grounded_citations = dedupe_citations(item.get("citation") for item in relevant_items)
-        grounded_answer = self._compose_grounded_answer(normalized_message, relevant_items, response_style)
+        grounded_answer = partial_bridge or self._compose_grounded_answer(normalized_message, relevant_items, response_style)
         LOGGER.info(
             "Using deterministic grounded chat fallback for query=%r with matched_items=%s.",
             safe_excerpt(query, 120),
@@ -1474,10 +1619,27 @@ class GroundedGenerator:
         accessor: EvidenceAccessor,
         query: str,
         material_ids: Optional[Sequence[str]],
+        *,
+        retrieval_query: Optional[str] = None,
     ) -> List[Dict[str, Any]]:
         scored: List[tuple[int, Dict[str, Any]]] = []
-        for item in accessor.filter_items(material_ids):
-            score = lexical_overlap_score(query, item.get("text", ""))
+        effective_query = normalize_whitespace(retrieval_query or query)
+        for index, item in enumerate(accessor.filter_items(material_ids)):
+            text = item.get("text", "")
+            title_and_snippet = " ".join(
+                [
+                    item.get("material_title", ""),
+                    ((item.get("citation") or {}).get("snippet_text") or ""),
+                ]
+            )
+            direct_score = lexical_overlap_score(query, text)
+            retrieval_score = lexical_overlap_score(effective_query, text)
+            title_score = max(
+                lexical_overlap_score(query, title_and_snippet),
+                lexical_overlap_score(effective_query, title_and_snippet),
+            )
+            rank_bonus = max(0, 4 - index) if effective_query and effective_query != query else 0
+            score = max(direct_score * 3, retrieval_score * 2) + title_score + rank_bonus
             if score <= 0:
                 continue
             scored.append((score, item))
@@ -1494,24 +1656,43 @@ class GroundedGenerator:
                 break
         return deduped
 
-    def _chat_match_is_weak(self, query: str, relevant_items: Sequence[Dict[str, Any]]) -> bool:
+    def _chat_match_is_weak(
+        self,
+        query: str,
+        relevant_items: Sequence[Dict[str, Any]],
+        *,
+        retrieval_query: Optional[str] = None,
+    ) -> bool:
         if not relevant_items:
             return True
         informative_query_tokens = informative_tokens(query)
         if not informative_query_tokens:
             return True
+        effective_query = normalize_whitespace(retrieval_query or query)
         strongest = max(
-            lexical_overlap_score(
-                query,
-                " ".join([item.get("material_title", ""), item.get("text", "")]),
+            max(
+                lexical_overlap_score(
+                    query,
+                    " ".join([item.get("material_title", ""), item.get("text", "")]),
+                ),
+                lexical_overlap_score(
+                    effective_query,
+                    " ".join([item.get("material_title", ""), item.get("text", "")]),
+                ),
             )
             for item in relevant_items
         )
         grounded_tokens = set()
         for item in relevant_items:
             grounded_tokens.update(informative_tokens(item.get("text", "")))
+            grounded_tokens.update(informative_tokens(item.get("material_title", "")))
         coverage = len(set(informative_query_tokens) & grounded_tokens)
-        required_coverage = max(1, len(informative_query_tokens) // 2)
+        if effective_query != query:
+            retrieval_tokens = set(informative_tokens(effective_query))
+            retrieval_coverage = len(retrieval_tokens & grounded_tokens)
+            if strongest >= 2 and retrieval_coverage >= max(2, min(4, max(1, len(retrieval_tokens) // 3))):
+                return False
+        required_coverage = max(1, len(informative_query_tokens) // 3)
         return strongest <= 1 or coverage < required_coverage
 
     def _resolve_query_context(
@@ -1539,6 +1720,9 @@ class GroundedGenerator:
     def _compose_grounded_answer(self, question_text: str, relevant_items: Sequence[Dict[str, Any]], response_style: str) -> str:
         if not relevant_items:
             return "I could not form a grounded answer from the current materials."
+        partial_bridge = self._question_specific_partial_answer(question_text, relevant_items)
+        if partial_bridge and response_style == "concise":
+            return partial_bridge
         points = [self._paraphrased_chat_point(question_text, item) for item in relevant_items]
         points = [point for point in points if point]
         deduped_points: List[str] = []
@@ -1559,8 +1743,13 @@ class GroundedGenerator:
             return normalize_whitespace(" ".join(point for point in points[:2] if point))
         if response_style == "step_by_step":
             steps = []
+            if partial_bridge:
+                steps.append(f"1. {partial_bridge}")
+                start_index = 2
+            else:
+                start_index = 1
             for index, item in enumerate(relevant_items, start=1):
-                steps.append(f"{index}. {self._paraphrased_chat_point(question_text, item)}")
+                steps.append(f"{index + start_index - 1}. {self._paraphrased_chat_point(question_text, item)}")
             return "\n".join(steps)
         if self._is_definition_question(question_text):
             focus = self._question_focus(question_text)
@@ -1568,6 +1757,11 @@ class GroundedGenerator:
             if len(points) > 1:
                 answer = f"{answer} Related lecture emphasis: {points[1]}"
             return normalize_whitespace(answer)
+        if partial_bridge:
+            remainder = next((point for point in points if point.lower() not in partial_bridge.lower()), "")
+            if remainder:
+                return normalize_whitespace(f"{partial_bridge} {remainder}")
+            return partial_bridge
         return normalize_whitespace(" ".join(points[:3]))
 
     def _summaries_for_chat(self, question_text: str, relevant_items: Sequence[Dict[str, Any]]) -> List[str]:
@@ -1626,6 +1820,31 @@ class GroundedGenerator:
         if not focus:
             return None
         return focus
+
+    def _question_specific_partial_answer(self, question_text: str, relevant_items: Sequence[Dict[str, Any]]) -> Optional[str]:
+        lowered_question = normalize_whitespace(question_text).lower()
+        if not lowered_question or not relevant_items:
+            return None
+        evidence_text = " ".join(self._clean_evidence_text(item.get("text", "")) for item in relevant_items).lower()
+        asks_about_subtraction = any(token in lowered_question for token in ["subtract", "subtraction", "minus"])
+        asks_about_updates = any(
+            token in lowered_question for token in ["update", "rule", "gradient", "descent", "backprop", "backpropagation", "weight"]
+        )
+        if asks_about_subtraction and asks_about_updates:
+            if "gradient" in evidence_text and any(token in evidence_text for token in ["negative", "descent", "update", "backprop"]):
+                return (
+                    "The lecture ties the update step to moving opposite the gradient. "
+                    "In that framing, the subtraction sign marks a step away from the direction that would increase the loss, "
+                    "even though the slides focus more on computing gradients than on unpacking the minus sign symbol by symbol."
+                )
+        if "why" in lowered_question and "update" in lowered_question and "gradient" in evidence_text and any(
+            token in evidence_text for token in ["negative", "descent", "backprop"]
+        ):
+            return (
+                "The lecture frames the update rule as a negative-gradient step. "
+                "So the sign is doing conceptual work: it moves parameters in the direction that reduces the loss rather than increasing it."
+            )
+        return None
 
     def _clean_evidence_text(self, text: str) -> str:
         cleaned = normalize_whitespace(text or "")

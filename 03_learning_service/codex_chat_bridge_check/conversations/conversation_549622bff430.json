@@ -1,0 +1,135 @@
+{
+  "_meta": {
+    "evidence_bundle": {
+      "bundle_id": "bundle_backprop_demo",
+      "bundle_mode": "precision",
+      "items": [
+        {
+          "citation": {
+            "citation_id": "cit_backprop_1",
+            "confidence": "high",
+            "material_id": "mat_backprop",
+            "material_title": "Neural Networks Backprop",
+            "preview_url": "http://example.test/preview/10",
+            "slide_id": "slide_10",
+            "slide_number": 10,
+            "snippet_text": "Gradient descent updates weights by moving in the direction of the negative gradient.",
+            "source_open_url": "http://example.test/source/10",
+            "support_type": "explicit"
+          },
+          "extraction_quality": "high",
+          "item_id": "item_backprop_1",
+          "material_id": "mat_backprop",
+          "material_title": "Neural Networks Backprop",
+          "slide_id": "slide_10",
+          "slide_number": 10,
+          "text": "Gradient descent updates weights by moving in the direction of the negative gradient after backpropagation computes the needed partial derivatives."
+        },
+        {
+          "citation": {
+            "citation_id": "cit_backprop_2",
+            "confidence": "high",
+            "material_id": "mat_backprop",
+            "material_title": "Neural Networks Backprop",
+            "preview_url": "http://example.test/preview/11",
+            "slide_id": "slide_11",
+            "slide_number": 11,
+            "snippet_text": "Backpropagation computes the partial derivatives for each weight.",
+            "source_open_url": "http://example.test/source/11",
+            "support_type": "explicit"
+          },
+          "extraction_quality": "high",
+          "item_id": "item_backprop_2",
+          "material_id": "mat_backprop",
+          "material_title": "Neural Networks Backprop",
+          "slide_id": "slide_11",
+          "slide_number": 11,
+          "text": "Backpropagation computes the partial derivatives for each weight so the network can apply the update step layer by layer."
+        }
+      ],
+      "material_ids": [
+        "mat_backprop"
+      ],
+      "query_text": null,
+      "summary": {
+        "low_confidence_item_count": 0,
+        "total_items": 2,
+        "total_slides": 2
+      },
+      "workspace_id": "ws_backprop_demo"
+    },
+    "grounding_input_mode": "standalone",
+    "include_annotations": true,
+    "material_ids": []
+  },
+  "conversation_id": "conversation_549622bff430",
+  "created_at": "2026-04-22T20:43:35Z",
+  "grounding_mode": "lecture_with_fallback",
+  "messages": [
+    {
+      "created_at": "2026-04-22T20:43:35Z",
+      "message_id": "msg_76721f822630",
+      "role": "user",
+      "text": "Why does the update rule use subtraction?"
+    },
+    {
+      "answer_source": {
+        "attempted_models": [],
+        "evidence_match": "strong_match",
+        "fallback_detail": null,
+        "fallback_reason": "gemini_not_configured",
+        "matched_evidence_count": 2,
+        "model": null,
+        "path": "heuristic_fallback",
+        "provider": "deterministic_fallback",
+        "rate_limited_models": [],
+        "reasoning_enabled": false,
+        "reasoning_mode": null
+      },
+      "created_at": "2026-04-22T20:43:35Z",
+      "message_id": "msg_439a40cd6402",
+      "reply_sections": [
+        {
+          "citations": [
+            {
+              "citation_id": "cit_backprop_1",
+              "confidence": "high",
+              "material_id": "mat_backprop",
+              "material_title": "Neural Networks Backprop",
+              "preview_url": "http://example.test/preview/10",
+              "slide_id": "slide_10",
+              "slide_number": 10,
+              "snippet_text": "Gradient descent updates weights by moving in the direction of the negative gradient.",
+              "source_open_url": "http://example.test/source/10",
+              "support_type": "explicit"
+            },
+            {
+              "citation_id": "cit_backprop_2",
+              "confidence": "high",
+              "material_id": "mat_backprop",
+              "material_title": "Neural Networks Backprop",
+              "preview_url": "http://example.test/preview/11",
+              "slide_id": "slide_11",
+              "slide_number": 11,
+              "snippet_text": "Backpropagation computes the partial derivatives for each weight.",
+              "source_open_url": "http://example.test/source/11",
+              "support_type": "explicit"
+            }
+          ],
+          "heading": "Grounded answer",
+          "support_status": "inferred_from_slides",
+          "text": "The lecture ties the update step to moving opposite the gradient. In that framing, the subtraction sign marks a step away from the direction that would increase the loss, even though the slides focus more on computing gradients than on unpacking the minus sign symbol by symbol."
+        },
+        {
+          "citations": [],
+          "heading": "External supplement",
+          "support_status": "external_supplement",
+          "text": "Supplementary background only: the uploaded materials do not fully cover 'Why does the update rule use subtraction'. Use external references only as background, and verify any broader explanation against your lecture slides or course textbook before relying on it."
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "title": "Backprop chat",
+  "workspace_id": "ws_backprop_demo"
+}

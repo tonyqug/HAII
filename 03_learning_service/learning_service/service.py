@@ -608,15 +608,23 @@ class LearningService:
 
     def _resolve_conversation_bundle(self, conversation: Dict[str, Any], query_text: str) -> Dict[str, Any]:
         meta = conversation.get("_meta") or {}
+        expanded_query = self.generator.expand_chat_retrieval_query(query_text, conversation.get("messages", []))
+        if normalize_whitespace(expanded_query) != normalize_whitespace(query_text):
+            LOGGER.info(
+                "Expanded conversation retrieval query from %r to %r for conversation=%s.",
+                normalize_whitespace(query_text)[:160],
+                normalize_whitespace(expanded_query)[:220],
+                conversation.get("conversation_id"),
+            )
         if meta.get("grounding_input_mode") == "standalone":
             bundle = copy.deepcopy(meta.get("evidence_bundle") or {})
             bundle["workspace_id"] = conversation["workspace_id"]
-            bundle["query_text"] = query_text
+            bundle["query_text"] = expanded_query
             return bundle
         return self.content_client.fetch_evidence_bundle(
             workspace_id=conversation["workspace_id"],
             material_ids=meta.get("material_ids") or [],
-            query_text=query_text,
+            query_text=expanded_query,
             bundle_mode="precision",
             include_annotations=bool(meta.get("include_annotations", True)),
         )

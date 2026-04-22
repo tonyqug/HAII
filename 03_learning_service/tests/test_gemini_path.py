@@ -433,6 +433,106 @@ def test_chat_invalid_structured_output_logs_detail_and_surfaces_debug_info(app_
     assert any("Falling back to deterministic chat generation" in record.getMessage() for record in caplog.records)
 
 
+def test_chat_rejects_over_strict_insufficient_evidence_when_partial_grounding_exists(app_factory, monkeypatch):
+    client = app_factory(gemini_api_key="test-key")
+    service = client.app.state.learning_service
+    bundle = {
+        "bundle_id": "bundle_backprop_demo",
+        "workspace_id": "ws_backprop_demo",
+        "material_ids": ["mat_backprop"],
+        "query_text": None,
+        "bundle_mode": "precision",
+        "items": [
+            {
+                "item_id": "item_backprop_1",
+                "material_id": "mat_backprop",
+                "material_title": "Neural Networks Backprop",
+                "slide_id": "slide_10",
+                "slide_number": 10,
+                "text": "Gradient descent updates weights by moving in the direction of the negative gradient after backpropagation computes the needed partial derivatives.",
+                "extraction_quality": "high",
+                "citation": {
+                    "citation_id": "cit_backprop_1",
+                    "material_id": "mat_backprop",
+                    "material_title": "Neural Networks Backprop",
+                    "slide_id": "slide_10",
+                    "slide_number": 10,
+                    "snippet_text": "Gradient descent updates weights by moving in the direction of the negative gradient.",
+                    "support_type": "explicit",
+                    "confidence": "high",
+                    "preview_url": "http://example.test/preview/10",
+                    "source_open_url": "http://example.test/source/10",
+                },
+            }
+        ],
+        "summary": {"total_items": 1, "total_slides": 1, "low_confidence_item_count": 0},
+    }
+
+    def fake_generate_json(system_instruction, user_prompt, max_output_tokens=2048):
+        service.generator.gemini.last_call_info = {
+            "configured": True,
+            "provider": "gemini",
+            "generation_path": "llm",
+            "used_model": "gemini-3-flash-preview",
+            "reasoning_enabled": True,
+            "reasoning_mode": "dynamic",
+            "attempted_models": ["gemini-3-flash-preview"],
+            "rate_limited_models": [],
+            "failure_reason": None,
+            "failure_detail": None,
+        }
+        return {
+            "reply_sections": [
+                {
+                    "heading": "Insufficient evidence",
+                    "text": "The slides do not explain this.",
+                    "support_status": "insufficient_evidence",
+                    "citation_ids": [],
+                }
+            ]
+        }
+
+    monkeypatch.setattr(service.generator.gemini, "generate_json", fake_generate_json)
+    monkeypatch.setattr(
+        service.generator,
+        "expand_chat_retrieval_query",
+        lambda message_text, previous_messages=(): f"{message_text} negative gradient gradient descent backpropagation",
+    )
+
+    create_response = client.post(
+        "/v1/conversations",
+        json={
+            "workspace_id": bundle["workspace_id"],
+            "material_ids": None,
+            "evidence_bundle": bundle,
+            "grounding_mode": "lecture_with_fallback",
+            "title": "Gemini over-strict insufficiency",
+            "include_annotations": True,
+        },
+    )
+    assert create_response.status_code == 200
+    conversation_id = create_response.json()["conversation_id"]
+
+    send = client.post(
+        f"/v1/conversations/{conversation_id}/messages",
+        json={
+            "message_text": "Why does the update rule use subtraction?",
+            "response_style": "standard",
+            "grounding_mode": "lecture_with_fallback",
+            "include_citations": True,
+        },
+    )
+    assert send.status_code == 200
+    job = wait_for_job(client, send.json()["job_id"])
+    assert job["status"] == "succeeded"
+
+    conversation = client.get(f"/v1/conversations/{conversation_id}").json()
+    assistant = conversation["messages"][-1]
+    assert assistant["answer_source"]["path"] == "heuristic_fallback"
+    assert assistant["answer_source"]["fallback_reason"] == "over_strict_insufficient_evidence"
+    assert "opposite the gradient" in assistant["reply_sections"][0]["text"].lower()
+
+
 def test_gemini_client_handles_incompatible_models_and_wrapped_json(monkeypatch):
     client = GeminiPrimaryClient(Settings(gemini_api_key="test-key"))
     requests_seen = []

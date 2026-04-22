@@ -38,7 +38,7 @@ def _parse_env_file(path: Path) -> dict[str, str]:
         return {}
     values: dict[str, str] = {}
     for raw_line in path.read_text(encoding="utf-8", errors="ignore").splitlines():
-        line = raw_line.strip()
+        line = raw_line.lstrip("\ufeff").strip()
         if not line or line.startswith("#"):
             continue
         if line.startswith("export "):
@@ -46,7 +46,7 @@ def _parse_env_file(path: Path) -> dict[str, str]:
         if ENV_KEY_VALUE not in line:
             continue
         key, value = line.split(ENV_KEY_VALUE, 1)
-        key = key.strip()
+        key = key.strip().lstrip("\ufeff")
         if not key:
             continue
         value = value.strip()

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import sys
 import threading
 import webbrowser
@@ -16,6 +17,10 @@ from app_shell.config import AppConfig  # noqa: E402
 
 
 def main() -> None:
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s [%(name)s] %(message)s",
+    )
     config = AppConfig.load(THIS_DIR)
     app = create_app()
 

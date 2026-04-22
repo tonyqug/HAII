@@ -142,3 +142,29 @@ def test_conversation_definition_answer_avoids_slide_header_noise(client, bundle
     assert "transformer" in grounded
     assert "10-301" not in grounded
     assert "carnegie mellon university" not in grounded
+
+
+def test_conversation_fallback_paraphrases_rather_than_copying_slide_text(client, bundle):
+    paraphrase_bundle = copy.deepcopy(bundle)
+    verbatim_sentence = "Regularization adds a penalty term to discourage overly flexible models and reduce overfitting."
+    paraphrase_bundle["items"][0]["text"] = verbatim_sentence
+    paraphrase_bundle["items"][1]["text"] = "Validation is used to tune the strength of regularization against generalization performance."
+    conversation_id = create_conversation(client, paraphrase_bundle, evidence_bundle=paraphrase_bundle)
+
+    send = client.post(
+        f"/v1/conversations/{conversation_id}/messages",
+        json={
+            "message_text": "What does regularization do in these lectures?",
+            "response_style": "standard",
+            "grounding_mode": "lecture_with_fallback",
+            "include_citations": True,
+        },
+    )
+    assert send.status_code == 200
+    job = wait_for_job(client, send.json()["job_id"])
+    assert job["status"] == "succeeded"
+
+    conversation = client.get(f"/v1/conversations/{conversation_id}").json()
+    grounded = conversation["messages"][-1]["reply_sections"][0]["text"].lower()
+    assert "regularization" in grounded
+    assert verbatim_sentence.lower() not in grounded

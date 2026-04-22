@@ -102,3 +102,27 @@ def test_jobs_and_artifacts_persist_under_root_local_data(monkeypatch, tmp_path,
     assert list((root_local_data / "jobs").glob("*.json"))
     assert list((root_local_data / "study_plans").glob("*.json"))
     assert not (service_dir / "local_data").exists()
+
+
+def test_integrated_root_env_parser_handles_bom_export_and_inline_comment(monkeypatch, tmp_path):
+    root, service_dir = _prepare_integrated_layout(tmp_path)
+    (root / ".env").write_text(
+        "\n".join(
+            [
+                "\ufeffexport GEMINI_API_KEY=root-gemini-key # comment",
+                "LOCAL_DATA_DIR=./local_data",
+                "CONTENT_SERVICE_URL=http://127.0.0.1:48888",
+                "LEARNING_SERVICE_PORT=38888",
+            ]
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    for key in RELEVANT_ENV_KEYS:
+        monkeypatch.delenv(key, raising=False)
+    monkeypatch.setattr("learning_service.config.SERVICE_DIR", service_dir)
+    monkeypatch.chdir(root / "01_app_shell")
+
+    settings = Settings.from_env()
+
+    assert settings.gemini_api_key == "root-gemini-key"

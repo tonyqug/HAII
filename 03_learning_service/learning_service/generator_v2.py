@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 import json
+import logging
 import math
 import re
 from typing import Any, Dict, List, Optional, Sequence, Tuple
@@ -13,6 +14,7 @@ from .generation import (
     GroundedGenerator as HeuristicGroundedGenerator,
     NeedsUserInputError,
     OptionalGeminiClient,
+    _json_text_candidates,
 )
 from .utils import (
     dedupe_citations,
@@ -36,6 +38,8 @@ ALLOWED_RESPONSE_STYLES = {"concise", "standard", "step_by_step"}
 ALLOWED_QUESTION_TYPES = {"short_answer", "long_answer"}
 ALLOWED_DIFFICULTIES = {"easier", "mixed", "harder"}
 
+LOGGER = logging.getLogger(__name__)
+
 
 class GeminiPrimaryClient(OptionalGeminiClient):
     def generate_json(self, system_instruction: str, user_prompt: str, max_output_tokens: int = 2048) -> Optional[Dict[str, Any]]:
@@ -47,11 +51,17 @@ class GeminiPrimaryClient(OptionalGeminiClient):
         )
         if not text:
             return None
-        try:
-            return json.loads(text)
-        except ValueError:
-            self.last_call_info["failure_reason"] = "invalid_response_json"
-            return None
+        for candidate in _json_text_candidates(text):
+            try:
+                payload = json.loads(candidate)
+            except ValueError:
+                continue
+            if isinstance(payload, dict):
+                return payload
+        self.last_call_info["failure_reason"] = "invalid_response_json"
+        self.last_call_info["raw_response_preview"] = self.last_call_info.get("raw_response_preview") or text[:400]
+        LOGGER.warning("Gemini returned text that could not be parsed as JSON. Preview: %s", text[:400])
+        return None
 
 
 class GroundedGenerator(HeuristicGroundedGenerator):
@@ -342,6 +352,12 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             if reply is not None:
                 return reply
         gemini_failure = copy.deepcopy(getattr(self.gemini, "last_call_info", {}) or {})
+        LOGGER.warning(
+            "Falling back to deterministic chat generation for query=%r because Gemini failed with reason=%s after models=%s.",
+            normalized_message[:120],
+            gemini_failure.get("failure_reason") or self._default_chat_fallback_reason(),
+            gemini_failure.get("attempted_models") or [],
+        )
         return self._with_conversation_answer_source(
             super().build_conversation_reply(
                 bundle=bundle,
@@ -392,6 +408,7 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             "Each reply section must have heading, text, support_status, citation_ids.\n"
             "Grounded sections must cite allowed citation ids. External supplement sections must have no citation ids.\n"
             "strict_lecture_only must not include external_supplement sections.\n"
+            "Every grounded section must paraphrase the evidence into fresh wording. Do not quote or closely mirror the evidence digest.\n"
             "CRITICAL: First check whether the evidence actually addresses the question. "
             "If the evidence is about a different topic and does not answer the question, you MUST return a single section with support_status='insufficient_evidence', empty citation_ids=[], and text explaining the materials do not cover this specific topic. "
             "Do NOT summarize unrelated evidence to answer a question it does not address.\n"
@@ -400,7 +417,8 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             system_instruction=(
                 "You answer study questions grounded in lecture evidence. Return valid JSON only. "
                 "Do not use unsupported lecture claims or unsupported citation ids. "
-                "If the provided evidence does not address the student's question, say so explicitly instead of repurposing unrelated content."
+                "If the provided evidence does not address the student's question, say so explicitly instead of repurposing unrelated content. "
+                "Always paraphrase the evidence into your own words instead of repeating source phrasing."
             ),
             user_prompt=prompt,
             max_output_tokens=1000,
@@ -425,6 +443,13 @@ class GroundedGenerator(HeuristicGroundedGenerator):
                 "support_status": status,
                 "citations": citations,
             }
+            if status in {"slide_grounded", "inferred_from_slides"} and self._repeats_source_material(section["text"], relevant_items):
+                LOGGER.warning(
+                    "Rejecting Gemini chat reply because it repeated source material directly for query=%r.",
+                    normalized_message[:120],
+                )
+                self.gemini.last_call_info["failure_reason"] = "verbatim_evidence_repetition"
+                return None
             sections.append(section)
 
         if not sections:
@@ -465,6 +490,12 @@ class GroundedGenerator(HeuristicGroundedGenerator):
                 "prompt": self._safe_text(clarifying.get("prompt"), fallback="Please ask a more specific question."),
                 "reason": self._safe_text(clarifying.get("reason"), fallback="The question would benefit from a narrower grounded target."),
             }
+        LOGGER.info(
+            "Gemini chat reply accepted for query=%r using model=%s with %s section(s).",
+            normalized_message[:120],
+            llm_call_info.get("used_model"),
+            len(sections),
+        )
         return self._with_conversation_answer_source(
             (user_message, assistant_message),
             generation_path="llm",

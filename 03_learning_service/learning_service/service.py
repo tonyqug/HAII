@@ -54,6 +54,12 @@ class LearningService:
         self.content_client = ContentServiceClient(settings)
         self.generator = GroundedGenerator(settings)
         self.job_runner = BackgroundJobRunner()
+        LOGGER.info(
+            "Learning service initialized with local_data_dir=%s content_service_url=%s gemini_configured=%s.",
+            settings.local_data_dir,
+            settings.content_service_url,
+            bool(settings.gemini_api_key),
+        )
 
     # --------------------------
     # Service metadata
@@ -134,6 +140,12 @@ class LearningService:
 
     def _run_study_plan_job(self, job_id: str, request_data: Dict[str, Any]) -> None:
         try:
+            LOGGER.info(
+                "Starting study plan job %s for workspace=%s topic=%r.",
+                job_id,
+                request_data.get("workspace_id"),
+                request_data.get("topic_text"),
+            )
             self.update_job(job_id, status="running", progress=10, stage="normalize_intent", message="Preparing the study plan request.")
             bundle = self._resolve_grounding_bundle(
                 workspace_id=request_data["workspace_id"],
@@ -161,7 +173,13 @@ class LearningService:
                 result_type="study_plan",
                 result_id=artifact["study_plan_id"],
             )
+            LOGGER.info(
+                "Study plan job %s succeeded via %s.",
+                job_id,
+                (artifact.get("_meta") or {}).get("generation_path"),
+            )
         except NeedsUserInputError as exc:
+            LOGGER.info("Study plan job %s needs user input: %s", job_id, exc.prompt)
             self.update_job(
                 job_id,
                 status="needs_user_input",
@@ -172,6 +190,7 @@ class LearningService:
                 error={"code": None, "message": None, "retryable": False},
             )
         except ContentServiceError as exc:
+            LOGGER.warning("Study plan job %s failed while fetching evidence: %s", job_id, exc)
             self.update_job(
                 job_id,
                 status="failed",
@@ -181,6 +200,7 @@ class LearningService:
                 error={"code": "content_service_error", "message": str(exc), "retryable": exc.retryable},
             )
         except ArtifactValidationError as exc:
+            LOGGER.warning("Study plan job %s failed validation: %s", job_id, exc)
             self.update_job(
                 job_id,
                 status="failed",
@@ -321,6 +341,13 @@ class LearningService:
 
     def _run_conversation_message_job(self, job_id: str, conversation: Dict[str, Any], request_data: Dict[str, Any]) -> None:
         try:
+            LOGGER.info(
+                "Starting conversation job %s for conversation=%s workspace=%s message=%r.",
+                job_id,
+                conversation.get("conversation_id"),
+                conversation.get("workspace_id"),
+                normalize_whitespace(request_data.get("message_text", ""))[:160],
+            )
             self.update_job(job_id, status="running", progress=15, stage="acquire_evidence", message="Loading grounded evidence for the message.")
             bundle = self._resolve_conversation_bundle(conversation, request_data.get("message_text", ""))
             self.update_job(job_id, status="running", progress=50, stage="draft_structured_output", message="Drafting a grounded answer.")
@@ -345,7 +372,16 @@ class LearningService:
                 result_type="message",
                 result_id=assistant_message["message_id"],
             )
+            answer_source = assistant_message.get("answer_source") or {}
+            LOGGER.info(
+                "Conversation job %s succeeded with path=%s provider=%s fallback_reason=%s.",
+                job_id,
+                answer_source.get("path"),
+                answer_source.get("provider"),
+                answer_source.get("fallback_reason"),
+            )
         except NeedsUserInputError as exc:
+            LOGGER.info("Conversation job %s needs user input: %s", job_id, exc.prompt)
             self.update_job(
                 job_id,
                 status="needs_user_input",
@@ -356,6 +392,7 @@ class LearningService:
                 error={"code": None, "message": None, "retryable": False},
             )
         except ContentServiceError as exc:
+            LOGGER.warning("Conversation job %s failed while fetching evidence: %s", job_id, exc)
             self.update_job(
                 job_id,
                 status="failed",
@@ -394,6 +431,14 @@ class LearningService:
 
     def _run_practice_set_job(self, job_id: str, request_data: Dict[str, Any]) -> None:
         try:
+            LOGGER.info(
+                "Starting practice set job %s for workspace=%s topic=%r mode=%s count=%s.",
+                job_id,
+                request_data.get("workspace_id"),
+                request_data.get("topic_text"),
+                request_data.get("generation_mode"),
+                request_data.get("question_count"),
+            )
             self.update_job(job_id, status="running", progress=15, stage="acquire_evidence", message="Loading grounded evidence for practice generation.")
             bundle = self._resolve_practice_bundle(request_data)
             self.update_job(job_id, status="running", progress=55, stage="draft_structured_output", message="Drafting the grounded practice set.")
@@ -419,7 +464,13 @@ class LearningService:
                 result_type="practice_set",
                 result_id=artifact["practice_set_id"],
             )
+            LOGGER.info(
+                "Practice set job %s succeeded via %s.",
+                job_id,
+                (artifact.get("_meta") or {}).get("generation_path"),
+            )
         except NeedsUserInputError as exc:
+            LOGGER.info("Practice set job %s needs user input: %s", job_id, exc.prompt)
             self.update_job(
                 job_id,
                 status="needs_user_input",
@@ -430,6 +481,7 @@ class LearningService:
                 error={"code": None, "message": None, "retryable": False},
             )
         except (ArtifactValidationError, ContentServiceError) as exc:
+            LOGGER.warning("Practice set job %s failed: %s", job_id, exc)
             retryable = getattr(exc, "retryable", False)
             code = "content_service_error" if isinstance(exc, ContentServiceError) else "artifact_validation_error"
             self.update_job(

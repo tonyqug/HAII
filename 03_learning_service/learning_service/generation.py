@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 import json
+import logging
 import math
 import re
 import time
@@ -48,6 +49,34 @@ DEFAULT_GEMINI_MODEL_LADDER = (
 )
 RATE_LIMIT_STATUS_CODE = 429
 TRANSIENT_GEMINI_STATUS_CODES = {503}
+MODEL_COMPATIBILITY_STATUS_CODES = {400, 403, 404}
+JSON_FENCE_RE = re.compile(r"```(?:json)?\s*(.*?)\s*```", re.IGNORECASE | re.DOTALL)
+
+LOGGER = logging.getLogger(__name__)
+
+
+def _json_text_candidates(text: str) -> List[str]:
+    stripped = text.strip()
+    candidates: List[str] = []
+    if stripped:
+        candidates.append(stripped)
+    for match in JSON_FENCE_RE.finditer(text):
+        fenced = match.group(1).strip()
+        if fenced:
+            candidates.append(fenced)
+    for opener, closer in (("{", "}"), ("[", "]")):
+        start = text.find(opener)
+        end = text.rfind(closer)
+        if start != -1 and end > start:
+            candidates.append(text[start : end + 1].strip())
+    deduped: List[str] = []
+    seen: set[str] = set()
+    for candidate in candidates:
+        if not candidate or candidate in seen:
+            continue
+        seen.add(candidate)
+        deduped.append(candidate)
+    return deduped
 
 
 class OptionalGeminiClient:
@@ -76,6 +105,8 @@ class OptionalGeminiClient:
             "attempted_models": [],
             "rate_limited_models": [],
             "failure_reason": None,
+            "model_failures": [],
+            "raw_response_preview": None,
         }
 
     def _thinking_config_for_model(self, model: str) -> Dict[str, Any]:
@@ -108,6 +139,39 @@ class OptionalGeminiClient:
             return "upstream_error"
         return "http_error"
 
+    def _response_detail_preview(self, response: requests.Response) -> str:
+        try:
+            payload = response.json()
+            return safe_excerpt(json.dumps(payload, ensure_ascii=False), 400)
+        except Exception:
+            return safe_excerpt(getattr(response, "text", "") or "", 400)
+
+    def _record_model_failure(
+        self,
+        model: str,
+        reason: str,
+        *,
+        attempt: int,
+        status_code: Optional[int] = None,
+        used_thinking_config: bool = False,
+        response_preview: Optional[str] = None,
+        error: Optional[Exception] = None,
+    ) -> None:
+        entry: Dict[str, Any] = {
+            "model": model,
+            "reason": reason,
+            "attempt": attempt,
+            "status_code": status_code,
+            "used_thinking_config": used_thinking_config,
+        }
+        if response_preview:
+            entry["response_preview"] = response_preview
+            if not self.last_call_info.get("raw_response_preview"):
+                self.last_call_info["raw_response_preview"] = response_preview
+        if error is not None:
+            entry["error"] = str(error)
+        self.last_call_info["model_failures"].append(entry)
+
     def _generate_content(
         self,
         *,
@@ -120,6 +184,7 @@ class OptionalGeminiClient:
         if not self.configured:
             self.last_call_info["generation_path"] = "disabled"
             self.last_call_info["failure_reason"] = "gemini_not_configured"
+            LOGGER.warning("Gemini generation is disabled because GEMINI_API_KEY is not configured.")
             return None
 
         headers = {
@@ -129,64 +194,193 @@ class OptionalGeminiClient:
 
         for model in self.model_ladder:
             self.last_call_info["attempted_models"].append(model)
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
-            generation_config: Dict[str, Any] = {
+            base_generation_config: Dict[str, Any] = {
                 "temperature": 0.2,
                 "maxOutputTokens": max_output_tokens,
             }
             if response_mime_type:
-                generation_config["responseMimeType"] = response_mime_type
-            thinking_config = self._thinking_config_for_model(model)
-            if thinking_config:
-                generation_config["thinkingConfig"] = thinking_config
-            payload = {
-                "systemInstruction": {"parts": [{"text": system_instruction}]},
-                "contents": [{"role": "user", "parts": [{"text": user_prompt}]}],
-                "generationConfig": generation_config,
-            }
-            for attempt in range(3):
-                try:
-                    response = requests.post(url, headers=headers, json=payload, timeout=self.timeout)
-                except requests.RequestException:
-                    if attempt < 2:
-                        time.sleep(2 ** attempt)
-                        continue
-                    self.last_call_info["failure_reason"] = "request_exception"
-                    return None
+                base_generation_config["responseMimeType"] = response_mime_type
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+            configured_thinking = self._thinking_config_for_model(model)
+            thinking_variants = [configured_thinking] if not configured_thinking else [configured_thinking, None]
+            for thinking_variant in thinking_variants:
+                generation_config = dict(base_generation_config)
+                if thinking_variant:
+                    generation_config["thinkingConfig"] = thinking_variant
+                payload = {
+                    "systemInstruction": {"parts": [{"text": system_instruction}]},
+                    "contents": [{"role": "user", "parts": [{"text": user_prompt}]}],
+                    "generationConfig": generation_config,
+                }
+                retry_without_thinking = False
+                advance_model = False
+                for attempt in range(3):
+                    try:
+                        response = requests.post(url, headers=headers, json=payload, timeout=self.timeout)
+                    except requests.RequestException as exc:
+                        if attempt < 2:
+                            time.sleep(2 ** attempt)
+                            continue
+                        self.last_call_info["failure_reason"] = "request_exception"
+                        self._record_model_failure(
+                            model,
+                            "request_exception",
+                            attempt=attempt + 1,
+                            used_thinking_config=bool(thinking_variant),
+                            error=exc,
+                        )
+                        LOGGER.warning(
+                            "Gemini request exception on model %s (thinking=%s, attempt=%s): %s",
+                            model,
+                            bool(thinking_variant),
+                            attempt + 1,
+                            exc,
+                        )
+                        return None
 
-                if response.status_code == RATE_LIMIT_STATUS_CODE:
-                    self.last_call_info["rate_limited_models"].append(model)
-                    self.last_call_info["failure_reason"] = "rate_limit_exceeded"
-                    break
-                if response.status_code in TRANSIENT_GEMINI_STATUS_CODES and attempt < 2:
-                    time.sleep(2 ** attempt)
+                    if response.status_code == RATE_LIMIT_STATUS_CODE:
+                        preview = self._response_detail_preview(response)
+                        self.last_call_info["rate_limited_models"].append(model)
+                        self.last_call_info["failure_reason"] = "rate_limit_exceeded"
+                        self._record_model_failure(
+                            model,
+                            "rate_limit_exceeded",
+                            attempt=attempt + 1,
+                            status_code=response.status_code,
+                            used_thinking_config=bool(thinking_variant),
+                            response_preview=preview,
+                        )
+                        LOGGER.warning("Gemini rate-limited on model %s; moving to the next model.", model)
+                        advance_model = True
+                        break
+
+                    if response.status_code in TRANSIENT_GEMINI_STATUS_CODES:
+                        if attempt < 2:
+                            time.sleep(2 ** attempt)
+                            continue
+                        preview = self._response_detail_preview(response)
+                        self.last_call_info["failure_reason"] = "service_unavailable"
+                        self._record_model_failure(
+                            model,
+                            "service_unavailable",
+                            attempt=attempt + 1,
+                            status_code=response.status_code,
+                            used_thinking_config=bool(thinking_variant),
+                            response_preview=preview,
+                        )
+                        LOGGER.warning(
+                            "Gemini service remained unavailable on model %s after retries; trying the next model.",
+                            model,
+                        )
+                        advance_model = True
+                        break
+
+                    if not response.ok:
+                        reason = self._failure_reason_for_response(response)
+                        preview = self._response_detail_preview(response)
+                        self.last_call_info["failure_reason"] = reason
+                        self._record_model_failure(
+                            model,
+                            reason,
+                            attempt=attempt + 1,
+                            status_code=response.status_code,
+                            used_thinking_config=bool(thinking_variant),
+                            response_preview=preview,
+                        )
+                        if thinking_variant and response.status_code == 400:
+                            LOGGER.warning(
+                                "Gemini model %s rejected the reasoning config; retrying once without thinkingConfig. Detail: %s",
+                                model,
+                                preview,
+                            )
+                            retry_without_thinking = True
+                            break
+                        if response.status_code in MODEL_COMPATIBILITY_STATUS_CODES:
+                            LOGGER.warning(
+                                "Gemini model %s is unavailable or incompatible (HTTP %s, reason=%s); trying the next model. Detail: %s",
+                                model,
+                                response.status_code,
+                                reason,
+                                preview,
+                            )
+                            advance_model = True
+                            break
+                        LOGGER.warning(
+                            "Gemini request failed on model %s with HTTP %s (reason=%s). Detail: %s",
+                            model,
+                            response.status_code,
+                            reason,
+                            preview,
+                        )
+                        return None
+
+                    try:
+                        data = response.json()
+                    except ValueError:
+                        preview = self._response_detail_preview(response)
+                        self.last_call_info["failure_reason"] = "invalid_response_json"
+                        self._record_model_failure(
+                            model,
+                            "invalid_response_json",
+                            attempt=attempt + 1,
+                            status_code=response.status_code,
+                            used_thinking_config=bool(thinking_variant),
+                            response_preview=preview,
+                        )
+                        LOGGER.warning(
+                            "Gemini returned invalid HTTP JSON on model %s. Detail: %s",
+                            model,
+                            preview,
+                        )
+                        advance_model = True
+                        break
+
+                    text = self._extract_text(data)
+                    if not text:
+                        preview = safe_excerpt(json.dumps(data, ensure_ascii=False), 400)
+                        self.last_call_info["failure_reason"] = "empty_response"
+                        self._record_model_failure(
+                            model,
+                            "empty_response",
+                            attempt=attempt + 1,
+                            status_code=response.status_code,
+                            used_thinking_config=bool(thinking_variant),
+                            response_preview=preview,
+                        )
+                        LOGGER.warning("Gemini returned an empty response on model %s. Payload: %s", model, preview)
+                        advance_model = True
+                        break
+
+                    self.last_call_info.update(
+                        {
+                            "used_model": model,
+                            "reasoning_enabled": bool(thinking_variant),
+                            "reasoning_mode": "dynamic" if thinking_variant else None,
+                            "failure_reason": None,
+                            "raw_response_preview": safe_excerpt(text, 400),
+                        }
+                    )
+                    LOGGER.info(
+                        "Gemini request succeeded with model %s (thinking=%s).",
+                        model,
+                        bool(thinking_variant),
+                    )
+                    return text
+
+                if retry_without_thinking:
                     continue
-                if not response.ok:
-                    self.last_call_info["failure_reason"] = self._failure_reason_for_response(response)
-                    return None
-                try:
-                    data = response.json()
-                except ValueError:
-                    self.last_call_info["failure_reason"] = "invalid_response_json"
-                    return None
-                text = self._extract_text(data)
-                if not text:
-                    self.last_call_info["failure_reason"] = "empty_response"
-                    return None
-                self.last_call_info.update(
-                    {
-                        "used_model": model,
-                        "reasoning_enabled": bool(thinking_config),
-                        "reasoning_mode": "dynamic" if thinking_config else None,
-                        "failure_reason": None,
-                    }
-                )
-                return text
+                if advance_model:
+                    break
 
         if self.last_call_info["rate_limited_models"]:
             self.last_call_info["failure_reason"] = "rate_limit_exhausted"
         elif not self.last_call_info["failure_reason"]:
             self.last_call_info["failure_reason"] = "llm_generation_failed"
+        LOGGER.warning(
+            "Gemini generation failed after models %s with reason=%s.",
+            self.last_call_info["attempted_models"],
+            self.last_call_info["failure_reason"],
+        )
         return None
 
     def generate_text(self, system_instruction: str, user_prompt: str, max_output_tokens: int = 256) -> Optional[str]:
@@ -203,12 +397,14 @@ class OptionalGeminiClient:
             "Grounded answer already supported by their lecture materials: "
             f"{grounded_answer}\n\n"
             "Write a brief external supplement that is clearly general background knowledge, not a claim about the student's slides. "
-            "Do not mention citations. Be concise and explicitly phrase this as supplementary background."
+            "Do not mention citations. Be concise and explicitly phrase this as supplementary background. "
+            "Do not quote or closely mirror the grounded answer."
         )
         return self.generate_text(
             system_instruction=(
                 "You provide carefully labeled supplemental background for students. "
-                "Never imply that external background came from the user's uploaded materials."
+                "Never imply that external background came from the user's uploaded materials. "
+                "Always paraphrase instead of echoing the lecture wording."
             ),
             user_prompt=prompt,
             max_output_tokens=160,
@@ -1191,6 +1387,11 @@ class GroundedGenerator:
         }
 
         if not relevant_items or self._chat_match_is_weak(query, relevant_items):
+            LOGGER.info(
+                "Using deterministic insufficient-evidence chat fallback for query=%r with matched_items=%s.",
+                safe_excerpt(query, 120),
+                len(relevant_items),
+            )
             assistant_message["reply_sections"].append(
                 {
                     "heading": "Insufficient evidence from your materials",
@@ -1222,6 +1423,11 @@ class GroundedGenerator:
 
         grounded_citations = dedupe_citations(item.get("citation") for item in relevant_items)
         grounded_answer = self._compose_grounded_answer(normalized_message, relevant_items, response_style)
+        LOGGER.info(
+            "Using deterministic grounded chat fallback for query=%r with matched_items=%s.",
+            safe_excerpt(query, 120),
+            len(relevant_items),
+        )
         assistant_message["reply_sections"].append(
             {
                 "heading": "Grounded answer",
@@ -1316,29 +1522,38 @@ class GroundedGenerator:
         return message_text
 
     def _compose_grounded_answer(self, question_text: str, relevant_items: Sequence[Dict[str, Any]], response_style: str) -> str:
-        summaries = self._summaries_for_chat(question_text, relevant_items)
-        if not summaries:
-            summaries = [safe_excerpt(item.get("text", ""), 320) for item in relevant_items if item.get("text")]
+        if not relevant_items:
+            return "I could not form a grounded answer from the current materials."
+        points = [self._paraphrased_chat_point(question_text, item) for item in relevant_items]
+        points = [point for point in points if point]
+        deduped_points: List[str] = []
+        seen_points: set[str] = set()
+        for point in points:
+            key = point.lower()
+            if key in seen_points:
+                continue
+            seen_points.add(key)
+            deduped_points.append(point)
+        points = deduped_points
+        if not points:
+            points = [
+                f"The cited slide treats {infer_concept_label(first_sentence(item.get('text', '')), fallback='this lecture idea')} as relevant to this question."
+                for item in relevant_items
+            ]
         if response_style == "concise":
-            return normalize_whitespace(" ".join(summary for summary in summaries[:2] if summary))
+            return normalize_whitespace(" ".join(point for point in points[:2] if point))
         if response_style == "step_by_step":
             steps = []
             for index, item in enumerate(relevant_items, start=1):
-                concept = infer_concept_label(first_sentence(item.get("text", "")), fallback=f"slide {item.get('slide_number')}")
-                summary = self._best_summary_for_item(question_text, item) or safe_excerpt(item.get("text", ""), 260)
-                steps.append(f"{index}. {concept}: {summary}")
+                steps.append(f"{index}. {self._paraphrased_chat_point(question_text, item)}")
             return "\n".join(steps)
         if self._is_definition_question(question_text):
             focus = self._question_focus(question_text)
-            leading = summaries[0]
-            if focus:
-                answer = f"In these slides, {focus} is described as: {leading}"
-            else:
-                answer = leading
-            if len(summaries) > 1:
-                answer = f"{answer} Related detail: {summaries[1]}"
+            answer = self._paraphrased_definition_answer(focus or "", question_text, relevant_items)
+            if len(points) > 1:
+                answer = f"{answer} Related lecture emphasis: {points[1]}"
             return normalize_whitespace(answer)
-        return normalize_whitespace(" ".join(summaries[:4]))
+        return normalize_whitespace(" ".join(points[:3]))
 
     def _summaries_for_chat(self, question_text: str, relevant_items: Sequence[Dict[str, Any]]) -> List[str]:
         fragments: List[tuple[int, str]] = []
@@ -1414,6 +1629,117 @@ class GroundedGenerator:
         cleaned = re.sub(r"\s*[|/]\s*", " ", cleaned)
         cleaned = normalize_whitespace(cleaned)
         return cleaned
+
+    def _chat_keywords_for_item(self, question_text: str, item: Dict[str, Any], limit: int = 4) -> List[str]:
+        cleaned = self._clean_evidence_text(item.get("text", ""))
+        concept = infer_concept_label(first_sentence(cleaned), fallback="")
+        concept_tokens = set(informative_tokens(concept))
+        question_tokens = set(informative_tokens(question_text))
+        chat_noise_tokens = {
+            "add",
+            "adds",
+            "against",
+            "describe",
+            "describes",
+            "help",
+            "helps",
+            "make",
+            "makes",
+            "reduce",
+            "reduces",
+            "term",
+            "tune",
+            "tunes",
+            "use",
+            "used",
+            "using",
+        }
+        ranked_keywords = top_keywords([cleaned], limit=limit + 4)
+        filtered_keywords = [
+            keyword
+            for keyword in ranked_keywords
+            if keyword not in concept_tokens and keyword not in chat_noise_tokens
+        ]
+        overlap_keywords = [keyword for keyword in filtered_keywords if keyword in question_tokens]
+        supporting_keywords = [keyword for keyword in filtered_keywords if keyword not in overlap_keywords]
+        return (overlap_keywords + supporting_keywords)[:limit]
+
+    def _keyword_phrase(self, keywords: Sequence[str]) -> str:
+        cleaned = [normalize_whitespace(keyword) for keyword in keywords if normalize_whitespace(keyword)]
+        if not cleaned:
+            return "the lecture-supported idea in the cited material"
+        if len(cleaned) == 1:
+            return cleaned[0]
+        if len(cleaned) == 2:
+            return f"{cleaned[0]} and {cleaned[1]}"
+        return ", ".join(cleaned[:-1]) + f", and {cleaned[-1]}"
+
+    def _paraphrased_definition_answer(self, focus: str, question_text: str, relevant_items: Sequence[Dict[str, Any]]) -> str:
+        lead_item = relevant_items[0]
+        lead_keywords = self._chat_keywords_for_item(question_text, lead_item)
+        concept = infer_concept_label(first_sentence(lead_item.get("text", "")), fallback=focus or "this topic")
+        if focus and lead_keywords:
+            return f"In these slides, {focus} is tied to {self._keyword_phrase(lead_keywords)}."
+        if focus:
+            return f"In these slides, {focus} is explained through the lecture idea around {concept}."
+        if lead_keywords:
+            return f"The slides tie this idea to {self._keyword_phrase(lead_keywords)}."
+        return f"The slides treat {concept} as the main lecture idea relevant to this question."
+
+    def _paraphrased_chat_point(self, question_text: str, item: Dict[str, Any]) -> str:
+        cleaned = self._clean_evidence_text(item.get("text", ""))
+        concept = infer_concept_label(first_sentence(cleaned), fallback=f"slide {item.get('slide_number')}")
+        patterned_phrase = self._pattern_paraphrase_phrase(cleaned)
+        if patterned_phrase:
+            return f"The slides connect {concept} to {patterned_phrase}."
+        keywords = self._chat_keywords_for_item(question_text, item)
+        if keywords:
+            phrase = self._keyword_phrase(keywords)
+            if concept and concept.lower() not in phrase.lower():
+                return f"The slides connect {concept} to {phrase}."
+            return f"The slides emphasize {phrase}."
+        if concept:
+            return f"The cited slide treats {concept} as one of the main ideas relevant to this question."
+        return "The cited material contains a relevant lecture-supported point for this question."
+
+    def _pattern_paraphrase_phrase(self, cleaned_text: str) -> Optional[str]:
+        lowered = cleaned_text.lower()
+        if "regularization" in lowered and "penalty" in lowered:
+            if "flexible" in lowered or "overfit" in lowered:
+                return "penalty terms and controlling model flexibility"
+            return "penalty terms inside the objective"
+        if "validation" in lowered and ("tune" in lowered or "generalization" in lowered):
+            return "validation-based tuning and generalization checks"
+        if "transformer" in lowered and "attention" in lowered:
+            return "attention-based sequence modeling"
+        if "gradient" in lowered and ("descent" in lowered or "update" in lowered):
+            return "gradient-based parameter updates"
+        if "probability" in lowered and "distribution" in lowered:
+            return "probabilistic modeling of the output distribution"
+        return None
+
+    def _token_ngrams(self, text: str, size: int = 8) -> set[str]:
+        normalized = normalize_whitespace(text).lower()
+        tokens = re.findall(r"[a-z0-9]+", normalized)
+        if len(tokens) < size:
+            return set()
+        return {" ".join(tokens[index : index + size]) for index in range(len(tokens) - size + 1)}
+
+    def _repeats_source_material(
+        self,
+        response_text: str,
+        relevant_items: Sequence[Dict[str, Any]],
+        *,
+        min_words: int = 8,
+    ) -> bool:
+        response_ngrams = self._token_ngrams(response_text, size=min_words)
+        if not response_ngrams:
+            return False
+        for item in relevant_items:
+            evidence_ngrams = self._token_ngrams(self._clean_evidence_text(item.get("text", "")), size=min_words)
+            if response_ngrams & evidence_ngrams:
+                return True
+        return False
 
     def _looks_like_slide_metadata(self, text: str) -> bool:
         lowered = normalize_whitespace(text).lower()

@@ -16,12 +16,24 @@ def _parse_env_file(path: Path) -> Dict[str, str]:
     values: Dict[str, str] = {}
     if not path.exists():
         return values
-    for line in path.read_text(encoding="utf-8").splitlines():
-        stripped = line.strip()
-        if not stripped or stripped.startswith("#") or "=" not in stripped:
+    for line in path.read_text(encoding="utf-8", errors="ignore").splitlines():
+        stripped = line.lstrip("\ufeff").strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        if stripped.startswith("export "):
+            stripped = stripped[len("export ") :].strip()
+        if "=" not in stripped:
             continue
         key, value = stripped.split("=", 1)
-        values[key.strip()] = value.strip().strip('"').strip("'")
+        normalized_key = key.strip().lstrip("\ufeff")
+        if not normalized_key:
+            continue
+        normalized_value = value.strip()
+        if len(normalized_value) >= 2 and normalized_value[0] == normalized_value[-1] and normalized_value[0] in {'"', "'"}:
+            normalized_value = normalized_value[1:-1]
+        elif " #" in normalized_value:
+            normalized_value = normalized_value.split(" #", 1)[0].rstrip()
+        values[normalized_key] = normalized_value
     return values
 
 

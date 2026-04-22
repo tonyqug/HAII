@@ -294,3 +294,125 @@ def test_chat_uses_gemini_path_even_without_strong_local_match(app_factory, bund
     assert assistant["answer_source"]["model"] == "gemini-3-flash-preview"
     assert assistant["answer_source"]["reasoning_enabled"] is True
     assert assistant["reply_sections"][0]["support_status"] == "insufficient_evidence"
+
+
+def test_chat_rejects_verbatim_gemini_reply_and_falls_back(app_factory, bundle, monkeypatch):
+    adjusted_bundle = json.loads(json.dumps(bundle))
+    adjusted_bundle["items"][0]["text"] = "Regularization adds a penalty term to discourage overly flexible models and reduce overfitting."
+    adjusted_bundle["items"][1]["text"] = "Validation is used to tune the strength of regularization against generalization performance."
+    client = app_factory(gemini_api_key="test-key")
+    service = client.app.state.learning_service
+    verbatim_text = adjusted_bundle["items"][0]["text"]
+    citation_id = adjusted_bundle["items"][0]["citation"]["citation_id"]
+
+    def fake_generate_json(system_instruction, user_prompt, max_output_tokens=2048):
+        service.generator.gemini.last_call_info = {
+            "configured": True,
+            "provider": "gemini",
+            "generation_path": "llm",
+            "used_model": "gemini-3-flash-preview",
+            "reasoning_enabled": True,
+            "reasoning_mode": "dynamic",
+            "attempted_models": ["gemini-3-flash-preview"],
+            "rate_limited_models": [],
+            "failure_reason": None,
+        }
+        return {
+            "reply_sections": [
+                {
+                    "heading": "Grounded answer",
+                    "text": verbatim_text,
+                    "support_status": "slide_grounded",
+                    "citation_ids": [citation_id],
+                }
+            ]
+        }
+
+    monkeypatch.setattr(service.generator.gemini, "generate_json", fake_generate_json)
+
+    create_response = client.post(
+        "/v1/conversations",
+        json={
+            "workspace_id": adjusted_bundle["workspace_id"],
+            "material_ids": None,
+            "evidence_bundle": adjusted_bundle,
+            "grounding_mode": "lecture_with_fallback",
+            "title": "Gemini repetition guard",
+            "include_annotations": True,
+        },
+    )
+    assert create_response.status_code == 200
+    conversation_id = create_response.json()["conversation_id"]
+
+    send = client.post(
+        f"/v1/conversations/{conversation_id}/messages",
+        json={
+            "message_text": "What does regularization do in these lectures?",
+            "response_style": "standard",
+            "grounding_mode": "lecture_with_fallback",
+            "include_citations": True,
+        },
+    )
+    assert send.status_code == 200
+    job = wait_for_job(client, send.json()["job_id"])
+    assert job["status"] == "succeeded"
+
+    conversation = client.get(f"/v1/conversations/{conversation_id}").json()
+    assistant = conversation["messages"][-1]
+    assert assistant["answer_source"]["path"] == "heuristic_fallback"
+    assert assistant["answer_source"]["fallback_reason"] == "verbatim_evidence_repetition"
+    assert assistant["reply_sections"][0]["text"] != verbatim_text
+
+
+def test_gemini_client_handles_incompatible_models_and_wrapped_json(monkeypatch):
+    client = GeminiPrimaryClient(Settings(gemini_api_key="test-key"))
+    requests_seen = []
+
+    class FakeResponse:
+        def __init__(self, status_code, payload):
+            self.status_code = status_code
+            self._payload = payload
+            self.text = json.dumps(payload)
+
+        @property
+        def ok(self):
+            return self.status_code < 400
+
+        def json(self):
+            return self._payload
+
+    def fake_post(url, headers=None, json=None, timeout=None):
+        model = url.split("/models/")[1].split(":generateContent")[0]
+        thinking_config = (json or {}).get("generationConfig", {}).get("thinkingConfig")
+        requests_seen.append((model, thinking_config))
+        if model == "gemini-3-flash-preview":
+            return FakeResponse(404, {"error": {"message": "model not found"}})
+        if model == "gemini-2.5-flash" and thinking_config:
+            return FakeResponse(400, {"error": {"message": "thinkingConfig is not supported"}})
+        return FakeResponse(
+            200,
+            {
+                "candidates": [
+                    {
+                        "content": {
+                            "parts": [
+                                {"text": "```json\n{\"reply_sections\": []}\n```"},
+                            ]
+                        }
+                    }
+                ]
+            },
+        )
+
+    monkeypatch.setattr("learning_service.generation.requests.post", fake_post)
+
+    payload = client.generate_json("system", "user prompt")
+
+    assert payload == {"reply_sections": []}
+    assert requests_seen == [
+        ("gemini-3-flash-preview", {"thinkingLevel": "high"}),
+        ("gemini-2.5-flash", {"thinkingBudget": -1}),
+        ("gemini-2.5-flash", None),
+    ]
+    assert client.last_call_info["used_model"] == "gemini-2.5-flash"
+    assert client.last_call_info["reasoning_enabled"] is False

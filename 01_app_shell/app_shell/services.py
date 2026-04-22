@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import atexit
 import hashlib
+import logging
 import os
 import subprocess
 import sys
@@ -32,6 +33,9 @@ from app_shell.normalization import (
 )
 from app_shell.storage import LocalStorage
 from app_shell.utils import absolutize_url, deep_copy, make_id, utc_now_iso
+
+
+LOGGER = logging.getLogger(__name__)
 
 
 class ServiceLauncher:
@@ -69,14 +73,16 @@ class ServiceLauncher:
         folder = self.config.project_root / folder_name
         run_local = folder / "run_local.py"
         if not run_local.exists():
+            LOGGER.warning("Cannot start %s service because %s does not exist.", service_name, run_local)
             return
         env = os.environ.copy()
+        LOGGER.info("Starting %s service from %s.", service_name, run_local)
         process = subprocess.Popen(
             [sys.executable, str(run_local)],
             cwd=str(folder),
             env=env,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
+            stdout=None,
+            stderr=None,
             text=True,
         )
         self.processes[service_name] = process
@@ -84,10 +90,13 @@ class ServiceLauncher:
         deadline = time.time() + 12
         while time.time() < deadline:
             if self.check_health(base_url):
+                LOGGER.info("%s service is healthy at %s.", service_name, base_url)
                 return
             if process.poll() is not None:
+                LOGGER.warning("%s service exited early with code %s.", service_name, process.returncode)
                 return
             time.sleep(0.3)
+        LOGGER.warning("%s service did not become healthy within 12 seconds at %s.", service_name, base_url)
 
     def shutdown(self) -> None:
         for process in self.processes.values():
@@ -595,6 +604,14 @@ class ShellService:
                     if not message and isinstance(detail, str):
                         message = detail
                 status_code = response.status_code if 400 <= response.status_code < 500 else 502
+                LOGGER.error(
+                    "%s service %s %s failed with HTTP %s: %s",
+                    service,
+                    method,
+                    path,
+                    response.status_code,
+                    message or payload,
+                )
                 raise ShellError(
                     message or f"{service.title()} service request failed with HTTP {response.status_code}.",
                     status_code=status_code,
@@ -602,10 +619,12 @@ class ShellService:
                 )
             if isinstance(payload, dict):
                 return payload
+            LOGGER.error("%s service %s %s returned a non-JSON response.", service, method, path)
             raise ShellError("Remote service returned a non-JSON response.", status_code=502)
         except ShellError:
             raise
         except Exception as exc:
+            LOGGER.exception("Could not reach the %s service during %s %s.", service, method, path)
             raise ShellError(f"Could not reach the {service} service: {exc}", status_code=503)
 
     def hydrate_workspace(self, workspace: dict) -> dict:

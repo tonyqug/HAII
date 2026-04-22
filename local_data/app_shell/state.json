@@ -1979,6 +1979,39 @@
       },
       "workspace_id": "workspace_538aaf9f4515"
     },
+    "job_f1ecd2f4b6c1": {
+      "context": {
+        "conversation_id": "conversation_adab45d0370a",
+        "grounding_mode": "strict_lecture_only",
+        "message_text": "what are Basic neurotransmitter functions",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-22T20:06:37Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_f1ecd2f4b6c1",
+      "message": "Conversation reply created.",
+      "operation": "conversation_message",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_94d97b4d33a2",
+      "result_id": "msg_43ab67ce96ab",
+      "result_type": "message",
+      "service": "learning",
+      "stage": "done",
+      "status": "succeeded",
+      "updated_at": "2026-04-22T20:06:42Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_cd0fc75267fd"
+    },
     "job_f2b2149c6c21": {
       "context": {
         "dedup_key": "slides:fd0def8190fcb7b42fa01512a091071d1d7565998866c6ec1709fa69b5dcc97b",
@@ -2076,7 +2109,7 @@
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T16:59:00Z",
+      "last_opened_at": "2026-04-22T20:06:43Z",
       "local_edits": {},
       "material_preferences": {
         "material_057153c6600f": "focus",
@@ -2162,13 +2195,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:06:43Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:06:43Z",
             "mode": "integrated"
           }
         },
@@ -2209,7 +2242,7 @@
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T16:59:00Z",
+      "last_opened_at": "2026-04-22T20:06:43Z",
       "local_edits": {},
       "material_preferences": {},
       "material_sync_annotations": {},
@@ -2227,13 +2260,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:06:43Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:06:43Z",
             "mode": "integrated"
           }
         },
@@ -2393,7 +2426,7 @@
       ],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T16:59:00Z",
+      "last_opened_at": "2026-04-22T20:06:43Z",
       "local_edits": {},
       "material_preferences": {
         "material_753ac7b44e1e": "default",
@@ -2512,13 +2545,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:06:43Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:06:43Z",
             "mode": "integrated"
           }
         },
@@ -2760,7 +2793,7 @@
       ],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T16:59:00Z",
+      "last_opened_at": "2026-04-22T20:06:43Z",
       "local_edits": {},
       "material_preferences": {
         "mat_0d4cf2e5271346b2afc8b1a4422e6a0e": "default",
@@ -11305,13 +11338,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:06:43Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:06:43Z",
             "mode": "integrated"
           }
         },
@@ -12274,7 +12307,7 @@
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T16:59:00Z",
+      "last_opened_at": "2026-04-22T20:06:43Z",
       "local_edits": {},
       "material_preferences": {},
       "material_sync_annotations": {},
@@ -12292,13 +12325,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:06:43Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:06:43Z",
             "mode": "integrated"
           }
         },
@@ -12410,7 +12443,7 @@
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T16:59:00Z",
+      "last_opened_at": "2026-04-22T20:06:43Z",
       "local_edits": {},
       "material_preferences": {
         "material_f90e97c0bfa9": "default"
@@ -12461,13 +12494,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:06:43Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:06:43Z",
             "mode": "integrated"
           }
         },
@@ -12558,6 +12591,125 @@
           "title": "Workspace Q&A",
           "workspace_id": "workspace_cd0fc75267fd"
         },
+        "conversation_61650900fd6c": {
+          "conversation_id": "conversation_61650900fd6c",
+          "created_at": "2026-04-22T15:14:26Z",
+          "grounding_mode": "strict_lecture_only",
+          "messages": [
+            {
+              "created_at": "2026-04-22T15:17:11Z",
+              "message_id": "msg_0b9270280733",
+              "role": "user",
+              "text": "what are basic neurotransmitter functions"
+            },
+            {
+              "answer_source": {
+                "evidence_match": "strong_match",
+                "fallback_reason": "invalid_response_json",
+                "matched_evidence_count": 2,
+                "model": null,
+                "path": "heuristic_fallback",
+                "provider": "deterministic_fallback",
+                "rate_limited_models": [],
+                "reasoning_enabled": false,
+                "reasoning_mode": null
+              },
+              "created_at": "2026-04-22T15:17:11Z",
+              "message_id": "msg_69a899c469e5",
+              "reply_sections": [
+                {
+                  "citations": [
+                    {
+                      "citation_id": "cit_a9a6e627618c162682913f64",
+                      "confidence": "high",
+                      "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+                      "material_title": "03133 Exam 3 Cheat sheet.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/preview",
+                      "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2",
+                      "slide_number": 2,
+                      "snippet_text": "\u2026binds to a receptor but blocks its activity\u200b, preventing the normal effect of a neurotransmitter or\u200b \u200bhormone. NALOXONE. LESS SIGNAL,\u200b\u200b# of receptors:\u200b\u200b\u2191 (upregulation),\u200b\u200bEffect on signal:\u200b\u200b\u2191 sensitivity over time\u200b \u200bAgonist:\u200b\u200bsubstance that\u200b\u200bbinds to a receptor and activates it\u200b, producing a biological effect (mimics t\u2026",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/source",
+                      "support_type": "explicit"
+                    },
+                    {
+                      "citation_id": "cit_059ad0ddf58b4ef290ee0d1a",
+                      "confidence": "high",
+                      "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+                      "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/preview",
+                      "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1",
+                      "slide_number": 1,
+                      "snippet_text": "\u2026of the cases, then the concordance rate = 300 / 400= 75%\u200b \u200bTourette Syndrome\u200b \u200bBasics: Motor and vocal tics present for at least a year, symptoms presenting under the age of 18.\u200b \u200bDopamine\u200b \u200bDopamine in Striatum\u200b \u200bIt inhibits stop cells and excites go cells, resulting in\u200b\u200bincreased movement\u200b \u200bDopamine in VTA -> Nucleu\u2026",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/source",
+                      "support_type": "explicit"
+                    }
+                  ],
+                  "heading": "Grounded answer",
+                  "support_status": "inferred_from_slides",
+                  "text": "\u200bParkinson\u2019s Disease\u200b \u200b-\u200b \u200bSecond most common neurological disorder.\u200b \u200b-\u200b \u200bCaused by degeneration of dopamine neurons in the substantia nigra pars compacta (SnC).\u200b \u200b-\u200b \u200bSymptoms: tremor, rigidity, reduced movement, shuffling gait.\u200b \u200b-\u200b \u200bLoss of SnC dopamine causes basal ganglia dysfunction.\u200b \u200b-\u200b \u200bSnC: movement,... For\u200b \u200bexample, many people who have no dopamine related genetic risk factors for ADHD still respond well\u200b \u200bto Ritalin and other DAT blockers to treat their ADHD\u200b \u200bDopamine deficit \u2192 increase dopamine \u2192 DAT blocker\u200b \u200bNorepinephrine deficit \u2192 increase norepinephrine \u2192 NET blocker\u200b \u200bHeritability\u200b \u200b-\u200b \u200bHeritability..."
+                }
+              ],
+              "role": "assistant"
+            },
+            {
+              "created_at": "2026-04-22T19:20:49Z",
+              "message_id": "msg_326dbc2cf668",
+              "role": "user",
+              "text": "what are basic neurotransmitter functions"
+            },
+            {
+              "answer_source": {
+                "evidence_match": "strong_match",
+                "fallback_reason": "invalid_response_json",
+                "matched_evidence_count": 2,
+                "model": null,
+                "path": "heuristic_fallback",
+                "provider": "deterministic_fallback",
+                "rate_limited_models": [],
+                "reasoning_enabled": false,
+                "reasoning_mode": null
+              },
+              "created_at": "2026-04-22T19:20:49Z",
+              "message_id": "msg_ecdd88c7dd9b",
+              "reply_sections": [
+                {
+                  "citations": [
+                    {
+                      "citation_id": "cit_a9a6e627618c162682913f64",
+                      "confidence": "high",
+                      "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+                      "material_title": "03133 Exam 3 Cheat sheet.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/preview",
+                      "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2",
+                      "slide_number": 2,
+                      "snippet_text": "\u2026binds to a receptor but blocks its activity\u200b, preventing the normal effect of a neurotransmitter or\u200b \u200bhormone. NALOXONE. LESS SIGNAL,\u200b\u200b# of receptors:\u200b\u200b\u2191 (upregulation),\u200b\u200bEffect on signal:\u200b\u200b\u2191 sensitivity over time\u200b \u200bAgonist:\u200b\u200bsubstance that\u200b\u200bbinds to a receptor and activates it\u200b, producing a biological effect (mimics t\u2026",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/source",
+                      "support_type": "explicit"
+                    },
+                    {
+                      "citation_id": "cit_059ad0ddf58b4ef290ee0d1a",
+                      "confidence": "high",
+                      "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+                      "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/preview",
+                      "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1",
+                      "slide_number": 1,
+                      "snippet_text": "\u2026of the cases, then the concordance rate = 300 / 400= 75%\u200b \u200bTourette Syndrome\u200b \u200bBasics: Motor and vocal tics present for at least a year, symptoms presenting under the age of 18.\u200b \u200bDopamine\u200b \u200bDopamine in Striatum\u200b \u200bIt inhibits stop cells and excites go cells, resulting in\u200b\u200bincreased movement\u200b \u200bDopamine in VTA -> Nucleu\u2026",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/source",
+                      "support_type": "explicit"
+                    }
+                  ],
+                  "heading": "Grounded answer",
+                  "support_status": "inferred_from_slides",
+                  "text": "\u200bParkinson\u2019s Disease\u200b \u200b-\u200b \u200bSecond most common neurological disorder.\u200b \u200b-\u200b \u200bCaused by degeneration of dopamine neurons in the substantia nigra pars compacta (SnC).\u200b \u200b-\u200b \u200bSymptoms: tremor, rigidity, reduced movement, shuffling gait.\u200b \u200b-\u200b \u200bLoss of SnC dopamine causes basal ganglia dysfunction.\u200b \u200b-\u200b \u200bSnC: movement,... For\u200b \u200bexample, many people who have no dopamine related genetic risk factors for ADHD still respond well\u200b \u200bto Ritalin and other DAT blockers to treat their ADHD\u200b \u200bDopamine deficit \u2192 increase dopamine \u2192 DAT blocker\u200b \u200bNorepinephrine deficit \u2192 increase norepinephrine \u2192 NET blocker\u200b \u200bHeritability\u200b \u200b-\u200b \u200bHeritability..."
+                }
+              ],
+              "role": "assistant"
+            }
+          ],
+          "title": "Chat 11:14:26 AM",
+          "workspace_id": "workspace_cd0fc75267fd"
+        },
         "conversation_adab45d0370a": {
           "conversation_id": "conversation_adab45d0370a",
           "created_at": "2026-04-20T21:13:30Z",
@@ -12572,6 +12724,61 @@
             {
               "created_at": "2026-04-21T16:58:59Z",
               "message_id": "msg_0c14b33d145b",
+              "reply_sections": [
+                {
+                  "citations": [
+                    {
+                      "citation_id": "cit_a9a6e627618c162682913f64",
+                      "confidence": "high",
+                      "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+                      "material_title": "03133 Exam 3 Cheat sheet.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/preview",
+                      "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2",
+                      "slide_number": 2,
+                      "snippet_text": "\u2026binds to a receptor but blocks its activity\u200b, preventing the normal effect of a neurotransmitter or\u200b \u200bhormone. NALOXONE. LESS SIGNAL,\u200b\u200b# of receptors:\u200b\u200b\u2191 (upregulation),\u200b\u200bEffect on signal:\u200b\u200b\u2191 sensitivity over time\u200b \u200bAgonist:\u200b\u200bsubstance that\u200b\u200bbinds to a receptor and activates it\u200b, producing a biological effect (mimics t\u2026",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/source",
+                      "support_type": "explicit"
+                    },
+                    {
+                      "citation_id": "cit_059ad0ddf58b4ef290ee0d1a",
+                      "confidence": "high",
+                      "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+                      "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/preview",
+                      "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1",
+                      "slide_number": 1,
+                      "snippet_text": "\u2026of the cases, then the concordance rate = 300 / 400= 75%\u200b \u200bTourette Syndrome\u200b \u200bBasics: Motor and vocal tics present for at least a year, symptoms presenting under the age of 18.\u200b \u200bDopamine\u200b \u200bDopamine in Striatum\u200b \u200bIt inhibits stop cells and excites go cells, resulting in\u200b\u200bincreased movement\u200b \u200bDopamine in VTA -> Nucleu\u2026",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/source",
+                      "support_type": "explicit"
+                    }
+                  ],
+                  "heading": "Grounded answer",
+                  "support_status": "inferred_from_slides",
+                  "text": "\u200bParkinson\u2019s Disease\u200b \u200b-\u200b \u200bSecond most common neurological disorder.\u200b \u200b-\u200b \u200bCaused by degeneration of dopamine neurons in the substantia nigra pars compacta (SnC).\u200b \u200b-\u200b \u200bSymptoms: tremor, rigidity, reduced movement, shuffling gait.\u200b \u200b-\u200b \u200bLoss of SnC dopamine causes basal ganglia dysfunction.\u200b \u200b-\u200b \u200bSnC: movement,... For\u200b \u200bexample, many people who have no dopamine related genetic risk factors for ADHD still respond well\u200b \u200bto Ritalin and other DAT blockers to treat their ADHD\u200b \u200bDopamine deficit \u2192 increase dopamine \u2192 DAT blocker\u200b \u200bNorepinephrine deficit \u2192 increase norepinephrine \u2192 NET blocker\u200b \u200bHeritability\u200b \u200b-\u200b \u200bHeritability..."
+                }
+              ],
+              "role": "assistant"
+            },
+            {
+              "created_at": "2026-04-22T20:06:42Z",
+              "message_id": "msg_ce0abfc20941",
+              "role": "user",
+              "text": "what are Basic neurotransmitter functions"
+            },
+            {
+              "answer_source": {
+                "evidence_match": "strong_match",
+                "fallback_reason": "invalid_response_json",
+                "matched_evidence_count": 2,
+                "model": null,
+                "path": "heuristic_fallback",
+                "provider": "deterministic_fallback",
+                "rate_limited_models": [],
+                "reasoning_enabled": false,
+                "reasoning_mode": null
+              },
+              "created_at": "2026-04-22T20:06:42Z",
+              "message_id": "msg_43ab67ce96ab",
               "reply_sections": [
                 {
                   "citations": [
@@ -12728,12 +12935,21 @@
           "created_at": "2026-04-20T22:11:53Z",
           "parent_artifact_id": null,
           "title": "mixed"
+        },
+        {
+          "active": false,
+          "artifact_id": "conversation_61650900fd6c",
+          "artifact_type": "conversation",
+          "created_at": "2026-04-22T15:14:26Z",
+          "parent_artifact_id": null,
+          "title": "Chat 11:14:26 AM"
         }
       ],
       "known_conversation_ids": [
         "conversation_013f91a51af2",
         "conversation_d618f7331070",
-        "conversation_adab45d0370a"
+        "conversation_adab45d0370a",
+        "conversation_61650900fd6c"
       ],
       "known_practice_set_ids": [
         "practice_set_e4c4fddb3b89",
@@ -12741,7 +12957,7 @@
         "practice_set_7411ebcac8c2"
       ],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T16:59:32Z",
+      "last_opened_at": "2026-04-22T20:06:43Z",
       "local_edits": {},
       "material_preferences": {
         "mat_2f09c1feaeca4fbe81e2ab67795171e4": "default",
@@ -13839,20 +14055,20 @@
       "selected_active_conversation_id": "conversation_adab45d0370a",
       "status": {
         "last_successful_sync": {
-          "content": "2026-04-21T16:59:00Z",
-          "learning": "2026-04-21T16:59:00Z"
+          "content": "2026-04-22T20:06:43Z",
+          "learning": "2026-04-22T20:06:43Z"
         },
         "services": {
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:06:43Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:06:43Z",
             "mode": "integrated"
           }
         },

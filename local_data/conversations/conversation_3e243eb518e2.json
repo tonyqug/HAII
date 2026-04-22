@@ -1,0 +1,51 @@
+{
+  "_meta": {
+    "evidence_bundle": null,
+    "grounding_input_mode": "integrated",
+    "include_annotations": true,
+    "material_ids": [
+      "mat_bb59052d364446d2a30319b565c099ae",
+      "mat_e9a0cd06468140ef9d0b7065c6b90adb",
+      "mat_8d42b5f497924ba7b92aabff1c8941ae"
+    ]
+  },
+  "conversation_id": "conversation_3e243eb518e2",
+  "created_at": "2026-04-22T20:30:16Z",
+  "grounding_mode": "strict_lecture_only",
+  "messages": [
+    {
+      "created_at": "2026-04-22T20:30:33Z",
+      "message_id": "msg_a5d69557a7b8",
+      "role": "user",
+      "text": "why does update use subtraction"
+    },
+    {
+      "answer_source": {
+        "attempted_models": [
+          "gemini-3-flash-preview"
+        ],
+        "evidence_match": "strong_match",
+        "matched_evidence_count": 3,
+        "model": "gemini-3-flash-preview",
+        "path": "llm",
+        "provider": "gemini",
+        "rate_limited_models": [],
+        "reasoning_enabled": true,
+        "reasoning_mode": "dynamic"
+      },
+      "created_at": "2026-04-22T20:30:33Z",
+      "message_id": "msg_683f8b618c35",
+      "reply_sections": [
+        {
+          "citations": [],
+          "heading": "Insufficient Evidence",
+          "support_status": "insufficient_evidence",
+          "text": "The provided lecture materials do not explain why the update rule uses subtraction. The evidence focuses on the process of backpropagation and the calculation of partial derivatives for weights in a deep network, but it does not describe the specific update equation or the logic behind the subtraction operation used in gradient-based optimization."
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "title": "Workspace Q&A",
+  "workspace_id": "workspace_f58b1a34802a"
+}

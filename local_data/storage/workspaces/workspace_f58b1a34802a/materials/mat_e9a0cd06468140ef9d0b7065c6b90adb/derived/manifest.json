@@ -1,0 +1,547 @@
+{
+  "material_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb",
+  "workspace_id": "workspace_f58b1a34802a",
+  "exported_at": "2026-04-22T20:29:28+00:00",
+  "material": {
+    "page_count": 53,
+    "slide_count": 53,
+    "ready_for_retrieval": true,
+    "previews_available": true,
+    "quality_overall": "medium",
+    "quality_notes": null,
+    "extraction_notes": "PDF text was extracted with PyMuPDF page parsing. No OCR text was fabricated.",
+    "converted_pdf_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\source\\lecture12-backprop.pdf"
+  },
+  "slides": [
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:1",
+      "slide_number": 1,
+      "title_guess": "Neural Networks",
+      "extracted_text": "Neural Networks\n+\nBackpropagation\n1\n10-301/10-601 Introduction to Machine Learning\nMatt Gormley\nLecture 12\nFeb. 18, 2026\nMachine Learning Department\nSchool of Computer Science\nCarnegie Mellon University",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0001.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:2",
+      "slide_number": 2,
+      "title_guess": "Reminders",
+      "extracted_text": "Reminders\n• Post-Exam/Quiz Followup:\n– Exam/Quiz Viewing\n– Exit Poll: Quiz 1 + Exam 1\n– Grade Summary 1\n• Homework 4: Logistic Regression\n– Out: Mon, Feb-16\n– Due: Wed, Feb-25 at 11:59pm\n4\n0\n100\n200\n300\n400\n1\n2\n3\n4\n5\n6\nHistorical Trend\nOH attendance\nExam Viewing attendance",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0002.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:3",
+      "slide_number": 3,
+      "title_guess": "BUILDING DEEPER NETWORKS",
+      "extracted_text": "BUILDING DEEPER NETWORKS\n6",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0003.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:4",
+      "slide_number": 4,
+      "title_guess": "Neural Network",
+      "extracted_text": "Neural Network\nExample: Neural Network with 2 \nHidden Layers and 2 Hidden Units\n7\n𝑥!\n𝑧!\n(!)\n𝑥$\n𝑥%\n𝑧$\n(!)\n𝛼!!\n(!)\n𝛼!$\n(!)\n𝛼!%\n(!)\n𝛼$!\n(!)\n𝛼$$\n(!)\n𝛼$%\n(!)\n𝑧!\n($)\n𝑧$\n($)\n𝛼!!\n($)\n𝛼!$\n($)\n𝛼$!\n($)\n𝛼$$\n($)\n𝑦\n𝛽!\n𝛽$\n𝑧!\n(!) =  σ(𝛼!!\n! 𝑥! + 𝛼!$\n! 𝑥$ + 𝛼!%\n! 𝑥% + 𝛼!&\n! )\n𝑧$\n(!) =  σ(𝛼$!\n! 𝑥! + 𝛼$$\n! 𝑥$ + 𝛼$%\n! 𝑥% + 𝛼$&\n! )\n𝑧!\n($) =  σ(𝛼!!\n$ 𝑧!\n(!) + 𝛼!$\n$ 𝑧$\n(!) + 𝛼!&\n$ )\n𝑧$\n($) =  σ(𝛼$!\n$ 𝑧!\n(!) + 𝛼$$\n$ 𝑧$\n(!) + 𝛼$&\n$ )\n𝑦\n=  σ(𝛽! 𝑧!\n($) + 𝛽$ 𝑧$\n($) + 𝛽& )",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0004.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:5",
+      "slide_number": 5,
+      "title_guess": "Neural Network (Matrix Form)",
+      "extracted_text": "Neural Network (Matrix Form)\nExample: Arbitrary Feed-forward Neural Network\n8\n𝒛(!) =  σ((𝜶! )'𝒙+ 𝒃(!))\n𝑥!\n𝑧!\n(!)\n𝑥$\n𝑥%\n𝑧$\n(!)\n𝜶(!)\n𝑧!\n($)\n𝑧$\n($)\n𝜶($)\n𝑦\n𝜷\n𝑧&!\n(!)\n…\n…\n𝑧&\"\n($)\n…\n𝒛($) =  σ((𝜶$ )'𝒛(!) + 𝒃($))\n𝑦=  σ((𝜷)'𝒛($) + 𝛽& )\n𝜶!  ∈ℝ(×*'\n𝒃(!) ∈ℝ*'\n𝜶$  ∈ℝ*'×*(\n𝒃($) ∈ℝ*(\n𝜷∈ℝ*(\n𝛽& ∈ℝ",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0005.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:6",
+      "slide_number": 6,
+      "title_guess": "Deeper Networks",
+      "extracted_text": "Deeper Networks\n12\n…\n…\nOutput\nInput\nHidden Layer 1\nQ: How many layers should we use?",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0006.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:7",
+      "slide_number": 7,
+      "title_guess": "Deeper Networks",
+      "extracted_text": "Deeper Networks\n13\n…\n…\nInput\nHidden Layer 1\n…\nOutput\nHidden Layer 2\nQ: How many layers should we use?",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0007.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:8",
+      "slide_number": 8,
+      "title_guess": "Q: How many layers should we use?",
+      "extracted_text": "Q: How many layers should we use?\nDeeper Networks\n14\n…\n…\nInput\nHidden Layer 1\n…\nHidden Layer 2\n…\nOutput\nHidden Layer 3",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0008.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:9",
+      "slide_number": 9,
+      "title_guess": "Deeper Networks",
+      "extracted_text": "Deeper Networks\n15\n…\n…\nOutput\nInput\nHidden Layer 1\nQ: How many layers should we use?\n• Theoretical answer:\n– A neural network with 1 hidden layer is a universal function \napproximator\n– Cybenko (1989): For any continuous function g(x), there \nexists a 1-hidden-layer neural net hθ(x) \ns.t. | hθ(x) – g(x) | < ϵ for all x, assuming sigmoid activation \nfunctions\n• Empirical answer:\n– Before 2006: “Deep networks (e.g. 3 or more hidden layers) \nare too hard to train”\n– After 2006: “Deep networks are easier to train than shallow \nnetworks (e.g. 2 or fewer layers) for many problems”\nBig caveat: You need to know and use the right tricks.",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0009.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:10",
+      "slide_number": 10,
+      "title_guess": "Feature Learning",
+      "extracted_text": "Feature Learning\n•\nTraditional feature \nengineering: build up \nlevels of abstraction \nby hand\n•\nDeep networks (e.g. \nconvolution \nnetworks): learn the \nincreasingly higher \nlevels of abstraction \nfrom data\n– each layer is a \nlearned feature \nrepresentation\n– sophistication \nincreases in higher \nlayers\n16\nFigures from Lee et al. (ICML 2009)\n…\n…\n…\n…\npixels\nlines\nparts\nobjects\ndecision",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0010.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:11",
+      "slide_number": 11,
+      "title_guess": "Feature Learning",
+      "extracted_text": "Feature Learning\n•\nTraditional feature \nengineering: build up \nlevels of abstraction \nby hand\n•\nDeep networks (e.g. \nconvolution \nnetworks): learn the \nincreasingly higher \nlevels of abstraction \nfrom data\n– each layer is a \nlearned feature \nrepresentation\n– sophistication \nincreases in higher \nlayers\n17\nFigures from Lee et al. (ICML 2009)\n…\n…\n…\n…\npixels\nlines\nparts\nobjects\nCBDN on Faces",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0011.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:12",
+      "slide_number": 12,
+      "title_guess": "Feature Learning",
+      "extracted_text": "Feature Learning\n•\nTraditional feature \nengineering: build up \nlevels of abstraction \nby hand\n•\nDeep networks (e.g. \nconvolution \nnetworks): learn the \nincreasingly higher \nlevels of abstraction \nfrom data\n– each layer is a \nlearned feature \nrepresentation\n– sophistication \nincreases in higher \nlayers\n18\nFigures from Lee et al. (ICML 2009)\n…\n…\n…\n…\npixels\nlines\nparts\nobjects\nCBDN on Cars",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0012.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:13",
+      "slide_number": 13,
+      "title_guess": "Neural Network Errors",
+      "extracted_text": "Neural Network Errors\nPoll Question 1: For which of the datasets \nbelow does there exist a one-hidden layer \nneural network that achieves zero \nclassification error? Select all that apply.\n19\nPoll Question 2: For which of the datasets \nbelow does there exist a one-hidden layer \nneural network for regression that achieves \nnearly zero MSE? Select all that apply.\nA)\nB)\nC)\nD)\nA)\nB)\nC)\nD)",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0013.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:14",
+      "slide_number": 14,
+      "title_guess": "Neural Network Architectures",
+      "extracted_text": "Neural Network Architectures\nEven for a basic Neural Network, there are many design \ndecisions to make:\n1.\n# of hidden layers (depth)\n2. # of units per hidden layer (width)\n3. Type of activation function (nonlinearity)\n4. Form of objective function\n5. How to initialize the parameters\n21",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0014.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:15",
+      "slide_number": 15,
+      "title_guess": "ACTIVATION FUNCTIONS",
+      "extracted_text": "ACTIVATION FUNCTIONS\n22",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0015.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:16",
+      "slide_number": 16,
+      "title_guess": "Activation Functions",
+      "extracted_text": "Activation Functions\n23\n…\n…\nOutput\nInput\nHidden Layer\nNeural Network with sigmoid \nactivation functions\n(F) Loss\nJ = 1\n2(y −y∗)2\n(E) Output (sigmoid)\ny =\n1\n1+2tT(−b)\n(D) Output (linear)\nb = !D\nj=0 βjzj\n(C) Hidden (sigmoid)\nzj =\n1\n1+2tT(−aj), ∀j\n(B) Hidden (linear)\naj = !M\ni=0 αjixi, ∀j\n(A) Input\nGiven xi, ∀i",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0016.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:17",
+      "slide_number": 17,
+      "title_guess": "Activation Functions",
+      "extracted_text": "Activation Functions\n24\nNeural Network with arbitrary \nnonlinear activation functions\n(F) Loss\nJ = 1\n2(y −y∗)2\n(E) Output (nonlinear)\ny = σ(b)\n(D) Output (linear)\nb = !D\nj=0 βjzj\n(C) Hidden (nonlinear)\nzj = σ(aj), ∀j\n(B) Hidden (linear)\naj = !M\ni=0 αjixi, ∀j\n(A) Input\nGiven xi, ∀i\n…\n…\nOutput\nInput\nHidden Layer",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0017.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:18",
+      "slide_number": 18,
+      "title_guess": "Activation Functions",
+      "extracted_text": "Activation Functions\nSo far, we’ve \nassumed that the \nactivation function \n(nonlinearity) is \nalways the sigmoid \nfunction…\n…but the sigmoid \nis not widely used \nin modern neural \nnetworks \n25\nSigmoid (aka. logistic) function\nHyperbolic tangent function",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0018.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:19",
+      "slide_number": 19,
+      "title_guess": "Activation Functions",
+      "extracted_text": "Activation Functions\n• sigmoid, σ(x)\n– output in range \n(0,1)\n– good for \nprobabilistic \noutputs\n• hyperbolic \ntangent, tanh(x)\n– similar shape to \nsigmoid, but \noutput in range (-\n1,+1)\n26\nSigmoid (aka. logistic) function\nHyperbolic tangent function",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0019.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:20",
+      "slide_number": 20,
+      "title_guess": "AI Stats 2010",
+      "extracted_text": "AI Stats 2010\nsigmoid \nvs. \ntanh\ndepth 5\nFigure from Glorot & Bentio (2010)\ndepth 5\ndepth 5\ndepth 5\ndepth 5",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0020.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:21",
+      "slide_number": 21,
+      "title_guess": "Activation Functions",
+      "extracted_text": "Activation Functions\n• Rectified Linear Unit \n(ReLU)\n– avoids the vanishing \ngradient problem\n– derivative is fast to \ncompute\n28",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0021.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:22",
+      "slide_number": 22,
+      "title_guess": "Activation Functions",
+      "extracted_text": "Activation Functions\n• Rectified Linear Unit \n(ReLU)\n– avoids the vanishing \ngradient problem\n– derivative is fast to \ncompute\n29\n• Exponential Linear \nUnit (ELU)\n– same as ReLU on \npositive inputs\n– unlike ReLU, allows \nnegative outputs and \nsmoothly transitions \nfor x < 0",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0022.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:23",
+      "slide_number": 23,
+      "title_guess": "Activation Functions",
+      "extracted_text": "Activation Functions\n30\n1. Training loss \nconverges \nfastest with \nELU\n2. ELU(x) yields \nlower test \nerror than \nReLU(x) on \nCIFAR-10\nImage Classification Benchmark (CIFAR-10)\nFigure from Clevert et al. (2016)",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0023.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:24",
+      "slide_number": 24,
+      "title_guess": "Neural Networks Objectives",
+      "extracted_text": "Neural Networks Objectives\nYou should be able to…\n• Explain the biological motivations for a neural network\n• Combine simpler models (e.g. linear regression, binary logistic \nregression, multinomial logistic regression) as components to \nbuild up feed-forward neural network architectures\n• Explain the reasons why a neural network can model nonlinear \ndecision boundaries for classification\n• Compare and contrast feature engineering with learning \nfeatures\n• Identify (some of) the options available when designing the \narchitecture of a neural network\n• Implement a feed-forward neural network\n31",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0024.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:25",
+      "slide_number": 25,
+      "title_guess": "LOSS FUNCTIONS & OUTPUT LAYERS",
+      "extracted_text": "LOSS FUNCTIONS & OUTPUT LAYERS\n33",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0025.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:26",
+      "slide_number": 26,
+      "title_guess": "A Recipe for",
+      "extracted_text": "A Recipe for \nMachine Learning\n3. Define goal:\n34\nBackground\n4. Train with SGD:\n(take small steps \nopposite the gradient)\nˆθ ≈argmin\nθ\nN\n!\ni=1\nℓ(hθ(x(i)), y(i))\nθ(t+1) = θ(t) −ηt∇ℓ(hθ(x(i)), y(i))\n1. Given training data:\n2. Choose each of these:\n– Decision function\n– Loss function\nD = {x(i), y(i)}N\ni=1\nˆy = hθ(x)\nℓ(ˆy, y) ∈R",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0026.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:27",
+      "slide_number": 27,
+      "title_guess": "A Recipe for",
+      "extracted_text": "A Recipe for \nMachine Learning\n3. Define goal:\n35\nBackground\n4. Train with SGD:\n(take small steps \nopposite the gradient)\nˆθ ≈argmin\nθ\nN\n!\ni=1\nℓ(hθ(x(i)), y(i))\nθ(t+1) = θ(t) −ηt∇ℓ(hθ(x(i)), y(i))\n1. Given training data:\n2. Choose each of these:\n– Decision function\n– Loss function\nD = {x(i), y(i)}N\ni=1\nˆy = hθ(x)\nℓ(ˆy, y) ∈R\nThe Loss Function\nWhich loss function you choose \ndepends on the problem you are \ntrying to solve",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0027.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:28",
+      "slide_number": 28,
+      "title_guess": "Neural Network for Classification",
+      "extracted_text": "Neural Network for Classification\n36\n(E) Output (sigmoid)\ny =\n1\n1+2tT(−b)\n(D) Output (linear)\nb = !D\nj=0 βjzj\n(C) Hidden (sigmoid)\nzj =\n1\n1+2tT(−aj), ∀j\n(B) Hidden (linear)\naj = !M\ni=0 αjixi, ∀j\n(A) Input\nGiven xi, ∀i\n…\n…\nOutput\nInput\nHidden Layer",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0028.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:29",
+      "slide_number": 29,
+      "title_guess": "Neural Network for Regression",
+      "extracted_text": "Neural Network for Regression\n37\n(D) Output (linear)\nb = !D\nj=0 βjzj\n(C) Hidden (sigmoid)\nzj =\n1\n1+2tT(−aj), ∀j\n(B) Hidden (linear)\naj = !M\ni=0 αjixi, ∀j\n(A) Input\nGiven xi, ∀i\ny\n…\n…\nOutput\nInput\nHidden Layer",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0029.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:30",
+      "slide_number": 30,
+      "title_guess": "Objective Functions for NNs",
+      "extracted_text": "Objective Functions for NNs\n38\n2.\nQuadratic Loss:\n– the same objective as Linear Regression\n– i.e. mean squared error\nFigure from Glorot & Bentio (2010)\nCross-entropy vs. Quadratic loss\n1.\nBinary Cross-Entropy:\n– the same objective as Binary Logistic Regression\n– i.e. negative log likelihood\n– This requires our output y to be a probability in [0,1]",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0030.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:31",
+      "slide_number": 31,
+      "title_guess": "Multiclass Output",
+      "extracted_text": "Multiclass Output\n39\nSoftmax:\n…\n…\nOutput\nInput\nHidden Layer\nyk =\n2tT(bk)\n!K\nl=1 2tT(bl)\n(F) Loss\nJ = !K\nk=1 y∗\nk HQ;(yk)\n(E) Output (softmax)\nyk =\n2tT(bk)\n!K\nl=1 2tT(bl)\n(D) Output (linear)\nbk = !D\nj=0 βkjzj ∀k\n(C) Hidden (nonlinear)\nzj = σ(aj), ∀j\n(B) Hidden (linear)\naj = !M\ni=0 αjixi, ∀j\n(A) Input\nGiven xi, ∀i\n…",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0031.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:32",
+      "slide_number": 32,
+      "title_guess": "Multiclass Output",
+      "extracted_text": "Multiclass Output\n40\nSoftmax:\n…\n…\nOutput\nInput\nHidden Layer\nyk =\n2tT(bk)\n!K\nl=1 2tT(bl)\n…",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0032.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:33",
+      "slide_number": 33,
+      "title_guess": "Objective Functions for NNs",
+      "extracted_text": "Objective Functions for NNs\n42\n3.\nCross-Entropy for Multiclass Outputs:\n– i.e. negative log likelihood for multiclass outputs\n– Suppose output is a random variable Y that takes one of K values\n– Let y(i) represent our true label as a one-hot vector:\n– Assume our model outputs a length K vector of probabilities:\n– Then we can write the log-likelihood of a single training example (x(i), y(i)) \nas:\n0\n0\n0\n0\n0\n…\n1\n0\n1\n5\n2\n6\n3\n…\n4\nK\ny(i) = \ny = softmax(fscores(x, θ))",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0033.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:34",
+      "slide_number": 34,
+      "title_guess": "Binary Classification with Neural Nets",
+      "extracted_text": "Binary Classification with Neural Nets\nPoll Question 3:\nTrue or False. Suppose we are given a binary \nclassification dataset D. Ignoring issues of \nnonconvexity, if we train a neural network with a \nsingle sigmoid output using cross-entropy loss:\nthen this will most likely learn the same classifier \nfunction as if we trained a neural network with \ntwo softmax-ed output units using a multi-class \ncross entropy loss: \nJustify your answer.\n45\nAnswer:",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0034.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:35",
+      "slide_number": 35,
+      "title_guess": "APPROACHES TO DIFFERENTIATION",
+      "extracted_text": "APPROACHES TO DIFFERENTIATION\nComputing Gradients\n46",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0035.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:36",
+      "slide_number": 36,
+      "title_guess": "A Recipe for",
+      "extracted_text": "A Recipe for \nMachine Learning\n3. Define goal:\n47\nBackground\n4. Train with SGD:\n(take small steps \nopposite the gradient)\nˆθ ≈argmin\nθ\nN\n!\ni=1\nℓ(hθ(x(i)), y(i))\nθ(t+1) = θ(t) −ηt∇ℓ(hθ(x(i)), y(i))\n1. Given training data:\n2. Choose each of these:\n– Decision function\n– Loss function\nD = {x(i), y(i)}N\ni=1\nˆy = hθ(x)\nℓ(ˆy, y) ∈R",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0036.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:37",
+      "slide_number": 37,
+      "title_guess": "A Recipe for",
+      "extracted_text": "A Recipe for \nMachine Learning\n3. Define goal:\n48\nBackground\n4. Train with SGD:\n(take small steps \nopposite the gradient)\nˆθ ≈argmin\nθ\nN\n!\ni=1\nℓ(hθ(x(i)), y(i))\nθ(t+1) = θ(t) −ηt∇ℓ(hθ(x(i)), y(i))\n1. Given training data:\n2. Choose each of these:\n– Decision function\n– Loss function\nD = {x(i), y(i)}N\ni=1\nˆy = hθ(x)\nℓ(ˆy, y) ∈R\nGradients\nBackpropagation can compute this \ngradient! \nAnd it’s a special case of a more \ngeneral algorithm called reverse-\nmode automatic differentiation that \ncan compute the gradient of any \ndifferentiable function efficiently!",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0037.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:38",
+      "slide_number": 38,
+      "title_guess": "Approaches to Differentiation",
+      "extracted_text": "Approaches to Differentiation\n• Question 1:\nWhen can we compute the gradients for an arbitrary neural \nnetwork?\n• Question 2:\nWhen can we make the gradient computation efficient?\n49\nTraining",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0038.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:39",
+      "slide_number": 39,
+      "title_guess": "Approaches to Differentiation",
+      "extracted_text": "Approaches to Differentiation\n1. Finite Difference Method\n•\nPro: Great for testing \nimplementations of \nbackpropagation\n•\nCon: Slow for high dimensional \ninputs / outputs\n•\nRequired: Ability to call the function \nf(x) on any input x\n2. Symbolic Differentiation\n•\nNote: The method you learned in high-\nschool\n•\nNote: Used by Mathematica / Wolfram \nAlpha / Maple\n•\nPro: Yields easily interpretable \nderivatives\n•\nCon: Leads to exponential computation \ntime if not carefully implemented\n•\nRequired: Mathematical expression \nthat defines f(x)\n50",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0039.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:40",
+      "slide_number": 40,
+      "title_guess": "Approaches to Differentiation",
+      "extracted_text": "Approaches to Differentiation\n3. Automatic Differentiation – Reverse Mode\n•\nNote: Called Backpropagation when \napplied to Neural Nets\n•\nPro: Computes partial derivatives of \none output f(x)i with respect to all \ninputs xj in time polynomial in the \ncomputation time of f(x)\n•\nCon: Slow for high dimensional \noutputs (e.g. vector-valued \nfunctions)\n•\nRequired: Algorithm for computing \nf(x)\n4. Automatic Differentiation - Forward Mode\n•\nNote: Easy to implement. Uses dual \nnumbers.\n•\nPro: Computes partial derivatives of \nall outputs f(x)i with respect to one \ninput xj in time polynomial in the \ncomputation time of f(x)\n•\nCon: Slow for high dimensional \ninputs (e.g. vector-valued x)\n•\nRequired: Algorithm for computing \nf(x)\n51",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0040.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:41",
+      "slide_number": 41,
+      "title_guess": "THE FINITE DIFFERENCE METHOD",
+      "extracted_text": "THE FINITE DIFFERENCE METHOD\n52",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0041.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:42",
+      "slide_number": 42,
+      "title_guess": "Finite Difference Method",
+      "extracted_text": "Finite Difference Method\nNotes:\n•\nSuffers from issues of \nfloating point precision, in \npractice\n•\nTypically only appropriate \nto use on small examples \nwith an appropriately \nchosen epsilon\n53\nTraining",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0042.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:43",
+      "slide_number": 43,
+      "title_guess": "Differentiation Quiz",
+      "extracted_text": "Differentiation Quiz\n54\nTraining\nA.\n[42, -72]\nB.\n[72, -42]\nC.\n[100, 127]\nD.\n[127, 100]\nE.\n[1208, 810]\nF.\n[810, 1208]\nG.\n[1505, 94]\nH.\n[94, 1505]\nAnswer: Answers below are in the form [dy/dx, dy/dz]\nPoll Question 4: Differentiation Quiz #1\nSuppose x = 2 and z = 3, what are dy/dx and dy/dz for the \nfunction below? Round your answer to the nearest \ninteger.\nSpeed Quiz:\n2 minute time limit.\nToxic Option",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0043.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:44",
+      "slide_number": 44,
+      "title_guess": "Differentiation Quiz",
+      "extracted_text": "Differentiation Quiz\nDifferentiation Quiz #2:\n57\nTraining\n…\n…\n…",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0044.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:45",
+      "slide_number": 45,
+      "title_guess": "THE CHAIN RULE OF CALCULUS",
+      "extracted_text": "THE CHAIN RULE OF CALCULUS\n58",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0045.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:46",
+      "slide_number": 46,
+      "title_guess": "Chain Rule",
+      "extracted_text": "Chain Rule\n59\nTraining\nDefinition 1:\nDefinition 2:\nDefinition 3:\nGiven\nComputation\nGraph\nChain Rule",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0046.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:47",
+      "slide_number": 47,
+      "title_guess": "Chain Rule",
+      "extracted_text": "Chain Rule\n63\nTraining\ny = g(u) and u = h(x).\ndyi\ndxk\n=\nJ\nX\nj=1\ndyi\nduj\nduj\ndxk\n,\n8i, k\nChain Rule:\nGiven: \n…\nBackpropagation \nis just repeated \napplication of the \nchain rule from \nCalculus 101.\nDefinition 4:",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0047.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:48",
+      "slide_number": 48,
+      "title_guess": "FORWARD COMPUTATION FOR A",
+      "extracted_text": "FORWARD COMPUTATION FOR A \nCOMPUTATION GRAPH\nAlgorithm\n64",
+      "extraction_quality": "medium",
+      "quality_notes": "Text extraction was partial or noisy.",
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0048.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:49",
+      "slide_number": 49,
+      "title_guess": "Backpropagation",
+      "extracted_text": "Backpropagation\n65\nTraining\nNow let’s solve this using \nbackpropagation!\nDifferentiation Quiz #1:\nSuppose x = 2 and z = 3, what are dy/dx and dy/dz for the \nfunction below? Round your answer to the nearest \ninteger.\nSpeed Quiz:\n2 minute time limit.",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0049.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:50",
+      "slide_number": 50,
+      "title_guess": "Given:",
+      "extracted_text": "66\nGiven:\nForward Computation:\nComputation Graph:\nBackward Computation\ny = exp(xz) +\nxz\nlog(x) + sin(log(x))\nxz",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0050.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:51",
+      "slide_number": 51,
+      "title_guess": "Backpropagation",
+      "extracted_text": "Backpropagation\n70\nTraining\nUpdates for \nBackpropagation:\ngx = ∂y\n∂x =\nK\n!\nk=1\n∂y\n∂uk\n∂uk\n∂x\n=\nK\n!\nk=1\nguk\n∂uk\n∂x\nBackprop is efficient \nb/c of reuse in the \nforward pass and \nthe backward pass.",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0051.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:52",
+      "slide_number": 52,
+      "title_guess": "BACKPROPAGATION FOR BINARY LOGISTIC",
+      "extracted_text": "BACKPROPAGATION FOR BINARY LOGISTIC \nREGRESSION\nAlgorithm\n71",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0052.png"
+    },
+    {
+      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:53",
+      "slide_number": 53,
+      "title_guess": "Backpropagation",
+      "extracted_text": "Backpropagation\n72\nTraining\n…\nOutput\nInput\nθ1\nθ2\nθ3\nθM\nCase 1:\nLogistic \nRegression\nBackward\ngy = y∗\ny + (1 −y∗)\ny −1\nga = gy\n∂y\n∂a, ∂y\n∂a =\nexp(−a)\n(exp(−a) + 1)2\ngθj = ga\n∂a\n∂θj\n, ∂a\n∂θj\n= xj\ngxj = ga\n∂a\n∂xj\n, ∂a\n∂xj\n= θj\nComputation Graph\nForward\nJ = y∗log y + (1 −y∗) log(1 −y)\ny =\n1\n1 + exp(−a)\na =\nD\n!\nj=0\nθjxj\nQuestion: How do we compute this?\nAnswer:",
+      "extraction_quality": "high",
+      "quality_notes": null,
+      "has_text": true,
+      "preview_relpath": "storage\\workspaces\\workspace_f58b1a34802a\\materials\\mat_e9a0cd06468140ef9d0b7065c6b90adb\\previews\\slide-0053.png"
+    }
+  ]
+}

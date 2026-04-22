@@ -1455,6 +1455,39 @@
       "user_action": null,
       "workspace_id": "workspace_119cfa5ac40c"
     },
+    "job_a26cc0119f6d": {
+      "context": {
+        "conversation_id": "conversation_adab45d0370a",
+        "grounding_mode": "strict_lecture_only",
+        "message_text": "what are basic neurotransmitter function",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-22T20:11:27Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_a26cc0119f6d",
+      "message": "Conversation reply created.",
+      "operation": "conversation_message",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_b678afbeb9f2",
+      "result_id": "msg_18dd7e819026",
+      "result_type": "message",
+      "service": "learning",
+      "stage": "done",
+      "status": "succeeded",
+      "updated_at": "2026-04-22T20:11:43Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_cd0fc75267fd"
+    },
     "job_ab374bcf40d3": {
       "context": {
         "conversation_id": "conversation_adab45d0370a",
@@ -2076,7 +2109,7 @@
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T16:59:00Z",
+      "last_opened_at": "2026-04-22T20:11:44Z",
       "local_edits": {},
       "material_preferences": {
         "material_057153c6600f": "focus",
@@ -2162,13 +2195,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:11:44Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:11:44Z",
             "mode": "integrated"
           }
         },
@@ -2209,7 +2242,7 @@
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T16:59:00Z",
+      "last_opened_at": "2026-04-22T20:11:44Z",
       "local_edits": {},
       "material_preferences": {},
       "material_sync_annotations": {},
@@ -2227,13 +2260,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:11:44Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:11:44Z",
             "mode": "integrated"
           }
         },
@@ -2393,7 +2426,7 @@
       ],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T16:59:00Z",
+      "last_opened_at": "2026-04-22T20:11:45Z",
       "local_edits": {},
       "material_preferences": {
         "material_753ac7b44e1e": "default",
@@ -2512,13 +2545,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:11:44Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:11:44Z",
             "mode": "integrated"
           }
         },
@@ -2760,7 +2793,7 @@
       ],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T16:59:00Z",
+      "last_opened_at": "2026-04-22T20:11:45Z",
       "local_edits": {},
       "material_preferences": {
         "mat_0d4cf2e5271346b2afc8b1a4422e6a0e": "default",
@@ -11305,13 +11338,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:11:44Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:11:44Z",
             "mode": "integrated"
           }
         },
@@ -12274,7 +12307,7 @@
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T16:59:00Z",
+      "last_opened_at": "2026-04-22T20:11:45Z",
       "local_edits": {},
       "material_preferences": {},
       "material_sync_annotations": {},
@@ -12292,13 +12325,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:11:44Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:11:44Z",
             "mode": "integrated"
           }
         },
@@ -12410,7 +12443,7 @@
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T16:59:00Z",
+      "last_opened_at": "2026-04-22T20:11:45Z",
       "local_edits": {},
       "material_preferences": {
         "material_f90e97c0bfa9": "default"
@@ -12461,13 +12494,13 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:11:44Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:11:44Z",
             "mode": "integrated"
           }
         },
@@ -12606,6 +12639,61 @@
                 }
               ],
               "role": "assistant"
+            },
+            {
+              "created_at": "2026-04-22T20:11:41Z",
+              "message_id": "msg_b43c90c1fd4a",
+              "role": "user",
+              "text": "what are basic neurotransmitter function"
+            },
+            {
+              "answer_source": {
+                "evidence_match": "strong_match",
+                "fallback_reason": "invalid_response_json",
+                "matched_evidence_count": 2,
+                "model": null,
+                "path": "heuristic_fallback",
+                "provider": "deterministic_fallback",
+                "rate_limited_models": [],
+                "reasoning_enabled": false,
+                "reasoning_mode": null
+              },
+              "created_at": "2026-04-22T20:11:41Z",
+              "message_id": "msg_18dd7e819026",
+              "reply_sections": [
+                {
+                  "citations": [
+                    {
+                      "citation_id": "cit_3463e4610467e7eec5e7e0ca",
+                      "confidence": "high",
+                      "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+                      "material_title": "03133 Exam 3 Cheat sheet.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/preview",
+                      "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2",
+                      "slide_number": 2,
+                      "snippet_text": "\u2026ed movement, shuffling gait.\u200b \u200b-\u200b \u200bLoss of SnC dopamine causes basal ganglia dysfunction.\u200b \u200b-\u200b \u200bSnC: movement, VTA: mood and attention\u200b \u200b-\u200b \u200bOther DA-related disorders: ADHD, depression, anxiety, OCD, Tourette\u2019s, addiction.\u200b \u200b-\u200b \u200bL-dopa / dopamine replacement,\u200b\u200bTaken several times\u200b\u200ba day.Often works only for 5\u201310 years\u2026",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/source",
+                      "support_type": "explicit"
+                    },
+                    {
+                      "citation_id": "cit_059ad0ddf58b4ef290ee0d1a",
+                      "confidence": "high",
+                      "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+                      "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/preview",
+                      "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1",
+                      "slide_number": 1,
+                      "snippet_text": "\u2026of the cases, then the concordance rate = 300 / 400= 75%\u200b \u200bTourette Syndrome\u200b \u200bBasics: Motor and vocal tics present for at least a year, symptoms presenting under the age of 18.\u200b \u200bDopamine\u200b \u200bDopamine in Striatum\u200b \u200bIt inhibits stop cells and excites go cells, resulting in\u200b\u200bincreased movement\u200b \u200bDopamine in VTA -> Nucleu\u2026",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/source",
+                      "support_type": "explicit"
+                    }
+                  ],
+                  "heading": "Grounded answer",
+                  "support_status": "inferred_from_slides",
+                  "text": "The slides connect Dopamine Snc to receptor, compensation, receptors, and pain. The slides connect Medicine Personalized to dopamine, genetic, adhd, and ocd."
+                }
+              ],
+              "role": "assistant"
             }
           ],
           "title": "Chat 5:13:30 PM",
@@ -12741,7 +12829,7 @@
         "practice_set_7411ebcac8c2"
       ],
       "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-21T16:59:32Z",
+      "last_opened_at": "2026-04-22T20:11:44Z",
       "local_edits": {},
       "material_preferences": {
         "mat_2f09c1feaeca4fbe81e2ab67795171e4": "default",
@@ -13839,20 +13927,20 @@
       "selected_active_conversation_id": "conversation_adab45d0370a",
       "status": {
         "last_successful_sync": {
-          "content": "2026-04-21T16:59:00Z",
-          "learning": "2026-04-21T16:59:00Z"
+          "content": "2026-04-22T20:11:43Z",
+          "learning": "2026-04-22T20:11:44Z"
         },
         "services": {
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:11:44Z",
             "mode": "integrated"
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-21T16:59:00Z",
+            "last_checked_at": "2026-04-22T20:11:44Z",
             "mode": "integrated"
           }
         },

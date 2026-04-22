@@ -105,6 +105,7 @@ class OptionalGeminiClient:
             "attempted_models": [],
             "rate_limited_models": [],
             "failure_reason": None,
+            "failure_detail": None,
             "model_failures": [],
             "raw_response_preview": None,
         }
@@ -184,6 +185,7 @@ class OptionalGeminiClient:
         if not self.configured:
             self.last_call_info["generation_path"] = "disabled"
             self.last_call_info["failure_reason"] = "gemini_not_configured"
+            self.last_call_info["failure_detail"] = "GEMINI_API_KEY is not configured."
             LOGGER.warning("Gemini generation is disabled because GEMINI_API_KEY is not configured.")
             return None
 
@@ -222,6 +224,7 @@ class OptionalGeminiClient:
                             time.sleep(2 ** attempt)
                             continue
                         self.last_call_info["failure_reason"] = "request_exception"
+                        self.last_call_info["failure_detail"] = str(exc)
                         self._record_model_failure(
                             model,
                             "request_exception",
@@ -242,6 +245,7 @@ class OptionalGeminiClient:
                         preview = self._response_detail_preview(response)
                         self.last_call_info["rate_limited_models"].append(model)
                         self.last_call_info["failure_reason"] = "rate_limit_exceeded"
+                        self.last_call_info["failure_detail"] = preview or f"HTTP {response.status_code} rate limit response."
                         self._record_model_failure(
                             model,
                             "rate_limit_exceeded",
@@ -260,6 +264,7 @@ class OptionalGeminiClient:
                             continue
                         preview = self._response_detail_preview(response)
                         self.last_call_info["failure_reason"] = "service_unavailable"
+                        self.last_call_info["failure_detail"] = preview or f"HTTP {response.status_code} service unavailable response."
                         self._record_model_failure(
                             model,
                             "service_unavailable",
@@ -279,6 +284,7 @@ class OptionalGeminiClient:
                         reason = self._failure_reason_for_response(response)
                         preview = self._response_detail_preview(response)
                         self.last_call_info["failure_reason"] = reason
+                        self.last_call_info["failure_detail"] = preview or f"HTTP {response.status_code} response."
                         self._record_model_failure(
                             model,
                             reason,
@@ -319,6 +325,7 @@ class OptionalGeminiClient:
                     except ValueError:
                         preview = self._response_detail_preview(response)
                         self.last_call_info["failure_reason"] = "invalid_response_json"
+                        self.last_call_info["failure_detail"] = preview or "Gemini returned an HTTP body that was not valid JSON."
                         self._record_model_failure(
                             model,
                             "invalid_response_json",
@@ -339,6 +346,7 @@ class OptionalGeminiClient:
                     if not text:
                         preview = safe_excerpt(json.dumps(data, ensure_ascii=False), 400)
                         self.last_call_info["failure_reason"] = "empty_response"
+                        self.last_call_info["failure_detail"] = preview or "Gemini returned no text parts."
                         self._record_model_failure(
                             model,
                             "empty_response",
@@ -357,6 +365,7 @@ class OptionalGeminiClient:
                             "reasoning_enabled": bool(thinking_variant),
                             "reasoning_mode": "dynamic" if thinking_variant else None,
                             "failure_reason": None,
+                            "failure_detail": None,
                             "raw_response_preview": safe_excerpt(text, 400),
                         }
                     )
@@ -374,8 +383,10 @@ class OptionalGeminiClient:
 
         if self.last_call_info["rate_limited_models"]:
             self.last_call_info["failure_reason"] = "rate_limit_exhausted"
+            self.last_call_info["failure_detail"] = self.last_call_info.get("failure_detail") or "All configured Gemini models returned rate-limit responses."
         elif not self.last_call_info["failure_reason"]:
             self.last_call_info["failure_reason"] = "llm_generation_failed"
+            self.last_call_info["failure_detail"] = self.last_call_info.get("failure_detail") or "Gemini generation did not return usable content."
         LOGGER.warning(
             "Gemini generation failed after models %s with reason=%s.",
             self.last_call_info["attempted_models"],
@@ -573,8 +584,10 @@ class GroundedGenerator:
                 "reasoning_mode": info.get("reasoning_mode"),
                 "matched_evidence_count": matched_evidence_count,
                 "evidence_match": evidence_match,
+                "attempted_models": list(info.get("attempted_models") or []),
                 "rate_limited_models": list(info.get("rate_limited_models") or []),
             }
+        info = copy.deepcopy(llm_call_info or getattr(self.gemini, "last_call_info", {}) or {})
         return {
             "path": "heuristic_fallback",
             "provider": "deterministic_fallback",
@@ -583,8 +596,10 @@ class GroundedGenerator:
             "reasoning_mode": None,
             "matched_evidence_count": matched_evidence_count,
             "evidence_match": evidence_match,
-            "rate_limited_models": list((llm_call_info or {}).get("rate_limited_models") or []),
+            "attempted_models": list(info.get("attempted_models") or []),
+            "rate_limited_models": list(info.get("rate_limited_models") or []),
             "fallback_reason": fallback_reason or self._default_chat_fallback_reason(),
+            "fallback_detail": info.get("failure_detail"),
         }
 
     def _with_conversation_answer_source(

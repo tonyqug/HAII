@@ -145,6 +145,7 @@ function renderAnswerSource(message) {
   const isLlm = source.path === 'llm';
   const matchedCount = Number(source.matched_evidence_count || 0);
   const rateLimitedModels = source.rate_limited_models || [];
+  const attemptedModels = source.attempted_models || [];
   const badges = [
     badge(isLlm ? 'LLM answer' : 'Deterministic fallback', isLlm ? 'ok' : 'warn'),
     badge(`${matchedCount} matched source${matchedCount === 1 ? '' : 's'}`, matchedCount ? 'ok' : 'warn'),
@@ -171,6 +172,13 @@ function renderAnswerSource(message) {
   if (!isLlm && source.fallback_reason) {
     detail += ` Reason: ${escapeHtml(formatFallbackReason(source.fallback_reason))}.`;
   }
+  const technicalDetails = [];
+  if (!isLlm && source.fallback_detail) {
+    technicalDetails.push(`Technical detail: ${escapeHtml(source.fallback_detail)}`);
+  }
+  if (!isLlm && attemptedModels.length) {
+    technicalDetails.push(`Tried models: ${escapeHtml(attemptedModels.join(', '))}`);
+  }
 
   return `
     <div class="answer-source-card ${isLlm ? 'llm' : 'fallback'}">
@@ -184,6 +192,7 @@ function renderAnswerSource(message) {
         </div>
       </div>
       <div class="small">${detail}</div>
+      ${technicalDetails.length ? `<div class="small muted">${technicalDetails.join(' ')}</div>` : ''}
       <div class="small muted">${escapeHtml(summarizeAnswerComposition(message))}</div>
     </div>
   `;

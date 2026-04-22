@@ -59,6 +59,7 @@ class GeminiPrimaryClient(OptionalGeminiClient):
             if isinstance(payload, dict):
                 return payload
         self.last_call_info["failure_reason"] = "invalid_response_json"
+        self.last_call_info["failure_detail"] = "Gemini returned text that could not be parsed as JSON."
         self.last_call_info["raw_response_preview"] = self.last_call_info.get("raw_response_preview") or text[:400]
         LOGGER.warning("Gemini returned text that could not be parsed as JSON. Preview: %s", text[:400])
         return None
@@ -68,6 +69,37 @@ class GroundedGenerator(HeuristicGroundedGenerator):
     def __init__(self, settings: Settings):
         super().__init__(settings)
         self.gemini = GeminiPrimaryClient(settings)
+
+    def _record_gemini_failure(self, reason: str, detail: str, *, payload: Any = None) -> None:
+        info = copy.deepcopy(getattr(self.gemini, "last_call_info", {}) or {})
+        info["failure_reason"] = reason
+        info["failure_detail"] = detail
+        if payload is not None and not info.get("raw_response_preview"):
+            try:
+                info["raw_response_preview"] = safe_excerpt(json.dumps(payload, ensure_ascii=False), 400)
+            except Exception:
+                info["raw_response_preview"] = safe_excerpt(str(payload), 400)
+        self.gemini.last_call_info = info
+
+    def _reject_gemini_output(self, artifact_name: str, detail: str, *, payload: Any = None, reason: str = "invalid_response_json_payload") -> None:
+        self._record_gemini_failure(reason, detail, payload=payload)
+        preview = (getattr(self.gemini, "last_call_info", {}) or {}).get("raw_response_preview")
+        if preview:
+            LOGGER.warning("Rejecting Gemini %s output: %s Preview: %s", artifact_name, detail, preview)
+            return None
+        LOGGER.warning("Rejecting Gemini %s output: %s", artifact_name, detail)
+        return None
+
+    def _log_gemini_fallback(self, artifact_name: str, fallback_name: str) -> None:
+        gemini_failure = copy.deepcopy(getattr(self.gemini, "last_call_info", {}) or {})
+        LOGGER.warning(
+            "Falling back to %s for %s because Gemini failed with reason=%s detail=%s after models=%s.",
+            fallback_name,
+            artifact_name,
+            gemini_failure.get("failure_reason") or "llm_generation_failed",
+            gemini_failure.get("failure_detail"),
+            gemini_failure.get("attempted_models") or [],
+        )
 
     # --------------------------
     # Gemini-backed study plans
@@ -95,6 +127,8 @@ class GroundedGenerator(HeuristicGroundedGenerator):
         if artifact is not None:
             artifact.setdefault("_meta", {})["generation_path"] = "gemini"
             return artifact
+        if self.gemini.configured:
+            self._log_gemini_fallback("study plan generation", "heuristic fallback")
         artifact = super().build_study_plan(
             bundle=bundle,
             topic_text=topic_text,
@@ -173,23 +207,39 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             max_output_tokens=1800,
         )
         if not isinstance(payload, dict):
-            return None
+            return self._reject_gemini_output("study plan", "Expected a top-level JSON object for the study plan response.", payload=payload)
 
         prerequisites_raw = payload.get("prerequisites") or []
         sequence_raw = payload.get("study_sequence") or []
         mistakes_raw = payload.get("common_mistakes") or []
         if len(prerequisites_raw) < 3 or len(sequence_raw) < 1 or len(mistakes_raw) < 3:
-            return None
+            return self._reject_gemini_output(
+                "study plan",
+                (
+                    "Expected at least 3 prerequisites, 1 study_sequence step, and 3 common_mistakes, "
+                    f"but received {len(prerequisites_raw)}, {len(sequence_raw)}, and {len(mistakes_raw)}."
+                ),
+                payload=payload,
+            )
 
         prerequisites: List[Dict[str, Any]] = []
         prereq_ids: List[str] = []
-        for raw in prerequisites_raw[:5]:
+        for index, raw in enumerate(prerequisites_raw[:5], start=1):
             if not isinstance(raw, dict):
-                return None
+                return self._reject_gemini_output(
+                    "study plan",
+                    f"Prerequisite #{index} was not a JSON object.",
+                    payload=payload,
+                )
             citations = self._citation_objects(raw.get("citation_ids"), citation_index)
+            raw_status = self._safe_text(raw.get("support_status"))
+            if raw_status in {"slide_grounded", "inferred_from_slides"} and not citations:
+                return self._reject_gemini_output(
+                    "study plan",
+                    f"Prerequisite #{index} claimed grounded support but did not reference any allowed citation_ids.",
+                    payload=payload,
+                )
             status = self._normalize_support_status(raw.get("support_status"), citations, grounding_mode, allow_external=True)
-            if status in {"slide_grounded", "inferred_from_slides"} and not citations:
-                return None
             prereq_id = make_id("prereq")
             prereq_ids.append(prereq_id)
             prerequisites.append(
@@ -205,11 +255,20 @@ class GroundedGenerator(HeuristicGroundedGenerator):
         study_sequence: List[Dict[str, Any]] = []
         for index, raw in enumerate(sequence_raw[:6], start=1):
             if not isinstance(raw, dict):
-                return None
+                return self._reject_gemini_output(
+                    "study plan",
+                    f"Study sequence step #{index} was not a JSON object.",
+                    payload=payload,
+                )
             citations = self._citation_objects(raw.get("citation_ids"), citation_index)
+            raw_status = self._safe_text(raw.get("support_status"))
+            if raw_status in {"slide_grounded", "inferred_from_slides"} and not citations:
+                return self._reject_gemini_output(
+                    "study plan",
+                    f"Study sequence step #{index} claimed grounded support but did not reference any allowed citation_ids.",
+                    payload=payload,
+                )
             status = self._normalize_support_status(raw.get("support_status"), citations, grounding_mode, allow_external=True)
-            if status in {"slide_grounded", "inferred_from_slides"} and not citations:
-                return None
             depends_on_indexes = raw.get("depends_on_prereq_indexes") or []
             depends_on = [
                 prereq_ids[int(value) - 1]
@@ -243,13 +302,22 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             )
 
         common_mistakes: List[Dict[str, Any]] = []
-        for raw in mistakes_raw[:3]:
+        for index, raw in enumerate(mistakes_raw[:3], start=1):
             if not isinstance(raw, dict):
-                return None
+                return self._reject_gemini_output(
+                    "study plan",
+                    f"Common mistake #{index} was not a JSON object.",
+                    payload=payload,
+                )
             citations = self._citation_objects(raw.get("citation_ids"), citation_index)
+            raw_status = self._safe_text(raw.get("support_status"))
+            if raw_status in {"slide_grounded", "inferred_from_slides"} and not citations:
+                return self._reject_gemini_output(
+                    "study plan",
+                    f"Common mistake #{index} claimed grounded support but did not reference any allowed citation_ids.",
+                    payload=payload,
+                )
             status = self._normalize_support_status(raw.get("support_status"), citations, grounding_mode, allow_external=True)
-            if status in {"slide_grounded", "inferred_from_slides"} and not citations:
-                return None
             common_mistakes.append(
                 {
                     "item_id": make_id("mistake"),
@@ -283,7 +351,11 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             all_citations.extend(section.get("citations") or [])
         cited_slides = distinct_slide_numbers(all_citations)
         if not cited_slides and concept_records:
-            return None
+            return self._reject_gemini_output(
+                "study plan",
+                "The study plan response did not preserve any grounded slide citations.",
+                payload=payload,
+            )
         omitted_or_low = sorted(
             set(accessor.distinct_slide_numbers()) - set(cited_slides)
             | set(accessor.low_confidence_slides())
@@ -353,9 +425,10 @@ class GroundedGenerator(HeuristicGroundedGenerator):
                 return reply
         gemini_failure = copy.deepcopy(getattr(self.gemini, "last_call_info", {}) or {})
         LOGGER.warning(
-            "Falling back to deterministic chat generation for query=%r because Gemini failed with reason=%s after models=%s.",
+            "Falling back to deterministic chat generation for query=%r because Gemini failed with reason=%s detail=%s after models=%s.",
             normalized_message[:120],
             gemini_failure.get("failure_reason") or self._default_chat_fallback_reason(),
+            gemini_failure.get("failure_detail"),
             gemini_failure.get("attempted_models") or [],
         )
         return self._with_conversation_answer_source(
@@ -425,18 +498,31 @@ class GroundedGenerator(HeuristicGroundedGenerator):
         )
         llm_call_info = copy.deepcopy(getattr(self.gemini, "last_call_info", {}) or {})
         if not isinstance(payload, dict):
-            return None
+            return self._reject_gemini_output("chat reply", "Expected a top-level JSON object for the chat response.", payload=payload)
 
         sections = []
-        for raw in payload.get("reply_sections") or []:
+        for index, raw in enumerate(payload.get("reply_sections") or [], start=1):
             if not isinstance(raw, dict):
-                return None
+                return self._reject_gemini_output(
+                    "chat reply",
+                    f"Reply section #{index} was not a JSON object.",
+                    payload=payload,
+                )
             citations = self._citation_objects(raw.get("citation_ids"), citation_index, allowed_ids=set(allowed_citation_ids))
+            raw_status = self._safe_text(raw.get("support_status"))
+            if raw_status in {"slide_grounded", "inferred_from_slides"} and not citations:
+                return self._reject_gemini_output(
+                    "chat reply",
+                    f"Reply section #{index} claimed grounded support but did not reference any allowed citation_ids.",
+                    payload=payload,
+                )
             status = self._normalize_support_status(raw.get("support_status"), citations, grounding_mode, allow_external=True)
-            if status in {"slide_grounded", "inferred_from_slides"} and not citations:
-                return None
             if status == "external_supplement" and grounding_mode == "strict_lecture_only":
-                return None
+                return self._reject_gemini_output(
+                    "chat reply",
+                    f"Reply section #{index} returned external_supplement in strict_lecture_only mode.",
+                    payload=payload,
+                )
             section = {
                 "heading": self._safe_text(raw.get("heading"), fallback="Grounded answer" if citations else "Answer"),
                 "text": self._safe_text(raw.get("text"), fallback="I could not form a reliable grounded answer from the provided evidence."),
@@ -448,14 +534,22 @@ class GroundedGenerator(HeuristicGroundedGenerator):
                     "Rejecting Gemini chat reply because it repeated source material directly for query=%r.",
                     normalized_message[:120],
                 )
-                self.gemini.last_call_info["failure_reason"] = "verbatim_evidence_repetition"
-                return None
+                return self._reject_gemini_output(
+                    "chat reply",
+                    f"Reply section #{index} repeated source material too closely instead of paraphrasing it.",
+                    payload=payload,
+                    reason="verbatim_evidence_repetition",
+                )
             sections.append(section)
 
         if not sections:
-            return None
+            return self._reject_gemini_output("chat reply", "No reply_sections were returned.", payload=payload)
         if not any(section["support_status"] in {"slide_grounded", "inferred_from_slides", "insufficient_evidence"} for section in sections):
-            return None
+            return self._reject_gemini_output(
+                "chat reply",
+                "The chat response did not include any grounded or insufficient_evidence section.",
+                payload=payload,
+            )
 
         if grounding_mode == "lecture_with_fallback" and any(
             section["support_status"] in {"slide_grounded", "inferred_from_slides"} for section in sections
@@ -540,6 +634,8 @@ class GroundedGenerator(HeuristicGroundedGenerator):
         if artifact is not None:
             artifact.setdefault("_meta", {})["generation_path"] = "gemini"
             return artifact
+        if self.gemini.configured:
+            self._log_gemini_fallback("practice set generation", "heuristic fallback")
         artifact = super().build_practice_set(
             bundle=bundle,
             topic_text=topic_text,
@@ -632,19 +728,31 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             max_output_tokens=2200,
         )
         if not isinstance(payload, dict):
-            return None
+            return self._reject_gemini_output("practice set", "Expected a top-level JSON object for the practice set response.", payload=payload)
 
         raw_questions = payload.get("questions") or []
         if len(raw_questions) < question_count:
-            return None
+            return self._reject_gemini_output(
+                "practice set",
+                f"Expected at least {question_count} questions, but received {len(raw_questions)}.",
+                payload=payload,
+            )
         expected_types = self._question_types_for_mode(generation_mode, question_count, template_items_present=bool(template_material_id))
         questions = []
         for index, raw in enumerate(raw_questions[:question_count], start=1):
             if not isinstance(raw, dict):
-                return None
+                return self._reject_gemini_output(
+                    "practice set",
+                    f"Question #{index} was not a JSON object.",
+                    payload=payload,
+                )
             citations = self._citation_objects(raw.get("citation_ids"), citation_index)
             if not citations:
-                return None
+                return self._reject_gemini_output(
+                    "practice set",
+                    f"Question #{index} did not reference any allowed citation_ids.",
+                    payload=payload,
+                )
             question_type = raw.get("question_type")
             if question_type not in ALLOWED_QUESTION_TYPES:
                 question_type = expected_types[index - 1]
@@ -665,7 +773,11 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             if question_type == "multiple_choice":
                 answer_choices = self._sanitize_answer_choices(raw.get("answer_choices"))
                 if len(answer_choices) != 4:
-                    return None
+                    return self._reject_gemini_output(
+                        "practice set",
+                        f"Multiple-choice question #{index} did not produce exactly four usable answer choices.",
+                        payload=payload,
+                    )
                 if not scoring_guide:
                     scoring_guide = "Award credit only for the option that best matches the lecture-grounded reasoning, not the most generic-sounding statement."
             if question_type == "long_answer" and not scoring_guide:
@@ -759,6 +871,7 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             if revised is not None:
                 revised.setdefault("_meta", {})["generation_path"] = "gemini"
                 return revised
+            self._log_gemini_fallback("study plan revision", "heuristic fallback")
         revised = super().revise_study_plan(
             existing_plan=existing_plan,
             instruction_text=instruction_text,
@@ -840,14 +953,18 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             max_output_tokens=1400,
         )
         if not isinstance(payload, dict):
-            return None
+            return self._reject_gemini_output("study plan revision", "Expected a top-level JSON object for the study plan revision response.", payload=payload)
 
         updated = False
         prereq_updates = {item.get("item_id"): item for item in (payload.get("prerequisites") or []) if isinstance(item, dict)}
         step_updates = {item.get("step_id"): item for item in (payload.get("study_sequence") or []) if isinstance(item, dict)}
         mistake_updates = {item.get("item_id"): item for item in (payload.get("common_mistakes") or []) if isinstance(item, dict)}
         if any(item_id in locked for item_id in prereq_updates) or any(item_id in locked for item_id in step_updates) or any(item_id in locked for item_id in mistake_updates):
-            return None
+            return self._reject_gemini_output(
+                "study plan revision",
+                "The revision response attempted to modify one or more locked study-plan items.",
+                payload=payload,
+            )
 
         for item in plan.get("prerequisites", []):
             raw = prereq_updates.get(item["item_id"])
@@ -873,7 +990,11 @@ class GroundedGenerator(HeuristicGroundedGenerator):
                 item["prevention_advice"] = self._safe_text(raw.get("prevention_advice"), fallback=item["prevention_advice"])
                 updated = True
         if not updated:
-            return None
+            return self._reject_gemini_output(
+                "study plan revision",
+                "The revision response did not modify any editable study-plan items.",
+                payload=payload,
+            )
         revised = {
             **plan,
             "study_plan_id": make_id("study_plan"),
@@ -909,6 +1030,7 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             if revised is not None:
                 revised.setdefault("_meta", {})["generation_path"] = "gemini"
                 return revised
+            self._log_gemini_fallback("practice set revision", "heuristic fallback")
         revised = super().revise_practice_set(
             existing_practice_set=existing_practice_set,
             instruction_text=instruction_text,
@@ -968,10 +1090,14 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             max_output_tokens=1600,
         )
         if not isinstance(payload, dict):
-            return None
+            return self._reject_gemini_output("practice set revision", "Expected a top-level JSON object for the practice set revision response.", payload=payload)
         updates = {item.get("question_id"): item for item in (payload.get("questions") or []) if isinstance(item, dict)}
         if any(question_id in locked for question_id in updates):
-            return None
+            return self._reject_gemini_output(
+                "practice set revision",
+                "The revision response attempted to modify one or more locked questions.",
+                payload=payload,
+            )
         updated = False
         for question in questions:
             raw = updates.get(question["question_id"])
@@ -994,7 +1120,11 @@ class GroundedGenerator(HeuristicGroundedGenerator):
                 question["citations"] = copy.deepcopy(question.get("citations", []))
             updated = True
         if not updated:
-            return None
+            return self._reject_gemini_output(
+                "practice set revision",
+                "The revision response did not modify any editable questions.",
+                payload=payload,
+            )
         revised = {
             **practice_set,
             "practice_set_id": make_id("practice_set"),

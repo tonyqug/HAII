@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import logging
 
 from .conftest import wait_for_job
 from learning_service.config import Settings
@@ -364,6 +365,74 @@ def test_chat_rejects_verbatim_gemini_reply_and_falls_back(app_factory, bundle, 
     assert assistant["reply_sections"][0]["text"] != verbatim_text
 
 
+def test_chat_invalid_structured_output_logs_detail_and_surfaces_debug_info(app_factory, bundle, monkeypatch, caplog):
+    client = app_factory(gemini_api_key="test-key")
+    service = client.app.state.learning_service
+
+    def fake_generate_json(system_instruction, user_prompt, max_output_tokens=2048):
+        service.generator.gemini.last_call_info = {
+            "configured": True,
+            "provider": "gemini",
+            "generation_path": "llm",
+            "used_model": "gemini-3-flash-preview",
+            "reasoning_enabled": True,
+            "reasoning_mode": "dynamic",
+            "attempted_models": ["gemini-3-flash-preview"],
+            "rate_limited_models": [],
+            "failure_reason": None,
+            "failure_detail": None,
+        }
+        return {
+            "reply_sections": [
+                {
+                    "heading": "Grounded answer",
+                    "text": "Regularization adds a penalty.",
+                    "support_status": "slide_grounded",
+                    "citation_ids": ["not_in_bundle"],
+                }
+            ]
+        }
+
+    monkeypatch.setattr(service.generator.gemini, "generate_json", fake_generate_json)
+    caplog.set_level(logging.WARNING)
+
+    create_response = client.post(
+        "/v1/conversations",
+        json={
+            "workspace_id": bundle["workspace_id"],
+            "material_ids": None,
+            "evidence_bundle": bundle,
+            "grounding_mode": "lecture_with_fallback",
+            "title": "Gemini invalid payload logging",
+            "include_annotations": True,
+        },
+    )
+    assert create_response.status_code == 200
+    conversation_id = create_response.json()["conversation_id"]
+
+    send = client.post(
+        f"/v1/conversations/{conversation_id}/messages",
+        json={
+            "message_text": "What does regularization do in these lectures?",
+            "response_style": "standard",
+            "grounding_mode": "lecture_with_fallback",
+            "include_citations": True,
+        },
+    )
+    assert send.status_code == 200
+    job = wait_for_job(client, send.json()["job_id"])
+    assert job["status"] == "succeeded"
+
+    conversation = client.get(f"/v1/conversations/{conversation_id}").json()
+    assistant = conversation["messages"][-1]
+    assert assistant["answer_source"]["path"] == "heuristic_fallback"
+    assert assistant["answer_source"]["fallback_reason"] == "invalid_response_json_payload"
+    assert "did not reference any allowed citation_ids" in assistant["answer_source"]["fallback_detail"]
+    assert assistant["answer_source"]["attempted_models"] == ["gemini-3-flash-preview"]
+    assert any("Rejecting Gemini chat reply output" in record.getMessage() for record in caplog.records)
+    assert any("Falling back to deterministic chat generation" in record.getMessage() for record in caplog.records)
+
+
 def test_gemini_client_handles_incompatible_models_and_wrapped_json(monkeypatch):
     client = GeminiPrimaryClient(Settings(gemini_api_key="test-key"))
     requests_seen = []
@@ -416,3 +485,36 @@ def test_gemini_client_handles_incompatible_models_and_wrapped_json(monkeypatch)
     ]
     assert client.last_call_info["used_model"] == "gemini-2.5-flash"
     assert client.last_call_info["reasoning_enabled"] is False
+
+
+def test_gemini_client_records_failure_detail_for_non_json_text(monkeypatch):
+    client = GeminiPrimaryClient(Settings(gemini_api_key="test-key"))
+
+    class FakeResponse:
+        status_code = 200
+        text = "plain text"
+
+        @property
+        def ok(self):
+            return True
+
+        def json(self):
+            return {
+                "candidates": [
+                    {
+                        "content": {
+                            "parts": [
+                                {"text": "This is not JSON"},
+                            ]
+                        }
+                    }
+                ]
+            }
+
+    monkeypatch.setattr("learning_service.generation.requests.post", lambda *args, **kwargs: FakeResponse())
+
+    payload = client.generate_json("system", "user prompt")
+
+    assert payload is None
+    assert client.last_call_info["failure_reason"] == "invalid_response_json"
+    assert client.last_call_info["failure_detail"] == "Gemini returned text that could not be parsed as JSON."

@@ -57,6 +57,61 @@
         }
       ],
       "role": "assistant"
+    },
+    {
+      "created_at": "2026-04-22T20:11:41Z",
+      "message_id": "msg_b43c90c1fd4a",
+      "role": "user",
+      "text": "what are basic neurotransmitter function"
+    },
+    {
+      "answer_source": {
+        "evidence_match": "strong_match",
+        "fallback_reason": "invalid_response_json",
+        "matched_evidence_count": 2,
+        "model": null,
+        "path": "heuristic_fallback",
+        "provider": "deterministic_fallback",
+        "rate_limited_models": [],
+        "reasoning_enabled": false,
+        "reasoning_mode": null
+      },
+      "created_at": "2026-04-22T20:11:41Z",
+      "message_id": "msg_18dd7e819026",
+      "reply_sections": [
+        {
+          "citations": [
+            {
+              "citation_id": "cit_3463e4610467e7eec5e7e0ca",
+              "confidence": "high",
+              "material_id": "mat_847bd8990d0e4197bca3c9d70a571ec2",
+              "material_title": "03133 Exam 3 Cheat sheet.pdf",
+              "preview_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/preview",
+              "slide_id": "mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2",
+              "slide_number": 2,
+              "snippet_text": "…ed movement, shuffling gait.​ ​-​ ​Loss of SnC dopamine causes basal ganglia dysfunction.​ ​-​ ​SnC: movement, VTA: mood and attention​ ​-​ ​Other DA-related disorders: ADHD, depression, anxiety, OCD, Tourette’s, addiction.​ ​-​ ​L-dopa / dopamine replacement,​​Taken several times​​a day.Often works only for 5–10 years…",
+              "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_847bd8990d0e4197bca3c9d70a571ec2/slides/mat_847bd8990d0e4197bca3c9d70a571ec2:slide:2/source",
+              "support_type": "explicit"
+            },
+            {
+              "citation_id": "cit_059ad0ddf58b4ef290ee0d1a",
+              "confidence": "high",
+              "material_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4",
+              "material_title": "03133 Exam 2 Cheat sheet - Google Docs.pdf",
+              "preview_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/preview",
+              "slide_id": "mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1",
+              "slide_number": 1,
+              "snippet_text": "…of the cases, then the concordance rate = 300 / 400= 75%​ ​Tourette Syndrome​ ​Basics: Motor and vocal tics present for at least a year, symptoms presenting under the age of 18.​ ​Dopamine​ ​Dopamine in Striatum​ ​It inhibits stop cells and excites go cells, resulting in​​increased movement​ ​Dopamine in VTA -> Nucleu…",
+              "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_2f09c1feaeca4fbe81e2ab67795171e4/slides/mat_2f09c1feaeca4fbe81e2ab67795171e4:slide:1/source",
+              "support_type": "explicit"
+            }
+          ],
+          "heading": "Grounded answer",
+          "support_status": "inferred_from_slides",
+          "text": "The slides connect Dopamine Snc to receptor, compensation, receptors, and pain. The slides connect Medicine Personalized to dopamine, genetic, adhd, and ocd."
+        }
+      ],
+      "role": "assistant"
     }
   ],
   "title": "Chat 5:13:30 PM",

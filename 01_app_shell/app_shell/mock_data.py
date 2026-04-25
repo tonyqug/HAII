@@ -9,6 +9,7 @@ from app_shell.utils import deep_copy, make_id, slugify, utc_now_iso
 
 
 FIXTURE_PATH = Path(__file__).resolve().parent / "fixtures" / "mock_workspace.json"
+DEFAULT_GROUNDING_MODE = "lecture_with_fallback"
 
 
 def load_fixture() -> dict:
@@ -59,7 +60,6 @@ def build_workspace_from_fixture() -> dict:
     materials = {
         material["material_id"]: material
         for material in deep_copy(raw.get("materials", []))
-        if material.get("role") != "practice_template"
     }
     for material in materials.values():
         material.setdefault("workspace_id", workspace_id)
@@ -93,10 +93,7 @@ def build_workspace_from_fixture() -> dict:
         "last_opened_at": workspace.get("last_opened_at") or now,
         "archived": False,
         "deleted": False,
-        "grounding_mode": workspace.get("grounding_mode", "strict_lecture_only"),
-        "topic_text": workspace.get("topic_text", ""),
-        "time_budget_minutes": workspace.get("time_budget_minutes", 90),
-        "student_context": workspace.get("student_context", {"known": "", "weak_areas": "", "goals": ""}),
+        "grounding_mode": workspace.get("grounding_mode", DEFAULT_GROUNDING_MODE),
         "practice_preferences": {
             "topic_text": practice_set.get("topic_text", ""),
             "generation_mode": practice_set.get("generation_mode", "mixed"),
@@ -108,13 +105,10 @@ def build_workspace_from_fixture() -> dict:
         },
         "active_material_ids": _group_material_ids(materials),
         "selected_active_conversation_id": conversation["conversation_id"],
-        "active_study_plan_id": None,
         "active_practice_set_id": practice_set["practice_set_id"],
-        "known_study_plan_ids": [],
         "known_practice_set_ids": [practice_set["practice_set_id"]],
         "known_conversation_ids": [conversation["conversation_id"]],
         "materials": materials,
-        "study_plans": {},
         "practice_sets": {practice_set["practice_set_id"]: practice_set},
         "conversations": {conversation["conversation_id"]: conversation},
         "annotations": [],
@@ -158,20 +152,14 @@ def build_blank_workspace(workspace_id: str, display_name: str) -> dict:
         "last_opened_at": now,
         "archived": False,
         "deleted": False,
-        "grounding_mode": "strict_lecture_only",
-        "topic_text": "",
-        "time_budget_minutes": None,
-        "student_context": {"known": "", "weak_areas": "", "goals": ""},
+        "grounding_mode": DEFAULT_GROUNDING_MODE,
         "practice_preferences": {},
         "active_material_ids": {"slides": [], "notes": []},
         "selected_active_conversation_id": None,
-        "active_study_plan_id": None,
         "active_practice_set_id": None,
-        "known_study_plan_ids": [],
         "known_practice_set_ids": [],
         "known_conversation_ids": [],
         "materials": {},
-        "study_plans": {},
         "practice_sets": {},
         "conversations": {},
         "annotations": [],
@@ -271,125 +259,6 @@ def create_mock_material(workspace_id: str, title: str, role: str, *, source_kin
         "source_view_url": f"/local/workspaces/{workspace_id}/materials/{material_id}/slides/{slide_id}/source",
     }
 
-
-def generate_mock_study_plan(workspace: dict, request_payload: dict, *, parent_study_plan_id: str | None = None) -> dict:
-    workspace_id = workspace["workspace_id"]
-    material = _primary_material(workspace)
-    slide = _fallback_slide(material)
-    base_citation = _make_citation(workspace_id, material, slide)
-    now = utc_now_iso()
-    title = request_payload.get("topic_text") or workspace.get("topic_text") or material.get("title", "Uploaded materials") if material else "Uploaded materials"
-    prior_knowledge = (workspace.get("student_context", {}) or {}).get("known", "")
-    weak_areas = (workspace.get("student_context", {}) or {}).get("weak_areas", "")
-    goals = (workspace.get("student_context", {}) or {}).get("goals", "")
-    plan_id = make_id("study_plan")
-    return {
-        "study_plan_id": plan_id,
-        "parent_study_plan_id": parent_study_plan_id,
-        "workspace_id": workspace_id,
-        "created_at": now,
-        "topic_text": title,
-        "time_budget_minutes": int(request_payload.get("time_budget_minutes") or workspace.get("time_budget_minutes") or 60),
-        "grounding_mode": request_payload.get("grounding_mode") or workspace.get("grounding_mode") or "strict_lecture_only",
-        "prerequisites": [
-            {
-                "item_id": make_id("pre"),
-                "concept_name": "Core lecture concepts",
-                "why_needed": "The generated plan relies on the uploaded lecture source and any notes you provided.",
-                "support_status": "slide_grounded",
-                "citations": [base_citation],
-            }
-        ],
-        "study_sequence": [
-            {
-                "step_id": make_id("step"),
-                "order_index": 1,
-                "title": "Review the grounded source first",
-                "objective": "Read the cited slide or note and restate the main concept in your own words.",
-                "recommended_time_minutes": max(10, int((request_payload.get("time_budget_minutes") or 60) // 3)),
-                "tasks": [
-                    "Open the cited source slide",
-                    "Write a one-sentence summary",
-                    "Check any formulas or definitions against your notes",
-                ],
-                "milestone": "You can explain the first grounded concept without reopening the source.",
-                "depends_on": [],
-                "support_status": "slide_grounded",
-                "citations": [base_citation],
-            },
-            {
-                "step_id": make_id("step"),
-                "order_index": 2,
-                "title": "Practice active recall",
-                "objective": "Turn the lecture content into a short recall prompt and answer it without looking.",
-                "recommended_time_minutes": max(10, int((request_payload.get("time_budget_minutes") or 60) // 3)),
-                "tasks": [
-                    "Cover the slide",
-                    "State the main takeaway aloud",
-                    "Compare your answer to the cited evidence",
-                ],
-                "milestone": "You can answer one self-test prompt from memory and verify it against the cited slide.",
-                "depends_on": [],
-                "support_status": "slide_grounded",
-                "citations": [base_citation],
-            },
-        ],
-        "common_mistakes": [
-            {
-                "item_id": make_id("mistake"),
-                "pattern": "Skipping the cited evidence before memorizing the answer",
-                "why_it_happens": "Students often jump to memorization before checking how the lecture phrases the concept.",
-                "prevention_advice": "Open the source viewer and anchor your summary in the cited slide or note.",
-                "support_status": "slide_grounded",
-                "citations": [base_citation],
-            },
-            {
-                "item_id": make_id("mistake"),
-                "pattern": "Studying all materials before any are ready",
-                "why_it_happens": "Uploads can still be processing while the workspace opens.",
-                "prevention_advice": "Proceed with the ready subset and revisit the remaining materials when they finish processing.",
-                "support_status": "inferred_from_slides",
-                "citations": [base_citation],
-            },
-            {
-                "item_id": make_id("mistake"),
-                "pattern": "Ignoring your own weak-area notes",
-                "why_it_happens": "Student context is easy to leave blank when working quickly.",
-                "prevention_advice": "Add weak areas or goals before regenerating if you want more tailored guidance.",
-                "support_status": "supplemental_note",
-                "citations": [base_citation],
-            },
-        ],
-        "tailoring_summary": {
-            "used_inputs": [
-                {"key": "topic_text", "label": "Topic focus", "value": title, "source": "user" if request_payload.get("topic_text") else "inferred"},
-                {"key": "time_budget_minutes", "label": "Time budget", "value": f"{int(request_payload.get('time_budget_minutes') or workspace.get('time_budget_minutes') or 60)} minutes", "source": "user"},
-                {"key": "grounding_mode", "label": "Grounding mode", "value": request_payload.get("grounding_mode") or workspace.get("grounding_mode") or "strict_lecture_only", "source": "user"},
-                {"key": "materials", "label": "Lecture materials used", "value": material.get("title", "Uploaded materials") if material else "Uploaded materials", "source": "workspace"},
-            ]
-            + ([{"key": "prior_knowledge", "label": "What you already know", "value": prior_knowledge, "source": "user"}] if prior_knowledge else [])
-            + ([{"key": "weak_areas", "label": "Weak areas", "value": weak_areas, "source": "user"}] if weak_areas else [])
-            + ([{"key": "goals", "label": "Goals or exam context", "value": goals, "source": "user"}] if goals else []),
-            "missing_inputs": [
-                {"key": "prior_knowledge", "label": "What you already know", "message": "Not provided, so the mock plan assumes no specific starting point."}
-                for _ in ([] if prior_knowledge else [1])
-            ] + [
-                {"key": "weak_areas", "label": "Weak areas", "message": "Not provided, so the mock plan cannot emphasize a specific trouble spot."}
-                for _ in ([] if weak_areas else [1])
-            ] + [
-                {"key": "goals", "label": "Goals or exam context", "message": "Not provided, so the mock plan defaults to general review."}
-                for _ in ([] if goals else [1])
-            ],
-            "evidence_scope": {
-                "material_count": 1 if material else 0,
-                "material_titles": [material.get("title", "Uploaded materials")] if material else [],
-                "slide_count": 1,
-                "slide_numbers": [slide.get("slide_number", 1)],
-            },
-        },
-    }
-
-
 def generate_mock_assistant_message(workspace: dict, question_text: str, grounding_mode: str, response_style: str) -> dict:
     material = _primary_material(workspace)
     slide = _fallback_slide(material)
@@ -424,7 +293,7 @@ def generate_mock_practice_set(workspace: dict, request_payload: dict, *, parent
     material = _primary_material(workspace)
     slide = _fallback_slide(material)
     citation = _make_citation(workspace["workspace_id"], material, slide)
-    question_count = int(request_payload.get("question_count") or 3)
+    question_count = int(request_payload.get("question_count") or 6)
     generation_mode = request_payload.get("generation_mode") or "mixed"
     difficulty = request_payload.get("difficulty_profile") or "mixed"
     topic_text = (request_payload.get("topic_text") or workspace.get("practice_preferences", {}).get("topic_text") or "").strip()

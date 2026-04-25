@@ -4,7 +4,7 @@ This folder contains the browser-facing application shell for the Study Helper M
 - workspace library and lifecycle
 - durable local persistence under LOCAL_DATA_DIR/app_shell
 - material import and ingestion-progress UI
-- study-plan, grounded chat, practice, history, and source-viewer UI
+- grounded chat, practice, history, and source-viewer UI
 - integrated launcher / degraded-mode handling for sibling localhost services
 - canonical request normalization between the browser UI and the sibling services
 
@@ -45,15 +45,15 @@ Supported environment variables:
 - LEARNING_SERVICE_URL (default http://127.0.0.1:38420)
 - LOCAL_DATA_DIR (default ./local_data)
 - AUTO_OPEN_BROWSER (default true)
-- APP_SHELL_MODE (auto | integrated | mock, default auto)
+- APP_SHELL_MODE (auto | integrated, default auto; mock is test-only when APP_SHELL_TESTING=true)
 
 The overall project secret GEMINI_API_KEY belongs to the learning service. The shell does not require it directly.
 
 LAUNCH MODES
 
-1. mock
+1. mock (test-only)
    APP_SHELL_MODE=mock python 01_app_shell/run_local.py
-   Uses fixture data only and demonstrates a ready workspace, study plan, chat thread, practice set, and working source viewer.
+   Available only when APP_SHELL_TESTING=true. Uses fixture data only and demonstrates a ready workspace, chat thread, practice set, and working source viewer.
 
 2. integrated
    APP_SHELL_MODE=integrated python 01_app_shell/run_local.py
@@ -64,7 +64,7 @@ LAUNCH MODES
 
 3. auto
    APP_SHELL_MODE=auto python 01_app_shell/run_local.py
-   Tries integrated mode first. If no sibling services become healthy, it falls back to mock mode.
+   Tries the integrated launch path and keeps the UI honest about service availability. It does not silently fall back to mock mode.
 
 INTEGRATED ONE-COMMAND STARTUP
 
@@ -93,10 +93,10 @@ DEGRADED-MODE EXPECTATIONS
 - If Team 3 learning service is missing/unhealthy:
   - app shell still launches
   - content flows can still work when Team 2 is healthy
-  - study-plan/chat/practice actions are disabled with a clear explanation
+  - chat/practice actions are disabled with a clear explanation
 
 - If only app shell is present:
-  - APP_SHELL_MODE=auto falls back to mock mode so the app remains independently reviewable
+  - APP_SHELL_MODE=auto keeps the shell live, but unavailable features remain disabled instead of swapping to mock behavior
 
 CORRECTED BOUNDARY NORMALIZATION
 
@@ -107,10 +107,6 @@ Important corrected mappings:
 - material import
   file uploads -> workspace_id, role, source_kind=file, title, file
   pasted text -> workspace_id, role, source_kind=pasted_text, title, text_body
-- study plan generation
-  workspace_id, material_ids, topic_text, time_budget_minutes, grounding_mode,
-  student_context.prior_knowledge, student_context.weak_areas,
-  student_context.goals, include_annotations=true
 - conversation creation
   workspace_id, material_ids, grounding_mode, title, include_annotations=true
 - conversation message
@@ -119,9 +115,6 @@ Important corrected mappings:
   workspace_id, material_ids, generation_mode, template_material_id when applicable,
   question_count, coverage_mode, difficulty_profile, include_answer_key,
   include_rubrics, grounding_mode, include_annotations=true
-- study-plan revision
-  instruction_text, target_section, locked_item_ids, grounding_mode,
-  include_annotations=true
 - practice revision
   instruction_text, target_question_ids, locked_question_ids, maintain_coverage
 
@@ -164,7 +157,7 @@ The shell persists durable workspace state in:
 Persisted shell-owned state includes:
 - workspace metadata and library state
 - material cache and preferences
-- known study plans, practice sets, and conversations
+- known practice sets and conversations
 - active artifact pointers
 - local feedback history
 - local pending jobs and last-known job status

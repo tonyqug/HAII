@@ -57,6 +57,31 @@
       "user_action": null,
       "workspace_id": "workspace_f58b1a34802a"
     },
+    "job_39ab702cbf2e": {
+      "context": {
+        "conversation_id": "conversation_d9b25d61521d",
+        "grounding_mode": "strict_lecture_only",
+        "message_text": "why dont we regularize the bias term",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-24T19:22:06Z",
+      "error": null,
+      "finalized": true,
+      "job_id": "job_39ab702cbf2e",
+      "message": "Grounded answer ready.",
+      "operation": "conversation_message",
+      "poll_count": 2,
+      "progress": 100,
+      "remote_job_id": null,
+      "result_id": "msg_assistant_602638fcef21",
+      "result_type": "assistant_message",
+      "service": "local_mock",
+      "stage": "completed",
+      "status": "succeeded",
+      "updated_at": "2026-04-24T19:22:07Z",
+      "user_action": null,
+      "workspace_id": "workspace_f58b1a34802a"
+    },
     "job_4de039474e90": {
       "context": {
         "dedup_key": "slides:0765d1483ddeaf0ab4f5ab8c369d2a86a05b8546d9f5e8f7c50b2c1e85fffb34",
@@ -87,6 +112,39 @@
       "status": "succeeded",
       "updated_at": "2026-04-22T20:29:55Z",
       "user_action": null,
+      "workspace_id": "workspace_f58b1a34802a"
+    },
+    "job_8902655b9c69": {
+      "context": {
+        "conversation_id": "conversation_3e243eb518e2",
+        "grounding_mode": "strict_lecture_only",
+        "message_text": "what is a neural network",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-22T20:47:53Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_8902655b9c69",
+      "message": "Conversation reply created.",
+      "operation": "conversation_message",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_4ec52218c7b5",
+      "result_id": "msg_8c3a65506716",
+      "result_type": "message",
+      "service": "learning",
+      "stage": "done",
+      "status": "succeeded",
+      "updated_at": "2026-04-22T20:48:10Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
       "workspace_id": "workspace_f58b1a34802a"
     },
     "job_8afb841a208d": {
@@ -121,6 +179,39 @@
       "user_action": null,
       "workspace_id": "workspace_f58b1a34802a"
     },
+    "job_a5755bc319ec": {
+      "context": {
+        "conversation_id": "conversation_3e243eb518e2",
+        "grounding_mode": "strict_lecture_only",
+        "message_text": "why is weight update negative",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-24T19:15:20Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_a5755bc319ec",
+      "message": "Conversation reply created.",
+      "operation": "conversation_message",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_020c6d9014c3",
+      "result_id": "msg_067564eec6c7",
+      "result_type": "message",
+      "service": "learning",
+      "stage": "done",
+      "status": "succeeded",
+      "updated_at": "2026-04-24T19:16:03Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_f58b1a34802a"
+    },
     "job_bcc7cbbd5585": {
       "context": {
         "conversation_id": "conversation_3e243eb518e2",
@@ -153,6 +244,97 @@
         "prompt": null
       },
       "workspace_id": "workspace_f58b1a34802a"
+    },
+    "job_bccf74fadb24": {
+      "context": {
+        "conversation_id": "conversation_7beabcfed93a",
+        "grounding_mode": "strict_lecture_only",
+        "message_text": "Why does it propagate backwards",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-24T20:07:47Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_bccf74fadb24",
+      "message": "Conversation reply created.",
+      "operation": "conversation_message",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_b99c674f6b99",
+      "result_id": "msg_489c7f45fe50",
+      "result_type": "message",
+      "service": "learning",
+      "stage": "done",
+      "status": "succeeded",
+      "updated_at": "2026-04-24T20:07:58Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_f58b1a34802a"
+    },
+    "job_c81fcf477862": {
+      "context": {
+        "conversation_id": "conversation_3ffa00391ea6",
+        "grounding_mode": "strict_lecture_only",
+        "message_text": "what is backpropagation",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-24T20:12:05Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_c81fcf477862",
+      "message": "Conversation reply created.",
+      "operation": "conversation_message",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_8576c36de289",
+      "result_id": "msg_9d487c521dcc",
+      "result_type": "message",
+      "service": "learning",
+      "stage": "done",
+      "status": "succeeded",
+      "updated_at": "2026-04-24T20:12:46Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_f58b1a34802a"
+    },
+    "job_ce4b691cef6f": {
+      "context": {
+        "conversation_id": "conversation_ce31f905c688",
+        "grounding_mode": "strict_lecture_only",
+        "message_text": "why dont we regularize the bias term",
+        "response_style": "standard"
+      },
+      "created_at": "2026-04-24T19:23:01Z",
+      "error": null,
+      "finalized": true,
+      "job_id": "job_ce4b691cef6f",
+      "message": "Grounded answer ready.",
+      "operation": "conversation_message",
+      "poll_count": 2,
+      "progress": 100,
+      "remote_job_id": null,
+      "result_id": "msg_assistant_1e2c88cf32a1",
+      "result_type": "assistant_message",
+      "service": "local_mock",
+      "stage": "completed",
+      "status": "succeeded",
+      "updated_at": "2026-04-24T19:23:02Z",
+      "user_action": null,
+      "workspace_id": "workspace_f58b1a34802a"
     }
   },
   "metadata": {
@@ -163,13 +345,12 @@
       "active_material_ids": {
         "notes": [],
         "slides": [
+          "mat_8d42b5f497924ba7b92aabff1c8941ae",
           "mat_bb59052d364446d2a30319b565c099ae",
-          "mat_e9a0cd06468140ef9d0b7065c6b90adb",
-          "mat_8d42b5f497924ba7b92aabff1c8941ae"
+          "mat_e9a0cd06468140ef9d0b7065c6b90adb"
         ]
       },
       "active_practice_set_id": null,
-      "active_study_plan_id": null,
       "annotations": [],
       "archived": false,
       "conversations": {
@@ -179,10 +360,169 @@
           "grounding_mode": "strict_lecture_only",
           "messages": [
             {
-              "created_at": "2026-04-22T20:30:33Z",
-              "message_id": "msg_a5d69557a7b8",
+              "created_at": "2026-04-24T19:16:01Z",
+              "message_id": "msg_55a270d91f5d",
               "role": "user",
-              "text": "why does update use subtraction"
+              "text": "why is weight update negative"
+            },
+            {
+              "answer_source": {
+                "attempted_models": [
+                  "gemini-3-flash-preview",
+                  "gemini-2.5-flash"
+                ],
+                "evidence_match": "strong_match",
+                "matched_evidence_count": 3,
+                "model": "gemini-2.5-flash",
+                "path": "llm",
+                "provider": "gemini",
+                "rate_limited_models": [],
+                "reasoning_enabled": true,
+                "reasoning_mode": "dynamic"
+              },
+              "created_at": "2026-04-24T19:16:01Z",
+              "message_id": "msg_067564eec6c7",
+              "reply_sections": [
+                {
+                  "citations": [
+                    {
+                      "citation_id": "cit_429f94ba0b2ab564c2644ae1",
+                      "confidence": "high",
+                      "material_id": "mat_8d42b5f497924ba7b92aabff1c8941ae",
+                      "material_title": "lecture11-nn.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_8d42b5f497924ba7b92aabff1c8941ae/slides/mat_8d42b5f497924ba7b92aabff1c8941ae:slide:16/preview",
+                      "slide_id": "mat_8d42b5f497924ba7b92aabff1c8941ae:slide:16",
+                      "slide_number": 16,
+                      "snippet_text": "Regularization Practical tips: \u2022 Don\u2019t regularize the bias term (only the weights) \u2013 Why? Allows model to be invariable a shift in the y-values \u2022 Standardize data (convert to z-scores) \u2013 For each feature: subtract the mean across the dataset and divide by the standard deviation \u2013 Why? For regularization, this helps all\u2026",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_8d42b5f497924ba7b92aabff1c8941ae/slides/mat_8d42b5f497924ba7b92aabff1c8941ae:slide:16/source",
+                      "support_type": "explicit"
+                    },
+                    {
+                      "citation_id": "cit_1582efa76f1157a5b775dc04",
+                      "confidence": "high",
+                      "material_id": "mat_bb59052d364446d2a30319b565c099ae",
+                      "material_title": "lecture13-backprop-ii.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:18/preview",
+                      "slide_id": "mat_bb59052d364446d2a30319b565c099ae:slide:18",
+                      "slide_number": 18,
+                      "snippet_text": "\u2026= \ud835\udf15\ud835\udc3d \ud835\udf15\u0ddc\ud835\udc66 \ud835\udf15\ud835\udc54 \ud835\udf15\ud835\udc675 \ud835\udf15\ud835\udc53 \ud835\udf15\ud835\udc4e4 \ud835\udf15\ud835\udc54 \ud835\udf15\ud835\udc674 \ud835\udf15\ud835\udc53 \ud835\udf15\ud835\udc4e3 \ud835\udf15\ud835\udc54 \ud835\udf15\ud835\udc673 \ud835\udf15\ud835\udc53 \ud835\udf15\ud835\udc4e2 \ud835\udf15\ud835\udc54 \ud835\udf15\ud835\udc672 \ud835\udf15\ud835\udc53 \ud835\udf15\ud835\udc4e1 \ud835\udf15\ud835\udc54 \ud835\udf15\ud835\udc671 \ud835\udf15\ud835\udc53 \ud835\udf15\ud835\udc641 Why backwards? Width 1 deep network (no bias) (dumb but will help with calculus) \ud835\udc65 \ud835\udc4e1 \ud835\udc641 \ud835\udc671 \ud835\udc54 \ud835\udc53 \ud835\udc66 \u2113 \ud835\udc4e2 \ud835\udc642 \ud835\udc672 \ud835\udc54 \ud835\udc53 \ud835\udc4e3 \ud835\udc643 \ud835\udc673 \ud835\udc54 \ud835\udc53 \ud835\udc4e4 \ud835\udc644 \ud835\udc674 \ud835\udc54 \ud835\udc53 \ud835\udc4e5 = \u0ddc\ud835\udc66 \ud835\udc645 \ud835\udc675 \ud835\udc54 \ud835\udc53 \u0ddc\ud835\udc66= \u210e\ud835\udf3d\ud835\udc31= \ud835\udc54\ud835\udc645 \u22c5\ud835\udc54\ud835\udc644 \u22c5\ud835\udc54\ud835\udc643 \u22c5\ud835\udc54\ud835\udc642 \u22c5\ud835\udc54\ud835\udc641 \u22c5\ud835\udc65 \ud835\udc3d \ud835\udf15\ud835\udc3d \ud835\udf15\ud835\udc671 = \ud835\udf15\ud835\udc3d \ud835\udf15\ud835\udc671 \ud835\udf15\ud835\udc53 \ud835\udf15\ud835\udc641 What if someone had al\u2026",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:18/source",
+                      "support_type": "explicit"
+                    },
+                    {
+                      "citation_id": "cit_76c9e32128dff91df356b0d4",
+                      "confidence": "high",
+                      "material_id": "mat_bb59052d364446d2a30319b565c099ae",
+                      "material_title": "lecture13-backprop-ii.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:13/preview",
+                      "slide_id": "mat_bb59052d364446d2a30319b565c099ae:slide:13",
+                      "slide_number": 13,
+                      "snippet_text": "\u2026\ud835\udc4e4 \ud835\udc644 \ud835\udc674 \ud835\udc54 \ud835\udc53 \ud835\udc4e5 = \u0ddc\ud835\udc66 \ud835\udc645 \ud835\udc675 \ud835\udc54 \ud835\udc53 \u0ddc\ud835\udc66= \u210e\ud835\udf3d\ud835\udc31= \ud835\udc54\ud835\udc645 \u22c5\ud835\udc54\ud835\udc644 \u22c5\ud835\udc54\ud835\udc643 \u22c5\ud835\udc54\ud835\udc642 \u22c5\ud835\udc54\ud835\udc641 \u22c5\ud835\udc65 Questions: \u25aa Why do we need to compute all of the \ud835\udf15\ud835\udc3d/\ud835\udf15\ud835\udc67\u2113 and \ud835\udf15\ud835\udc3d/\ud835\udf15\ud835\udc4e\u2113? \u25aa Why \"backwards\"? \u25aa How do we actually compute these? \u25aa (What else do we need to learn to go beyond this useless network?) \ud835\udc3d \ud835\udf15\ud835\udc3d \ud835\udf15\u0ddc\ud835\udc66 \ud835\udf15\ud835\udc3d \ud835\udf15\ud835\udc675 \ud835\udf15\ud835\udc3d \ud835\udf15\ud835\udc645 \ud835\udf15\ud835\udc3d \ud835\udf15\ud835\udc4e4 \ud835\udf15\ud835\udc3d \ud835\udf15\ud835\udc674 \ud835\udf15\ud835\udc3d \ud835\udf15\ud835\udc644 \ud835\udf15\ud835\udc3d \ud835\udf15\ud835\udc4e3 \ud835\udf15\ud835\udc3d \ud835\udf15\ud835\udc673 \ud835\udf15\ud835\udc3d\u2026",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:13/source",
+                      "support_type": "explicit"
+                    }
+                  ],
+                  "heading": "Grounded answer",
+                  "support_status": "inferred_from_slides",
+                  "text": "The provided materials explain how to compute the partial derivative of the cost function with respect to the weights, which is a component of the weight update. However, the materials do not explicitly state or explain why the weight update itself is negative."
+                }
+              ],
+              "role": "assistant"
+            }
+          ],
+          "title": "Workspace Q&A",
+          "workspace_id": "workspace_f58b1a34802a"
+        },
+        "conversation_3ffa00391ea6": {
+          "conversation_id": "conversation_3ffa00391ea6",
+          "created_at": "2026-04-24T20:11:53Z",
+          "grounding_mode": "strict_lecture_only",
+          "messages": [
+            {
+              "created_at": "2026-04-24T20:12:44Z",
+              "message_id": "msg_27ad20f64218",
+              "role": "user",
+              "text": "what is backpropagation"
+            },
+            {
+              "answer_source": {
+                "attempted_models": [
+                  "gemini-3-flash-preview"
+                ],
+                "evidence_match": "strong_match",
+                "fallback_detail": "HTTPSConnectionPool(host='generativelanguage.googleapis.com', port=443): Read timed out. (read timeout=15)",
+                "fallback_reason": "request_exception",
+                "matched_evidence_count": 3,
+                "model": null,
+                "path": "heuristic_fallback",
+                "provider": "deterministic_fallback",
+                "rate_limited_models": [],
+                "reasoning_enabled": false,
+                "reasoning_mode": null
+              },
+              "created_at": "2026-04-24T20:12:44Z",
+              "message_id": "msg_9d487c521dcc",
+              "reply_sections": [
+                {
+                  "citations": [
+                    {
+                      "citation_id": "cit_b7a571e4ea28fb91d6588e55",
+                      "confidence": "high",
+                      "material_id": "mat_bb59052d364446d2a30319b565c099ae",
+                      "material_title": "lecture13-backprop-ii.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:3/preview",
+                      "slide_id": "mat_bb59052d364446d2a30319b565c099ae:slide:3",
+                      "slide_number": 3,
+                      "snippet_text": "Outline Last week: \u25aa Neural Networks \u25aa Backpropagation \u25aa Multivariate chain rule Today: \u25aa Neural network optimization \uf0df three-neuron network \u25aa Backpropagation (scalar version) \uf0df deeeeeppper \u25aa A bit more matrix calculus \u25aa Backpropagation (vector version) \uf0df WIDER",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:3/source",
+                      "support_type": "explicit"
+                    },
+                    {
+                      "citation_id": "cit_16539416d00f9dcc5a39492a",
+                      "confidence": "high",
+                      "material_id": "mat_bb59052d364446d2a30319b565c099ae",
+                      "material_title": "lecture13-backprop-ii.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:30/preview",
+                      "slide_id": "mat_bb59052d364446d2a30319b565c099ae:slide:30",
+                      "slide_number": 30,
+                      "snippet_text": "Backpropagation More efficient to start at the end and reuse values! \ud835\udc65 \ud835\udc4e1 \ud835\udc641 \ud835\udc671 \ud835\udc54 \ud835\udc53 \ud835\udc66 \u2113 \ud835\udc4e2 \ud835\udc642 \ud835\udc672 \ud835\udc54 \ud835\udc53 \ud835\udc4e3 \ud835\udc643 \ud835\udc673 \ud835\udc54 \ud835\udc53 \ud835\udc4e4 \ud835\udc644 \ud835\udc674 \ud835\udc54 \ud835\udc53 \ud835\udc4e5 = \u0ddc\ud835\udc66 \ud835\udc645 \ud835\udc675 \ud835\udc54 \ud835\udc53 \u0ddc\ud835\udc66= \u210e\ud835\udf3d\ud835\udc31= \ud835\udc54\ud835\udc645 \u22c5\ud835\udc54\ud835\udc644 \u22c5\ud835\udc54\ud835\udc643 \u22c5\ud835\udc54\ud835\udc642 \u22c5\ud835\udc54\ud835\udc641 \u22c5\ud835\udc65 To do gradient descent we need the partial derivative of the objective with respect to each parameter, w\u2113\u2190\ud835\udc64\u2113\u2212\ud835\udefc \ud835\udf15\ud835\udc3d/\ud835\udf15\ud835\udc64\u2113 The backward pass pro\u2026",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:30/source",
+                      "support_type": "explicit"
+                    },
+                    {
+                      "citation_id": "cit_b3f160237496a3c2168c2762",
+                      "confidence": "high",
+                      "material_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb",
+                      "material_title": "lecture12-backprop.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_e9a0cd06468140ef9d0b7065c6b90adb/slides/mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:40/preview",
+                      "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:40",
+                      "slide_number": 40,
+                      "snippet_text": "\u2026s to Differentiation 3. Automatic Differentiation \u2013 Reverse Mode \u2022 Note: Called Backpropagation when applied to Neural Nets \u2022 Pro: Computes partial derivatives of one output f(x)i with respect to all inputs xj in time polynomial in the computation time of f(x) \u2022 Con: Slow for high dimensional outputs (e.g. vector-value\u2026",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_e9a0cd06468140ef9d0b7065c6b90adb/slides/mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:40/source",
+                      "support_type": "explicit"
+                    }
+                  ],
+                  "heading": "Grounded answer",
+                  "support_status": "inferred_from_slides",
+                  "text": "In these slides, backpropagation is tied to backpropagation, neural, network, and version. Related lecture emphasis: The slides connect Backpropagation Efficient to gradient-based parameter updates."
+                }
+              ],
+              "role": "assistant"
+            }
+          ],
+          "title": "Chat 4:11:53 PM",
+          "workspace_id": "workspace_f58b1a34802a"
+        },
+        "conversation_7beabcfed93a": {
+          "conversation_id": "conversation_7beabcfed93a",
+          "created_at": "2026-04-24T20:07:34Z",
+          "grounding_mode": "strict_lecture_only",
+          "messages": [
+            {
+              "created_at": "2026-04-24T20:07:56Z",
+              "message_id": "msg_3baf10952d9b",
+              "role": "user",
+              "text": "Why does it propagate backwards"
             },
             {
               "answer_source": {
@@ -198,68 +538,57 @@
                 "reasoning_enabled": true,
                 "reasoning_mode": "dynamic"
               },
-              "created_at": "2026-04-22T20:30:33Z",
-              "message_id": "msg_683f8b618c35",
-              "reply_sections": [
-                {
-                  "citations": [],
-                  "heading": "Insufficient Evidence",
-                  "support_status": "insufficient_evidence",
-                  "text": "The provided lecture materials do not explain why the update rule uses subtraction. The evidence focuses on the process of backpropagation and the calculation of partial derivatives for weights in a deep network, but it does not describe the specific update equation or the logic behind the subtraction operation used in gradient-based optimization."
-                }
-              ],
-              "role": "assistant"
-            },
-            {
-              "created_at": "2026-04-22T20:35:20Z",
-              "job_id": "job_0b0428215193",
-              "message_id": "msg_user_072a50c42114",
-              "pending": false,
-              "role": "user",
-              "text": "what is a neural network"
-            },
-            {
-              "answer_source": {
-                "evidence_match": "strong_match",
-                "matched_evidence_count": 1,
-                "model": "gemini-3-flash-preview",
-                "path": "llm",
-                "provider": "gemini",
-                "rate_limited_models": [],
-                "reasoning_enabled": true,
-                "reasoning_mode": "dynamic"
-              },
-              "clarifying_question": {
-                "prompt": null,
-                "reason": null
-              },
-              "created_at": "2026-04-22T20:35:21Z",
-              "message_id": "msg_assistant_e0bca3d3f7b2",
+              "created_at": "2026-04-24T20:07:56Z",
+              "message_id": "msg_489c7f45fe50",
               "reply_sections": [
                 {
                   "citations": [
                     {
-                      "citation_id": "citation_mat_bb59052d364446d2a30319b565c099ae_mat_bb59052d364446d2a30319b565c099ae:slide:1_1",
+                      "citation_id": "cit_76c9e32128dff91df356b0d4",
                       "confidence": "high",
                       "material_id": "mat_bb59052d364446d2a30319b565c099ae",
                       "material_title": "lecture13-backprop-ii.pdf",
-                      "preview_url": "http://127.0.0.1:38410/local/workspaces/workspace_f58b1a34802a/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:1/preview",
-                      "slide_id": "mat_bb59052d364446d2a30319b565c099ae:slide:1",
-                      "slide_number": 1,
-                      "snippet_text": "Preview unavailable.",
-                      "source_open_url": "http://127.0.0.1:38410/local/workspaces/workspace_f58b1a34802a/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:1/source",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:13/preview",
+                      "slide_id": "mat_bb59052d364446d2a30319b565c099ae:slide:13",
+                      "slide_number": 13,
+                      "snippet_text": "\u2026\ud835\udc4e4 \ud835\udc644 \ud835\udc674 \ud835\udc54 \ud835\udc53 \ud835\udc4e5 = \u0ddc\ud835\udc66 \ud835\udc645 \ud835\udc675 \ud835\udc54 \ud835\udc53 \u0ddc\ud835\udc66= \u210e\ud835\udf3d\ud835\udc31= \ud835\udc54\ud835\udc645 \u22c5\ud835\udc54\ud835\udc644 \u22c5\ud835\udc54\ud835\udc643 \u22c5\ud835\udc54\ud835\udc642 \u22c5\ud835\udc54\ud835\udc641 \u22c5\ud835\udc65 Questions: \u25aa Why do we need to compute all of the \ud835\udf15\ud835\udc3d/\ud835\udf15\ud835\udc67\u2113 and \ud835\udf15\ud835\udc3d/\ud835\udf15\ud835\udc4e\u2113? \u25aa Why \"backwards\"? \u25aa How do we actually compute these? \u25aa (What else do we need to learn to go beyond this useless network?) \ud835\udc3d \ud835\udf15\ud835\udc3d \ud835\udf15\u0ddc\ud835\udc66 \ud835\udf15\ud835\udc3d \ud835\udf15\ud835\udc675 \ud835\udf15\ud835\udc3d \ud835\udf15\ud835\udc645 \ud835\udf15\ud835\udc3d \ud835\udf15\ud835\udc4e4 \ud835\udf15\ud835\udc3d \ud835\udf15\ud835\udc674 \ud835\udf15\ud835\udc3d \ud835\udf15\ud835\udc644 \ud835\udf15\ud835\udc3d \ud835\udf15\ud835\udc4e3 \ud835\udf15\ud835\udc3d \ud835\udf15\ud835\udc673 \ud835\udf15\ud835\udc3d\u2026",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:13/source",
+                      "support_type": "explicit"
+                    },
+                    {
+                      "citation_id": "cit_cfe100b5762b4875a1f33df3",
+                      "confidence": "high",
+                      "material_id": "mat_bb59052d364446d2a30319b565c099ae",
+                      "material_title": "lecture13-backprop-ii.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:15/preview",
+                      "slide_id": "mat_bb59052d364446d2a30319b565c099ae:slide:15",
+                      "slide_number": 15,
+                      "snippet_text": "\ud835\udf15\ud835\udc3d \ud835\udf15\ud835\udc641 = Why backwards? Width 1 deep network (no bias) (dumb but will help with calculus) \ud835\udc65 \ud835\udc4e1 \ud835\udc641 \ud835\udc671 \ud835\udc54 \ud835\udc53 \ud835\udc66 \u2113 \ud835\udc4e2 \ud835\udc642 \ud835\udc672 \ud835\udc54 \ud835\udc53 \ud835\udc4e3 \ud835\udc643 \ud835\udc673 \ud835\udc54 \ud835\udc53 \ud835\udc4e4 \ud835\udc644 \ud835\udc674 \ud835\udc54 \ud835\udc53 \ud835\udc4e5 = \u0ddc\ud835\udc66 \ud835\udc645 \ud835\udc675 \ud835\udc54 \ud835\udc53 \u0ddc\ud835\udc66= \u210e\ud835\udf3d\ud835\udc31= \ud835\udc54\ud835\udc645 \u22c5\ud835\udc54\ud835\udc644 \u22c5\ud835\udc54\ud835\udc643 \u22c5\ud835\udc54\ud835\udc642 \u22c5\ud835\udc54\ud835\udc641 \u22c5\ud835\udc65 \ud835\udc3d \ud835\udf15\ud835\udc3d \ud835\udf15\u0ddc\ud835\udc66",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:15/source",
+                      "support_type": "explicit"
+                    },
+                    {
+                      "citation_id": "cit_637f289d0ac7bd77645486a1",
+                      "confidence": "high",
+                      "material_id": "mat_bb59052d364446d2a30319b565c099ae",
+                      "material_title": "lecture13-backprop-ii.pdf",
+                      "preview_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:16/preview",
+                      "slide_id": "mat_bb59052d364446d2a30319b565c099ae:slide:16",
+                      "slide_number": 16,
+                      "snippet_text": "\u2026= \ud835\udf15\ud835\udc3d \ud835\udf15\u0ddc\ud835\udc66 \ud835\udf15\ud835\udc54 \ud835\udf15\ud835\udc675 \ud835\udf15\ud835\udc53 \ud835\udf15\ud835\udc4e4 \ud835\udf15\ud835\udc54 \ud835\udf15\ud835\udc674 \ud835\udf15\ud835\udc53 \ud835\udf15\ud835\udc4e3 \ud835\udf15\ud835\udc54 \ud835\udf15\ud835\udc673 \ud835\udf15\ud835\udc53 \ud835\udf15\ud835\udc4e2 \ud835\udf15\ud835\udc54 \ud835\udf15\ud835\udc672 \ud835\udf15\ud835\udc53 \ud835\udf15\ud835\udc4e1 \ud835\udf15\ud835\udc54 \ud835\udf15\ud835\udc671 \ud835\udf15\ud835\udc53 \ud835\udf15\ud835\udc641 Why backwards? Width 1 deep network (no bias) (dumb but will help with calculus) \ud835\udc65 \ud835\udc4e1 \ud835\udc641 \ud835\udc671 \ud835\udc54 \ud835\udc53 \ud835\udc66 \u2113 \ud835\udc4e2 \ud835\udc642 \ud835\udc672 \ud835\udc54 \ud835\udc53 \ud835\udc4e3 \ud835\udc643 \ud835\udc673 \ud835\udc54 \ud835\udc53 \ud835\udc4e4 \ud835\udc644 \ud835\udc674 \ud835\udc54 \ud835\udc53 \ud835\udc4e5 = \u0ddc\ud835\udc66 \ud835\udc645 \ud835\udc675 \ud835\udc54 \ud835\udc53 \u0ddc\ud835\udc66= \u210e\ud835\udf3d\ud835\udc31= \ud835\udc54\ud835\udc645 \u22c5\ud835\udc54\ud835\udc644 \u22c5\ud835\udc54\ud835\udc643 \u22c5\ud835\udc54\ud835\udc642 \u22c5\ud835\udc54\ud835\udc641 \u22c5\ud835\udc65 \ud835\udc3d \ud835\udf15\ud835\udc3d \ud835\udf15\u0ddc\ud835\udc66 \ud835\udf15\ud835\udc3d \ud835\udf15\ud835\udc675 \ud835\udf15\ud835\udc3d \ud835\udf15\ud835\udc4e4 \ud835\udf15\ud835\udc3d \ud835\udf15\ud835\udc674 \ud835\udf15\ud835\udc3d \ud835\udf15\ud835\udc4e3 \ud835\udf15\ud835\udc3d \ud835\udf15\ud835\udc673 \ud835\udf15\ud835\udc3d\u2026",
+                      "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:16/source",
                       "support_type": "explicit"
                     }
                   ],
                   "heading": "Grounded answer",
-                  "support_status": "slide_grounded",
-                  "text": "Here is a grounded response based on the current workspace materials: what is a neural network. The shell preserved strict_lecture_only and response style standard while attaching a citation for inspection."
+                  "support_status": "inferred_from_slides",
+                  "text": "Backpropagation moves in a backward direction because the process starts with the final loss value and works toward the input to determine how each weight affects that loss. According to the chain rule, calculating the gradient for a weight early in the network requires"
                 }
               ],
               "role": "assistant"
             }
           ],
-          "title": "Workspace Q&A",
+          "title": "Chat 4:07:34 PM",
           "workspace_id": "workspace_f58b1a34802a"
         }
       },
@@ -275,20 +604,37 @@
       "grounding_mode": "strict_lecture_only",
       "history": [
         {
-          "active": true,
+          "active": false,
           "artifact_id": "conversation_3e243eb518e2",
           "artifact_type": "conversation",
           "created_at": "2026-04-22T20:30:16Z",
           "parent_artifact_id": null,
           "title": "Workspace Q&A"
+        },
+        {
+          "active": false,
+          "artifact_id": "conversation_7beabcfed93a",
+          "artifact_type": "conversation",
+          "created_at": "2026-04-24T20:07:34Z",
+          "parent_artifact_id": null,
+          "title": "Chat 4:07:34 PM"
+        },
+        {
+          "active": true,
+          "artifact_id": "conversation_3ffa00391ea6",
+          "artifact_type": "conversation",
+          "created_at": "2026-04-24T20:11:53Z",
+          "parent_artifact_id": null,
+          "title": "Chat 4:11:53 PM"
         }
       ],
       "known_conversation_ids": [
-        "conversation_3e243eb518e2"
+        "conversation_3e243eb518e2",
+        "conversation_7beabcfed93a",
+        "conversation_3ffa00391ea6"
       ],
       "known_practice_set_ids": [],
-      "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-22T20:35:22Z",
+      "last_opened_at": "2026-04-24T20:12:47Z",
       "local_edits": {},
       "material_preferences": {
         "mat_8d42b5f497924ba7b92aabff1c8941ae": "default",
@@ -2611,36 +2957,45 @@
       "pending_user_actions": [],
       "practice_preferences": {},
       "practice_sets": {},
-      "selected_active_conversation_id": "conversation_3e243eb518e2",
+      "selected_active_conversation_id": "conversation_3ffa00391ea6",
       "status": {
         "last_successful_sync": {
-          "content": "2026-04-22T20:30:34Z",
-          "learning": "2026-04-22T20:30:34Z"
+          "content": "2026-04-24T20:12:47Z",
+          "learning": "2026-04-24T20:12:47Z"
         },
         "services": {
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-22T20:35:21Z",
-            "mode": "mock"
+            "details": {
+              "storage_available": true
+            },
+            "health_status": "ok",
+            "last_checked_at": "2026-04-24T20:12:47Z",
+            "mode": "integrated",
+            "ready": true
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-22T20:35:21Z",
-            "mode": "mock"
+            "details": {
+              "content_service_reachable": true,
+              "deterministic_fallback_available": true,
+              "gemini_configured": true,
+              "integrated_mode_available": true,
+              "primary_generation_path": "gemini",
+              "problems": [],
+              "process_up": true,
+              "standalone_mode_available": true
+            },
+            "health_status": "ok",
+            "last_checked_at": "2026-04-24T20:12:47Z",
+            "mode": "integrated",
+            "ready": true
           }
         },
         "warnings": []
       },
-      "student_context": {
-        "goals": "",
-        "known": "",
-        "weak_areas": ""
-      },
-      "study_plans": {},
-      "time_budget_minutes": null,
-      "topic_text": "",
       "ui_preferences": {
         "current_tab": "Overview",
         "last_active_citation": null,
@@ -2659,7 +3014,6 @@
         ]
       },
       "active_practice_set_id": "practice_fixture_1",
-      "active_study_plan_id": null,
       "annotations": [],
       "archived": false,
       "conversations": {
@@ -2747,8 +3101,7 @@
       "known_practice_set_ids": [
         "practice_fixture_1"
       ],
-      "known_study_plan_ids": [],
-      "last_opened_at": "2026-04-22T20:35:22Z",
+      "last_opened_at": "2026-04-24T20:12:47Z",
       "local_edits": {},
       "material_preferences": {
         "material_fixture_notes": "default",
@@ -3009,26 +3362,35 @@
           "content": {
             "available": true,
             "base_url": "http://127.0.0.1:38410",
-            "last_checked_at": "2026-04-22T20:35:22Z",
-            "mode": "mock"
+            "details": {
+              "storage_available": true
+            },
+            "health_status": "ok",
+            "last_checked_at": "2026-04-24T20:12:47Z",
+            "mode": "integrated",
+            "ready": true
           },
           "learning": {
             "available": true,
             "base_url": "http://127.0.0.1:38420",
-            "last_checked_at": "2026-04-22T20:35:22Z",
-            "mode": "mock"
+            "details": {
+              "content_service_reachable": true,
+              "deterministic_fallback_available": true,
+              "gemini_configured": true,
+              "integrated_mode_available": true,
+              "primary_generation_path": "gemini",
+              "problems": [],
+              "process_up": true,
+              "standalone_mode_available": true
+            },
+            "health_status": "ok",
+            "last_checked_at": "2026-04-24T20:12:47Z",
+            "mode": "integrated",
+            "ready": true
           }
         },
         "warnings": []
       },
-      "student_context": {
-        "goals": "Prepare for a closed-book midterm practice section",
-        "known": "Basic derivatives and vectors",
-        "weak_areas": "Keeping the gradient signs straight"
-      },
-      "study_plans": {},
-      "time_budget_minutes": 90,
-      "topic_text": "Backpropagation and gradient descent",
       "ui_preferences": {
         "current_tab": "Overview",
         "last_active_citation": null,

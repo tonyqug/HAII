@@ -461,117 +461,106 @@ class GroundedGenerator(HeuristicGroundedGenerator):
         previous_messages: Sequence[Dict[str, Any]],
         relevant_items: Sequence[Dict[str, Any]],
     ) -> Optional[Tuple[Dict[str, Any], Dict[str, Any]]]:
-        citation_index = self._citation_index(bundle)
-        allowed_citation_ids = [item.get("citation", {}).get("citation_id") for item in relevant_items if (item.get("citation") or {}).get("citation_id")]
+        grounded_citations = dedupe_citations(item.get("citation") for item in relevant_items)[:3]
         evidence_lines = []
         for item in relevant_items:
             citation = item.get("citation") or {}
             evidence_lines.append(
-                f"citation_id={citation.get('citation_id')} | slide={item.get('slide_number')} | title={item.get('material_title')} | text={item.get('text')}"
+                f"slide={item.get('slide_number')} | citation_id={citation.get('citation_id')} | title={item.get('material_title')} | text={item.get('text')}"
             )
         if not evidence_lines:
             evidence_lines.append("No matched lecture evidence was retrieved for this question.")
         recent_user_turns = [msg.get("text", "") for msg in previous_messages if msg.get("role") == "user" and msg.get("text")][-2:]
+        partial_bridge = self._question_specific_partial_answer(normalized_message, relevant_items)
         prompt = (
             f"Grounding mode: {grounding_mode}\n"
             f"Response style: {response_style if response_style in ALLOWED_RESPONSE_STYLES else 'standard'}\n"
             f"Question: {normalized_message}\n"
             f"Retrieval query assist: {retrieval_query}\n"
             f"Recent user turns: {recent_user_turns}\n"
-            f"Allowed citation ids: {allowed_citation_ids}\n"
             "Evidence digest:\n"
             + "\n".join(evidence_lines)
-            + "\n\nReturn JSON with keys reply_sections and optional clarifying_question.\n"
-            "Each reply section must have heading, text, support_status, citation_ids.\n"
-            "Grounded sections must cite allowed citation ids. External supplement sections must have no citation ids.\n"
-            "strict_lecture_only must not include external_supplement sections.\n"
-            "Every grounded section must paraphrase the evidence into fresh wording. Do not quote or closely mirror the evidence digest.\n"
-            "CRITICAL: First check whether the evidence actually addresses the question. "
-            "If the evidence is genuinely unrelated, return a single section with support_status='insufficient_evidence', empty citation_ids=[], and text explaining the mismatch. "
-            "If the evidence is close but only partially answers the question, give the best grounded partial answer first, explicitly name the limit of what the slides show, and use external_supplement only for a short clearly labeled bridge when grounding_mode allows it. "
-            "Do NOT summarize unrelated evidence to answer a question it does not address.\n"
+            + "\n\nWrite the answer as plain text only.\n"
+            "Rules:\n"
+            "- Be helpful and explanatory, not defensive.\n"
+            "- Base the answer on the evidence digest when it is relevant.\n"
+            "- If the slides only partially answer the question, give the best grounded partial explanation first, then briefly name the missing detail.\n"
+            "- If the evidence is genuinely unrelated, say the materials do not cover it clearly.\n"
+            "- Do not return JSON.\n"
+            "- Do not include headings, labels, or citation ids in the answer text.\n"
+            "- Do not quote or closely mirror the evidence digest; paraphrase it.\n"
         )
-        payload = self.gemini.generate_json(
+        if partial_bridge:
+            prompt += f"- Helpful grounded hint: {partial_bridge}\n"
+        text = self.gemini.generate_text(
             system_instruction=(
-                "You answer study questions grounded in lecture evidence. Return valid JSON only. "
-                "Do not use unsupported lecture claims or unsupported citation ids. "
-                "Use insufficient_evidence only when the evidence is truly unrelated or too thin even for a partial lecture-grounded explanation. "
-                "When the slides provide a nearby mechanism or intuition, answer with that grounded connection before naming the missing detail. "
-                "Always paraphrase the evidence into your own words instead of repeating source phrasing."
+                "You answer study questions grounded in lecture evidence. "
+                "Prefer a grounded partial explanation over a refusal when the slides contain nearby mechanism or intuition. "
+                "Use plain text only and paraphrase the evidence."
             ),
             user_prompt=prompt,
-            max_output_tokens=1000,
+            max_output_tokens=700,
         )
         llm_call_info = copy.deepcopy(getattr(self.gemini, "last_call_info", {}) or {})
-        if not isinstance(payload, dict):
-            return self._reject_gemini_output("chat reply", "Expected a top-level JSON object for the chat response.", payload=payload)
+        if not text:
+            return None
 
-        sections = []
-        for index, raw in enumerate(payload.get("reply_sections") or [], start=1):
-            if not isinstance(raw, dict):
-                return self._reject_gemini_output(
-                    "chat reply",
-                    f"Reply section #{index} was not a JSON object.",
-                    payload=payload,
-                )
-            citations = self._citation_objects(raw.get("citation_ids"), citation_index, allowed_ids=set(allowed_citation_ids))
-            raw_status = self._safe_text(raw.get("support_status"))
-            if raw_status in {"slide_grounded", "inferred_from_slides"} and not citations:
-                return self._reject_gemini_output(
-                    "chat reply",
-                    f"Reply section #{index} claimed grounded support but did not reference any allowed citation_ids.",
-                    payload=payload,
-                )
-            status = self._normalize_support_status(raw.get("support_status"), citations, grounding_mode, allow_external=True)
-            if status == "external_supplement" and grounding_mode == "strict_lecture_only":
-                return self._reject_gemini_output(
-                    "chat reply",
-                    f"Reply section #{index} returned external_supplement in strict_lecture_only mode.",
-                    payload=payload,
-                )
-            section = {
-                "heading": self._safe_text(raw.get("heading"), fallback="Grounded answer" if citations else "Answer"),
-                "text": self._safe_text(raw.get("text"), fallback="I could not form a reliable grounded answer from the provided evidence."),
-                "support_status": status,
-                "citations": citations,
-            }
-            if status in {"slide_grounded", "inferred_from_slides"} and self._repeats_source_material(section["text"], relevant_items):
-                LOGGER.warning(
-                    "Rejecting Gemini chat reply because it repeated source material directly for query=%r.",
-                    normalized_message[:120],
-                )
-                return self._reject_gemini_output(
-                    "chat reply",
-                    f"Reply section #{index} repeated source material too closely instead of paraphrasing it.",
-                    payload=payload,
-                    reason="verbatim_evidence_repetition",
-                )
-            sections.append(section)
+        answer_text = self._normalize_gemini_chat_text(text, response_style=response_style)
+        if not answer_text:
+            self._record_gemini_failure("invalid_response_text", "Gemini returned an empty chat answer after normalization.")
+            LOGGER.warning("Gemini chat reply normalized to empty text for query=%r.", normalized_message[:120])
+            return None
 
-        if not sections:
-            return self._reject_gemini_output("chat reply", "No reply_sections were returned.", payload=payload)
-        if not any(section["support_status"] in {"slide_grounded", "inferred_from_slides", "insufficient_evidence"} for section in sections):
-            return self._reject_gemini_output(
-                "chat reply",
-                "The chat response did not include any grounded or insufficient_evidence section.",
-                payload=payload,
+        support_status = self._support_status_for_gemini_chat_text(
+            query=query,
+            retrieval_query=retrieval_query,
+            relevant_items=relevant_items,
+            answer_text=answer_text,
+            partial_bridge=partial_bridge,
+        )
+        section_citations = grounded_citations if support_status in {"slide_grounded", "inferred_from_slides"} else []
+
+        if support_status in {"slide_grounded", "inferred_from_slides"} and self._repeats_source_material(answer_text, relevant_items):
+            LOGGER.warning(
+                "Gemini chat reply repeated source material directly for query=%r; retrying with a paraphrase-only prompt.",
+                normalized_message[:120],
             )
-        if len(sections) == 1 and sections[0]["support_status"] == "insufficient_evidence":
-            partial_bridge = self._question_specific_partial_answer(normalized_message, relevant_items)
-            if partial_bridge:
-                return self._reject_gemini_output(
-                    "chat reply",
-                    "Gemini returned insufficient_evidence even though the retrieved lecture evidence supports a partial grounded explanation.",
-                    payload=payload,
-                    reason="over_strict_insufficient_evidence",
+            repaired_text = self._repair_gemini_chat_text(
+                normalized_message=normalized_message,
+                answer_text=answer_text,
+                relevant_items=relevant_items,
+                response_style=response_style,
+            )
+            if not repaired_text:
+                self._record_gemini_failure(
+                    "verbatim_evidence_repetition",
+                    "Gemini repeated source material directly and the paraphrase retry did not produce a usable answer.",
                 )
+                return None
+            answer_text = repaired_text
+            llm_call_info = copy.deepcopy(getattr(self.gemini, "last_call_info", {}) or llm_call_info)
+            if self._repeats_source_material(answer_text, relevant_items):
+                self._record_gemini_failure(
+                    "verbatim_evidence_repetition",
+                    "Gemini repeated source material directly even after the paraphrase retry.",
+                )
+                return None
 
-        if grounding_mode == "lecture_with_fallback" and any(
-            section["support_status"] in {"slide_grounded", "inferred_from_slides"} for section in sections
-        ) and self._needs_external_supplement(normalized_message, relevant_items) and not any(
-            section["support_status"] == "external_supplement" for section in sections
+        sections = [
+            {
+                "heading": "Grounded answer" if section_citations else "What the materials show",
+                "text": answer_text,
+                "support_status": support_status,
+                "citations": section_citations,
+            }
+        ]
+
+        if (
+            grounding_mode == "lecture_with_fallback"
+            and support_status in {"slide_grounded", "inferred_from_slides"}
+            and self._needs_external_supplement(normalized_message, relevant_items)
         ):
-            grounded_text = " ".join(section["text"] for section in sections if section["support_status"] in {"slide_grounded", "inferred_from_slides"})
+            grounded_text = answer_text
             sections.append(
                 {
                     "heading": "External supplement",
@@ -593,16 +582,11 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             "created_at": utc_now_iso(),
             "reply_sections": sections,
         }
-        clarifying = payload.get("clarifying_question")
-        if isinstance(clarifying, dict) and (clarifying.get("prompt") or clarifying.get("reason")):
-            assistant_message["clarifying_question"] = {
-                "prompt": self._safe_text(clarifying.get("prompt"), fallback="Please ask a more specific question."),
-                "reason": self._safe_text(clarifying.get("reason"), fallback="The question would benefit from a narrower grounded target."),
-            }
         LOGGER.info(
-            "Gemini chat reply accepted for query=%r using model=%s with %s section(s).",
+            "Gemini chat reply accepted for query=%r using model=%s with support_status=%s and %s section(s).",
             normalized_message[:120],
             llm_call_info.get("used_model"),
+            support_status,
             len(sections),
         )
         return self._with_conversation_answer_source(
@@ -612,6 +596,86 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             relevant_items=relevant_items,
             llm_call_info=llm_call_info,
         )
+
+    def _normalize_gemini_chat_text(self, text: str, *, response_style: str) -> str:
+        cleaned = text.strip()
+        cleaned = re.sub(r"^\s*```(?:text|markdown)?\s*", "", cleaned, flags=re.IGNORECASE)
+        cleaned = re.sub(r"\s*```$", "", cleaned)
+        cleaned = re.sub(r"^\s*(?:grounded answer|answer|response|what the materials show)\s*:\s*", "", cleaned, flags=re.IGNORECASE)
+        if response_style == "step_by_step":
+            lines = [line.strip() for line in cleaned.splitlines() if normalize_whitespace(line)]
+            return "\n".join(lines)
+        return normalize_whitespace(cleaned)
+
+    def _looks_like_insufficient_evidence_chat(self, answer_text: str) -> bool:
+        lowered = normalize_whitespace(answer_text).lower()
+        insufficient_phrases = [
+            "do not cover",
+            "does not cover",
+            "don't cover",
+            "not covered",
+            "do not explain",
+            "does not explain",
+            "don't explain",
+            "not enough evidence",
+            "insufficient evidence",
+            "materials do not",
+            "slides do not",
+        ]
+        return any(phrase in lowered for phrase in insufficient_phrases)
+
+    def _support_status_for_gemini_chat_text(
+        self,
+        *,
+        query: str,
+        retrieval_query: str,
+        relevant_items: Sequence[Dict[str, Any]],
+        answer_text: str,
+        partial_bridge: Optional[str],
+    ) -> str:
+        if not relevant_items:
+            return "insufficient_evidence"
+        if partial_bridge:
+            return "slide_grounded" if len(relevant_items) == 1 else "inferred_from_slides"
+        if self._looks_like_insufficient_evidence_chat(answer_text) and self._chat_match_is_weak(
+            query,
+            relevant_items,
+            retrieval_query=retrieval_query,
+        ):
+            return "insufficient_evidence"
+        return "slide_grounded" if len(relevant_items) == 1 else "inferred_from_slides"
+
+    def _repair_gemini_chat_text(
+        self,
+        *,
+        normalized_message: str,
+        answer_text: str,
+        relevant_items: Sequence[Dict[str, Any]],
+        response_style: str,
+    ) -> Optional[str]:
+        evidence_lines = []
+        for item in relevant_items:
+            evidence_lines.append(
+                f"slide={item.get('slide_number')} | title={item.get('material_title')} | text={item.get('text')}"
+            )
+        repaired = self.gemini.generate_text(
+            system_instruction=(
+                "You paraphrase a lecture-grounded answer so it no longer mirrors the source wording. "
+                "Use plain text only."
+            ),
+            user_prompt=(
+                f"Student question: {normalized_message}\n"
+                f"Current answer draft: {answer_text}\n"
+                "Evidence digest:\n"
+                + "\n".join(evidence_lines)
+                + "\n\nRewrite the answer in fresh wording while keeping the same grounded meaning. "
+                "Do not quote or closely mirror the evidence digest."
+            ),
+            max_output_tokens=500 if response_style != "step_by_step" else 650,
+        )
+        if not repaired:
+            return None
+        return self._normalize_gemini_chat_text(repaired, response_style=response_style)
 
     # --------------------------
     # Gemini-backed practice sets
@@ -631,27 +695,7 @@ class GroundedGenerator(HeuristicGroundedGenerator):
         grounding_mode: str,
         parent_practice_set_id: Optional[str] = None,
     ) -> Dict[str, Any]:
-        artifact = None
-        if self.gemini.configured:
-            artifact = self._build_practice_set_via_gemini(
-                bundle=bundle,
-                topic_text=topic_text,
-                generation_mode=generation_mode,
-                template_material_id=template_material_id,
-                question_count=question_count,
-                coverage_mode=coverage_mode,
-                difficulty_profile=difficulty_profile,
-                include_answer_key=include_answer_key,
-                include_rubrics=include_rubrics,
-                grounding_mode=grounding_mode,
-                parent_practice_set_id=parent_practice_set_id,
-            )
-        if artifact is not None:
-            artifact.setdefault("_meta", {})["generation_path"] = "gemini"
-            return artifact
-        if self.gemini.configured:
-            self._log_gemini_fallback("practice set generation", "heuristic fallback")
-        artifact = super().build_practice_set(
+        base_artifact = super().build_practice_set(
             bundle=bundle,
             topic_text=topic_text,
             generation_mode=generation_mode,
@@ -664,12 +708,32 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             grounding_mode=grounding_mode,
             parent_practice_set_id=parent_practice_set_id,
         )
-        artifact.setdefault("_meta", {})["generation_path"] = "heuristic_fallback"
-        return artifact
+        if self.gemini.configured:
+            artifact = self._build_practice_set_via_gemini(
+                base_artifact=copy.deepcopy(base_artifact),
+                bundle=bundle,
+                topic_text=topic_text,
+                generation_mode=generation_mode,
+                template_material_id=template_material_id,
+                question_count=question_count,
+                coverage_mode=coverage_mode,
+                difficulty_profile=difficulty_profile,
+                include_answer_key=include_answer_key,
+                include_rubrics=include_rubrics,
+                grounding_mode=grounding_mode,
+                parent_practice_set_id=parent_practice_set_id,
+            )
+            if artifact is not None:
+                artifact.setdefault("_meta", {})["generation_path"] = "gemini"
+                return artifact
+            self._log_gemini_fallback("practice set generation", "heuristic fallback")
+        base_artifact.setdefault("_meta", {})["generation_path"] = "heuristic_fallback"
+        return base_artifact
 
     def _build_practice_set_via_gemini(
         self,
         *,
+        base_artifact: Dict[str, Any],
         bundle: Dict[str, Any],
         topic_text: Optional[str],
         generation_mode: str,
@@ -682,29 +746,30 @@ class GroundedGenerator(HeuristicGroundedGenerator):
         grounding_mode: str,
         parent_practice_set_id: Optional[str],
     ) -> Optional[Dict[str, Any]]:
-        accessor = EvidenceAccessor(bundle)
-        lecture_material_ids = accessor.lecture_material_ids(template_material_id)
-        lecture_records = accessor.concept_records(lecture_material_ids)
-        if not lecture_records:
+        questions = list(base_artifact.get("questions") or [])
+        if not questions:
             return None
 
-        template_style_summary = None
-        template_verbs: List[str] = []
-        if generation_mode == "template_mimic":
-            template_items = accessor.filter_items([template_material_id])
-            if not template_items:
-                return None
-            template_style_summary, template_verbs = self._analyze_template_style(template_items)
-        selected_records = self._select_records_for_questions(lecture_records, question_count, coverage_mode)
-        if not selected_records:
-            return None
-
-        citation_index = self._citation_index(bundle)
-        evidence_lines = []
-        for idx, record in enumerate(selected_records, start=1):
-            citation_ids = [citation["citation_id"] for citation in record.get("citations", []) if citation.get("citation_id")]
-            evidence_lines.append(
-                f"{idx}. concept={record['concept_name']} | slide={record['slide_number']} | citations={citation_ids} | summary={record['summary_text']}"
+        prompt_questions: List[Dict[str, Any]] = []
+        for index, question in enumerate(questions, start=1):
+            evidence_preview = [
+                safe_excerpt(citation.get("snippet_text") or "", 180)
+                for citation in (question.get("citations") or [])[:2]
+                if self._safe_text(citation.get("snippet_text"))
+            ]
+            prompt_questions.append(
+                {
+                    "question_index": index,
+                    "question_type": question.get("question_type"),
+                    "difficulty": question.get("difficulty"),
+                    "covered_slides": question.get("covered_slides") or [],
+                    "current_stem": question.get("stem"),
+                    "current_expected_answer": question.get("expected_answer") if include_answer_key else "",
+                    "current_answer_choices": question.get("answer_choices") if question.get("question_type") == "multiple_choice" else [],
+                    "current_rubric": question.get("rubric") if include_rubrics else [],
+                    "current_scoring_guide_text": question.get("scoring_guide_text") or "",
+                    "evidence_preview": evidence_preview,
+                }
             )
 
         prompt = (
@@ -714,30 +779,25 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             f"Difficulty profile: {difficulty_profile}\n"
             f"Question count: {question_count}\n"
             f"Grounding mode: {grounding_mode}\n"
+            f"Template material id: {template_material_id or ''}\n"
             f"Include answer key: {include_answer_key}\n"
             f"Include rubrics: {include_rubrics}\n"
-            f"Template style summary: {template_style_summary or ''}\n"
-            f"Template verbs: {template_verbs}\n"
-            f"Allowed citation ids: {sorted(citation_index)}\n"
-            "Evidence digest:\n"
-            + "\n".join(evidence_lines)
-            + "\n\nReturn JSON with keys template_style_summary and questions.\n"
-            "Each question must have question_type, stem, expected_answer, citation_ids, and optional difficulty, rubric, scoring_guide_text, answer_choices, estimated_minutes.\n"
-            "Use only allowed citation ids. Every question must cite lecture evidence.\n"
-            "Questions must feel like challenging exam questions, not study-guide prompts.\n"
-            "Prefer comparison, diagnosis, trade-offs, failure modes, application, or justification over simple definition recall.\n"
-            "Do not copy slide or study-guide wording directly into stems, answer choices, or expected answers; paraphrase into a consistent exam voice.\n"
-            "For multiple choice, generate four options that are stylistically parallel, similar in length, and equally plausible at a glance.\n"
-            "Do not use equations, variable-style symbols, quotation marks, slide headers, or visibly source-like formatting in only one option.\n"
-            "Do not make the correct option stand out by specificity, formatting, or length.\n"
-            "Expected answers should read like concise evaluator notes, not pasted lecture prose.\n"
-            "template_mimic may borrow style only, not template topic content outside the lecture evidence.\n"
+            f"Current template style summary: {base_artifact.get('template_style_summary') or ''}\n"
+            "Current grounded practice draft:\n"
+            f"{json.dumps(prompt_questions, ensure_ascii=False)}\n\n"
+            "Return JSON with optional keys template_style_summary and questions.\n"
+            "Each question object must include question_index and may include stem, expected_answer, difficulty, rubric, scoring_guide_text, answer_choices, estimated_minutes.\n"
+            "Keep the same number of questions and the same question_type already given for each question_index.\n"
+            "You are improving an already grounded draft, not inventing a new artifact format.\n"
+            "Do not include citation ids, slide numbers, question ids, or commentary outside the JSON object.\n"
+            "Make the stems and answer keys sound like serious exam questions rather than copied lecture bullets.\n"
+            "Do not quote or closely mirror the evidence preview; paraphrase it.\n"
+            "If a current draft is already strong, you may keep its structure and make only light edits.\n"
         )
         payload = self.gemini.generate_json(
             system_instruction=(
-                "You create grounded practice questions from lecture evidence. Return valid JSON only. "
-                "Every question must be supported by allowed citation ids. "
-                "Write serious, high-difficulty assessment items when the request asks for harder questions."
+                "You improve already grounded practice questions from lecture evidence. Return valid JSON only. "
+                "Preserve the question_index mapping and keep each question aligned with its existing grounded coverage."
             ),
             user_prompt=prompt,
             max_output_tokens=2200,
@@ -745,123 +805,165 @@ class GroundedGenerator(HeuristicGroundedGenerator):
         if not isinstance(payload, dict):
             return self._reject_gemini_output("practice set", "Expected a top-level JSON object for the practice set response.", payload=payload)
 
-        raw_questions = payload.get("questions") or []
-        if len(raw_questions) < question_count:
+        updates = self._practice_question_updates_by_index(payload.get("questions"), len(questions))
+        updated_count = 0
+        enhanced_questions: List[Dict[str, Any]] = []
+        for index, question in enumerate(questions, start=1):
+            enhanced_question, was_updated = self._merge_practice_question_update(
+                base_question=question,
+                raw_update=updates.get(index),
+                include_answer_key=include_answer_key,
+                include_rubrics=include_rubrics,
+                difficulty_profile=difficulty_profile,
+            )
+            enhanced_questions.append(enhanced_question)
+            if was_updated:
+                updated_count += 1
+
+        current_style_summary = base_artifact.get("template_style_summary")
+        template_style_summary = self._safe_text(payload.get("template_style_summary"), fallback="")
+        if not template_style_summary:
+            template_style_summary = current_style_summary
+        template_changed = bool(template_style_summary != current_style_summary)
+        if updated_count == 0 and not template_changed:
             return self._reject_gemini_output(
                 "practice set",
-                f"Expected at least {question_count} questions, but received {len(raw_questions)}.",
+                "Gemini did not produce any usable question improvements for the grounded practice draft.",
                 payload=payload,
-            )
-        expected_types = self._question_types_for_mode(generation_mode, question_count, template_items_present=bool(template_material_id))
-        questions = []
-        for index, raw in enumerate(raw_questions[:question_count], start=1):
-            if not isinstance(raw, dict):
-                return self._reject_gemini_output(
-                    "practice set",
-                    f"Question #{index} was not a JSON object.",
-                    payload=payload,
-                )
-            citations = self._citation_objects(raw.get("citation_ids"), citation_index)
-            if not citations:
-                return self._reject_gemini_output(
-                    "practice set",
-                    f"Question #{index} did not reference any allowed citation_ids.",
-                    payload=payload,
-                )
-            question_type = raw.get("question_type")
-            if question_type not in ALLOWED_QUESTION_TYPES:
-                question_type = expected_types[index - 1]
-            elif generation_mode == "short_answer":
-                question_type = "short_answer"
-            elif generation_mode == "long_answer":
-                question_type = "long_answer"
-            difficulty = raw.get("difficulty")
-            if difficulty not in ALLOWED_DIFFICULTIES:
-                difficulty = difficulty_profile
-            concept = infer_concept_label(first_sentence(raw.get("expected_answer") or raw.get("stem") or ""), fallback=f"Question {index}")
-            rubric = []
-            if include_rubrics:
-                rubric = self._sanitize_rubric(raw.get("rubric")) or self._rubric_for_question(question_type, concept, True, difficulty)
-            scoring_guide = self._safe_text(raw.get("scoring_guide_text"))
-            answer_choices: List[str] = []
-            expected_answer = self._safe_text(raw.get("expected_answer"), fallback="") if include_answer_key else ""
-            if question_type == "multiple_choice":
-                answer_choices = self._sanitize_answer_choices(raw.get("answer_choices"))
-                if len(answer_choices) != 4:
-                    return self._reject_gemini_output(
-                        "practice set",
-                        f"Multiple-choice question #{index} did not produce exactly four usable answer choices.",
-                        payload=payload,
-                    )
-                if not scoring_guide:
-                    scoring_guide = "Award credit only for the option that best matches the lecture-grounded reasoning, not the most generic-sounding statement."
-            if question_type == "long_answer" and not scoring_guide:
-                scoring_guide = (
-                    f"Full credit requires a correct explanation of {concept}, a grounded connection to the lecture context, "
-                    "and one clearly stated caution or application detail."
-                )
-            questions.append(
-                {
-                    "question_id": make_id("question"),
-                    "question_type": question_type,
-                    "stem": self._safe_text(raw.get("stem"), fallback=f"Explain {concept} using the grounded lecture evidence."),
-                    "expected_answer": expected_answer,
-                    "answer_choices": answer_choices,
-                    "rubric": rubric,
-                    "scoring_guide_text": scoring_guide,
-                    "citations": citations,
-                    "covered_slides": distinct_slide_numbers(citations),
-                    "difficulty": difficulty,
-                    "estimated_minutes": self._coerce_estimated_minutes(raw.get("estimated_minutes"), question_type, difficulty),
-                }
+                reason="no_usable_question_updates",
             )
 
-        cited_slides = sorted({slide for question in questions for slide in question.get("covered_slides", [])})
-        considered_slides = accessor.distinct_slide_numbers(lecture_material_ids)
-        uncited_or_skipped = sorted(set(considered_slides) - set(cited_slides))
-        notes = self._coverage_notes(coverage_mode, considered_slides, cited_slides, question_count, topic_text or "")
-        return {
-            "practice_set_id": make_id("practice_set"),
-            "parent_practice_set_id": parent_practice_set_id,
-            "workspace_id": bundle.get("workspace_id"),
-            "created_at": utc_now_iso(),
-            "topic_text": topic_text or "",
-            "generation_mode": generation_mode,
-            "template_style_summary": self._safe_text(payload.get("template_style_summary"), fallback=template_style_summary),
-            "estimated_duration_minutes": sum(int(question.get("estimated_minutes") or 0) for question in questions),
-            "questions": questions,
-            "coverage_report": {
-                "considered_slide_count": len(considered_slides),
-                "cited_slide_count": len(cited_slides),
-                "uncited_or_skipped_slides": uncited_or_skipped,
-                "notes": notes,
-            },
-            "human_loop_summary": {
-                "used_inputs": [
-                    {"label": "Topic focus", "value": topic_text or "All ready grounded materials"},
-                    {"label": "Question format", "value": generation_mode.replace("_", " ")},
-                    {"label": "Question count", "value": str(question_count)},
-                    {"label": "Coverage mode", "value": coverage_mode.replace("_", " ")},
-                    {"label": "Difficulty", "value": difficulty_profile},
-                    {"label": "Answer key", "value": "Included" if include_answer_key else "Hidden"},
-                    {"label": "Rubrics", "value": "Included" if include_rubrics else "Hidden"},
-                ],
-                "follow_up_actions": [
-                    "Lock the strongest questions before revising.",
-                    "Regenerate only the questions that feel unclear or off-target.",
-                    "Narrow the topic if the current set is too broad.",
-                ],
-            },
-            "_meta": {
-                "grounding_source": self._grounding_source_from_bundle(bundle),
-                "template_material_id": template_material_id,
-                "coverage_mode": coverage_mode,
-                "difficulty_profile": difficulty_profile,
-                "include_answer_key": include_answer_key,
-                "include_rubrics": include_rubrics,
-                "grounding_mode": grounding_mode,
-            },
-        }
+        artifact = copy.deepcopy(base_artifact)
+        artifact["template_style_summary"] = template_style_summary
+        artifact["questions"] = enhanced_questions
+        artifact["estimated_duration_minutes"] = sum(int(question.get("estimated_minutes") or 0) for question in enhanced_questions)
+        artifact.setdefault("_meta", {})["llm_enhanced_questions"] = updated_count
+        LOGGER.info(
+            "Gemini practice enhancement accepted using model=%s with %s updated question(s).",
+            (getattr(self.gemini, "last_call_info", {}) or {}).get("used_model"),
+            updated_count,
+        )
+        artifact.setdefault("_meta", {})["generation_path"] = "gemini"
+        return artifact
+
+    def _practice_question_updates_by_index(self, value: Any, question_count: int) -> Dict[int, Dict[str, Any]]:
+        updates: Dict[int, Dict[str, Any]] = {}
+        fallback_index = 1
+        for raw in value or []:
+            if not isinstance(raw, dict):
+                fallback_index += 1
+                continue
+            try:
+                question_index = int(raw.get("question_index"))
+            except Exception:
+                question_index = fallback_index
+            fallback_index += 1
+            if 1 <= question_index <= question_count and question_index not in updates:
+                updates[question_index] = raw
+        return updates
+
+    def _merge_practice_question_update(
+        self,
+        *,
+        base_question: Dict[str, Any],
+        raw_update: Optional[Dict[str, Any]],
+        include_answer_key: bool,
+        include_rubrics: bool,
+        difficulty_profile: str,
+    ) -> Tuple[Dict[str, Any], bool]:
+        merged = copy.deepcopy(base_question)
+        if not isinstance(raw_update, dict):
+            return merged, False
+
+        updated = False
+        relevant_items = self._practice_relevant_items_from_citations(merged.get("citations") or [])
+
+        stem = self._grounded_practice_text(raw_update.get("stem"), fallback=merged.get("stem", ""), relevant_items=relevant_items)
+        if stem and stem != merged.get("stem"):
+            merged["stem"] = stem
+            updated = True
+
+        if include_answer_key:
+            expected_answer = self._grounded_practice_text(
+                raw_update.get("expected_answer"),
+                fallback=merged.get("expected_answer", ""),
+                relevant_items=relevant_items,
+            )
+            if expected_answer != merged.get("expected_answer", ""):
+                merged["expected_answer"] = expected_answer
+                updated = True
+        else:
+            merged["expected_answer"] = ""
+
+        raw_difficulty = raw_update.get("difficulty")
+        if raw_difficulty in ALLOWED_DIFFICULTIES and raw_difficulty != merged.get("difficulty"):
+            merged["difficulty"] = raw_difficulty
+            updated = True
+        question_difficulty = merged.get("difficulty") if merged.get("difficulty") in ALLOWED_DIFFICULTIES else difficulty_profile
+
+        if merged.get("question_type") == "multiple_choice":
+            answer_choices = self._sanitize_answer_choices(raw_update.get("answer_choices"))
+            if len(answer_choices) == 4 and answer_choices != (merged.get("answer_choices") or []):
+                merged["answer_choices"] = answer_choices
+                updated = True
+
+        if include_rubrics:
+            rubric = self._sanitize_rubric(raw_update.get("rubric"))
+            if rubric and rubric != (merged.get("rubric") or []):
+                merged["rubric"] = rubric
+                updated = True
+        else:
+            merged["rubric"] = []
+
+        scoring_guide_text = self._grounded_practice_text(
+            raw_update.get("scoring_guide_text"),
+            fallback=merged.get("scoring_guide_text", ""),
+            relevant_items=relevant_items,
+        )
+        if scoring_guide_text != merged.get("scoring_guide_text", ""):
+            merged["scoring_guide_text"] = scoring_guide_text
+            updated = True
+
+        if raw_update.get("estimated_minutes") is not None:
+            estimated_minutes = self._coerce_estimated_minutes(
+                raw_update.get("estimated_minutes"),
+                merged.get("question_type") or "short_answer",
+                question_difficulty,
+            )
+            if estimated_minutes != merged.get("estimated_minutes"):
+                merged["estimated_minutes"] = estimated_minutes
+                updated = True
+
+        return merged, updated
+
+    def _practice_relevant_items_from_citations(self, citations: Sequence[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        relevant_items: List[Dict[str, Any]] = []
+        for citation in citations:
+            snippet_text = self._safe_text(citation.get("snippet_text"))
+            if not snippet_text:
+                continue
+            relevant_items.append(
+                {
+                    "text": snippet_text,
+                    "material_title": citation.get("material_title", ""),
+                    "slide_number": citation.get("slide_number"),
+                }
+            )
+        return relevant_items
+
+    def _grounded_practice_text(
+        self,
+        value: Any,
+        *,
+        fallback: str,
+        relevant_items: Sequence[Dict[str, Any]],
+    ) -> str:
+        candidate = self._safe_text(value)
+        if not candidate:
+            return fallback
+        if relevant_items and self._repeats_source_material(candidate, relevant_items):
+            return fallback
+        return candidate
 
     # --------------------------
     # Gemini-backed revisions

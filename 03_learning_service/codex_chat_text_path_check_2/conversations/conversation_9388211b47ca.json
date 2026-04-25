@@ -1,0 +1,67 @@
+{
+  "_meta": {
+    "evidence_bundle": {
+      "bundle_id": "bundle_regularization_demo",
+      "bundle_mode": "precision",
+      "items": [
+        {
+          "citation": {
+            "citation_id": "cit_reg_1",
+            "confidence": "high",
+            "material_id": "mat_regularization",
+            "material_title": "Regularization Lecture",
+            "slide_id": "slide_7",
+            "slide_number": 7,
+            "snippet_text": "Regularization adds a penalty term to discourage overly flexible models.",
+            "support_type": "explicit"
+          },
+          "extraction_quality": "high",
+          "item_id": "item_reg_1",
+          "material_id": "mat_regularization",
+          "material_title": "Regularization Lecture",
+          "slide_id": "slide_7",
+          "slide_number": 7,
+          "text": "Regularization adds a penalty term to discourage overly flexible models and reduce overfitting."
+        },
+        {
+          "citation": {
+            "citation_id": "cit_reg_2",
+            "confidence": "high",
+            "material_id": "mat_regularization",
+            "material_title": "Regularization Lecture",
+            "slide_id": "slide_8",
+            "slide_number": 8,
+            "snippet_text": "Validation is used to tune regularization strength.",
+            "support_type": "explicit"
+          },
+          "extraction_quality": "high",
+          "item_id": "item_reg_2",
+          "material_id": "mat_regularization",
+          "material_title": "Regularization Lecture",
+          "slide_id": "slide_8",
+          "slide_number": 8,
+          "text": "Validation is used to tune regularization strength against generalization performance."
+        }
+      ],
+      "material_ids": [
+        "mat_regularization"
+      ],
+      "query_text": null,
+      "summary": {
+        "low_confidence_item_count": 0,
+        "total_items": 2,
+        "total_slides": 2
+      },
+      "workspace_id": "ws_regularization_demo"
+    },
+    "grounding_input_mode": "standalone",
+    "include_annotations": true,
+    "material_ids": []
+  },
+  "conversation_id": "conversation_9388211b47ca",
+  "created_at": "2026-04-22T21:13:54Z",
+  "grounding_mode": "lecture_with_fallback",
+  "messages": [],
+  "title": "Gemini text path check",
+  "workspace_id": "ws_regularization_demo"
+}

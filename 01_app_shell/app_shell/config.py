@@ -76,8 +76,12 @@ class AppConfig:
         if env_override:
             env_values.update({key: str(value) for key, value in env_override.items()})
 
+        testing = _to_bool(env_values.get("APP_SHELL_TESTING"), False)
         mode = env_values.get("APP_SHELL_MODE", "auto").strip().lower() or "auto"
-        if mode not in {"auto", "integrated", "mock"}:
+        allowed_modes = {"auto", "integrated"}
+        if testing:
+            allowed_modes.add("mock")
+        if mode not in allowed_modes:
             mode = "auto"
 
         local_data_raw = env_values.get("LOCAL_DATA_DIR", "./local_data")
@@ -96,5 +100,5 @@ class AppConfig:
             local_data_dir=local_data_dir,
             auto_open_browser=_to_bool(env_values.get("AUTO_OPEN_BROWSER"), True),
             mode=mode,
-            testing=_to_bool(env_values.get("APP_SHELL_TESTING"), False),
+            testing=testing,
         )

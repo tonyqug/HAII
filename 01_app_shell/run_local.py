@@ -15,12 +15,13 @@ if str(THIS_DIR) not in sys.path:
 from app_shell.main import create_app  # noqa: E402
 from app_shell.config import AppConfig  # noqa: E402
 
-
 def main() -> None:
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s %(levelname)s [%(name)s] %(message)s",
     )
+    logging.getLogger("httpx").setLevel(logging.WARNING)
+    logging.getLogger("httpcore").setLevel(logging.WARNING)
     config = AppConfig.load(THIS_DIR)
     app = create_app()
 
@@ -32,6 +33,7 @@ def main() -> None:
         host=config.host,
         port=config.port,
         log_level="info",
+        access_log=True,
     )
 
 

@@ -21,10 +21,45 @@ ALLOWED_GENERATION_MODES = {"multiple_choice", "short_answer", "long_answer", "m
 ALLOWED_COVERAGE_MODES = {"balanced", "high_coverage", "exhaustive"}
 ALLOWED_DIFFICULTIES = {"easier", "mixed", "harder"}
 FINAL_JOB_STATUSES = {"succeeded", "failed", "needs_user_input"}
+RETRYABLE_PRIMARY_FAILURE_REASONS = {
+    "request_timeout",
+    "request_exception",
+    "rate_limit_exceeded",
+    "rate_limit_exhausted",
+    "service_unavailable",
+    "upstream_error",
+    "http_error",
+}
 
 
 class RequestValidationError(ValueError):
     pass
+
+
+class PrimaryGenerationFallbackError(RuntimeError):
+    def __init__(
+        self,
+        artifact_name: str,
+        *,
+        generation_path: Optional[str],
+        failure_reason: Optional[str],
+        failure_detail: Optional[str],
+        attempted_models: Sequence[str],
+    ) -> None:
+        self.code = "primary_generation_fallback_blocked"
+        self.generation_path = generation_path or "unknown"
+        self.failure_reason = normalize_whitespace(failure_reason or "") or "llm_generation_failed"
+        self.failure_detail = (
+            normalize_whitespace(failure_detail or "")
+            or "Gemini generation did not return a usable primary result."
+        )
+        self.attempted_models = [model for model in attempted_models if normalize_whitespace(str(model))]
+        self.retryable = self.failure_reason in RETRYABLE_PRIMARY_FAILURE_REASONS
+        attempted_suffix = f" Attempted models: {', '.join(self.attempted_models)}." if self.attempted_models else ""
+        super().__init__(
+            f"Primary Gemini {artifact_name} failed (path={self.generation_path}, reason={self.failure_reason}). "
+            f"Deterministic fallback is disabled for demo reliability. {self.failure_detail}{attempted_suffix}"
+        )
 
 
 class BackgroundJobRunner:
@@ -128,6 +163,32 @@ class LearningService:
 
     def get_job(self, job_id: str) -> Optional[Dict[str, Any]]:
         return self.store.load("jobs", job_id)
+
+    def _primary_generation_required(self) -> bool:
+        return bool(self.generator.gemini.configured)
+
+    def _require_primary_generation(
+        self,
+        *,
+        artifact_name: str,
+        generation_path: Optional[str],
+        allowed_paths: Sequence[str],
+        failure_reason: Optional[str] = None,
+        failure_detail: Optional[str] = None,
+        attempted_models: Optional[Sequence[str]] = None,
+    ) -> None:
+        if not self._primary_generation_required():
+            return
+        if generation_path in set(allowed_paths):
+            return
+        llm_info = copy.deepcopy(getattr(self.generator.gemini, "last_call_info", {}) or {})
+        raise PrimaryGenerationFallbackError(
+            artifact_name,
+            generation_path=generation_path,
+            failure_reason=failure_reason or llm_info.get("failure_reason"),
+            failure_detail=failure_detail or llm_info.get("failure_detail"),
+            attempted_models=attempted_models or llm_info.get("attempted_models") or [],
+        )
 
     # --------------------------
     # Study plans
@@ -350,7 +411,7 @@ class LearningService:
             )
             self.update_job(job_id, status="running", progress=15, stage="acquire_evidence", message="Loading grounded evidence for the message.")
             bundle = self._resolve_conversation_bundle(conversation, request_data.get("message_text", ""))
-            self.update_job(job_id, status="running", progress=50, stage="draft_structured_output", message="Drafting a grounded answer.")
+            self.update_job(job_id, status="running", progress=50, stage="draft_response", message="Drafting a grounded answer.")
             user_message, assistant_message = self.generator.build_conversation_reply(
                 bundle=bundle,
                 message_text=request_data["message_text"],
@@ -358,6 +419,15 @@ class LearningService:
                 grounding_mode=request_data.get("grounding_mode") or conversation.get("grounding_mode") or "lecture_with_fallback",
                 previous_messages=conversation.get("messages", []),
                 conversation_id=conversation["conversation_id"],
+            )
+            answer_source = assistant_message.get("answer_source") or {}
+            self._require_primary_generation(
+                artifact_name="chat generation",
+                generation_path=answer_source.get("path"),
+                allowed_paths=("llm",),
+                failure_reason=answer_source.get("fallback_reason"),
+                failure_detail=answer_source.get("fallback_detail"),
+                attempted_models=answer_source.get("attempted_models"),
             )
             updated = copy.deepcopy(conversation)
             updated["grounding_mode"] = request_data.get("grounding_mode") or updated.get("grounding_mode")
@@ -372,13 +442,13 @@ class LearningService:
                 result_type="message",
                 result_id=assistant_message["message_id"],
             )
-            answer_source = assistant_message.get("answer_source") or {}
             LOGGER.info(
-                "Conversation job %s succeeded with path=%s provider=%s fallback_reason=%s.",
+                "Conversation job %s succeeded with path=%s provider=%s fallback_reason=%s fallback_detail=%s.",
                 job_id,
                 answer_source.get("path"),
                 answer_source.get("provider"),
                 answer_source.get("fallback_reason"),
+                answer_source.get("fallback_detail"),
             )
         except NeedsUserInputError as exc:
             LOGGER.info("Conversation job %s needs user input: %s", job_id, exc.prompt)
@@ -390,6 +460,16 @@ class LearningService:
                 message=exc.prompt,
                 user_action={"kind": exc.kind, "prompt": exc.prompt, "options": exc.options},
                 error={"code": None, "message": None, "retryable": False},
+            )
+        except PrimaryGenerationFallbackError as exc:
+            LOGGER.warning("Conversation job %s blocked deterministic fallback: %s", job_id, exc)
+            self.update_job(
+                job_id,
+                status="failed",
+                progress=100,
+                stage="failed",
+                message=str(exc),
+                error={"code": exc.code, "message": str(exc), "retryable": exc.retryable},
             )
         except ContentServiceError as exc:
             LOGGER.warning("Conversation job %s failed while fetching evidence: %s", job_id, exc)
@@ -454,6 +534,11 @@ class LearningService:
                 include_rubrics=bool(request_data.get("include_rubrics", True)),
                 grounding_mode=request_data.get("grounding_mode") or "lecture_with_fallback",
             )
+            self._require_primary_generation(
+                artifact_name="practice generation",
+                generation_path=(artifact.get("_meta") or {}).get("generation_path"),
+                allowed_paths=("gemini",),
+            )
             self.store.save("practice_sets", artifact["practice_set_id"], artifact)
             self.update_job(
                 job_id,
@@ -479,6 +564,16 @@ class LearningService:
                 message=exc.prompt,
                 user_action={"kind": exc.kind, "prompt": exc.prompt, "options": exc.options},
                 error={"code": None, "message": None, "retryable": False},
+            )
+        except PrimaryGenerationFallbackError as exc:
+            LOGGER.warning("Practice set job %s blocked deterministic fallback: %s", job_id, exc)
+            self.update_job(
+                job_id,
+                status="failed",
+                progress=100,
+                stage="failed",
+                message=str(exc),
+                error={"code": exc.code, "message": str(exc), "retryable": exc.retryable},
             )
         except (ArtifactValidationError, ContentServiceError) as exc:
             LOGGER.warning("Practice set job %s failed: %s", job_id, exc)
@@ -545,6 +640,11 @@ class LearningService:
                 locked_question_ids=request_data.get("locked_question_ids") or [],
                 maintain_coverage=bool(request_data.get("maintain_coverage", True)),
             )
+            self._require_primary_generation(
+                artifact_name="practice revision",
+                generation_path=(revised.get("_meta") or {}).get("generation_path"),
+                allowed_paths=("gemini",),
+            )
             self.store.save("practice_sets", revised["practice_set_id"], revised)
             self.update_job(
                 job_id,
@@ -554,6 +654,16 @@ class LearningService:
                 message="Practice set revision created.",
                 result_type="practice_set",
                 result_id=revised["practice_set_id"],
+            )
+        except PrimaryGenerationFallbackError as exc:
+            LOGGER.warning("Practice set revision job %s blocked deterministic fallback: %s", job_id, exc)
+            self.update_job(
+                job_id,
+                status="failed",
+                progress=100,
+                stage="failed",
+                message=str(exc),
+                error={"code": exc.code, "message": str(exc), "retryable": exc.retryable},
             )
         except ArtifactValidationError as exc:
             self.update_job(

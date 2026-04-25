@@ -1,0 +1,271 @@
+{
+  "_meta": {
+    "coverage_mode": "balanced",
+    "difficulty_profile": "mixed",
+    "generation_path": "gemini",
+    "grounding_mode": "lecture_with_fallback",
+    "grounding_source": {
+      "bundle_id": "bundle_regularization_demo",
+      "evidence_bundle": {
+        "bundle_id": "bundle_regularization_demo",
+        "bundle_mode": "coverage",
+        "items": [
+          {
+            "citation": {
+              "citation_id": "cit_reg_1",
+              "confidence": "high",
+              "material_id": "mat_regularization",
+              "material_title": "Regularization Lecture",
+              "slide_id": "slide_7",
+              "slide_number": 7,
+              "snippet_text": "Regularization adds a penalty term to discourage overly flexible models and reduce overfitting.",
+              "support_type": "explicit"
+            },
+            "extraction_quality": "high",
+            "item_id": "item_reg_1",
+            "material_id": "mat_regularization",
+            "material_title": "Regularization Lecture",
+            "slide_id": "slide_7",
+            "slide_number": 7,
+            "text": "Regularization adds a penalty term to discourage overly flexible models and reduce overfitting."
+          },
+          {
+            "citation": {
+              "citation_id": "cit_reg_2",
+              "confidence": "high",
+              "material_id": "mat_regularization",
+              "material_title": "Regularization Lecture",
+              "slide_id": "slide_8",
+              "slide_number": 8,
+              "snippet_text": "Validation is used to tune regularization strength against generalization performance.",
+              "support_type": "explicit"
+            },
+            "extraction_quality": "high",
+            "item_id": "item_reg_2",
+            "material_id": "mat_regularization",
+            "material_title": "Regularization Lecture",
+            "slide_id": "slide_8",
+            "slide_number": 8,
+            "text": "Validation is used to tune regularization strength against generalization performance."
+          },
+          {
+            "citation": {
+              "citation_id": "cit_reg_3",
+              "confidence": "high",
+              "material_id": "mat_regularization",
+              "material_title": "Regularization Lecture",
+              "slide_id": "slide_9",
+              "slide_number": 9,
+              "snippet_text": "Regularization must be tuned rather than assumed to help automatically.",
+              "support_type": "explicit"
+            },
+            "extraction_quality": "high",
+            "item_id": "item_reg_3",
+            "material_id": "mat_regularization",
+            "material_title": "Regularization Lecture",
+            "slide_id": "slide_9",
+            "slide_number": 9,
+            "text": "The lecture emphasizes that regularization must be tuned rather than assumed to help automatically."
+          }
+        ],
+        "material_ids": [
+          "mat_regularization"
+        ],
+        "query_text": null,
+        "summary": {
+          "low_confidence_item_count": 0,
+          "total_items": 3,
+          "total_slides": 3
+        },
+        "workspace_id": "ws_regularization_demo"
+      },
+      "material_ids": [
+        "mat_regularization"
+      ],
+      "workspace_id": "ws_regularization_demo"
+    },
+    "include_answer_key": true,
+    "include_rubrics": true,
+    "llm_enhanced_questions": 2,
+    "template_material_id": null
+  },
+  "coverage_report": {
+    "cited_slide_count": 3,
+    "considered_slide_count": 3,
+    "notes": "Balanced mode cycled through grounded topics to keep the set representative without forcing full slide-by-slide coverage.",
+    "uncited_or_skipped_slides": []
+  },
+  "created_at": "2026-04-22T21:55:24Z",
+  "estimated_duration_minutes": 9,
+  "generation_mode": "multiple_choice",
+  "human_loop_summary": {
+    "follow_up_actions": [
+      "Lock the strongest questions before revising.",
+      "Regenerate only the questions that feel unclear or off-target.",
+      "Narrow the topic if the current set is too broad."
+    ],
+    "used_inputs": [
+      {
+        "label": "Topic focus",
+        "value": "All ready grounded materials"
+      },
+      {
+        "label": "Question format",
+        "value": "multiple choice"
+      },
+      {
+        "label": "Question count",
+        "value": "3"
+      },
+      {
+        "label": "Coverage mode",
+        "value": "balanced"
+      },
+      {
+        "label": "Difficulty",
+        "value": "mixed"
+      },
+      {
+        "label": "Answer key",
+        "value": "Included"
+      },
+      {
+        "label": "Rubrics",
+        "value": "Included"
+      }
+    ]
+  },
+  "parent_practice_set_id": null,
+  "practice_set_id": "practice_set_e4ec9e1f2bee",
+  "questions": [
+    {
+      "answer_choices": [
+        "It is mainly used to limit model flexibility so the method does not overfit the available data.",
+        "It is mainly used to rename parts of the workflow without changing how the main decision is made.",
+        "It is mainly used to replace evidence checks with a fixed rule that supposedly works in every setting.",
+        "It is mainly used to report the final result after the important design choices are already locked."
+      ],
+      "citations": [
+        {
+          "citation_id": "cit_reg_1",
+          "confidence": "high",
+          "material_id": "mat_regularization",
+          "material_title": "Regularization Lecture",
+          "slide_id": "slide_7",
+          "slide_number": 7,
+          "snippet_text": "Regularization adds a penalty term to discourage overly flexible models and reduce overfitting.",
+          "support_type": "explicit"
+        }
+      ],
+      "covered_slides": [
+        7
+      ],
+      "difficulty": "mixed",
+      "estimated_minutes": 3,
+      "expected_answer": "A strong answer explains that the penalty discourages overly flexible fits and improves generalization when tuned well.",
+      "question_id": "question_14255bd89bde",
+      "question_type": "multiple_choice",
+      "rubric": [
+        {
+          "criterion": "Core idea",
+          "description": "Accurately states the main lecture-supported idea behind Regularization.",
+          "points": 2
+        },
+        {
+          "criterion": "Grounded detail",
+          "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+          "points": 2
+        }
+      ],
+      "scoring_guide_text": "Award credit only for the option that best matches the lecture-grounded reasoning, not the most generic-sounding statement.",
+      "stem": "Explain how regularization changes the learning objective and why that matters for generalization."
+    },
+    {
+      "answer_choices": [
+        "It is mainly used to rename parts of the workflow without changing how the main decision is made.",
+        "It is mainly used to replace evidence checks with a fixed rule that supposedly works in every setting.",
+        "It is mainly used to report the final result after the important design choices are already locked.",
+        "It is mainly used to check whether a modeling choice generalizes before the final evaluation step."
+      ],
+      "citations": [
+        {
+          "citation_id": "cit_reg_2",
+          "confidence": "high",
+          "material_id": "mat_regularization",
+          "material_title": "Regularization Lecture",
+          "slide_id": "slide_8",
+          "slide_number": 8,
+          "snippet_text": "Validation is used to tune regularization strength against generalization performance.",
+          "support_type": "explicit"
+        }
+      ],
+      "covered_slides": [
+        8
+      ],
+      "difficulty": "mixed",
+      "estimated_minutes": 3,
+      "expected_answer": "The correct choice is the option that treats Validation as something mainly used to check whether a modeling choice generalizes before the final evaluation step. It should not collapse Validation into Emphasizes Regularization.",
+      "question_id": "question_b5e7279d0068",
+      "question_type": "multiple_choice",
+      "rubric": [
+        {
+          "criterion": "Core idea",
+          "description": "Accurately states the main lecture-supported idea behind Validation.",
+          "points": 2
+        },
+        {
+          "criterion": "Grounded detail",
+          "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+          "points": 2
+        }
+      ],
+      "scoring_guide_text": "Award credit only for the option that best matches the lecture-grounded reasoning, not the most generic-sounding statement.",
+      "stem": "Choose the lecture-grounded explanation that best connects regularization to model flexibility."
+    },
+    {
+      "answer_choices": [
+        "It is mainly used to replace evidence checks with a fixed rule that supposedly works in every setting.",
+        "It is mainly used to report the final result after the important design choices are already locked.",
+        "It is mainly used to limit model flexibility so the method does not overfit the available data.",
+        "It is mainly used to rename parts of the workflow without changing how the main decision is made."
+      ],
+      "citations": [
+        {
+          "citation_id": "cit_reg_3",
+          "confidence": "high",
+          "material_id": "mat_regularization",
+          "material_title": "Regularization Lecture",
+          "slide_id": "slide_9",
+          "slide_number": 9,
+          "snippet_text": "Regularization must be tuned rather than assumed to help automatically.",
+          "support_type": "explicit"
+        }
+      ],
+      "covered_slides": [
+        9
+      ],
+      "difficulty": "mixed",
+      "estimated_minutes": 3,
+      "expected_answer": "The correct choice is the option that treats Emphasizes Regularization as something mainly used to limit model flexibility so the method does not overfit the available data. It should not collapse Emphasizes Regularization into Regularization.",
+      "question_id": "question_dfb5e0d34d10",
+      "question_type": "multiple_choice",
+      "rubric": [
+        {
+          "criterion": "Core idea",
+          "description": "Accurately states the main lecture-supported idea behind Emphasizes Regularization.",
+          "points": 2
+        },
+        {
+          "criterion": "Grounded detail",
+          "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+          "points": 2
+        }
+      ],
+      "scoring_guide_text": "Award credit only for the option that best matches the lecture-grounded reasoning, not the most generic-sounding statement.",
+      "stem": "Explain the most defensible lecture-grounded interpretation of Emphasizes Regularization."
+    }
+  ],
+  "template_style_summary": "Mechanism-focused exam prompts.",
+  "topic_text": "",
+  "workspace_id": "ws_regularization_demo"
+}

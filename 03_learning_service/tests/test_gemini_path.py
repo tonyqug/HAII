@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 import logging
 
+import requests
+
 from .conftest import wait_for_job
 from learning_service.config import Settings
 from learning_service.generator_v2 import GeminiPrimaryClient
@@ -120,30 +122,30 @@ def test_gemini_is_primary_generation_path_when_configured(app_factory, bundle, 
 
 
 
-def test_gemini_validation_blocks_unsupported_citations_and_falls_back(app_factory, bundle, monkeypatch):
+def test_gemini_practice_enhancement_preserves_local_grounding_when_llm_metadata_is_bad(app_factory, bundle, monkeypatch):
     client = app_factory(gemini_api_key="test-key")
     service = client.app.state.learning_service
 
     def fake_generate_json(system_instruction, user_prompt, max_output_tokens=2048):
         return {
-            "template_style_summary": None,
+            "template_style_summary": "Mechanism-focused exam prompts with short evaluator notes.",
             "questions": [
                 {
-                    "question_type": "short_answer",
-                    "stem": "Explain regularization.",
-                    "expected_answer": "Unsupported answer.",
+                    "question_index": 1,
+                    "stem": "Explain how regularization changes the learning objective and why that matters for generalization.",
+                    "expected_answer": "A strong answer explains that the lecture adds a penalty term to discourage overly flexible fits and connects that penalty to better generalization when tuned well.",
                     "citation_ids": ["not_in_bundle"],
                 },
                 {
-                    "question_type": "short_answer",
-                    "stem": "Explain validation.",
-                    "expected_answer": "Unsupported answer.",
+                    "question_index": 2,
+                    "stem": "Describe how the lecture uses validation behavior when deciding whether regularization is too weak or too strong.",
+                    "expected_answer": "A strong answer ties validation behavior to model selection rather than treating regularization as a fixed free improvement.",
                     "citation_ids": ["not_in_bundle"],
                 },
                 {
-                    "question_type": "short_answer",
-                    "stem": "Explain gradient descent.",
-                    "expected_answer": "Unsupported answer.",
+                    "question_index": 3,
+                    "stem": "Explain why regularization should be tuned rather than assumed to help automatically.",
+                    "expected_answer": "A strong answer mentions the trade-off between flexibility and generalization and uses validation evidence to justify the chosen strength.",
                     "citation_ids": ["not_in_bundle"],
                 },
             ],
@@ -171,10 +173,55 @@ def test_gemini_validation_blocks_unsupported_citations_and_falls_back(app_facto
     job = wait_for_job(client, response.json()["job_id"])
     assert job["status"] == "succeeded"
     stored = service.store.load("practice_sets", job["result_id"])
-    assert stored["_meta"]["generation_path"] == "heuristic_fallback"
+    assert stored["_meta"]["generation_path"] == "gemini"
+    assert stored["_meta"]["llm_enhanced_questions"] >= 1
     bundle_citation_ids = {item["citation"]["citation_id"] for item in bundle["items"]}
     practice_citation_ids = {citation["citation_id"] for question in stored["questions"] for citation in question["citations"]}
     assert practice_citation_ids <= bundle_citation_ids
+    assert "generalization" in stored["questions"][0]["stem"].lower()
+
+
+def test_gemini_practice_enhancement_salvages_partial_updates_without_fallback(app_factory, bundle, monkeypatch):
+    client = app_factory(gemini_api_key="test-key")
+    service = client.app.state.learning_service
+
+    def fake_generate_json(system_instruction, user_prompt, max_output_tokens=2048):
+        return {
+            "questions": [
+                {
+                    "question_index": 1,
+                    "stem": "Choose the lecture-grounded explanation that best connects regularization to controlling model flexibility.",
+                    "answer_choices": ["Too short", "Still too short"],
+                }
+            ]
+        }
+
+    monkeypatch.setattr(service.generator.gemini, "generate_json", fake_generate_json)
+
+    response = client.post(
+        "/v1/practice-sets",
+        json={
+            "workspace_id": bundle["workspace_id"],
+            "material_ids": None,
+            "evidence_bundle": bundle,
+            "generation_mode": "multiple_choice",
+            "question_count": 3,
+            "coverage_mode": "balanced",
+            "difficulty_profile": "mixed",
+            "include_answer_key": True,
+            "include_rubrics": True,
+            "grounding_mode": "lecture_with_fallback",
+            "include_annotations": True,
+        },
+    )
+    assert response.status_code == 200
+    job = wait_for_job(client, response.json()["job_id"])
+    assert job["status"] == "succeeded"
+    stored = service.store.load("practice_sets", job["result_id"])
+    assert stored["_meta"]["generation_path"] == "gemini"
+    assert len(stored["questions"]) == 3
+    assert all(len(question["answer_choices"]) == 4 for question in stored["questions"])
+    assert "model flexibility" in stored["questions"][0]["stem"].lower()
 
 
 def test_gemini_client_uses_rate_limit_model_ladder_and_reasoning(monkeypatch):
@@ -233,11 +280,74 @@ def test_gemini_client_uses_rate_limit_model_ladder_and_reasoning(monkeypatch):
     assert client.last_call_info["reasoning_enabled"] is True
 
 
+def test_gemini_client_uses_timeout_ladder_before_falling_back(monkeypatch):
+    client = GeminiPrimaryClient(Settings(gemini_api_key="test-key"))
+    requests_seen = []
+
+    class FakeResponse:
+        def __init__(self, status_code, payload):
+            self.status_code = status_code
+            self._payload = payload
+
+        @property
+        def ok(self):
+            return self.status_code < 400
+
+        def json(self):
+            return self._payload
+
+    def fake_post(url, headers=None, json=None, timeout=None):
+        model = url.split("/models/")[1].split(":generateContent")[0]
+        thinking_config = (json or {}).get("generationConfig", {}).get("thinkingConfig")
+        requests_seen.append((model, thinking_config))
+        if model == "gemini-3-flash-preview":
+            raise requests.exceptions.ReadTimeout("Read timed out. (read timeout=15)")
+        return FakeResponse(
+            200,
+            {
+                "candidates": [
+                    {
+                        "content": {
+                            "parts": [
+                                {"text": json_module.dumps({"reply_sections": []})},
+                            ]
+                        }
+                    }
+                ]
+            },
+        )
+
+    json_module = json
+    monkeypatch.setattr("learning_service.generation.requests.post", fake_post)
+    monkeypatch.setattr("learning_service.generation.time.sleep", lambda *_args, **_kwargs: None)
+
+    payload = client.generate_json("system", "user prompt")
+
+    assert payload == {"reply_sections": []}
+    assert requests_seen == [
+        ("gemini-3-flash-preview", {"thinkingLevel": "high"}),
+        ("gemini-3-flash-preview", {"thinkingLevel": "high"}),
+        ("gemini-3-flash-preview", {"thinkingLevel": "high"}),
+        ("gemini-3-flash-preview", None),
+        ("gemini-3-flash-preview", None),
+        ("gemini-3-flash-preview", None),
+        ("gemini-2.5-flash", {"thinkingBudget": -1}),
+    ]
+    assert client.last_call_info["attempted_models"] == ["gemini-3-flash-preview", "gemini-2.5-flash"]
+    assert client.last_call_info["used_model"] == "gemini-2.5-flash"
+    assert client.last_call_info["reasoning_enabled"] is True
+    assert client.last_call_info["failure_reason"] is None
+    assert [failure["reason"] for failure in client.last_call_info["model_failures"]] == [
+        "request_timeout",
+        "request_timeout",
+    ]
+
+
 def test_chat_uses_gemini_path_even_without_strong_local_match(app_factory, bundle, monkeypatch):
     client = app_factory(gemini_api_key="test-key")
     service = client.app.state.learning_service
 
-    def fake_generate_json(system_instruction, user_prompt, max_output_tokens=2048):
+    def fake_generate_text(system_instruction, user_prompt, max_output_tokens=256):
         service.generator.gemini.last_call_info = {
             "configured": True,
             "provider": "gemini",
@@ -249,18 +359,14 @@ def test_chat_uses_gemini_path_even_without_strong_local_match(app_factory, bund
             "rate_limited_models": [],
             "failure_reason": None,
         }
-        return {
-            "reply_sections": [
-                {
-                    "heading": "Not covered here",
-                    "text": "The current lecture materials do not cover that topic directly.",
-                    "support_status": "insufficient_evidence",
-                    "citation_ids": [],
-                }
-            ]
-        }
+        return "The current lecture materials do not cover that topic directly."
 
-    monkeypatch.setattr(service.generator.gemini, "generate_json", fake_generate_json)
+    monkeypatch.setattr(service.generator.gemini, "generate_text", fake_generate_text)
+    monkeypatch.setattr(
+        service.generator.gemini,
+        "generate_json",
+        lambda *args, **kwargs: (_ for _ in ()).throw(AssertionError("chat should not call generate_json")),
+    )
 
     create_response = client.post(
         "/v1/conversations",
@@ -297,16 +403,16 @@ def test_chat_uses_gemini_path_even_without_strong_local_match(app_factory, bund
     assert assistant["reply_sections"][0]["support_status"] == "insufficient_evidence"
 
 
-def test_chat_rejects_verbatim_gemini_reply_and_falls_back(app_factory, bundle, monkeypatch):
+def test_chat_rejects_verbatim_gemini_reply_and_fails_instead_of_saving_fallback(app_factory, bundle, monkeypatch):
     adjusted_bundle = json.loads(json.dumps(bundle))
     adjusted_bundle["items"][0]["text"] = "Regularization adds a penalty term to discourage overly flexible models and reduce overfitting."
     adjusted_bundle["items"][1]["text"] = "Validation is used to tune the strength of regularization against generalization performance."
     client = app_factory(gemini_api_key="test-key")
     service = client.app.state.learning_service
     verbatim_text = adjusted_bundle["items"][0]["text"]
-    citation_id = adjusted_bundle["items"][0]["citation"]["citation_id"]
+    responses = [verbatim_text, None]
 
-    def fake_generate_json(system_instruction, user_prompt, max_output_tokens=2048):
+    def fake_generate_text(system_instruction, user_prompt, max_output_tokens=256):
         service.generator.gemini.last_call_info = {
             "configured": True,
             "provider": "gemini",
@@ -318,18 +424,9 @@ def test_chat_rejects_verbatim_gemini_reply_and_falls_back(app_factory, bundle, 
             "rate_limited_models": [],
             "failure_reason": None,
         }
-        return {
-            "reply_sections": [
-                {
-                    "heading": "Grounded answer",
-                    "text": verbatim_text,
-                    "support_status": "slide_grounded",
-                    "citation_ids": [citation_id],
-                }
-            ]
-        }
+        return responses.pop(0)
 
-    monkeypatch.setattr(service.generator.gemini, "generate_json", fake_generate_json)
+    monkeypatch.setattr(service.generator.gemini, "generate_text", fake_generate_text)
 
     create_response = client.post(
         "/v1/conversations",
@@ -356,20 +453,142 @@ def test_chat_rejects_verbatim_gemini_reply_and_falls_back(app_factory, bundle, 
     )
     assert send.status_code == 200
     job = wait_for_job(client, send.json()["job_id"])
-    assert job["status"] == "succeeded"
+    assert job["status"] == "failed"
+    assert job["error"]["code"] == "primary_generation_fallback_blocked"
+    assert job["error"]["retryable"] is False
+    assert "verbatim_evidence_repetition" in job["message"]
 
     conversation = client.get(f"/v1/conversations/{conversation_id}").json()
-    assistant = conversation["messages"][-1]
-    assert assistant["answer_source"]["path"] == "heuristic_fallback"
-    assert assistant["answer_source"]["fallback_reason"] == "verbatim_evidence_repetition"
-    assert assistant["reply_sections"][0]["text"] != verbatim_text
+    assert conversation["messages"] == []
 
 
-def test_chat_invalid_structured_output_logs_detail_and_surfaces_debug_info(app_factory, bundle, monkeypatch, caplog):
+def test_practice_job_fails_when_configured_gemini_would_store_timeout_fallback(app_factory, bundle, monkeypatch):
     client = app_factory(gemini_api_key="test-key")
     service = client.app.state.learning_service
 
-    def fake_generate_json(system_instruction, user_prompt, max_output_tokens=2048):
+    def fake_build_practice_set(**kwargs):
+        service.generator.gemini.last_call_info = {
+            "configured": True,
+            "provider": "gemini",
+            "generation_path": "llm",
+            "used_model": None,
+            "reasoning_enabled": True,
+            "reasoning_mode": "dynamic",
+            "attempted_models": ["gemini-3-flash-preview", "gemini-2.5-flash"],
+            "rate_limited_models": [],
+            "failure_reason": "request_timeout",
+            "failure_detail": "Read timed out.",
+        }
+        return {
+            "practice_set_id": "practice_fallback_should_not_save",
+            "workspace_id": bundle["workspace_id"],
+            "created_at": "2026-04-24T12:00:00Z",
+            "generation_mode": kwargs["generation_mode"],
+            "questions": [],
+            "coverage_report": {"considered_slide_count": 0, "cited_slide_count": 0, "uncited_or_skipped_slides": [], "notes": ""},
+            "_meta": {"generation_path": "heuristic_fallback"},
+        }
+
+    monkeypatch.setattr(service.generator, "build_practice_set", fake_build_practice_set)
+
+    response = client.post(
+        "/v1/practice-sets",
+        json={
+            "workspace_id": bundle["workspace_id"],
+            "material_ids": None,
+            "evidence_bundle": bundle,
+            "generation_mode": "short_answer",
+            "question_count": 3,
+            "coverage_mode": "balanced",
+            "difficulty_profile": "mixed",
+            "include_answer_key": True,
+            "include_rubrics": True,
+            "grounding_mode": "lecture_with_fallback",
+            "include_annotations": True,
+        },
+    )
+    assert response.status_code == 200
+    job = wait_for_job(client, response.json()["job_id"])
+    assert job["status"] == "failed"
+    assert job["error"]["code"] == "primary_generation_fallback_blocked"
+    assert job["error"]["retryable"] is True
+    assert "request_timeout" in job["message"]
+    assert service.store.list_all("practice_sets") == []
+
+
+def test_practice_revision_fails_when_configured_gemini_would_store_fallback_revision(app_factory, bundle, monkeypatch):
+    client = app_factory(gemini_api_key="test-key")
+    service = client.app.state.learning_service
+    seeded = {
+        "practice_set_id": "practice_seed",
+        "parent_practice_set_id": None,
+        "workspace_id": bundle["workspace_id"],
+        "created_at": "2026-04-24T12:00:00Z",
+        "generation_mode": "short_answer",
+        "questions": [
+            {
+                "question_id": "question_seed_1",
+                "question_type": "short_answer",
+                "stem": "Explain regularization.",
+                "expected_answer": "It adds a penalty term.",
+                "rubric": [{"criterion": "Grounded", "description": "Uses lecture evidence", "points": 2}],
+                "scoring_guide_text": "Look for the penalty term and overfitting trade-off.",
+                "citations": [bundle["items"][0]["citation"]],
+                "covered_slides": [bundle["items"][0]["slide_number"]],
+                "difficulty": "mixed",
+                "estimated_minutes": 6,
+            }
+        ],
+        "coverage_report": {"considered_slide_count": 1, "cited_slide_count": 1, "uncited_or_skipped_slides": [], "notes": "seeded"},
+        "_meta": {"generation_path": "gemini"},
+    }
+    service.store.save("practice_sets", seeded["practice_set_id"], seeded)
+
+    def fake_revise_practice_set(**kwargs):
+        service.generator.gemini.last_call_info = {
+            "configured": True,
+            "provider": "gemini",
+            "generation_path": "llm",
+            "used_model": "gemini-3-flash-preview",
+            "reasoning_enabled": True,
+            "reasoning_mode": "dynamic",
+            "attempted_models": ["gemini-3-flash-preview"],
+            "rate_limited_models": [],
+            "failure_reason": "no_usable_question_updates",
+            "failure_detail": "Gemini revision did not modify any editable questions.",
+        }
+        revised = json.loads(json.dumps(kwargs["existing_practice_set"]))
+        revised["practice_set_id"] = "practice_seed_revision"
+        revised["parent_practice_set_id"] = kwargs["existing_practice_set"]["practice_set_id"]
+        revised["_meta"] = {"generation_path": "heuristic_fallback"}
+        return revised
+
+    monkeypatch.setattr(service.generator, "revise_practice_set", fake_revise_practice_set)
+
+    response = client.post(
+        f"/v1/practice-sets/{seeded['practice_set_id']}/revise",
+        json={
+            "instruction_text": "Make the question harder.",
+            "target_question_ids": [],
+            "locked_question_ids": [],
+            "maintain_coverage": True,
+        },
+    )
+    assert response.status_code == 200
+    job = wait_for_job(client, response.json()["job_id"])
+    assert job["status"] == "failed"
+    assert job["error"]["code"] == "primary_generation_fallback_blocked"
+    assert job["error"]["retryable"] is False
+    assert "no_usable_question_updates" in job["message"]
+    assert service.store.load("practice_sets", "practice_seed_revision") is None
+    assert service.store.load("practice_sets", seeded["practice_set_id"]) is not None
+
+
+def test_chat_uses_text_path_and_does_not_fall_back_for_normal_llm_reply(app_factory, bundle, monkeypatch, caplog):
+    client = app_factory(gemini_api_key="test-key")
+    service = client.app.state.learning_service
+
+    def fake_generate_text(system_instruction, user_prompt, max_output_tokens=256):
         service.generator.gemini.last_call_info = {
             "configured": True,
             "provider": "gemini",
@@ -382,18 +601,14 @@ def test_chat_invalid_structured_output_logs_detail_and_surfaces_debug_info(app_
             "failure_reason": None,
             "failure_detail": None,
         }
-        return {
-            "reply_sections": [
-                {
-                    "heading": "Grounded answer",
-                    "text": "Regularization adds a penalty.",
-                    "support_status": "slide_grounded",
-                    "citation_ids": ["not_in_bundle"],
-                }
-            ]
-        }
+        return "Regularization discourages overly flexible weights and the lecture ties it to controlling overfitting."
 
-    monkeypatch.setattr(service.generator.gemini, "generate_json", fake_generate_json)
+    monkeypatch.setattr(service.generator.gemini, "generate_text", fake_generate_text)
+    monkeypatch.setattr(
+        service.generator.gemini,
+        "generate_json",
+        lambda *args, **kwargs: (_ for _ in ()).throw(AssertionError("chat should not call generate_json")),
+    )
     caplog.set_level(logging.WARNING)
 
     create_response = client.post(
@@ -425,15 +640,13 @@ def test_chat_invalid_structured_output_logs_detail_and_surfaces_debug_info(app_
 
     conversation = client.get(f"/v1/conversations/{conversation_id}").json()
     assistant = conversation["messages"][-1]
-    assert assistant["answer_source"]["path"] == "heuristic_fallback"
-    assert assistant["answer_source"]["fallback_reason"] == "invalid_response_json_payload"
-    assert "did not reference any allowed citation_ids" in assistant["answer_source"]["fallback_detail"]
-    assert assistant["answer_source"]["attempted_models"] == ["gemini-3-flash-preview"]
-    assert any("Rejecting Gemini chat reply output" in record.getMessage() for record in caplog.records)
-    assert any("Falling back to deterministic chat generation" in record.getMessage() for record in caplog.records)
+    assert assistant["answer_source"]["path"] == "llm"
+    assert assistant["answer_source"]["model"] == "gemini-3-flash-preview"
+    assert assistant["reply_sections"][0]["support_status"] in {"slide_grounded", "inferred_from_slides"}
+    assert not any("Falling back to deterministic chat generation" in record.getMessage() for record in caplog.records)
 
 
-def test_chat_rejects_over_strict_insufficient_evidence_when_partial_grounding_exists(app_factory, monkeypatch):
+def test_chat_keeps_llm_path_for_partial_grounded_answer(app_factory, monkeypatch):
     client = app_factory(gemini_api_key="test-key")
     service = client.app.state.learning_service
     bundle = {
@@ -468,7 +681,7 @@ def test_chat_rejects_over_strict_insufficient_evidence_when_partial_grounding_e
         "summary": {"total_items": 1, "total_slides": 1, "low_confidence_item_count": 0},
     }
 
-    def fake_generate_json(system_instruction, user_prompt, max_output_tokens=2048):
+    def fake_generate_text(system_instruction, user_prompt, max_output_tokens=256):
         service.generator.gemini.last_call_info = {
             "configured": True,
             "provider": "gemini",
@@ -481,18 +694,12 @@ def test_chat_rejects_over_strict_insufficient_evidence_when_partial_grounding_e
             "failure_reason": None,
             "failure_detail": None,
         }
-        return {
-            "reply_sections": [
-                {
-                    "heading": "Insufficient evidence",
-                    "text": "The slides do not explain this.",
-                    "support_status": "insufficient_evidence",
-                    "citation_ids": [],
-                }
-            ]
-        }
+        return (
+            "The slides tie the update step to moving opposite the gradient. "
+            "So the subtraction sign reflects stepping in the loss-reducing direction, even though the lecture emphasizes computing gradients more than unpacking the sign itself."
+        )
 
-    monkeypatch.setattr(service.generator.gemini, "generate_json", fake_generate_json)
+    monkeypatch.setattr(service.generator.gemini, "generate_text", fake_generate_text)
     monkeypatch.setattr(
         service.generator,
         "expand_chat_retrieval_query",
@@ -528,8 +735,8 @@ def test_chat_rejects_over_strict_insufficient_evidence_when_partial_grounding_e
 
     conversation = client.get(f"/v1/conversations/{conversation_id}").json()
     assistant = conversation["messages"][-1]
-    assert assistant["answer_source"]["path"] == "heuristic_fallback"
-    assert assistant["answer_source"]["fallback_reason"] == "over_strict_insufficient_evidence"
+    assert assistant["answer_source"]["path"] == "llm"
+    assert assistant["reply_sections"][0]["support_status"] in {"slide_grounded", "inferred_from_slides"}
     assert "opposite the gradient" in assistant["reply_sections"][0]["text"].lower()
 
 

@@ -1,18 +1,15 @@
 from __future__ import annotations
 
-from typing import Any, Dict, Iterable, List, Sequence, Tuple
+from typing import Any, Dict, List, Sequence, Tuple
 
 from app_shell.errors import ShellError
 
 
-SECTION_TO_KEYS = {
-    "prerequisites": "item_id",
-    "study_sequence": "step_id",
-    "common_mistakes": "item_id",
-}
-
 LECTURE_GROUNDING_ROLES = {"slides", "notes"}
+SUPPORTED_MATERIAL_IMPORT_ROLES = {"slides", "notes", "practice_template"}
 CANONICAL_RESPONSE_STYLES = {"standard", "concise", "step_by_step"}
+DEFAULT_GROUNDING_MODE = "lecture_with_fallback"
+DEFAULT_PRACTICE_QUESTION_COUNT = 6
 
 
 
@@ -87,8 +84,8 @@ def normalize_material_import(
     filename: str | None,
 ) -> Dict[str, Any]:
     role_value = _text(role)
-    if role_value not in {"slides", "notes"}:
-        raise ShellError("Material role must be slides or notes.")
+    if role_value not in SUPPORTED_MATERIAL_IMPORT_ROLES:
+        raise ShellError("Material role must be slides, notes, or practice_template.")
     title_value = _text(title) or _text(filename) or "Untitled material"
     incoming_kind = _text(kind)
     if filename:
@@ -113,42 +110,6 @@ def normalize_material_import(
 
 
 
-def normalize_study_plan_request(workspace: dict, payload: dict) -> Tuple[Dict[str, Any], List[str]]:
-    material_ids, warnings = select_material_ids(workspace, allowed_roles=LECTURE_GROUNDING_ROLES)
-    student_context_in = payload.get("student_context") or {}
-    prior_knowledge = _text(
-        student_context_in.get("prior_knowledge")
-        or student_context_in.get("known")
-        or payload.get("prior_knowledge")
-        or payload.get("known")
-        or workspace.get("student_context", {}).get("known")
-    )
-    weak_areas = _text(student_context_in.get("weak_areas") or payload.get("weak_areas") or workspace.get("student_context", {}).get("weak_areas"))
-    goals = _text(student_context_in.get("goals") or payload.get("goals") or workspace.get("student_context", {}).get("goals"))
-
-    time_budget = payload.get("time_budget_minutes")
-    if time_budget in {None, ""}:
-        time_budget = workspace.get("time_budget_minutes")
-    if time_budget in {None, ""}:
-        raise ShellError("Time budget is required for study plan generation.")
-
-    normalized = {
-        "workspace_id": workspace["workspace_id"],
-        "material_ids": material_ids,
-        "topic_text": _text(payload.get("topic_text") or workspace.get("topic_text")),
-        "time_budget_minutes": int(time_budget),
-        "grounding_mode": _text(payload.get("grounding_mode") or workspace.get("grounding_mode") or "strict_lecture_only"),
-        "student_context": {
-            "prior_knowledge": prior_knowledge,
-            "weak_areas": weak_areas,
-            "goals": goals,
-        },
-        "include_annotations": True,
-    }
-    return normalized, warnings
-
-
-
 def normalize_conversation_create(workspace: dict, payload: dict) -> Tuple[Dict[str, Any], List[str]]:
     material_ids, warnings = select_material_ids(workspace, allowed_roles=LECTURE_GROUNDING_ROLES)
     title = _text(payload.get("title")) or "Workspace Q&A"
@@ -156,7 +117,7 @@ def normalize_conversation_create(workspace: dict, payload: dict) -> Tuple[Dict[
         {
             "workspace_id": workspace["workspace_id"],
             "material_ids": material_ids,
-            "grounding_mode": _text(payload.get("grounding_mode") or workspace.get("grounding_mode") or "strict_lecture_only"),
+            "grounding_mode": _text(payload.get("grounding_mode") or workspace.get("grounding_mode") or DEFAULT_GROUNDING_MODE),
             "title": title,
             "include_annotations": True,
         },
@@ -184,7 +145,7 @@ def normalize_conversation_message(workspace: dict, payload: dict) -> Dict[str, 
     return {
         "message_text": message_text,
         "response_style": normalize_response_style(payload.get("response_style")),
-        "grounding_mode": _text(payload.get("grounding_mode") or workspace.get("grounding_mode") or "strict_lecture_only"),
+        "grounding_mode": _text(payload.get("grounding_mode") or workspace.get("grounding_mode") or DEFAULT_GROUNDING_MODE),
         "include_citations": True,
     }
 
@@ -193,73 +154,30 @@ def normalize_conversation_message(workspace: dict, payload: dict) -> Dict[str, 
 def normalize_practice_request(workspace: dict, payload: dict) -> Tuple[Dict[str, Any], List[str]]:
     generation_mode = _text(payload.get("generation_mode") or "mixed")
     material_ids, warnings = select_material_ids(workspace, allowed_roles=LECTURE_GROUNDING_ROLES)
-    question_count = payload.get("question_count") or 3
+    question_count = payload.get("question_count") or DEFAULT_PRACTICE_QUESTION_COUNT
+    template_material_id = _text(payload.get("template_material_id"))
+    topic_text = _text(payload.get("topic_text") or workspace.get("practice_preferences", {}).get("topic_text"))
     normalized = {
         "workspace_id": workspace["workspace_id"],
         "material_ids": material_ids,
-        "topic_text": _text(payload.get("topic_text") or workspace.get("practice_preferences", {}).get("topic_text")),
         "generation_mode": generation_mode,
         "question_count": int(question_count),
         "coverage_mode": _text(payload.get("coverage_mode") or "balanced"),
         "difficulty_profile": _text(payload.get("difficulty_profile") or payload.get("difficulty") or "harder"),
         "include_answer_key": _bool(payload.get("include_answer_key") if "include_answer_key" in payload else payload.get("answer_key"), False),
         "include_rubrics": _bool(payload.get("include_rubrics") if "include_rubrics" in payload else payload.get("rubric"), True),
-        "grounding_mode": _text(payload.get("grounding_mode") or workspace.get("grounding_mode") or "strict_lecture_only"),
+        "grounding_mode": _text(payload.get("grounding_mode") or workspace.get("grounding_mode") or DEFAULT_GROUNDING_MODE),
         "include_annotations": True,
     }
+    if topic_text:
+        normalized["topic_text"] = topic_text
     if generation_mode == "template_mimic":
-        raise ShellError("Template mimic mode is no longer supported. Choose multiple_choice, short_answer, long_answer, or mixed.")
+        if not template_material_id:
+            raise ShellError("template_material_id is required when generation_mode is template_mimic.")
+        normalized["template_material_id"] = template_material_id
+    elif template_material_id:
+        normalized["template_material_id"] = template_material_id
     return normalized, warnings
-
-
-
-def _collect_section_item_ids(section_items: Iterable[dict], key: str) -> List[str]:
-    return [str(item.get(key)) for item in section_items if item.get(key)]
-
-
-
-def map_plan_locked_item_ids(plan: dict, payload: dict) -> List[str]:
-    locked_ids = [str(item_id) for item_id in payload.get("locked_item_ids", []) if item_id]
-    for section_name in payload.get("locked_sections", []) or []:
-        key = SECTION_TO_KEYS.get(section_name)
-        if not key:
-            continue
-        locked_ids.extend(_collect_section_item_ids(plan.get(section_name, []), key))
-    seen = set()
-    deduped: List[str] = []
-    for item_id in locked_ids:
-        if item_id not in seen:
-            deduped.append(item_id)
-            seen.add(item_id)
-    return deduped
-
-
-
-def synthesize_study_plan_instruction(payload: dict, target_section: str | None, locked_item_ids: List[str]) -> str:
-    explicit = _text(payload.get("instruction_text"))
-    if explicit:
-        return explicit
-    feedback = _text(payload.get("feedback_note") or payload.get("correction_note"))
-    if feedback:
-        return feedback
-    if target_section and target_section not in {"", "entire_plan"}:
-        return "regenerate this section while preserving all locked items"
-    if locked_item_ids:
-        return "regenerate the entire plan with a clearer sequence and preserve locked items"
-    return "regenerate the entire plan with a clearer sequence"
-
-
-
-def normalize_study_plan_revision(workspace: dict, plan: dict, payload: dict) -> Dict[str, Any]:
-    target_section = _text(payload.get("target_section") or payload.get("section") or "entire_plan")
-    locked_item_ids = map_plan_locked_item_ids(plan, payload)
-    return {
-        "instruction_text": synthesize_study_plan_instruction(payload, target_section, locked_item_ids),
-        "target_section": target_section,
-        "locked_item_ids": locked_item_ids,
-        "grounding_mode": _text(payload.get("grounding_mode") or workspace.get("grounding_mode") or plan.get("grounding_mode") or "strict_lecture_only"),
-        "include_annotations": True,
-    }
 
 
 

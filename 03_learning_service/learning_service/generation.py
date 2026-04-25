@@ -148,6 +148,11 @@ class OptionalGeminiClient:
         except Exception:
             return safe_excerpt(getattr(response, "text", "") or "", 400)
 
+    def _failure_reason_for_exception(self, exc: requests.RequestException) -> str:
+        if isinstance(exc, requests.Timeout):
+            return "request_timeout"
+        return "request_exception"
+
     def _record_model_failure(
         self,
         model: str,
@@ -224,15 +229,32 @@ class OptionalGeminiClient:
                         if attempt < 2:
                             time.sleep(2 ** attempt)
                             continue
-                        self.last_call_info["failure_reason"] = "request_exception"
+                        reason = self._failure_reason_for_exception(exc)
+                        self.last_call_info["failure_reason"] = reason
                         self.last_call_info["failure_detail"] = str(exc)
                         self._record_model_failure(
                             model,
-                            "request_exception",
+                            reason,
                             attempt=attempt + 1,
                             used_thinking_config=bool(thinking_variant),
                             error=exc,
                         )
+                        if isinstance(exc, requests.Timeout):
+                            if thinking_variant:
+                                LOGGER.warning(
+                                    "Gemini timed out on model %s with reasoning enabled after retries; retrying once without thinkingConfig. Detail: %s",
+                                    model,
+                                    exc,
+                                )
+                                retry_without_thinking = True
+                            else:
+                                LOGGER.warning(
+                                    "Gemini timed out on model %s after retries; trying the next model. Detail: %s",
+                                    model,
+                                    exc,
+                                )
+                                advance_model = True
+                            break
                         LOGGER.warning(
                             "Gemini request exception on model %s (thinking=%s, attempt=%s): %s",
                             model,
@@ -1433,6 +1455,16 @@ class GroundedGenerator:
                 expanded_query = self._safe_text(payload.get("expanded_query"), fallback="")
                 if expanded_query:
                     llm_terms.extend(self._sanitize_query_terms([expanded_query]))
+            else:
+                keyword_info = copy.deepcopy(getattr(self.keyword_gemini, "last_call_info", {}) or {})
+                if keyword_info.get("failure_reason") or keyword_info.get("attempted_models"):
+                    LOGGER.info(
+                        "Chat retrieval keyword expansion fell back to heuristics for query=%r because Gemini keyword extraction failed with reason=%s detail=%s after models=%s.",
+                        normalized[:160],
+                        keyword_info.get("failure_reason"),
+                        keyword_info.get("failure_detail"),
+                        keyword_info.get("attempted_models") or [],
+                    )
         extra_terms = self._dedupe_query_terms(heuristic_terms + llm_terms, normalized)
         if not extra_terms:
             return normalized

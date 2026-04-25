@@ -257,14 +257,11 @@ def content_stub_server():
 
 
 @contextmanager
-def learning_stub_server():
+def learning_stub_server(*, health_ready: bool = True, health_details: dict | None = None):
     state: dict = {
         "jobs": {},
-        "study_plans": {},
         "conversations": {},
         "practice_sets": {},
-        "received_study_plan_posts": [],
-        "received_study_plan_revisions": [],
         "received_conversation_posts": [],
         "received_message_posts": [],
         "received_practice_posts": [],
@@ -286,27 +283,6 @@ def learning_stub_server():
             "confidence": "high",
             "preview_url": f"/preview/{material_id}/{slide_id}",
             "source_open_url": f"/source/{material_id}/{slide_id}",
-        }
-
-    def make_plan(workspace_id: str, payload: dict, parent_study_plan_id: str | None = None, sequence: int = 1) -> dict:
-        material_id = payload["material_ids"][0]
-        return {
-            "study_plan_id": f"plan_{workspace_id}_{sequence}",
-            "parent_study_plan_id": parent_study_plan_id,
-            "workspace_id": workspace_id,
-            "created_at": f"2026-03-28T00:00:0{sequence}Z",
-            "topic_text": payload.get("topic_text") or "Inferred topic",
-            "time_budget_minutes": payload.get("time_budget_minutes", 60),
-            "grounding_mode": payload.get("grounding_mode", "strict_lecture_only"),
-            "prerequisites": [
-                {"item_id": f"pre_{sequence}", "concept_name": "Prereq", "why_needed": "Needed", "support_status": "slide_grounded", "citations": [citation(material_id)]}
-            ],
-            "study_sequence": [
-                {"step_id": f"step_{sequence}", "order_index": 1, "title": "Review", "objective": "Read the source", "recommended_time_minutes": 20, "tasks": ["Review"], "depends_on": [f"pre_{sequence}"], "support_status": "slide_grounded", "citations": [citation(material_id)]}
-            ],
-            "common_mistakes": [
-                {"item_id": f"mistake_{sequence}", "pattern": "Skipping evidence", "why_it_happens": "Haste", "prevention_advice": "Use the citation", "support_status": "slide_grounded", "citations": [citation(material_id)]}
-            ],
         }
 
     def make_practice(workspace_id: str, payload: dict, parent_practice_set_id: str | None = None, sequence: int = 1) -> dict:
@@ -356,62 +332,12 @@ def learning_stub_server():
 
     @app.get("/healthz")
     def healthz() -> dict:
-        return {"service_name": "learning_stub", "ready": True, "status": "ok"}
-
-    @app.post("/v1/study-plans")
-    async def create_study_plan(request: Request):
-        payload = await request.json()
-        rejection = reject_unexpected_keys(payload, {"workspace_id", "material_ids", "topic_text", "time_budget_minutes", "grounding_mode", "student_context", "include_annotations"})
-        if rejection:
-            return rejection
-        if set(payload["student_context"].keys()) != {"prior_knowledge", "weak_areas", "goals"}:
-            return JSONResponse(status_code=400, content={"error": {"message": "Unexpected student_context shape"}})
-        state["received_study_plan_posts"].append(payload)
-        workspace_id = payload["workspace_id"]
-        sequence = len(state["study_plans"].get(workspace_id, {})) + 1
-        plan = make_plan(workspace_id, payload, sequence=sequence)
-        job_id = f"learning_job_plan_{workspace_id}_{sequence}"
-        state["jobs"][job_id] = {"kind": "study_plan", "workspace_id": workspace_id, "artifact": plan, "polls": 0}
-        return {"job_id": job_id}
-
-    @app.get("/v1/study-plans")
-    def list_study_plans(workspace_id: str) -> dict:
-        return {"study_plans": list(reversed(list(state["study_plans"].get(workspace_id, {}).values())))}
-
-    @app.get("/v1/study-plans/{study_plan_id}")
-    def get_study_plan(study_plan_id: str) -> dict:
-        for plans in state["study_plans"].values():
-            if study_plan_id in plans:
-                return {"study_plan": plans[study_plan_id]}
-        return JSONResponse(status_code=404, content={"error": {"message": "plan not found"}})
-
-    @app.post("/v1/study-plans/{study_plan_id}/revise")
-    async def revise_study_plan(study_plan_id: str, request: Request):
-        payload = await request.json()
-        rejection = reject_unexpected_keys(payload, {"instruction_text", "target_section", "locked_item_ids", "grounding_mode", "include_annotations"})
-        if rejection:
-            return rejection
-        state["received_study_plan_revisions"].append(payload)
-        existing = None
-        workspace_id = None
-        for ws_id, plans in state["study_plans"].items():
-            if study_plan_id in plans:
-                existing = plans[study_plan_id]
-                workspace_id = ws_id
-                break
-        if existing is None or workspace_id is None:
-            return JSONResponse(status_code=404, content={"error": {"message": "parent plan not found"}})
-        sequence = len(state["study_plans"].get(workspace_id, {})) + 1
-        parent_payload = {
-            "material_ids": [existing["prerequisites"][0]["citations"][0]["material_id"]],
-            "topic_text": existing["topic_text"],
-            "time_budget_minutes": existing["time_budget_minutes"],
-            "grounding_mode": payload["grounding_mode"],
+        return {
+            "service_name": "learning_stub",
+            "ready": health_ready,
+            "status": "ok",
+            "details": health_details or {},
         }
-        plan = make_plan(workspace_id, parent_payload, parent_study_plan_id=study_plan_id, sequence=sequence)
-        job_id = f"learning_job_plan_revise_{workspace_id}_{sequence}"
-        state["jobs"][job_id] = {"kind": "study_plan", "workspace_id": workspace_id, "artifact": plan, "polls": 0}
-        return {"job_id": job_id}
 
     @app.post("/v1/conversations")
     async def create_conversation(request: Request):
@@ -523,10 +449,6 @@ def learning_stub_server():
     def get_job(job_id: str) -> dict:
         job = state["jobs"][job_id]
         job["polls"] += 1
-        if job["kind"] == "study_plan":
-            plan = job["artifact"]
-            state["study_plans"].setdefault(job["workspace_id"], {})[plan["study_plan_id"]] = plan
-            return {"job": {"job_id": job_id, "status": "succeeded", "progress": 100, "stage": "completed", "message": "study plan ready", "result_type": "study_plan", "result_id": plan["study_plan_id"], "user_action": None, "error": None}}
         if job["kind"] == "practice":
             practice_set = job["artifact"]
             state["practice_sets"].setdefault(job["workspace_id"], {})[practice_set["practice_set_id"]] = practice_set
@@ -607,7 +529,6 @@ def test_mock_fixture_workspace_is_bootstrapped_with_source_viewer_assets(mock_c
 
     assert payload["display_name"] == "Backpropagation Midterm Prep"
     assert len(payload["materials"]) >= 3
-    assert payload["active_study_plan"]["prerequisites"]
     assert payload["active_conversation"]["messages"]
     assert payload["active_practice_set"]["questions"]
 
@@ -712,99 +633,6 @@ def test_integrated_material_import_normalization_and_hydration(tmp_path: Path) 
                 assert material["slides"]
                 assert material["slides"][0]["preview_url"].startswith(env["CONTENT_SERVICE_URL"])
                 assert material["slides"][0]["source_open_url"].startswith(env["CONTENT_SERVICE_URL"])
-
-def test_integrated_study_plan_generation_and_revision_normalization(tmp_path: Path) -> None:
-    with integrated_client(tmp_path) as (client, content_state, learning_state, env):
-        workspace = client.post("/api/workspaces", json={"display_name": "Planning workspace"}).json()["workspace"]
-        workspace_id = workspace["workspace_id"]
-
-        slides_job = client.post(
-            f"/api/workspaces/{workspace_id}/materials/import",
-            files={"file": ("deck.pdf", io.BytesIO(b"pdf"), "application/pdf")},
-            data={"title": "Ready slides", "role": "slides"},
-        ).json()["job"]
-        notes_job = client.post(
-            f"/api/workspaces/{workspace_id}/materials/import",
-            data={"title": "Ready notes", "role": "notes", "kind": "pasted_text", "text": "Useful notes"},
-        ).json()["job"]
-        template_job = client.post(
-            f"/api/workspaces/{workspace_id}/materials/import",
-            data={"title": "Practice template", "role": "practice_template", "kind": "pasted_text", "text": "Template wording"},
-        ).json()["job"]
-        poll_job(client, workspace_id, slides_job["job_id"])
-        poll_job(client, workspace_id, notes_job["job_id"])
-        poll_job(client, workspace_id, template_job["job_id"])
-
-        content_state["materials"].setdefault(workspace_id, {})["mat_processing"] = {
-            "material_id": "mat_processing",
-            "workspace_id": workspace_id,
-            "title": "Still processing",
-            "role": "slides",
-            "kind": "pdf",
-            "processing_status": "running",
-            "page_count": 0,
-            "created_at": "2026-03-28T00:00:00Z",
-            "quality_summary": {"overall": "medium", "notes": "still parsing"},
-            "slides": [],
-            "source_view_url": "",
-        }
-
-        workspace = client.get(f"/api/workspaces/{workspace_id}").json()["workspace"]
-        lecture_ready_ids = [material["material_id"] for material in workspace["materials"] if material["processing_status"] == "ready" and material["role"] in {"slides", "notes"}]
-        template_id = next(material["material_id"] for material in workspace["materials"] if material["role"] == "practice_template")
-        excluded_material_id = lecture_ready_ids[0]
-        included_material_id = lecture_ready_ids[1]
-        client.post(
-            f"/api/workspaces/{workspace_id}/materials/{excluded_material_id}/preference",
-            json={"preference": "exclude"},
-        )
-
-        job = client.post(
-            f"/api/workspaces/{workspace_id}/study-plans/generate",
-            json={
-                "topic_text": "Backpropagation",
-                "time_budget_minutes": 75,
-                "grounding_mode": "strict_lecture_only",
-                "student_context": {"known": "derivatives", "weak_areas": "sign errors", "goals": "midterm prep"},
-            },
-        ).json()["job"]
-        finished = poll_job(client, workspace_id, job["job_id"])
-        assert finished["status"] == "succeeded"
-
-        outbound = learning_state["received_study_plan_posts"][-1]
-        assert set(outbound.keys()) == {"workspace_id", "material_ids", "topic_text", "time_budget_minutes", "grounding_mode", "student_context", "include_annotations"}
-        assert outbound["student_context"]["prior_knowledge"] == "derivatives"
-        assert outbound["material_ids"] == [included_material_id]
-        assert template_id not in outbound["material_ids"]
-        assert "mat_processing" not in outbound["material_ids"]
-        assert outbound["include_annotations"] is True
-
-        workspace = client.get(f"/api/workspaces/{workspace_id}").json()["workspace"]
-        first_plan_id = workspace["active_study_plan"]["study_plan_id"]
-        locked_prereq_ids = [item["item_id"] for item in workspace["active_study_plan"]["prerequisites"]]
-
-        revise_job = client.post(
-            f"/api/workspaces/{workspace_id}/study-plans/{first_plan_id}/revise",
-            json={
-                "target_section": "study_sequence",
-                "feedback_note": "Emphasize checking the update sign before memorizing formulas.",
-                "locked_sections": ["prerequisites"],
-            },
-        ).json()["job"]
-        assert poll_job(client, workspace_id, revise_job["job_id"])["status"] == "succeeded"
-        revision = learning_state["received_study_plan_revisions"][-1]
-        assert set(revision.keys()) == {"instruction_text", "target_section", "locked_item_ids", "grounding_mode", "include_annotations"}
-        assert revision["instruction_text"] == "Emphasize checking the update sign before memorizing formulas."
-        assert revision["target_section"] == "study_sequence"
-        assert revision["locked_item_ids"] == locked_prereq_ids
-        assert revision["include_annotations"] is True
-
-        refreshed_workspace = client.get(f"/api/workspaces/{workspace_id}").json()["workspace"]
-        revised_plan_id = refreshed_workspace["active_study_plan"]["study_plan_id"]
-        assert revised_plan_id != first_plan_id
-        study_history = [entry for entry in refreshed_workspace["history"] if entry["artifact_type"] == "study_plan"]
-        assert len([entry for entry in study_history if entry["active"]]) == 1
-        assert [entry for entry in study_history if entry["active"]][0]["artifact_id"] == revised_plan_id
 
 def test_integrated_conversation_job_flow_clear_and_reuse_materials(tmp_path: Path) -> None:
     with integrated_client(tmp_path) as (client, _content_state, learning_state, env):
@@ -1068,13 +896,13 @@ def test_annotation_hydration_preference_sync_and_feedback_annotation(tmp_path: 
         feedback_response = client.post(
             f"/api/workspaces/{workspace_id}/feedback",
             json={
-                "target_type": "study_plan_item",
-                "target_id": "step_1",
-                "correction_note": "The plan should mention sign checks.",
+                "target_type": "practice_question",
+                "target_id": "question_1",
+                "correction_note": "This question should mention sign checks.",
                 "kind": "wrong",
             },
         ).json()
-        assert feedback_response["feedback"]["correction_note"] == "The plan should mention sign checks."
+        assert feedback_response["feedback"]["correction_note"] == "This question should mention sign checks."
         last_annotation = content_state["annotation_posts"][-1]
         assert last_annotation["annotation_type"] == "user_correction"
         assert last_annotation["scope"] == "workspace"
@@ -1120,6 +948,52 @@ def test_degraded_integrated_mode_opens_workspace_and_never_fakes_success(degrad
     assert conversation_response.status_code >= 400
     reloaded = degraded_client.get(f"/api/workspaces/{workspace_id}").json()["workspace"]
     assert reloaded["known_conversation_ids"] == []
+
+
+def test_auto_mode_keeps_real_learning_service_available_when_primary_model_is_degraded(tmp_path: Path) -> None:
+    with content_stub_server() as (content_port, _content_state), learning_stub_server(
+        health_ready=False,
+        health_details={
+            "process_up": True,
+            "standalone_mode_available": True,
+            "deterministic_fallback_available": True,
+            "primary_generation_path": "heuristic_fallback",
+        },
+    ) as (learning_port, _learning_state):
+        env = {
+            "APP_SHELL_MODE": "auto",
+            "LOCAL_DATA_DIR": str(tmp_path / "local_data"),
+            "AUTO_OPEN_BROWSER": "false",
+            "APP_SHELL_TESTING": "true",
+            "CONTENT_SERVICE_URL": f"http://127.0.0.1:{content_port}",
+            "LEARNING_SERVICE_URL": f"http://127.0.0.1:{learning_port}",
+        }
+        app = create_app(env_override=env)
+        with TestClient(app) as client:
+            status = client.get("/api/status").json()
+            assert status["effective_mode"] == "integrated"
+            assert status["services"]["learning"]["available"] is True
+            assert status["services"]["learning"]["ready"] is False
+
+            workspace = client.post("/api/workspaces", json={"display_name": "Fallback-capable workspace"}).json()["workspace"]
+            workspace_id = workspace["workspace_id"]
+
+            import_job = client.post(
+                f"/api/workspaces/{workspace_id}/materials/import",
+                data={"title": "Lecture 1", "role": "slides", "kind": "pasted_text", "text": "evidence"},
+            ).json()["job"]
+            assert poll_job(client, workspace_id, import_job["job_id"])["status"] == "succeeded"
+
+            conversation = client.post(
+                f"/api/workspaces/{workspace_id}/conversations",
+                json={"title": "Fallback path chat"},
+            ).json()["conversation"]
+            send_payload = client.post(
+                f"/api/workspaces/{workspace_id}/conversations/{conversation['conversation_id']}/messages",
+                json={"text": "What matters here?", "grounding_mode": "lecture_with_fallback", "response_style": "standard"},
+            ).json()
+            finished = poll_job(client, workspace_id, send_payload["job"]["job_id"])
+            assert finished["status"] == "succeeded"
 
 
 def test_run_local_starts_server_with_one_command(tmp_path: Path) -> None:

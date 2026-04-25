@@ -47,15 +47,31 @@ class ServiceLauncher:
     def _health_url(self, base_url: str) -> str:
         return f"{base_url.rstrip('/')}/healthz"
 
-    def check_health(self, base_url: str) -> bool:
+    def check_service_status(self, base_url: str) -> dict:
         try:
             response = httpx.get(self._health_url(base_url), timeout=0.8)
             if response.status_code != 200:
-                return False
+                return {"available": False, "ready": False, "status": "http_error", "details": {}}
             payload = response.json()
-            return bool(payload.get("ready", False))
+            details = payload.get("details") if isinstance(payload.get("details"), dict) else {}
+            ready = bool(payload.get("ready", False))
+            status = str(payload.get("status", "")).strip().lower()
+            available = bool(
+                status in {"", "ok"}
+                and (
+                    ready
+                    or details.get("process_up") is True
+                    or details.get("standalone_mode_available") is True
+                    or details.get("integrated_mode_available") is True
+                    or not details
+                )
+            )
+            return {"available": available, "ready": ready, "status": status or "ok", "details": details}
         except Exception:
-            return False
+            return {"available": False, "ready": False, "status": "unreachable", "details": {}}
+
+    def check_health(self, base_url: str) -> bool:
+        return bool(self.check_service_status(base_url)["available"])
 
     def _maybe_register_cleanup(self) -> None:
         if self._registered:
@@ -66,7 +82,8 @@ class ServiceLauncher:
     def start_if_needed(self, service_name: str, folder_name: str, base_url: str) -> None:
         if self.config.testing:
             return
-        if self.check_health(base_url):
+        current_status = self.check_service_status(base_url)
+        if current_status["available"]:
             return
         if service_name in self.processes and self.processes[service_name].poll() is None:
             return
@@ -89,14 +106,20 @@ class ServiceLauncher:
         self._maybe_register_cleanup()
         deadline = time.time() + 12
         while time.time() < deadline:
-            if self.check_health(base_url):
-                LOGGER.info("%s service is healthy at %s.", service_name, base_url)
+            status = self.check_service_status(base_url)
+            if status["available"]:
+                LOGGER.info(
+                    "%s service is available at %s (ready=%s).",
+                    service_name,
+                    base_url,
+                    status["ready"],
+                )
                 return
             if process.poll() is not None:
                 LOGGER.warning("%s service exited early with code %s.", service_name, process.returncode)
                 return
             time.sleep(0.3)
-        LOGGER.warning("%s service did not become healthy within 12 seconds at %s.", service_name, base_url)
+        LOGGER.warning("%s service did not become available within 12 seconds at %s.", service_name, base_url)
 
     def shutdown(self) -> None:
         for process in self.processes.values():
@@ -123,18 +146,22 @@ class ShellService:
             self.effective_mode = "mock"
             self.storage.maybe_seed_mock_fixture()
             self._last_status_snapshot = self._build_mock_status()
+            LOGGER.warning("App shell started in test-only mock mode.")
             return
         if not self.config.testing:
             self.launcher.start_if_needed("content", "02_content_service", self.config.content_service_url)
             self.launcher.start_if_needed("learning", "03_learning_service", self.config.learning_service_url)
         status = self.refresh_status(force=True)
-        if self.config.mode == "auto" and not any(service["available"] for service in status["services"].values()):
-            self.effective_mode = "mock"
-            self.storage.maybe_seed_mock_fixture()
-            self._last_status_snapshot = self._build_mock_status()
-        else:
-            self.effective_mode = "integrated"
-            self._last_status_snapshot = status
+        self.effective_mode = "integrated"
+        self._last_status_snapshot = status
+        LOGGER.info(
+            "App shell startup complete with mode=%s content_available=%s content_ready=%s learning_available=%s learning_ready=%s.",
+            self.config.mode,
+            status["services"]["content"]["available"],
+            status["services"]["content"]["ready"],
+            status["services"]["learning"]["available"],
+            status["services"]["learning"]["ready"],
+        )
 
     def shutdown(self) -> None:
         self.launcher.shutdown()
@@ -146,12 +173,14 @@ class ShellService:
             "services": {
                 "content": {
                     "available": True,
+                    "ready": True,
                     "mode": "mock",
                     "base_url": self.config.content_service_url,
                     "last_checked_at": now,
                 },
                 "learning": {
                     "available": True,
+                    "ready": True,
                     "mode": "mock",
                     "base_url": self.config.learning_service_url,
                     "last_checked_at": now,
@@ -167,29 +196,32 @@ class ShellService:
         if not force and self._last_status_snapshot is not None and (time.time() - self._last_status_time) < 0.8:
             return deep_copy(self._last_status_snapshot)
         now = utc_now_iso()
+        content_status = self.launcher.check_service_status(self.config.content_service_url)
+        learning_status = self.launcher.check_service_status(self.config.learning_service_url)
         status = {
             "effective_mode": self.effective_mode,
             "services": {
                 "content": {
-                    "available": self.launcher.check_health(self.config.content_service_url),
+                    "available": content_status["available"],
+                    "ready": content_status["ready"],
                     "mode": self.effective_mode,
                     "base_url": self.config.content_service_url,
+                    "health_status": content_status["status"],
+                    "details": deep_copy(content_status["details"]),
                     "last_checked_at": now,
                 },
                 "learning": {
-                    "available": self.launcher.check_health(self.config.learning_service_url),
+                    "available": learning_status["available"],
+                    "ready": learning_status["ready"],
                     "mode": self.effective_mode,
                     "base_url": self.config.learning_service_url,
+                    "health_status": learning_status["status"],
+                    "details": deep_copy(learning_status["details"]),
                     "last_checked_at": now,
                 },
             },
         }
-        if self.config.mode == "auto" and self.effective_mode != "mock" and not any(service["available"] for service in status["services"].values()):
-            self.effective_mode = "mock"
-            self.storage.maybe_seed_mock_fixture()
-            status = self._build_mock_status()
-        else:
-            status["effective_mode"] = self.effective_mode
+        status["effective_mode"] = self.effective_mode
         self._last_status_snapshot = status
         self._last_status_time = time.time()
         return deep_copy(status)
@@ -218,7 +250,7 @@ class ShellService:
             "created_at": workspace.get("created_at"),
             "last_opened_at": workspace.get("last_opened_at"),
             "archived": workspace.get("archived", False),
-            "grounding_mode": workspace.get("grounding_mode", "strict_lecture_only"),
+            "grounding_mode": workspace.get("grounding_mode", "lecture_with_fallback"),
             "material_counts": {
                 "total": len(materials),
                 "ready": len([material for material in materials if material.get("processing_status") == "ready"]),
@@ -238,7 +270,7 @@ class ShellService:
         return summary
 
     def list_workspaces(self) -> dict:
-        workspaces = [self._remove_study_plan_artifacts(self._touch_status(workspace)) for workspace in self.storage.list_workspaces()]
+        workspaces = [self._touch_status(workspace) for workspace in self.storage.list_workspaces()]
         for workspace in workspaces:
             self.storage.save_workspace(workspace)
         return {
@@ -248,26 +280,26 @@ class ShellService:
 
     def create_workspace(self, display_name: str) -> dict:
         workspace = self.storage.create_workspace(display_name)
-        workspace = self._remove_study_plan_artifacts(self._touch_status(workspace))
+        workspace = self._touch_status(workspace)
         self.storage.save_workspace(workspace)
         return self.serialize_workspace(workspace)
 
     def duplicate_workspace(self, workspace_id: str) -> dict:
         workspace = self.storage.duplicate_workspace(workspace_id)
-        workspace = self._remove_study_plan_artifacts(self._touch_status(workspace))
+        workspace = self._touch_status(workspace)
         self.storage.save_workspace(workspace)
         return self.serialize_workspace(workspace)
 
     def archive_workspace(self, workspace_id: str) -> dict:
         workspace = self.storage.archive_workspace(workspace_id)
-        workspace = self._remove_study_plan_artifacts(self._touch_status(workspace))
+        workspace = self._touch_status(workspace)
         return self.serialize_workspace(workspace)
 
     def delete_workspace(self, workspace_id: str) -> None:
         self.storage.delete_workspace(workspace_id)
 
     def serialize_workspace(self, workspace: dict) -> dict:
-        workspace = self._remove_study_plan_artifacts(deep_copy(workspace))
+        workspace = deep_copy(workspace)
         materials = list(workspace.get("materials", {}).values())
         materials.sort(key=lambda item: item.get("created_at") or "")
         active_practice_set = None
@@ -287,14 +319,14 @@ class ShellService:
 
     def get_workspace(self, workspace_id: str, *, refresh: bool = True) -> dict:
         workspace = self._workspace_or_error(workspace_id)
-        workspace = self._remove_study_plan_artifacts(self._touch_status(workspace))
+        workspace = self._touch_status(workspace)
         if refresh and self.effective_mode == "integrated":
             workspace = self.hydrate_workspace(workspace)
         self.storage.save_workspace(workspace)
         return self.serialize_workspace(workspace)
 
     def get_history(self, workspace_id: str) -> dict:
-        workspace = self._remove_study_plan_artifacts(self._workspace_or_error(workspace_id))
+        workspace = self._workspace_or_error(workspace_id)
         history = deep_copy(workspace.get("history", []))
         history.sort(key=lambda entry: entry.get("created_at") or "", reverse=True)
         return {"history": history}
@@ -321,18 +353,6 @@ class ShellService:
         if artifact_type == "conversation":
             return workspace.get("selected_active_conversation_id")
         return None
-
-    def _remove_study_plan_artifacts(self, workspace: dict) -> dict:
-        workspace["active_study_plan_id"] = None
-        workspace["known_study_plan_ids"] = []
-        workspace["study_plans"] = {}
-        workspace["history"] = [
-            entry
-            for entry in workspace.get("history", [])
-            if entry.get("artifact_type") != "study_plan"
-        ]
-        self._sync_history_flags(workspace)
-        return workspace
 
     def _sync_history_flags(self, workspace: dict) -> None:
         for entry in workspace.get("history", []):
@@ -584,6 +604,11 @@ class ShellService:
             return payload
         raise ShellError("Remote service returned an unexpected response shape.", status_code=502)
 
+    def _has_explicit_remote_list(self, payload: Any, *keys: str) -> bool:
+        if not isinstance(payload, dict):
+            return False
+        return any(isinstance(payload.get(key), list) for key in keys)
+
     def _remote_json(self, service: str, method: str, path: str, *, params: dict | None = None, json_body: dict | None = None, data: dict | None = None, files: dict | None = None) -> dict:
         base_url = self.config.content_service_url if service == "content" else self.config.learning_service_url
         try:
@@ -628,7 +653,7 @@ class ShellService:
             raise ShellError(f"Could not reach the {service} service: {exc}", status_code=503)
 
     def hydrate_workspace(self, workspace: dict) -> dict:
-        workspace = self._remove_study_plan_artifacts(deep_copy(workspace))
+        workspace = deep_copy(workspace)
         current_active_practice_set_id = workspace.get("active_practice_set_id")
         current_active_conversation_id = workspace.get("selected_active_conversation_id")
         snapshot = self.refresh_status(force=True)
@@ -663,14 +688,17 @@ class ShellService:
                     detail = self._remote_json("learning", "GET", f"/v1/practice-sets/{practice_set['practice_set_id']}")
                     practice_set = self._extract_detail(detail, "practice_set")
                 self._upsert_practice_set(workspace, practice_set, set_active=False)
-            self._prune_artifact_collection(
-                workspace,
-                store_name="practice_sets",
-                known_ids_name="known_practice_set_ids",
-                active_field="active_practice_set_id",
-                artifact_type="practice_set",
-                remote_ids=remote_practice_ids,
-            )
+            if self._has_explicit_remote_list(practice_payload, "practice_sets", "items", "results", "data"):
+                self._prune_artifact_collection(
+                    workspace,
+                    store_name="practice_sets",
+                    known_ids_name="known_practice_set_ids",
+                    active_field="active_practice_set_id",
+                    artifact_type="practice_set",
+                    remote_ids=remote_practice_ids,
+                )
+            elif practice_payload:
+                LOGGER.warning("Skipping practice-set pruning because the learning service list response was not an explicit list payload.")
             conversations_payload = self._remote_json("learning", "GET", "/v1/conversations", params={"workspace_id": workspace["workspace_id"]})
             remote_conversation_ids: set[str] = set()
             for conversation in self._extract_items(conversations_payload, "conversations", "conversation"):
@@ -679,14 +707,17 @@ class ShellService:
                     detail = self._remote_json("learning", "GET", f"/v1/conversations/{conversation['conversation_id']}")
                     conversation = self._extract_detail(detail, "conversation")
                 self._upsert_conversation(workspace, conversation, set_active=False)
-            self._prune_artifact_collection(
-                workspace,
-                store_name="conversations",
-                known_ids_name="known_conversation_ids",
-                active_field="selected_active_conversation_id",
-                artifact_type="conversation",
-                remote_ids=remote_conversation_ids,
-            )
+            if self._has_explicit_remote_list(conversations_payload, "conversations", "items", "results", "data"):
+                self._prune_artifact_collection(
+                    workspace,
+                    store_name="conversations",
+                    known_ids_name="known_conversation_ids",
+                    active_field="selected_active_conversation_id",
+                    artifact_type="conversation",
+                    remote_ids=remote_conversation_ids,
+                )
+            elif conversations_payload:
+                LOGGER.warning("Skipping conversation pruning because the learning service list response was not an explicit list payload.")
             workspace["status"].setdefault("last_successful_sync", {})["learning"] = utc_now_iso()
         workspace["active_practice_set_id"] = self._choose_active_artifact_id(
             current_active_practice_set_id,
@@ -919,6 +950,14 @@ class ShellService:
         self.storage.save_workspace(workspace)
         job["finalized"] = True
         job["updated_at"] = utc_now_iso()
+        LOGGER.info(
+            "Finalized remote %s job local_job=%s workspace=%s result_type=%s result_id=%s.",
+            job["service"],
+            job["job_id"],
+            job["workspace_id"],
+            job.get("result_type"),
+            job.get("result_id"),
+        )
         return job
 
     def poll_job(self, workspace_id: str, job_id: str) -> dict:
@@ -971,6 +1010,13 @@ class ShellService:
                 return current
             updated = self.storage.update_job(job_id, _merge_remote)
             if updated["status"] == "needs_user_input":
+                LOGGER.info(
+                    "Remote %s job local_job=%s remote_job=%s needs user input for workspace=%s.",
+                    service,
+                    updated["job_id"],
+                    updated.get("remote_job_id"),
+                    workspace_id,
+                )
                 workspace = self._workspace_or_error(workspace_id)
                 if updated["operation"] == "conversation_message":
                     conversation_id = updated.get("context", {}).get("conversation_id")
@@ -997,6 +1043,15 @@ class ShellService:
     def create_conversation(self, workspace_id: str, payload: dict) -> dict:
         workspace = self._workspace_or_error(workspace_id)
         normalized, warnings = normalize_conversation_create(workspace, payload)
+        snapshot = self.refresh_status(force=True)
+        LOGGER.info(
+            "Creating conversation for workspace=%s effective_mode=%s learning_available=%s learning_ready=%s title=%r.",
+            workspace_id,
+            self.effective_mode,
+            snapshot["services"]["learning"]["available"],
+            snapshot["services"]["learning"]["ready"],
+            normalized.get("title") or "Workspace Q&A",
+        )
         if self.effective_mode == "mock":
             conversation_id = make_id("conversation")
             conversation = {
@@ -1009,8 +1064,8 @@ class ShellService:
             }
             self._upsert_conversation(workspace, conversation)
             self.storage.save_workspace(workspace)
+            LOGGER.warning("Created test-only mock conversation %s for workspace=%s.", conversation_id, workspace_id)
             return {"conversation": conversation, "warnings": warnings}
-        snapshot = self.refresh_status(force=True)
         if not snapshot["services"]["learning"]["available"]:
             raise ShellError("The learning service is unavailable, so a real conversation cannot be created right now.", status_code=503)
         payload_out = self._remote_json("learning", "POST", "/v1/conversations", json_body=normalized)
@@ -1019,6 +1074,7 @@ class ShellService:
             raise ShellError("The learning service did not return a valid conversation object.", status_code=502)
         self._upsert_conversation(workspace, conversation)
         self.storage.save_workspace(workspace)
+        LOGGER.info("Created real conversation %s for workspace=%s.", conversation["conversation_id"], workspace_id)
         return {"conversation": conversation, "warnings": warnings}
 
     def send_conversation_message(self, workspace_id: str, conversation_id: str, payload: dict) -> dict:
@@ -1027,6 +1083,15 @@ class ShellService:
         if not conversation:
             raise ShellError(f"Conversation {conversation_id} was not found in this workspace.", status_code=404)
         normalized = normalize_conversation_message(workspace, payload)
+        LOGGER.info(
+            "Submitting conversation message for workspace=%s conversation=%s effective_mode=%s chars=%s grounding_mode=%s response_style=%s.",
+            workspace_id,
+            conversation_id,
+            self.effective_mode,
+            len(normalized["message_text"]),
+            normalized["grounding_mode"],
+            normalized["response_style"],
+        )
         user_message = {
             "message_id": make_id("msg_user"),
             "role": "user",
@@ -1070,6 +1135,12 @@ class ShellService:
                 conversation["messages"][-1]["job_id"] = job["job_id"]
                 workspace["conversations"][conversation_id] = conversation
                 self.storage.save_workspace(workspace)
+            LOGGER.warning(
+                "Queued test-only mock chat job local_job=%s for workspace=%s conversation=%s.",
+                job["job_id"],
+                workspace_id,
+                conversation_id,
+            )
             return {"job": job, "conversation": self.serialize_workspace(workspace).get("active_conversation")}
         try:
             snapshot = self.refresh_status(force=True)
@@ -1098,6 +1169,13 @@ class ShellService:
                 conversation["messages"][-1]["job_id"] = job["job_id"]
                 workspace["conversations"][conversation_id] = conversation
                 self.storage.save_workspace(workspace)
+            LOGGER.info(
+                "Submitted real chat job local_job=%s remote_job=%s for workspace=%s conversation=%s.",
+                job["job_id"],
+                remote_job_id,
+                workspace_id,
+                conversation_id,
+            )
             return {"job": job, "conversation": self.serialize_workspace(workspace).get("active_conversation")}
         except Exception:
             rollback_pending_user()
@@ -1108,6 +1186,7 @@ class ShellService:
         conversation = workspace.get("conversations", {}).get(conversation_id)
         if not conversation:
             raise ShellError(f"Conversation {conversation_id} was not found in this workspace.", status_code=404)
+        LOGGER.info("Clearing conversation=%s in workspace=%s via mode=%s.", conversation_id, workspace_id, self.effective_mode)
         if self.effective_mode == "mock":
             conversation["messages"] = []
             self._upsert_conversation(workspace, conversation)

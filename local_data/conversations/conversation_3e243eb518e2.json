@@ -14,33 +14,71 @@
   "grounding_mode": "strict_lecture_only",
   "messages": [
     {
-      "created_at": "2026-04-22T20:30:33Z",
-      "message_id": "msg_a5d69557a7b8",
+      "created_at": "2026-04-24T19:16:01Z",
+      "message_id": "msg_55a270d91f5d",
       "role": "user",
-      "text": "why does update use subtraction"
+      "text": "why is weight update negative"
     },
     {
       "answer_source": {
         "attempted_models": [
-          "gemini-3-flash-preview"
+          "gemini-3-flash-preview",
+          "gemini-2.5-flash"
         ],
         "evidence_match": "strong_match",
         "matched_evidence_count": 3,
-        "model": "gemini-3-flash-preview",
+        "model": "gemini-2.5-flash",
         "path": "llm",
         "provider": "gemini",
         "rate_limited_models": [],
         "reasoning_enabled": true,
         "reasoning_mode": "dynamic"
       },
-      "created_at": "2026-04-22T20:30:33Z",
-      "message_id": "msg_683f8b618c35",
+      "created_at": "2026-04-24T19:16:01Z",
+      "message_id": "msg_067564eec6c7",
       "reply_sections": [
         {
-          "citations": [],
-          "heading": "Insufficient Evidence",
-          "support_status": "insufficient_evidence",
-          "text": "The provided lecture materials do not explain why the update rule uses subtraction. The evidence focuses on the process of backpropagation and the calculation of partial derivatives for weights in a deep network, but it does not describe the specific update equation or the logic behind the subtraction operation used in gradient-based optimization."
+          "citations": [
+            {
+              "citation_id": "cit_429f94ba0b2ab564c2644ae1",
+              "confidence": "high",
+              "material_id": "mat_8d42b5f497924ba7b92aabff1c8941ae",
+              "material_title": "lecture11-nn.pdf",
+              "preview_url": "http://127.0.0.1:38410/v1/materials/mat_8d42b5f497924ba7b92aabff1c8941ae/slides/mat_8d42b5f497924ba7b92aabff1c8941ae:slide:16/preview",
+              "slide_id": "mat_8d42b5f497924ba7b92aabff1c8941ae:slide:16",
+              "slide_number": 16,
+              "snippet_text": "Regularization Practical tips: • Don’t regularize the bias term (only the weights) – Why? Allows model to be invariable a shift in the y-values • Standardize data (convert to z-scores) – For each feature: subtract the mean across the dataset and divide by the standard deviation – Why? For regularization, this helps all…",
+              "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_8d42b5f497924ba7b92aabff1c8941ae/slides/mat_8d42b5f497924ba7b92aabff1c8941ae:slide:16/source",
+              "support_type": "explicit"
+            },
+            {
+              "citation_id": "cit_1582efa76f1157a5b775dc04",
+              "confidence": "high",
+              "material_id": "mat_bb59052d364446d2a30319b565c099ae",
+              "material_title": "lecture13-backprop-ii.pdf",
+              "preview_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:18/preview",
+              "slide_id": "mat_bb59052d364446d2a30319b565c099ae:slide:18",
+              "slide_number": 18,
+              "snippet_text": "…= 𝜕𝐽 𝜕ො𝑦 𝜕𝑔 𝜕𝑧5 𝜕𝑓 𝜕𝑎4 𝜕𝑔 𝜕𝑧4 𝜕𝑓 𝜕𝑎3 𝜕𝑔 𝜕𝑧3 𝜕𝑓 𝜕𝑎2 𝜕𝑔 𝜕𝑧2 𝜕𝑓 𝜕𝑎1 𝜕𝑔 𝜕𝑧1 𝜕𝑓 𝜕𝑤1 Why backwards? Width 1 deep network (no bias) (dumb but will help with calculus) 𝑥 𝑎1 𝑤1 𝑧1 𝑔 𝑓 𝑦 ℓ 𝑎2 𝑤2 𝑧2 𝑔 𝑓 𝑎3 𝑤3 𝑧3 𝑔 𝑓 𝑎4 𝑤4 𝑧4 𝑔 𝑓 𝑎5 = ො𝑦 𝑤5 𝑧5 𝑔 𝑓 ො𝑦= ℎ𝜽𝐱= 𝑔𝑤5 ⋅𝑔𝑤4 ⋅𝑔𝑤3 ⋅𝑔𝑤2 ⋅𝑔𝑤1 ⋅𝑥 𝐽 𝜕𝐽 𝜕𝑧1 = 𝜕𝐽 𝜕𝑧1 𝜕𝑓 𝜕𝑤1 What if someone had al…",
+              "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:18/source",
+              "support_type": "explicit"
+            },
+            {
+              "citation_id": "cit_76c9e32128dff91df356b0d4",
+              "confidence": "high",
+              "material_id": "mat_bb59052d364446d2a30319b565c099ae",
+              "material_title": "lecture13-backprop-ii.pdf",
+              "preview_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:13/preview",
+              "slide_id": "mat_bb59052d364446d2a30319b565c099ae:slide:13",
+              "slide_number": 13,
+              "snippet_text": "…𝑎4 𝑤4 𝑧4 𝑔 𝑓 𝑎5 = ො𝑦 𝑤5 𝑧5 𝑔 𝑓 ො𝑦= ℎ𝜽𝐱= 𝑔𝑤5 ⋅𝑔𝑤4 ⋅𝑔𝑤3 ⋅𝑔𝑤2 ⋅𝑔𝑤1 ⋅𝑥 Questions: ▪ Why do we need to compute all of the 𝜕𝐽/𝜕𝑧ℓ and 𝜕𝐽/𝜕𝑎ℓ? ▪ Why \"backwards\"? ▪ How do we actually compute these? ▪ (What else do we need to learn to go beyond this useless network?) 𝐽 𝜕𝐽 𝜕ො𝑦 𝜕𝐽 𝜕𝑧5 𝜕𝐽 𝜕𝑤5 𝜕𝐽 𝜕𝑎4 𝜕𝐽 𝜕𝑧4 𝜕𝐽 𝜕𝑤4 𝜕𝐽 𝜕𝑎3 𝜕𝐽 𝜕𝑧3 𝜕𝐽…",
+              "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:13/source",
+              "support_type": "explicit"
+            }
+          ],
+          "heading": "Grounded answer",
+          "support_status": "inferred_from_slides",
+          "text": "The provided materials explain how to compute the partial derivative of the cost function with respect to the weights, which is a component of the weight update. However, the materials do not explicitly state or explain why the weight update itself is negative."
         }
       ],
       "role": "assistant"

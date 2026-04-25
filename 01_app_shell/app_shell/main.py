@@ -52,21 +52,23 @@ def create_app(*, env_override: dict[str, str] | None = None) -> FastAPI:
 
     @app.get("/manifest")
     def manifest() -> dict[str, Any]:
+        capabilities = [
+            "workspace_library",
+            "material_upload",
+            "practice_ui",
+            "chat_ui",
+            "source_viewer",
+            "history",
+            "integrated_launcher",
+        ]
+        if config.testing and config.mode == "mock":
+            capabilities.append("mock_mode")
         return {
             "service_name": "app_shell",
             "version": config.version,
             "ui_base_url": config.ui_base_url,
             "api_base_url": config.api_base_url,
-            "capabilities": [
-                "workspace_library",
-                "material_upload",
-                "practice_ui",
-                "chat_ui",
-                "source_viewer",
-                "history",
-                "mock_mode",
-                "integrated_launcher",
-            ],
+            "capabilities": capabilities,
         }
 
     @app.get("/api/status")

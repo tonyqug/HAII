@@ -110,6 +110,7 @@ function formatFallbackReason(reason) {
     invalid_response_json_text: 'Gemini returned invalid output',
     invalid_response_json_payload: 'Gemini returned invalid output',
     over_strict_insufficient_evidence: 'Gemini was too strict about lecture coverage',
+    request_timeout: 'Gemini request timed out',
     request_exception: 'Gemini request failed',
     service_unavailable: 'Gemini temporarily unavailable',
     upstream_error: 'Gemini upstream error',
@@ -264,7 +265,9 @@ function serviceAvailability() {
   const services = currentServices();
   return {
     contentAvailable: Boolean(services.content?.available),
+    contentReady: services.content?.ready !== false,
     learningAvailable: Boolean(services.learning?.available),
+    learningReady: Boolean(services.learning?.ready),
   };
 }
 
@@ -336,7 +339,7 @@ function defaultPracticeDraft(workspace) {
     generation_mode: preferences.generation_mode || 'mixed',
     difficulty_profile: preferences.difficulty_profile || 'harder',
     coverage_mode: preferences.coverage_mode || 'balanced',
-    grounding_mode: workspace?.grounding_mode || 'strict_lecture_only',
+    grounding_mode: workspace?.grounding_mode || 'lecture_with_fallback',
     include_answer_key: preferences.include_answer_key === true,
     include_rubrics: preferences.include_rubrics !== false,
   };
@@ -363,7 +366,7 @@ function setPracticeDraft(workspace, partial) {
 function defaultChatDraft(workspace) {
   return {
     text: '',
-    grounding_mode: workspace?.grounding_mode || 'strict_lecture_only',
+    grounding_mode: workspace?.grounding_mode || 'lecture_with_fallback',
     response_style: 'standard',
   };
 }
@@ -471,20 +474,24 @@ function renderSystemStatus() {
   const learning = state.status.services.learning;
   const mode = state.status.effective_mode;
   const degraded = !content.available || !learning.available;
+  const learningFallbackOnly = learning.available && learning.ready === false;
 
   container.innerHTML = `
     <div class="card runtime-card">
       <div class="eyebrow">Runtime Health</div>
-      <strong>System state is shown instead of hidden.</strong>
+      <strong>The shell stays on the real service path.</strong>
       <div class="runtime-pill-row">
         ${badge(titleCaseLabel(mode))}
-        ${badge(content.available ? 'Evidence viewer ready' : 'Evidence viewer paused', content.available ? 'ok' : 'danger')}
-        ${badge(learning.available ? 'Ask and practice ready' : 'Ask and practice paused', learning.available ? 'ok' : 'danger')}
+        ${badge(content.available ? 'Evidence viewer available' : 'Evidence viewer paused', content.available ? 'ok' : 'danger')}
+        ${badge(learning.available ? 'Ask and practice available' : 'Ask and practice paused', learning.available ? 'ok' : 'danger')}
+        ${learningFallbackOnly ? badge('Primary model degraded', 'warn') : ''}
       </div>
-      <div class="small muted">${degraded && mode !== 'mock'
+      <div class="small muted">${degraded
         ? 'Unavailable services disable dependent actions in the UI, so the app stays usable without pretending the full workflow is healthy.'
-        : 'The shell remains visible even when sibling services change state, so users can see what is available right now.'}</div>
-      ${degraded && mode !== 'mock'
+        : learningFallbackOnly
+          ? 'The learning service is online but its primary model path is degraded. Ask and practice stay on the real service path instead of switching to mock data.'
+          : 'Live service state stays visible, so you can see exactly what is available without hidden fallbacks.'}</div>
+      ${degraded
         ? '<div class="service-note small warning" style="margin-top:12px;">Unavailable features stay disabled instead of failing silently.</div>'
         : ''}
     </div>
@@ -494,7 +501,7 @@ function renderSystemStatus() {
 }
 
 function applyServiceGating() {
-  const { contentAvailable, learningAvailable } = serviceAvailability();
+  const { contentAvailable, learningAvailable, learningReady } = serviceAvailability();
   setServiceNote(
     'materials-service-note',
     contentAvailable ? '' : 'Content service is unavailable. Imports, ingestion updates, and source-grounded previews are disabled until it recovers.'
@@ -505,11 +512,19 @@ function applyServiceGating() {
   );
   setServiceNote(
     'practice-service-note',
-    learningAvailable ? '' : 'Learning service is unavailable. Practice generation and revision are disabled until it recovers.'
+    !learningAvailable
+      ? 'Learning service is unavailable. Practice generation and revision are disabled until it recovers.'
+      : !learningReady
+        ? 'Learning service is online, but its primary model path is degraded. Practice still runs through the real backend and may use the service fallback path.'
+        : ''
   );
   setServiceNote(
     'chat-service-note',
-    learningAvailable ? '' : 'Learning service is unavailable. Grounded chat is disabled until it recovers.'
+    !learningAvailable
+      ? 'Learning service is unavailable. Grounded chat is disabled until it recovers.'
+      : !learningReady
+        ? 'Learning service is online, but its primary model path is degraded. Chat still runs through the real backend and may use the service fallback path.'
+        : ''
   );
 
   setDisabledForSelectors(
@@ -580,7 +595,7 @@ function renderWorkspaceListInto(containerId) {
             <div class="workspace-card-name">${escapeHtml(workspace.display_name)}</div>
             <div class="workspace-card-meta small muted">Opened ${escapeHtml(formatDate(workspace.last_opened_at))}</div>
           </div>
-          ${badge(titleCaseLabel(workspace.grounding_mode || 'strict_lecture_only'))}
+          ${badge(titleCaseLabel(workspace.grounding_mode || 'lecture_with_fallback'))}
         </div>
         <div class="workspace-card-stats">
           ${statusBadge}
@@ -1005,7 +1020,7 @@ function renderChat() {
 
   const conversation = workspace.active_conversation;
   if (!conversation) {
-    output.innerHTML = '<div class="card muted">No active chat yet. Start a new chat to ask grounded questions about the current materials.</div>';
+    output.innerHTML = '<div class="card muted">No active chat yet. Type a grounded question to create one automatically, or start a new empty chat thread first.</div>';
     return;
   }
 
@@ -1298,7 +1313,7 @@ function renderPractice() {
   if (modeInput) modeInput.value = draft.generation_mode || 'mixed';
   if (difficultyInput) difficultyInput.value = draft.difficulty_profile || 'harder';
   if (coverageInput) coverageInput.value = draft.coverage_mode || 'balanced';
-  if (groundingInput) groundingInput.value = draft.grounding_mode || workspace.grounding_mode || 'strict_lecture_only';
+  if (groundingInput) groundingInput.value = draft.grounding_mode || workspace.grounding_mode || 'lecture_with_fallback';
   if (answerKeyInput) answerKeyInput.checked = draft.include_answer_key === true;
   if (rubricsInput) rubricsInput.checked = draft.include_rubrics !== false;
 
@@ -1355,7 +1370,7 @@ function renderHistorySummary() {
   const container = document.getElementById('history-summary');
   const workspace = state.activeWorkspace;
   if (!container || !workspace) return;
-  const history = (workspace.history || []).filter((entry) => entry.artifact_type !== 'study_plan');
+  const history = workspace.history || [];
   const currentPractice = history.filter((entry) => entry.artifact_type === 'practice_set' && entry.active).length;
   const currentConversation = history.filter((entry) => entry.artifact_type === 'conversation' && entry.active).length;
 
@@ -1381,7 +1396,7 @@ function renderHistorySummary() {
 
 function renderHistory() {
   const output = document.getElementById('history-output');
-  const history = (state.activeWorkspace?.history || []).filter((entry) => entry.artifact_type !== 'study_plan');
+  const history = state.activeWorkspace?.history || [];
   if (!output) return;
   if (!history.length) {
     output.innerHTML = '<div class="card muted">No history yet. Generated artifacts and chat threads will appear here for audit and replay.</div>';
@@ -1829,7 +1844,8 @@ function bindEvents() {
       });
       await refreshActiveWorkspace();
       setTab('ask');
-      showTransientMessage('New grounded chat started.', 'success');
+      document.getElementById('chat-question')?.focus();
+      showTransientMessage('New empty chat started. Send a message to use the model.', 'success');
     } catch (error) {
       handleError(error);
     }

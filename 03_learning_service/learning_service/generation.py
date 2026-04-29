@@ -1937,8 +1937,10 @@ class GroundedGenerator:
         cleaned = normalize_whitespace(text or "")
         if not cleaned:
             return ""
+        cleaned = re.sub(r"\b10-\d{3}(?:/10-\d{3})?\b", " ", cleaned)
         cleaned = re.sub(r"\b\d{2,3}-\d{3}/\d{2,3}-\d{3}\b", " ", cleaned)
         cleaned = re.sub(r"\b(?:Pat Virtue|Matt Gormley)\b", " ", cleaned, flags=re.IGNORECASE)
+        cleaned = re.sub(r"\bIntroduction to Machine Learning\b", " ", cleaned, flags=re.IGNORECASE)
         cleaned = re.sub(
             r"\b(?:Machine Learning Department|School of Computer Science|Carnegie Mellon University)\b",
             " ",
@@ -1946,6 +1948,7 @@ class GroundedGenerator:
             flags=re.IGNORECASE,
         )
         cleaned = re.sub(r"\blecture\s+\d+\b", " ", cleaned, flags=re.IGNORECASE)
+        cleaned = re.sub(r"\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\.?\s+\d{1,2},?\s+\d{4}\b", " ", cleaned, flags=re.IGNORECASE)
         cleaned = re.sub(r"\s+\d{1,3}\s*$", " ", cleaned)
         cleaned = re.sub(r"\s*[|/]\s*", " ", cleaned)
         cleaned = normalize_whitespace(cleaned)
@@ -2099,6 +2102,94 @@ class GroundedGenerator:
     # --------------------------
     # Practice generation
     # --------------------------
+    def _looks_like_practice_logistics_text(self, text: str) -> bool:
+        lowered = normalize_whitespace(text).lower()
+        if not lowered:
+            return True
+        explicit_phrases = (
+            "reminder",
+            "office hour",
+            "office hours",
+            "deadline",
+            "assignment",
+            "homework",
+            "project",
+            "piazza",
+            "canvas",
+            "unused",
+            "exam logistics",
+        )
+        if any(phrase in lowered for phrase in explicit_phrases):
+            return True
+        if lowered.startswith("poll") or lowered.startswith("quiz"):
+            return True
+        return False
+
+    def _practice_text_is_usable(self, text: str) -> bool:
+        cleaned = self._clean_evidence_text(text)
+        if not cleaned:
+            return False
+        if self._looks_like_slide_metadata(cleaned):
+            return False
+        if self._looks_like_practice_logistics_text(cleaned):
+            return False
+        tokens = informative_tokens(cleaned)
+        if len(tokens) < 4:
+            return False
+        if len(split_sentences(cleaned)) == 1 and len(tokens) < 6:
+            return False
+        return True
+
+    def _practice_support_text(self, record: Dict[str, Any]) -> str:
+        best_text = ""
+        best_score = -999
+        for raw_text in record.get("texts") or [record.get("summary_text", "")]:
+            cleaned = self._clean_evidence_text(raw_text)
+            if not cleaned:
+                continue
+            fragments = split_sentences(cleaned) or [cleaned]
+            for fragment in fragments[:6]:
+                candidate = normalize_whitespace(fragment)
+                if len(candidate) < 24:
+                    continue
+                score = len(informative_tokens(candidate))
+                if self._looks_like_slide_metadata(candidate):
+                    score -= 6
+                if self._looks_like_practice_logistics_text(candidate):
+                    score -= 6
+                if re.search(
+                    r"\b(?:is|are|uses?|used|helps?|adds?|reduces?|updates?|tunes?|discourages?|prevents?|compares?|means|refers|shows|highlights?|requires?)\b",
+                    candidate.lower(),
+                ):
+                    score += 3
+                if score > best_score:
+                    best_score = score
+                    best_text = candidate
+        return best_text or normalize_whitespace(self._clean_evidence_text(record.get("summary_text", "")))
+
+    def _practice_focus_label(self, record: Dict[str, Any], support_text: str) -> str:
+        cleaned = normalize_whitespace(support_text)
+        label = infer_concept_label(first_sentence(cleaned), fallback="")
+        if label and not self._looks_like_slide_metadata(label) and not self._looks_like_practice_logistics_text(label):
+            return label
+        keywords = top_keywords([cleaned], limit=3)
+        if keywords:
+            return " ".join(word.capitalize() for word in keywords[:2])
+        fallback = self._clean_evidence_text(record.get("concept_name", ""))
+        return fallback or f"Slide {record.get('slide_number')} concept"
+
+    def _practice_ready_records(self, lecture_records: Sequence[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        ready: List[Dict[str, Any]] = []
+        for record in lecture_records:
+            support_text = self._practice_support_text(record)
+            if not self._practice_text_is_usable(support_text):
+                continue
+            annotated = copy.deepcopy(record)
+            annotated["practice_support_text"] = support_text
+            annotated["practice_focus"] = self._practice_focus_label(record, support_text)
+            ready.append(annotated)
+        return ready
+
     def build_practice_set(
         self,
         *,
@@ -2116,7 +2207,7 @@ class GroundedGenerator:
     ) -> Dict[str, Any]:
         accessor = EvidenceAccessor(bundle)
         lecture_material_ids = accessor.lecture_material_ids(template_material_id)
-        lecture_records = accessor.concept_records(lecture_material_ids)
+        lecture_records = self._practice_ready_records(accessor.concept_records(lecture_material_ids))
         if not lecture_records:
             raise NeedsUserInputError("I need lecture evidence before I can generate a practice set.")
         topic = normalize_whitespace(topic_text or "")
@@ -2330,20 +2421,17 @@ class GroundedGenerator:
         include_rubrics: bool,
         template_verbs: Sequence[str],
     ) -> Dict[str, Any]:
-        concept = record["concept_name"]
-        summary = take_sentences(record["summary_text"], 2) or record["summary_text"]
+        concept = record.get("practice_focus") or record["concept_name"]
+        summary = record.get("practice_support_text") or take_sentences(record["summary_text"], 2) or record["summary_text"]
         if generation_mode == "template_mimic" and template_verbs:
             lead = template_verbs[(question_index - 1) % len(template_verbs)]
         else:
             lead = self._default_lead_verb(question_type, difficulty_profile, question_index)
 
         if question_type == "multiple_choice":
-            stem = f"{lead} the most defensible lecture-grounded interpretation of {concept}."
+            stem = f"{lead} the lecture's treatment of {concept}."
             if difficulty_profile == "harder":
-                stem = (
-                    f"{lead} which interpretation of {concept} is most defensible given the lecture evidence, "
-                    "especially when distinguishing it from nearby concepts or common mistakes."
-                )
+                stem = f"{lead} which statement best matches the lecture's discussion of {concept} and the role it plays in the method or evaluation logic."
             answer_choices, expected_answer = self._multiple_choice_options(
                 concept,
                 summary,
@@ -2353,35 +2441,26 @@ class GroundedGenerator:
                 difficulty_profile,
                 include_answer_key,
             )
-            scoring_guide = "Award credit only for the option that best matches the lecture-grounded reasoning, not the most generic-sounding statement."
+            scoring_guide = "Award credit only for the option that best matches the cited lecture evidence."
         elif question_type == "short_answer":
             if difficulty_profile == "harder":
-                if comparison_record:
-                    stem = (
-                        f"{lead} {concept} in a way that distinguishes it from {comparison_record['concept_name']}, "
-                        "then identify one condition, trade-off, or failure mode that matters in practice."
-                    )
-                else:
-                    stem = f"{lead} {concept} and identify one condition, trade-off, or failure mode implied by the lecture materials."
+                stem = (
+                    f"{lead} the lecture's discussion of {concept} in your own words, "
+                    "then identify one practical implication, limitation, trade-off, or failure mode supported by the material."
+                )
             else:
-                stem = f"{lead} {concept} using grounded lecture evidence, then state why it matters in the larger method or evaluation flow."
+                stem = f"{lead} the lecture's discussion of {concept}, then state why it matters in the larger method or evaluation flow."
             answer_choices = []
             expected_answer = self._reference_answer(question_type, concept, summary, comparison_record, difficulty_profile, include_answer_key)
             scoring_guide = None
         else:
             if difficulty_profile == "easier":
-                stem = f"{lead} {concept} and summarize the main idea in the lecture in a well-structured paragraph."
-            elif comparison_record:
-                stem = (
-                    f"{lead} a realistic failure case or design decision involving {concept}. "
-                    f"Explain how it should be handled, why it should not be confused with {comparison_record['concept_name']}, "
-                    "and what evidence or caution from the lecture supports your reasoning."
-                )
+                stem = f"{lead} the lecture's discussion of {concept} and summarize the main idea in a well-structured paragraph."
             else:
                 stem = (
-                    f"{lead} a realistic failure case or design decision involving {concept}. "
-                    "Explain how it should be handled, connect it to the lecture's broader procedure or evaluation logic, "
-                    "and state one caution that would prevent a common mistake."
+                    f"{lead} a design choice, trade-off, or failure case related to {concept}. "
+                    "Explain what the lecture supports, connect it to the broader procedure or evaluation logic, "
+                    "and state one caution or evidence-backed detail that justifies your reasoning."
                 )
             answer_choices = []
             expected_answer = self._reference_answer(question_type, concept, summary, comparison_record, difficulty_profile, include_answer_key)
@@ -2442,17 +2521,31 @@ class GroundedGenerator:
     ) -> Tuple[List[str], str]:
         role_statement = self._role_statement(summary, concept)
         comparison_name = comparison_record.get("concept_name") if comparison_record else None
-        correct = f"It is mainly used to {role_statement}."
+        correct = self._multiple_choice_statement_from_summary(summary, concept)
         distractors = self._multiple_choice_distractors(concept, comparison_name, difficulty_profile)
+        comparison_summary = normalize_whitespace((comparison_record or {}).get("practice_support_text") or (comparison_record or {}).get("summary_text") or "")
+        if comparison_summary:
+            distractors[0] = self._multiple_choice_statement_from_summary(
+                comparison_summary,
+                comparison_record.get("practice_focus") or comparison_record.get("concept_name") or "the neighboring lecture idea",
+            )
         options = [correct] + distractors
         rotation = (question_index - 1) % len(options)
         rotated = options[rotation:] + options[:rotation]
         expected = ""
         if include_answer_key:
-            expected = f"The correct choice is the option that treats {concept} as something mainly used to {role_statement}."
+            expected = f"The correct choice is the one that matches the lecture's discussion of {concept}: {correct}"
             if comparison_name:
-                expected += f" It should not collapse {concept} into {comparison_name}."
+                expected += f" It should not confuse {concept} with {comparison_name}."
         return rotated, expected
+
+    def _multiple_choice_statement_from_summary(self, summary: str, concept: str) -> str:
+        fragment = normalize_whitespace(take_sentences(summary, 1) or safe_excerpt(summary, 180))
+        if not fragment:
+            return f"It best matches the lecture's discussion of {concept}."
+        if fragment[-1] not in ".!?":
+            fragment += "."
+        return fragment
 
     def _reference_answer(
         self,
@@ -2466,10 +2559,7 @@ class GroundedGenerator:
         if not include_answer_key:
             return ""
         core = self._summary_fragment(summary)
-        comparison_name = comparison_record.get("concept_name") if comparison_record else ""
         answer = f"A strong answer identifies {concept} as {core}."
-        if question_type == "short_answer" and comparison_name:
-            answer += f" It also distinguishes {concept} from {comparison_name}."
         if question_type == "long_answer" or difficulty_profile == "harder":
             answer += " It should name a concrete condition, trade-off, application detail, or failure mode supported by the lecture."
         return answer

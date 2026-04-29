@@ -270,6 +270,90 @@
       "user_action": null,
       "workspace_id": "workspace_f58b1a34802a"
     },
+    "job_9444423da261": {
+      "context": {
+        "normalized_request": {
+          "coverage_mode": "balanced",
+          "difficulty_profile": "harder",
+          "generation_mode": "mixed",
+          "grounding_mode": "strict_lecture_only",
+          "include_annotations": true,
+          "include_answer_key": false,
+          "include_rubrics": true,
+          "material_ids": [
+            "mat_8d42b5f497924ba7b92aabff1c8941ae",
+            "mat_bb59052d364446d2a30319b565c099ae",
+            "mat_e9a0cd06468140ef9d0b7065c6b90adb"
+          ],
+          "question_count": 6,
+          "workspace_id": "workspace_f58b1a34802a"
+        },
+        "warnings": []
+      },
+      "created_at": "2026-04-29T15:57:26Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_9444423da261",
+      "message": "Practice set created.",
+      "operation": "practice_generate",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_cf3e4256674a",
+      "result_id": "practice_set_d192a37dedaa",
+      "result_type": "practice_set",
+      "service": "learning",
+      "stage": "done",
+      "status": "succeeded",
+      "updated_at": "2026-04-29T15:58:07Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_f58b1a34802a"
+    },
+    "job_a20529baebc8": {
+      "context": {
+        "normalized_request": {
+          "instruction_text": "Regenerate the selected questions with less redundancy and stronger lecture grounding.",
+          "locked_question_ids": [],
+          "maintain_coverage": true,
+          "target_question_ids": [
+            "question_e4beced59e14"
+          ]
+        },
+        "practice_set_id": "practice_set_d192a37dedaa"
+      },
+      "created_at": "2026-04-29T15:59:31Z",
+      "error": {
+        "code": "primary_generation_fallback_blocked",
+        "message": "Primary Gemini practice revision failed (path=heuristic_fallback, reason=invalid_response_json_payload). Deterministic fallback is disabled for demo reliability. Expected a top-level JSON object for the practice set revision response. Attempted models: gemini-2.5-flash.",
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_a20529baebc8",
+      "message": "Primary Gemini practice revision failed (path=heuristic_fallback, reason=invalid_response_json_payload). Deterministic fallback is disabled for demo reliability. Expected a top-level JSON object for the practice set revision response. Attempted models: gemini-2.5-flash.",
+      "operation": "practice_revise",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_398236eb568b",
+      "result_id": null,
+      "result_type": null,
+      "service": "learning",
+      "stage": "failed",
+      "status": "failed",
+      "updated_at": "2026-04-29T15:59:42Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_f58b1a34802a"
+    },
     "job_a5755bc319ec": {
       "context": {
         "conversation_id": "conversation_3e243eb518e2",
@@ -486,7 +570,7 @@
           "mat_e9a0cd06468140ef9d0b7065c6b90adb"
         ]
       },
-      "active_practice_set_id": null,
+      "active_practice_set_id": "practice_set_d192a37dedaa",
       "annotations": [],
       "archived": false,
       "conversations": {
@@ -762,6 +846,14 @@
           "created_at": "2026-04-24T20:11:53Z",
           "parent_artifact_id": null,
           "title": "Chat 4:11:53 PM"
+        },
+        {
+          "active": true,
+          "artifact_id": "practice_set_d192a37dedaa",
+          "artifact_type": "practice_set",
+          "created_at": "2026-04-29T15:57:30Z",
+          "parent_artifact_id": null,
+          "title": "mixed"
         }
       ],
       "known_conversation_ids": [
@@ -769,8 +861,10 @@
         "conversation_7beabcfed93a",
         "conversation_3ffa00391ea6"
       ],
-      "known_practice_set_ids": [],
-      "last_opened_at": "2026-04-29T15:52:14Z",
+      "known_practice_set_ids": [
+        "practice_set_d192a37dedaa"
+      ],
+      "last_opened_at": "2026-04-29T15:59:43Z",
       "local_edits": {},
       "material_preferences": {
         "mat_8d42b5f497924ba7b92aabff1c8941ae": "default",
@@ -3100,12 +3194,439 @@
         "question_count": 6,
         "topic_text": ""
       },
-      "practice_sets": {},
+      "practice_sets": {
+        "practice_set_d192a37dedaa": {
+          "coverage_report": {
+            "cited_slide_count": 2,
+            "considered_slide_count": 98,
+            "notes": "Balanced mode cycled through grounded topics to keep the set representative without forcing full slide-by-slide coverage.",
+            "uncited_or_skipped_slides": [
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              55,
+              56,
+              57,
+              58,
+              59,
+              60,
+              61,
+              62,
+              63,
+              64,
+              65,
+              66,
+              67,
+              68,
+              69,
+              70,
+              71,
+              72,
+              73,
+              74,
+              75,
+              76,
+              77,
+              78,
+              79,
+              80,
+              81,
+              82,
+              83,
+              84,
+              85,
+              86,
+              87,
+              88,
+              89,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98
+            ]
+          },
+          "created_at": "2026-04-29T15:57:30Z",
+          "estimated_duration_minutes": 50,
+          "generation_mode": "mixed",
+          "human_loop_summary": {
+            "follow_up_actions": [
+              "Lock the strongest questions before revising.",
+              "Regenerate only the questions that feel unclear or off-target.",
+              "Narrow the topic if the current set is too broad."
+            ],
+            "used_inputs": [
+              {
+                "label": "Topic focus",
+                "value": "All ready grounded materials"
+              },
+              {
+                "label": "Question format",
+                "value": "mixed"
+              },
+              {
+                "label": "Question count",
+                "value": "6"
+              },
+              {
+                "label": "Coverage mode",
+                "value": "balanced"
+              },
+              {
+                "label": "Difficulty",
+                "value": "harder"
+              },
+              {
+                "label": "Answer key",
+                "value": "Hidden"
+              },
+              {
+                "label": "Rubrics",
+                "value": "Included"
+              }
+            ]
+          },
+          "parent_practice_set_id": null,
+          "practice_set_id": "practice_set_d192a37dedaa",
+          "questions": [
+            {
+              "answer_choices": [
+                "It is mainly used to support the lecture's key reasoning step about neural networks 1 10.",
+                "It is mainly used to emphasize one surface feature while ignoring the lecture's deeper procedural role.",
+                "It is mainly used to avoid trade-offs entirely by pretending the method needs no contextual checks.",
+                "It is mainly used to report the final result after the important design choices are already locked."
+              ],
+              "citations": [
+                {
+                  "citation_id": "cit_5b9c4d619bb594229559db2d",
+                  "confidence": "high",
+                  "material_id": "mat_8d42b5f497924ba7b92aabff1c8941ae",
+                  "material_title": "lecture11-nn.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_8d42b5f497924ba7b92aabff1c8941ae/slides/mat_8d42b5f497924ba7b92aabff1c8941ae:slide:1/preview",
+                  "slide_id": "mat_8d42b5f497924ba7b92aabff1c8941ae:slide:1",
+                  "slide_number": 1,
+                  "snippet_text": "Neural Networks 1 10-301/10-601 Introduction to Machine Learning Matt Gormley & Pat Virtue Lecture 11 Feb. 15, 2026 Machine Learning Department School of Computer Science Carnegie Mellon University",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_8d42b5f497924ba7b92aabff1c8941ae/slides/mat_8d42b5f497924ba7b92aabff1c8941ae:slide:1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                1
+              ],
+              "difficulty": "harder",
+              "estimated_minutes": 5,
+              "expected_answer": "",
+              "question_id": "question_e4beced59e14",
+              "question_type": "multiple_choice",
+              "rubric": [
+                {
+                  "criterion": "Core idea",
+                  "description": "Accurately states the main lecture-supported idea behind Neural Networks 1 10.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Grounded detail",
+                  "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Reasoning / application",
+                  "description": "Explains how the concept is used, connected, or checked in context.",
+                  "points": 3
+                }
+              ],
+              "scoring_guide_text": "Award credit only for the option that best matches the lecture-grounded reasoning, not the most generic-sounding statement.",
+              "stem": "Justify which interpretation of Neural Networks 1 10 is most defensible given the lecture evidence, especially when distinguishing it from nearby concepts or common mistakes."
+            },
+            {
+              "answer_choices": [],
+              "citations": [
+                {
+                  "citation_id": "cit_c9c6a086e269383dd861eeab",
+                  "confidence": "high",
+                  "material_id": "mat_bb59052d364446d2a30319b565c099ae",
+                  "material_title": "lecture13-backprop-ii.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:1/preview",
+                  "slide_id": "mat_bb59052d364446d2a30319b565c099ae:slide:1",
+                  "slide_number": 1,
+                  "snippet_text": "Backpropagation II 1 10-301/10-601 Introduction to Machine Learning Pat Virtue & Matt Gormley Lecture 13 Feb. 23, 2026 Machine Learning Department School of Computer Science Carnegie Mellon University",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                1
+              ],
+              "difficulty": "harder",
+              "estimated_minutes": 8,
+              "expected_answer": "",
+              "question_id": "question_6928615bc38e",
+              "question_type": "short_answer",
+              "rubric": [
+                {
+                  "criterion": "Core idea",
+                  "description": "Accurately states the main lecture-supported idea behind Backpropagation II 1 10.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Grounded detail",
+                  "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Reasoning / application",
+                  "description": "Explains how the concept is used, connected, or checked in context.",
+                  "points": 3
+                }
+              ],
+              "scoring_guide_text": null,
+              "stem": "Analyze Backpropagation II 1 10 in a way that distinguishes it from Neural Networks, then identify one condition, trade-off, or failure mode that matters in practice."
+            },
+            {
+              "answer_choices": [],
+              "citations": [
+                {
+                  "citation_id": "cit_66e3195b1f5b0b0f06d12176",
+                  "confidence": "high",
+                  "material_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb",
+                  "material_title": "lecture12-backprop.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_e9a0cd06468140ef9d0b7065c6b90adb/slides/mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:1/preview",
+                  "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:1",
+                  "slide_number": 1,
+                  "snippet_text": "Neural Networks + Backpropagation 1 10-301/10-601 Introduction to Machine Learning Matt Gormley Lecture 12 Feb. 18, 2026 Machine Learning Department School of Computer Science Carnegie Mellon University",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_e9a0cd06468140ef9d0b7065c6b90adb/slides/mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:1/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                1
+              ],
+              "difficulty": "harder",
+              "estimated_minutes": 12,
+              "expected_answer": "",
+              "question_id": "question_dc07350b47fb",
+              "question_type": "long_answer",
+              "rubric": [
+                {
+                  "criterion": "Core idea",
+                  "description": "Accurately states the main lecture-supported idea behind Neural Networks.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Grounded detail",
+                  "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Reasoning / application",
+                  "description": "Explains how the concept is used, connected, or checked in context.",
+                  "points": 3
+                }
+              ],
+              "scoring_guide_text": "Full credit requires a correct explanation of Neural Networks, a grounded connection to the lecture context, and one clearly stated caution or application detail.",
+              "stem": "Justify a realistic failure case or design decision involving Neural Networks. Explain how it should be handled, why it should not be confused with Reminders Exam, and what evidence or caution from the lecture supports your reasoning."
+            },
+            {
+              "answer_choices": [
+                "It is mainly used to report the final result after the important design choices are already locked.",
+                "It is mainly used to support the lecture's key reasoning step about reminders exam.",
+                "It is mainly used to emphasize one surface feature while ignoring the lecture's deeper procedural role.",
+                "It is mainly used to avoid trade-offs entirely by pretending the method needs no contextual checks."
+              ],
+              "citations": [
+                {
+                  "citation_id": "cit_53f7119f555c81e32fab3bb8",
+                  "confidence": "high",
+                  "material_id": "mat_8d42b5f497924ba7b92aabff1c8941ae",
+                  "material_title": "lecture11-nn.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_8d42b5f497924ba7b92aabff1c8941ae/slides/mat_8d42b5f497924ba7b92aabff1c8941ae:slide:2/preview",
+                  "slide_id": "mat_8d42b5f497924ba7b92aabff1c8941ae:slide:2",
+                  "slide_number": 2,
+                  "snippet_text": "Reminders \u2022 Exam 1: today, 7pm \u2013 9pm, see Piazza for details \u2022 Homework 4: Logistic Regression \u2013 Out: Mon, Feb-16 \u2013 Due: Wed, Feb-25 at 11:59pm 5",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_8d42b5f497924ba7b92aabff1c8941ae/slides/mat_8d42b5f497924ba7b92aabff1c8941ae:slide:2/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                2
+              ],
+              "difficulty": "harder",
+              "estimated_minutes": 5,
+              "expected_answer": "",
+              "question_id": "question_102ad790dd00",
+              "question_type": "multiple_choice",
+              "rubric": [
+                {
+                  "criterion": "Core idea",
+                  "description": "Accurately states the main lecture-supported idea behind Reminders Exam.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Grounded detail",
+                  "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Reasoning / application",
+                  "description": "Explains how the concept is used, connected, or checked in context.",
+                  "points": 3
+                }
+              ],
+              "scoring_guide_text": "Award credit only for the option that best matches the lecture-grounded reasoning, not the most generic-sounding statement.",
+              "stem": "Justify which interpretation of Reminders Exam is most defensible given the lecture evidence, especially when distinguishing it from nearby concepts or common mistakes."
+            },
+            {
+              "answer_choices": [],
+              "citations": [
+                {
+                  "citation_id": "cit_a86e34d937a57c9c49c47d9e",
+                  "confidence": "high",
+                  "material_id": "mat_bb59052d364446d2a30319b565c099ae",
+                  "material_title": "lecture13-backprop-ii.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:2/preview",
+                  "slide_id": "mat_bb59052d364446d2a30319b565c099ae:slide:2",
+                  "slide_number": 2,
+                  "snippet_text": "Poll 1 Logistic regression for 28x28=784 pixel hand-written digit images into 10 classes: How many parameters (including bias terms)? A. 10 B. 10+784 C. 10*784 D. 10*784 + 10 E. 10*784 + 784 F. I have no idea",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:2/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                2
+              ],
+              "difficulty": "harder",
+              "estimated_minutes": 8,
+              "expected_answer": "",
+              "question_id": "question_d2a23eb614a8",
+              "question_type": "short_answer",
+              "rubric": [
+                {
+                  "criterion": "Core idea",
+                  "description": "Accurately states the main lecture-supported idea behind Poll Logistic.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Grounded detail",
+                  "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Reasoning / application",
+                  "description": "Explains how the concept is used, connected, or checked in context.",
+                  "points": 3
+                }
+              ],
+              "scoring_guide_text": null,
+              "stem": "Analyze Poll Logistic in a way that distinguishes it from Quiz Exam, then identify one condition, trade-off, or failure mode that matters in practice."
+            },
+            {
+              "answer_choices": [],
+              "citations": [
+                {
+                  "citation_id": "cit_3d3c00bcf2b381760b634a76",
+                  "confidence": "high",
+                  "material_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb",
+                  "material_title": "lecture12-backprop.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_e9a0cd06468140ef9d0b7065c6b90adb/slides/mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:2/preview",
+                  "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:2",
+                  "slide_number": 2,
+                  "snippet_text": "Reminders \u2022 Post-Exam/Quiz Followup: \u2013 Exam/Quiz Viewing \u2013 Exit Poll: Quiz 1 + Exam 1 \u2013 Grade Summary 1 \u2022 Homework 4: Logistic Regression \u2013 Out: Mon, Feb-16 \u2013 Due: Wed, Feb-25 at 11:59pm 4 0 100 200 300 400 1 2 3 4 5 6 Historical Trend OH attendance Exam Viewing attendance",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_e9a0cd06468140ef9d0b7065c6b90adb/slides/mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:2/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                2
+              ],
+              "difficulty": "harder",
+              "estimated_minutes": 12,
+              "expected_answer": "",
+              "question_id": "question_c25f570f1e45",
+              "question_type": "long_answer",
+              "rubric": [
+                {
+                  "criterion": "Core idea",
+                  "description": "Accurately states the main lecture-supported idea behind Quiz Exam.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Grounded detail",
+                  "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Reasoning / application",
+                  "description": "Explains how the concept is used, connected, or checked in context.",
+                  "points": 3
+                }
+              ],
+              "scoring_guide_text": "A strong answer will identify a plausible failure or design choice, explain its resolution, differentiate it from the NN 1-10 concept, and cite relevant lecture guidance.",
+              "stem": "Considering the post-exam follow-up activities mentioned, describe a potential failure case or a critical design decision related to the administration or review of a quiz or exam. Explain how this issue should be addressed, why it is distinct from the concepts discussed in Neural Networks 1 (specifically, the 1-10 range), and what specific cautionary advice or procedural detail from the lecture supports your justification."
+            }
+          ],
+          "template_style_summary": null,
+          "topic_text": "",
+          "workspace_id": "workspace_f58b1a34802a"
+        }
+      },
       "selected_active_conversation_id": "conversation_3ffa00391ea6",
       "status": {
         "last_successful_sync": {
-          "content": "2026-04-29T15:52:14Z",
-          "learning": "2026-04-29T15:52:14Z"
+          "content": "2026-04-29T15:59:43Z",
+          "learning": "2026-04-29T15:59:43Z"
         },
         "services": {
           "content": {
@@ -3115,7 +3636,7 @@
               "storage_available": true
             },
             "health_status": "ok",
-            "last_checked_at": "2026-04-29T15:52:14Z",
+            "last_checked_at": "2026-04-29T15:59:43Z",
             "mode": "integrated",
             "ready": true
           },
@@ -3133,7 +3654,7 @@
               "standalone_mode_available": true
             },
             "health_status": "ok",
-            "last_checked_at": "2026-04-29T15:52:14Z",
+            "last_checked_at": "2026-04-29T15:59:43Z",
             "mode": "integrated",
             "ready": true
           }
@@ -3169,7 +3690,7 @@
       "history": [],
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
-      "last_opened_at": "2026-04-29T15:52:14Z",
+      "last_opened_at": "2026-04-29T15:59:43Z",
       "local_edits": {},
       "material_preferences": {
         "material_fixture_notes": "default",
@@ -3323,7 +3844,7 @@
               "storage_available": true
             },
             "health_status": "ok",
-            "last_checked_at": "2026-04-29T15:52:14Z",
+            "last_checked_at": "2026-04-29T15:59:43Z",
             "mode": "integrated",
             "ready": true
           },
@@ -3341,7 +3862,7 @@
               "standalone_mode_available": true
             },
             "health_status": "ok",
-            "last_checked_at": "2026-04-29T15:52:14Z",
+            "last_checked_at": "2026-04-29T15:59:43Z",
             "mode": "integrated",
             "ready": true
           }

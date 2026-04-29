@@ -1,0 +1,22 @@
+{
+  "created_at": "2026-04-29T15:59:31Z",
+  "error": {
+    "code": "primary_generation_fallback_blocked",
+    "message": "Primary Gemini practice revision failed (path=heuristic_fallback, reason=invalid_response_json_payload). Deterministic fallback is disabled for demo reliability. Expected a top-level JSON object for the practice set revision response. Attempted models: gemini-2.5-flash.",
+    "retryable": false
+  },
+  "job_id": "job_398236eb568b",
+  "job_type": "revision",
+  "message": "Primary Gemini practice revision failed (path=heuristic_fallback, reason=invalid_response_json_payload). Deterministic fallback is disabled for demo reliability. Expected a top-level JSON object for the practice set revision response. Attempted models: gemini-2.5-flash.",
+  "progress": 100,
+  "result_id": null,
+  "result_type": null,
+  "stage": "failed",
+  "status": "failed",
+  "updated_at": "2026-04-29T15:59:41Z",
+  "user_action": {
+    "kind": null,
+    "options": [],
+    "prompt": null
+  }
+}

@@ -119,13 +119,15 @@ class OptionalGeminiClient:
             return {"thinkingBudget": -1}
         return {}
 
-    def _extract_text(self, payload: Dict[str, Any]) -> Optional[str]:
+    def _extract_text(self, payload: Dict[str, Any], *, response_mime_type: Optional[str] = None) -> Optional[str]:
         candidates = payload.get("candidates") or []
         if not candidates:
             return None
         parts = ((candidates[0] or {}).get("content") or {}).get("parts") or []
-        text_parts = [part.get("text", "") for part in parts if part.get("text")]
-        combined = "\n".join(text_parts).strip()
+        visible_text_parts = [part.get("text", "") for part in parts if part.get("text") and not part.get("thought")]
+        text_parts = visible_text_parts or [part.get("text", "") for part in parts if part.get("text")]
+        joiner = "" if response_mime_type == "application/json" else "\n"
+        combined = joiner.join(text_parts).strip()
         return combined or None
 
     def _failure_reason_for_response(self, response: requests.Response) -> str:
@@ -212,7 +214,7 @@ class OptionalGeminiClient:
             if response_json_schema is not None:
                 base_generation_config["responseJsonSchema"] = copy.deepcopy(response_json_schema)
             url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
-            configured_thinking = self._thinking_config_for_model(model)
+            configured_thinking = {} if response_mime_type == "application/json" else self._thinking_config_for_model(model)
             thinking_variants = [configured_thinking] if not configured_thinking else [configured_thinking, None]
             for thinking_variant in thinking_variants:
                 generation_config = dict(base_generation_config)
@@ -368,7 +370,7 @@ class OptionalGeminiClient:
                         advance_model = True
                         break
 
-                    text = self._extract_text(data)
+                    text = self._extract_text(data, response_mime_type=response_mime_type)
                     if not text:
                         preview = safe_excerpt(json.dumps(data, ensure_ascii=False), 400)
                         self.last_call_info["failure_reason"] = "empty_response"

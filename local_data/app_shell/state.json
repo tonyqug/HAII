@@ -634,7 +634,7 @@
         "conversation_3ffa00391ea6"
       ],
       "known_practice_set_ids": [],
-      "last_opened_at": "2026-04-24T20:12:47Z",
+      "last_opened_at": "2026-04-29T15:47:49Z",
       "local_edits": {},
       "material_preferences": {
         "mat_8d42b5f497924ba7b92aabff1c8941ae": "default",
@@ -2971,7 +2971,7 @@
               "storage_available": true
             },
             "health_status": "ok",
-            "last_checked_at": "2026-04-24T20:12:47Z",
+            "last_checked_at": "2026-04-29T15:47:49Z",
             "mode": "integrated",
             "ready": true
           },
@@ -2989,7 +2989,7 @@
               "standalone_mode_available": true
             },
             "health_status": "ok",
-            "last_checked_at": "2026-04-24T20:12:47Z",
+            "last_checked_at": "2026-04-29T15:47:49Z",
             "mode": "integrated",
             "ready": true
           }
@@ -3013,101 +3013,28 @@
           "material_fixture_slides"
         ]
       },
-      "active_practice_set_id": "practice_fixture_1",
+      "active_practice_set_id": null,
       "annotations": [],
       "archived": false,
-      "conversations": {
-        "conversation_fixture_1": {
-          "conversation_id": "conversation_fixture_1",
-          "created_at": "2026-03-20T14:20:00Z",
-          "messages": [
-            {
-              "created_at": "2026-03-20T14:20:01Z",
-              "message_id": "msg_user_1",
-              "role": "user",
-              "text": "Why does the update use subtraction instead of addition?"
-            },
-            {
-              "answer_source": {
-                "evidence_match": "strong_match",
-                "matched_evidence_count": 1,
-                "model": "gemini-3-flash-preview",
-                "path": "llm",
-                "provider": "gemini",
-                "rate_limited_models": [],
-                "reasoning_enabled": true,
-                "reasoning_mode": "dynamic"
-              },
-              "clarifying_question": {
-                "prompt": null,
-                "reason": null
-              },
-              "created_at": "2026-03-20T14:20:10Z",
-              "message_id": "msg_assistant_1",
-              "reply_sections": [
-                {
-                  "citations": [
-                    {
-                      "citation_id": "citation_material_fixture_slides_slide_4_4",
-                      "confidence": "high",
-                      "material_id": "material_fixture_slides",
-                      "material_title": "Week 05 - Backpropagation.pdf",
-                      "preview_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_4/preview",
-                      "slide_id": "slide_4",
-                      "slide_number": 4,
-                      "snippet_text": "Subtract the gradient to reduce the loss.",
-                      "source_open_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_4/source",
-                      "support_type": "explicit"
-                    }
-                  ],
-                  "heading": "Lecture-grounded explanation",
-                  "support_status": "slide_grounded",
-                  "text": "The lecture slide writes the update as w <- w - eta * dL/dw, which means the parameter moves opposite the gradient so the loss decreases rather than increases."
-                }
-              ],
-              "role": "assistant"
-            }
-          ],
-          "title": "Why the minus sign matters",
-          "workspace_id": "workspace_fixture_demo"
-        }
-      },
+      "conversations": {},
       "created_at": "2026-03-20T14:00:00Z",
       "deleted": false,
       "display_name": "Backpropagation Midterm Prep",
       "feedback_history": [],
       "grounding_mode": "strict_lecture_only",
-      "history": [
-        {
-          "active": true,
-          "artifact_id": "practice_fixture_1",
-          "artifact_type": "practice_set",
-          "created_at": "2026-03-20T14:30:00Z",
-          "parent_artifact_id": null,
-          "title": "mixed"
-        },
-        {
-          "active": true,
-          "artifact_id": "conversation_fixture_1",
-          "artifact_type": "conversation",
-          "created_at": "2026-03-20T14:20:00Z",
-          "parent_artifact_id": null,
-          "title": "Why the minus sign matters"
-        }
-      ],
-      "known_conversation_ids": [
-        "conversation_fixture_1"
-      ],
-      "known_practice_set_ids": [
-        "practice_fixture_1"
-      ],
-      "last_opened_at": "2026-04-24T20:12:47Z",
+      "history": [],
+      "known_conversation_ids": [],
+      "known_practice_set_ids": [],
+      "last_opened_at": "2026-04-29T15:50:23Z",
       "local_edits": {},
       "material_preferences": {
         "material_fixture_notes": "default",
         "material_fixture_slides": "default"
       },
-      "material_sync_annotations": {},
+      "material_sync_annotations": {
+        "material_fixture_notes": {},
+        "material_fixture_slides": {}
+      },
       "materials": {
         "material_fixture_notes": {
           "created_at": "2026-03-20T14:02:00Z",
@@ -3220,143 +3147,12 @@
         "question_count": 3,
         "topic_text": ""
       },
-      "practice_sets": {
-        "practice_fixture_1": {
-          "coverage_report": {
-            "cited_slide_count": 4,
-            "considered_slide_count": 5,
-            "notes": "The fixture practice set concentrates on the core worked-example slides rather than the title slide.",
-            "uncited_or_skipped_slides": [
-              1
-            ]
-          },
-          "created_at": "2026-03-20T14:30:00Z",
-          "generation_mode": "mixed",
-          "parent_practice_set_id": null,
-          "practice_set_id": "practice_fixture_1",
-          "questions": [
-            {
-              "citations": [
-                {
-                  "citation_id": "citation_material_fixture_slides_slide_2_2",
-                  "confidence": "high",
-                  "material_id": "material_fixture_slides",
-                  "material_title": "Week 05 - Backpropagation.pdf",
-                  "preview_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_2/preview",
-                  "slide_id": "slide_2",
-                  "slide_number": 2,
-                  "snippet_text": "Multiply local gradients to get the total derivative.",
-                  "source_open_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_2/source",
-                  "support_type": "explicit"
-                }
-              ],
-              "covered_slides": [
-                2,
-                3
-              ],
-              "difficulty": "mixed",
-              "expected_answer": "A strong answer states that the total derivative is built by multiplying local derivatives along the computation path, usually mentioning intermediate activations or nodes.",
-              "question_id": "q1",
-              "question_type": "short_answer",
-              "rubric": [
-                {
-                  "criterion": "Chain rule structure",
-                  "description": "Names local derivatives and explains that they are multiplied",
-                  "points": 2
-                },
-                {
-                  "criterion": "Connection to backpropagation",
-                  "description": "Links the chain rule directly to gradient flow through layers",
-                  "points": 2
-                }
-              ],
-              "scoring_guide_text": "Full credit requires both the mathematical idea and the network-specific interpretation.",
-              "stem": "Explain how the chain rule supports backpropagation through a multi-layer network."
-            },
-            {
-              "citations": [
-                {
-                  "citation_id": "citation_material_fixture_slides_slide_3_3",
-                  "confidence": "high",
-                  "material_id": "material_fixture_slides",
-                  "material_title": "Week 05 - Backpropagation.pdf",
-                  "preview_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_3/preview",
-                  "slide_id": "slide_3",
-                  "slide_number": 3,
-                  "snippet_text": "Store intermediate activations during the forward pass so the backward pass can reuse them.",
-                  "source_open_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_3/source",
-                  "support_type": "explicit"
-                }
-              ],
-              "covered_slides": [
-                3
-              ],
-              "difficulty": "harder",
-              "expected_answer": "A strong answer describes the forward pass computing activations and the loss, then explains that the backward pass uses those stored activations to compute gradients layer by layer.",
-              "question_id": "q2",
-              "question_type": "long_answer",
-              "rubric": [
-                {
-                  "criterion": "Forward pass description",
-                  "description": "Explains what is computed and saved",
-                  "points": 2
-                },
-                {
-                  "criterion": "Backward pass reuse",
-                  "description": "Explains how saved activations support gradient computation",
-                  "points": 3
-                }
-              ],
-              "scoring_guide_text": "Look for explicit mention of reusing forward-pass information during the backward pass.",
-              "stem": "Walk through a forward pass and backward pass, explaining why cached activations are needed in the backward computation."
-            },
-            {
-              "citations": [
-                {
-                  "citation_id": "citation_material_fixture_slides_slide_4_4",
-                  "confidence": "high",
-                  "material_id": "material_fixture_slides",
-                  "material_title": "Week 05 - Backpropagation.pdf",
-                  "preview_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_4/preview",
-                  "slide_id": "slide_4",
-                  "slide_number": 4,
-                  "snippet_text": "Parameter update: w <- w - eta * dL/dw.",
-                  "source_open_url": "/mock/workspaces/workspace_fixture_demo/materials/material_fixture_slides/slides/slide_4/source",
-                  "support_type": "explicit"
-                }
-              ],
-              "covered_slides": [
-                4,
-                5
-              ],
-              "difficulty": "easier",
-              "expected_answer": "The answer should give w <- w - eta * dL/dw and say the minus sign moves parameters opposite the gradient so the loss decreases.",
-              "question_id": "q3",
-              "question_type": "short_answer",
-              "rubric": [
-                {
-                  "criterion": "Correct formula",
-                  "description": "Writes the update rule accurately",
-                  "points": 2
-                },
-                {
-                  "criterion": "Minus-sign explanation",
-                  "description": "Explains that subtraction corresponds to descending the loss",
-                  "points": 2
-                }
-              ],
-              "scoring_guide_text": "Students should connect the sign to optimization, not only memorize the formula.",
-              "stem": "State the gradient descent update rule from the lecture and explain the role of the minus sign."
-            }
-          ],
-          "workspace_id": "workspace_fixture_demo"
-        }
-      },
-      "selected_active_conversation_id": "conversation_fixture_1",
+      "practice_sets": {},
+      "selected_active_conversation_id": null,
       "status": {
         "last_successful_sync": {
-          "content": "2026-04-22T20:30:18Z",
-          "learning": "2026-04-22T20:30:18Z"
+          "content": "2026-04-29T15:50:23Z",
+          "learning": "2026-04-29T15:50:23Z"
         },
         "services": {
           "content": {
@@ -3366,7 +3162,7 @@
               "storage_available": true
             },
             "health_status": "ok",
-            "last_checked_at": "2026-04-24T20:12:47Z",
+            "last_checked_at": "2026-04-29T15:50:23Z",
             "mode": "integrated",
             "ready": true
           },
@@ -3384,7 +3180,7 @@
               "standalone_mode_available": true
             },
             "health_status": "ok",
-            "last_checked_at": "2026-04-24T20:12:47Z",
+            "last_checked_at": "2026-04-29T15:50:23Z",
             "mode": "integrated",
             "ready": true
           }

@@ -224,27 +224,10 @@ def test_gemini_practice_enhancement_salvages_partial_updates_without_fallback(a
     assert "model flexibility" in stored["questions"][0]["stem"].lower()
 
 
-def test_practice_job_retries_invalid_json_once_and_stays_on_gemini_path(app_factory, bundle, monkeypatch):
+def test_practice_job_uses_structured_output_schema_and_stays_on_gemini_path(app_factory, bundle, monkeypatch):
     client = app_factory(gemini_api_key="test-key")
     service = client.app.state.learning_service
-    request_prompts = []
-    responses = iter(
-        [
-            "This is not JSON",
-            json.dumps(
-                {
-                    "questions": [
-                        {
-                            "question_index": 1,
-                            "stem": "Explain how the lecture connects regularization to controlling model flexibility.",
-                            "expected_answer": "A strong answer explains that the lecture treats regularization as a way to limit overly flexible models so they generalize better.",
-                            "estimated_minutes": 7,
-                        }
-                    ]
-                }
-            ),
-        ]
-    )
+    captured_requests = []
 
     class FakeResponse:
         status_code = 200
@@ -261,14 +244,27 @@ def test_practice_job_retries_invalid_json_once_and_stays_on_gemini_path(app_fac
             return self._payload
 
     def fake_post(url, headers=None, json=None, timeout=None):
-        request_prompts.append(json["contents"][0]["parts"][0]["text"])
+        captured_requests.append(json)
         return FakeResponse(
             {
                 "candidates": [
                     {
                         "content": {
                             "parts": [
-                                {"text": next(responses)},
+                                {
+                                    "text": json_module.dumps(
+                                        {
+                                            "questions": [
+                                                {
+                                                    "question_index": 1,
+                                                    "stem": "Explain how the lecture connects regularization to controlling model flexibility.",
+                                                    "expected_answer": "A strong answer explains that the lecture treats regularization as a way to limit overly flexible models so they generalize better.",
+                                                    "estimated_minutes": 7,
+                                                }
+                                            ]
+                                        }
+                                    )
+                                },
                             ]
                         }
                     }
@@ -276,6 +272,7 @@ def test_practice_job_retries_invalid_json_once_and_stays_on_gemini_path(app_fac
             }
         )
 
+    json_module = json
     monkeypatch.setattr("learning_service.generation.requests.post", fake_post)
 
     response = client.post(
@@ -299,8 +296,10 @@ def test_practice_job_retries_invalid_json_once_and_stays_on_gemini_path(app_fac
     assert job["status"] == "succeeded"
     stored = service.store.load("practice_sets", job["result_id"])
     assert stored["_meta"]["generation_path"] == "gemini"
-    assert len(request_prompts) == 2
-    assert "Your previous response was not valid JSON." in request_prompts[1]
+    assert len(captured_requests) == 1
+    generation_config = captured_requests[0]["generationConfig"]
+    assert generation_config["responseMimeType"] == "application/json"
+    assert generation_config["responseJsonSchema"]["required"] == ["questions"]
     assert "model flexibility" in stored["questions"][0]["stem"].lower()
 
 
@@ -423,15 +422,9 @@ def test_gemini_client_uses_timeout_ladder_before_falling_back(monkeypatch):
     ]
 
 
-def test_gemini_client_retries_invalid_json_text_once_and_recovers(monkeypatch):
+def test_gemini_client_includes_response_json_schema_when_requested(monkeypatch):
     client = GeminiPrimaryClient(Settings(gemini_api_key="test-key"))
-    request_prompts = []
-    responses = iter(
-        [
-            "This is not JSON",
-            json.dumps({"reply_sections": []}),
-        ]
-    )
+    requests_seen = []
 
     class FakeResponse:
         status_code = 200
@@ -448,14 +441,14 @@ def test_gemini_client_retries_invalid_json_text_once_and_recovers(monkeypatch):
             return self._payload
 
     def fake_post(url, headers=None, json=None, timeout=None):
-        request_prompts.append(json["contents"][0]["parts"][0]["text"])
+        requests_seen.append(json)
         return FakeResponse(
             {
                 "candidates": [
                     {
                         "content": {
                             "parts": [
-                                {"text": next(responses)},
+                                {"text": json_module.dumps({"reply_sections": []})},
                             ]
                         }
                     }
@@ -463,13 +456,28 @@ def test_gemini_client_retries_invalid_json_text_once_and_recovers(monkeypatch):
             }
         )
 
+    json_module = json
     monkeypatch.setattr("learning_service.generation.requests.post", fake_post)
 
-    payload = client.generate_json("system", "user prompt")
+    payload = client.generate_json(
+        "system",
+        "user prompt",
+        response_json_schema={
+            "type": "object",
+            "properties": {
+                "reply_sections": {
+                    "type": "array",
+                    "items": {"type": "object"},
+                }
+            },
+            "required": ["reply_sections"],
+        },
+    )
 
     assert payload == {"reply_sections": []}
-    assert len(request_prompts) == 2
-    assert "Your previous response was not valid JSON." in request_prompts[1]
+    assert len(requests_seen) == 1
+    assert requests_seen[0]["generationConfig"]["responseMimeType"] == "application/json"
+    assert requests_seen[0]["generationConfig"]["responseJsonSchema"]["required"] == ["reply_sections"]
     assert client.last_call_info["failure_reason"] is None
 
 

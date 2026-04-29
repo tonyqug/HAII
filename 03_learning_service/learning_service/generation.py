@@ -186,6 +186,7 @@ class OptionalGeminiClient:
         user_prompt: str,
         max_output_tokens: int,
         response_mime_type: Optional[str] = None,
+        response_json_schema: Optional[Dict[str, Any]] = None,
     ) -> Optional[str]:
         self.last_call_info = self._fresh_call_info()
         if not self.configured:
@@ -208,6 +209,8 @@ class OptionalGeminiClient:
             }
             if response_mime_type:
                 base_generation_config["responseMimeType"] = response_mime_type
+            if response_json_schema is not None:
+                base_generation_config["responseJsonSchema"] = copy.deepcopy(response_json_schema)
             url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
             configured_thinking = self._thinking_config_for_model(model)
             thinking_variants = [configured_thinking] if not configured_thinking else [configured_thinking, None]
@@ -427,22 +430,6 @@ class OptionalGeminiClient:
                 return payload
         return None
 
-    def _json_retry_prompt(self, user_prompt: str, invalid_text: str) -> str:
-        invalid_preview = safe_excerpt(invalid_text, 1200)
-        return (
-            f"{user_prompt}\n\n"
-            "Your previous response was not valid JSON.\n"
-            "Return exactly one JSON object that satisfies the same request.\n"
-            "Formatting rules:\n"
-            "- Output only the JSON object.\n"
-            "- Do not use markdown fences.\n"
-            "- Do not add commentary.\n"
-            "- Use double-quoted JSON strings.\n"
-            "- Do not use trailing commas.\n"
-            "Previous invalid response:\n"
-            f"{invalid_preview}"
-        )
-
     def generate_text(self, system_instruction: str, user_prompt: str, max_output_tokens: int = 256) -> Optional[str]:
         return self._generate_content(
             system_instruction=system_instruction,
@@ -450,37 +437,42 @@ class OptionalGeminiClient:
             max_output_tokens=max_output_tokens,
         )
 
-    def generate_json(self, system_instruction: str, user_prompt: str, max_output_tokens: int = 512) -> Optional[Dict[str, Any]]:
+    def generate_json(
+        self,
+        system_instruction: str,
+        user_prompt: str,
+        max_output_tokens: int = 512,
+        response_json_schema: Optional[Dict[str, Any]] = None,
+    ) -> Optional[Dict[str, Any]]:
         strict_system_instruction = (
-            f"{system_instruction.rstrip()} Return exactly one valid JSON object and nothing else."
-            if system_instruction
-            else "Return exactly one valid JSON object and nothing else."
-        )
-        retry_prompt = user_prompt
-        for json_attempt in range(2):
-            text = self._generate_content(
-                system_instruction=strict_system_instruction,
-                user_prompt=retry_prompt,
-                max_output_tokens=max_output_tokens,
-                response_mime_type="application/json",
+            (
+                f"{system_instruction.rstrip()} Return exactly one JSON object that matches the provided schema and nothing else."
+                if response_json_schema is not None
+                else f"{system_instruction.rstrip()} Return exactly one valid JSON object and nothing else."
             )
-            if not text:
-                return None
-            payload = self._parse_json_object(text)
-            if payload is not None:
-                return payload
-            self.last_call_info["failure_reason"] = "invalid_response_json"
-            self.last_call_info["failure_detail"] = "Gemini returned text that could not be parsed as JSON."
-            self.last_call_info["raw_response_preview"] = self.last_call_info.get("raw_response_preview") or text[:400]
-            if json_attempt == 0:
-                LOGGER.warning(
-                    "Gemini returned invalid JSON text; retrying once with stricter formatting instructions. Preview: %s",
-                    text[:400],
-                )
-                retry_prompt = self._json_retry_prompt(user_prompt, text)
-                continue
-            LOGGER.warning("Gemini returned text that could not be parsed as JSON after retry. Preview: %s", text[:400])
+            if system_instruction
+            else (
+                "Return exactly one JSON object that matches the provided schema and nothing else."
+                if response_json_schema is not None
+                else "Return exactly one valid JSON object and nothing else."
+            )
+        )
+        text = self._generate_content(
+            system_instruction=strict_system_instruction,
+            user_prompt=user_prompt,
+            max_output_tokens=max_output_tokens,
+            response_mime_type="application/json",
+            response_json_schema=response_json_schema,
+        )
+        if not text:
             return None
+        payload = self._parse_json_object(text)
+        if payload is not None:
+            return payload
+        self.last_call_info["failure_reason"] = "invalid_response_json"
+        self.last_call_info["failure_detail"] = "Gemini returned text that could not be parsed as JSON."
+        self.last_call_info["raw_response_preview"] = self.last_call_info.get("raw_response_preview") or text[:400]
+        LOGGER.warning("Gemini returned text that could not be parsed as JSON. Preview: %s", text[:400])
         return None
 
     def external_supplement(self, question_text: str, grounded_answer: str) -> Optional[str]:

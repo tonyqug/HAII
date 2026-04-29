@@ -34,18 +34,25 @@ ALLOWED_SUPPORT_STATUSES = {
     "insufficient_evidence",
 }
 ALLOWED_RESPONSE_STYLES = {"concise", "standard", "step_by_step"}
-ALLOWED_QUESTION_TYPES = {"short_answer", "long_answer"}
+ALLOWED_QUESTION_TYPES = {"multiple_choice", "short_answer", "long_answer"}
 ALLOWED_DIFFICULTIES = {"easier", "mixed", "harder"}
 
 LOGGER = logging.getLogger(__name__)
 
 
 class GeminiPrimaryClient(OptionalGeminiClient):
-    def generate_json(self, system_instruction: str, user_prompt: str, max_output_tokens: int = 2048) -> Optional[Dict[str, Any]]:
+    def generate_json(
+        self,
+        system_instruction: str,
+        user_prompt: str,
+        max_output_tokens: int = 2048,
+        response_json_schema: Optional[Dict[str, Any]] = None,
+    ) -> Optional[Dict[str, Any]]:
         return super().generate_json(
             system_instruction=system_instruction,
             user_prompt=user_prompt,
             max_output_tokens=max_output_tokens,
+            response_json_schema=response_json_schema,
         )
 
 
@@ -84,6 +91,107 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             gemini_failure.get("failure_detail"),
             gemini_failure.get("attempted_models") or [],
         )
+
+    def _practice_rubric_schema(self) -> Dict[str, Any]:
+        return {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "criterion": {"type": "string"},
+                    "description": {"type": "string"},
+                    "points": {"type": "integer", "minimum": 0, "maximum": 20},
+                },
+                "required": ["criterion", "description", "points"],
+                "additionalProperties": False,
+            },
+            "minItems": 1,
+            "maxItems": 6,
+        }
+
+    def _practice_question_update_schema(
+        self,
+        *,
+        id_field: str,
+        include_answer_key: bool,
+        include_rubrics: bool,
+        include_question_type: bool,
+    ) -> Dict[str, Any]:
+        properties: Dict[str, Any] = {
+            id_field: {"type": "integer" if id_field == "question_index" else "string"},
+            "stem": {"type": "string"},
+            "difficulty": {"type": "string", "enum": sorted(ALLOWED_DIFFICULTIES)},
+            "scoring_guide_text": {"type": "string"},
+            "estimated_minutes": {"type": "integer", "minimum": 1, "maximum": 60},
+        }
+        if include_answer_key:
+            properties["expected_answer"] = {"type": "string"}
+        if include_rubrics:
+            properties["rubric"] = self._practice_rubric_schema()
+        properties["answer_choices"] = {
+            "type": "array",
+            "items": {"type": "string"},
+            "minItems": 4,
+            "maxItems": 4,
+        }
+        if include_question_type:
+            properties["question_type"] = {"type": "string", "enum": sorted(ALLOWED_QUESTION_TYPES)}
+        return {
+            "type": "object",
+            "properties": properties,
+            "required": [id_field],
+            "additionalProperties": False,
+        }
+
+    def _practice_generation_response_schema(
+        self,
+        *,
+        question_count: int,
+        include_answer_key: bool,
+        include_rubrics: bool,
+    ) -> Dict[str, Any]:
+        return {
+            "type": "object",
+            "properties": {
+                "template_style_summary": {"type": "string"},
+                "questions": {
+                    "type": "array",
+                    "items": self._practice_question_update_schema(
+                        id_field="question_index",
+                        include_answer_key=include_answer_key,
+                        include_rubrics=include_rubrics,
+                        include_question_type=False,
+                    ),
+                    "minItems": 1,
+                    "maxItems": question_count,
+                },
+            },
+            "required": ["questions"],
+            "additionalProperties": False,
+        }
+
+    def _practice_revision_response_schema(
+        self,
+        *,
+        include_rubrics: bool,
+    ) -> Dict[str, Any]:
+        return {
+            "type": "object",
+            "properties": {
+                "questions": {
+                    "type": "array",
+                    "items": self._practice_question_update_schema(
+                        id_field="question_id",
+                        include_answer_key=True,
+                        include_rubrics=include_rubrics,
+                        include_question_type=True,
+                    ),
+                    "minItems": 1,
+                },
+            },
+            "required": ["questions"],
+            "additionalProperties": False,
+        }
 
     # --------------------------
     # Gemini-backed study plans
@@ -769,9 +877,9 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             f"Current template style summary: {base_artifact.get('template_style_summary') or ''}\n"
             "Current grounded practice draft:\n"
             f"{json.dumps(prompt_questions, ensure_ascii=False)}\n\n"
-            "Return JSON with optional keys template_style_summary and questions.\n"
-            "Each question object must include question_index and may include stem, expected_answer, difficulty, rubric, scoring_guide_text, answer_choices, estimated_minutes.\n"
             "Keep the same number of questions and the same question_type already given for each question_index.\n"
+            "Return at least one improved question.\n"
+            "For each returned question, keep the same question_index and only include fields you want to improve.\n"
             "You are improving an already grounded draft, not inventing a new artifact format.\n"
             "Do not include citation ids, slide numbers, question ids, or commentary outside the JSON object.\n"
             "Make the stems and answer keys sound like serious exam questions rather than copied lecture bullets.\n"
@@ -780,11 +888,16 @@ class GroundedGenerator(HeuristicGroundedGenerator):
         )
         payload = self.gemini.generate_json(
             system_instruction=(
-                "You improve already grounded practice questions from lecture evidence. Return valid JSON only. "
+                "You improve already grounded practice questions from lecture evidence. "
                 "Preserve the question_index mapping and keep each question aligned with its existing grounded coverage."
             ),
             user_prompt=prompt,
             max_output_tokens=2200,
+            response_json_schema=self._practice_generation_response_schema(
+                question_count=len(questions),
+                include_answer_key=include_answer_key,
+                include_rubrics=include_rubrics,
+            ),
         )
         if not isinstance(payload, dict):
             return self._reject_gemini_output("practice set", "Expected a top-level JSON object for the practice set response.", payload=payload)
@@ -1179,16 +1292,20 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             f"Instruction: {instruction_text}\n"
             f"Maintain coverage: {maintain_coverage}\n"
             f"Locked question ids: {sorted(locked)}\n"
-            "Return JSON with key questions. Each question must preserve its question_id. Do not include locked questions.\n"
+            "Return at least one revised question.\n"
+            "Each returned question must preserve its question_id. Do not include locked questions.\n"
             f"Editable questions: {json.dumps(editable, ensure_ascii=False)}\n"
         )
         payload = self.gemini.generate_json(
             system_instruction=(
-                "You revise grounded practice questions after user feedback. Return valid JSON only. "
+                "You revise grounded practice questions after user feedback. "
                 "Do not change question ids or invent unsupported coverage."
             ),
             user_prompt=prompt,
             max_output_tokens=1600,
+            response_json_schema=self._practice_revision_response_schema(
+                include_rubrics=True,
+            ),
         )
         if not isinstance(payload, dict):
             return self._reject_gemini_output("practice set revision", "Expected a top-level JSON object for the practice set revision response.", payload=payload)

@@ -1,6 +1,6 @@
-# Study Helper MVP
+# Study Buddy MVP
 
-Study Helper MVP is a local-first AI study buddy for students. The final shipped product is intentionally narrow and centered on two user-visible workflows:
+Study Buddy MVP is a local-first AI study buddy for students. The final shipped product is intentionally narrow and centered on two user-visible workflows:
 
 - generating grounded practice tests from uploaded course materials
 - asking grounded follow-up questions about those materials

@@ -14,7 +14,6 @@ from .generation import (
     GroundedGenerator as HeuristicGroundedGenerator,
     NeedsUserInputError,
     OptionalGeminiClient,
-    _json_text_candidates,
 )
 from .utils import (
     dedupe_citations,
@@ -43,26 +42,11 @@ LOGGER = logging.getLogger(__name__)
 
 class GeminiPrimaryClient(OptionalGeminiClient):
     def generate_json(self, system_instruction: str, user_prompt: str, max_output_tokens: int = 2048) -> Optional[Dict[str, Any]]:
-        text = self._generate_content(
+        return super().generate_json(
             system_instruction=system_instruction,
             user_prompt=user_prompt,
             max_output_tokens=max_output_tokens,
-            response_mime_type="application/json",
         )
-        if not text:
-            return None
-        for candidate in _json_text_candidates(text):
-            try:
-                payload = json.loads(candidate)
-            except ValueError:
-                continue
-            if isinstance(payload, dict):
-                return payload
-        self.last_call_info["failure_reason"] = "invalid_response_json"
-        self.last_call_info["failure_detail"] = "Gemini returned text that could not be parsed as JSON."
-        self.last_call_info["raw_response_preview"] = self.last_call_info.get("raw_response_preview") or text[:400]
-        LOGGER.warning("Gemini returned text that could not be parsed as JSON. Preview: %s", text[:400])
-        return None
 
 
 class GroundedGenerator(HeuristicGroundedGenerator):

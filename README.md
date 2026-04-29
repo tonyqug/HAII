@@ -7,7 +7,7 @@ Study Buddy MVP is a local-first AI study buddy for students. The final shipped 
 
 The app is general-purpose for student study workflows, but our demo and pilot use introductory machine learning materials as the concrete example.
 
-## Final visible functionality
+## Final functionality
 
 - Create a workspace for a course or exam.
 - Upload lecture slides or notes as PDF, PPTX, or pasted text.
@@ -55,7 +55,7 @@ Main work implemented in this project:
 - citation chips, source viewer, and artifact history so outputs stay inspectable
 - degraded-mode handling and background-job polling so the UI stays honest about system state
 
-Compared with earlier versions of the project, we deliberately narrowed the final product to the two workflows that were most reliable and easiest to evaluate end to end: Practice and Ask.
+Compared with earlier versions of the project, we deliberately narrowed the final product to the two workflows that were most reliable and easiest to evaluate end to end: Practice and Ask. (eliminating worflows like study plan generation)
 
 ## How to run
 

@@ -205,6 +205,52 @@
       },
       "workspace_id": "workspace_fixture_demo"
     },
+    "job_6e9c6711e078": {
+      "context": {
+        "normalized_request": {
+          "coverage_mode": "balanced",
+          "difficulty_profile": "harder",
+          "generation_mode": "mixed",
+          "grounding_mode": "strict_lecture_only",
+          "include_annotations": true,
+          "include_answer_key": false,
+          "include_rubrics": true,
+          "material_ids": [
+            "mat_8d42b5f497924ba7b92aabff1c8941ae",
+            "mat_bb59052d364446d2a30319b565c099ae",
+            "mat_e9a0cd06468140ef9d0b7065c6b90adb"
+          ],
+          "question_count": 6,
+          "workspace_id": "workspace_f58b1a34802a"
+        },
+        "warnings": []
+      },
+      "created_at": "2026-04-29T16:07:10Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_6e9c6711e078",
+      "message": "Practice set created.",
+      "operation": "practice_generate",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_2768e325efcc",
+      "result_id": "practice_set_bb2775bd4dc5",
+      "result_type": "practice_set",
+      "service": "learning",
+      "stage": "done",
+      "status": "succeeded",
+      "updated_at": "2026-04-29T16:07:44Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_f58b1a34802a"
+    },
     "job_8902655b9c69": {
       "context": {
         "conversation_id": "conversation_3e243eb518e2",
@@ -570,7 +616,7 @@
           "mat_e9a0cd06468140ef9d0b7065c6b90adb"
         ]
       },
-      "active_practice_set_id": "practice_set_d192a37dedaa",
+      "active_practice_set_id": "practice_set_bb2775bd4dc5",
       "annotations": [],
       "archived": false,
       "conversations": {
@@ -848,10 +894,18 @@
           "title": "Chat 4:11:53 PM"
         },
         {
-          "active": true,
+          "active": false,
           "artifact_id": "practice_set_d192a37dedaa",
           "artifact_type": "practice_set",
           "created_at": "2026-04-29T15:57:30Z",
+          "parent_artifact_id": null,
+          "title": "mixed"
+        },
+        {
+          "active": true,
+          "artifact_id": "practice_set_bb2775bd4dc5",
+          "artifact_type": "practice_set",
+          "created_at": "2026-04-29T16:07:14Z",
           "parent_artifact_id": null,
           "title": "mixed"
         }
@@ -862,9 +916,10 @@
         "conversation_3ffa00391ea6"
       ],
       "known_practice_set_ids": [
-        "practice_set_d192a37dedaa"
+        "practice_set_d192a37dedaa",
+        "practice_set_bb2775bd4dc5"
       ],
-      "last_opened_at": "2026-04-29T15:59:43Z",
+      "last_opened_at": "2026-04-29T16:07:45Z",
       "local_edits": {},
       "material_preferences": {
         "mat_8d42b5f497924ba7b92aabff1c8941ae": "default",
@@ -3195,6 +3250,430 @@
         "topic_text": ""
       },
       "practice_sets": {
+        "practice_set_bb2775bd4dc5": {
+          "coverage_report": {
+            "cited_slide_count": 4,
+            "considered_slide_count": 98,
+            "notes": "Balanced mode cycled through grounded topics to keep the set representative without forcing full slide-by-slide coverage.",
+            "uncited_or_skipped_slides": [
+              1,
+              2,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              55,
+              56,
+              57,
+              58,
+              59,
+              60,
+              61,
+              62,
+              63,
+              64,
+              65,
+              66,
+              67,
+              68,
+              69,
+              70,
+              71,
+              72,
+              73,
+              74,
+              75,
+              76,
+              77,
+              78,
+              79,
+              80,
+              81,
+              82,
+              83,
+              84,
+              85,
+              86,
+              87,
+              88,
+              89,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98
+            ]
+          },
+          "created_at": "2026-04-29T16:07:14Z",
+          "estimated_duration_minutes": 50,
+          "generation_mode": "mixed",
+          "human_loop_summary": {
+            "follow_up_actions": [
+              "Lock the strongest questions before revising.",
+              "Regenerate only the questions that feel unclear or off-target.",
+              "Narrow the topic if the current set is too broad."
+            ],
+            "used_inputs": [
+              {
+                "label": "Topic focus",
+                "value": "All ready grounded materials"
+              },
+              {
+                "label": "Question format",
+                "value": "mixed"
+              },
+              {
+                "label": "Question count",
+                "value": "6"
+              },
+              {
+                "label": "Coverage mode",
+                "value": "balanced"
+              },
+              {
+                "label": "Difficulty",
+                "value": "harder"
+              },
+              {
+                "label": "Answer key",
+                "value": "Hidden"
+              },
+              {
+                "label": "Rubrics",
+                "value": "Included"
+              }
+            ]
+          },
+          "parent_practice_set_id": null,
+          "practice_set_id": "practice_set_bb2775bd4dc5",
+          "questions": [
+            {
+              "answer_choices": [
+                "Outline Last week: \u25aa Neural Networks \u25aa Backpropagation \u25aa Multivariate chain rule Today: \u25aa Neural network optimization \uf0df three-neuron network \u25aa Backpropagation (scalar version) \uf0df deeeeeppper \u25aa A bit more matrix calculus \u25aa Backpropagation (vector version) \uf0df WIDER.",
+                "Overfitting Definition: The problem of overfitting is when the model captures the noise in the training data instead of the underlying structure Overfitting can occur in all the models we\u2019ve seen so far: \u2013 Decision Trees (e.g.",
+                "It is mainly used to avoid trade-offs entirely by pretending the method needs no contextual checks.",
+                "It is mainly used to report the final result after the important design choices are already locked."
+              ],
+              "citations": [
+                {
+                  "citation_id": "cit_b7a571e4ea28fb91d6588e55",
+                  "confidence": "high",
+                  "material_id": "mat_bb59052d364446d2a30319b565c099ae",
+                  "material_title": "lecture13-backprop-ii.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:3/preview",
+                  "slide_id": "mat_bb59052d364446d2a30319b565c099ae:slide:3",
+                  "slide_number": 3,
+                  "snippet_text": "Outline Last week: \u25aa Neural Networks \u25aa Backpropagation \u25aa Multivariate chain rule Today: \u25aa Neural network optimization \uf0df three-neuron network \u25aa Backpropagation (scalar version) \uf0df deeeeeppper \u25aa A bit more matrix calculus \u25aa Backpropagation (vector version) \uf0df WIDER",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:3/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                3
+              ],
+              "difficulty": "harder",
+              "estimated_minutes": 5,
+              "expected_answer": "",
+              "question_id": "question_6fdbc1c5161c",
+              "question_type": "multiple_choice",
+              "rubric": [
+                {
+                  "criterion": "Core idea",
+                  "description": "Accurately states the main lecture-supported idea behind Outline Last week.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Grounded detail",
+                  "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Reasoning / application",
+                  "description": "Explains how the concept is used, connected, or checked in context.",
+                  "points": 3
+                }
+              ],
+              "scoring_guide_text": "Award credit only for the option that best matches the cited lecture evidence.",
+              "stem": "Justify which statement best matches the lecture's discussion of Outline Last week and the role it plays in the method or evaluation logic."
+            },
+            {
+              "answer_choices": [],
+              "citations": [
+                {
+                  "citation_id": "cit_0eec782d66042ac6b227697d",
+                  "confidence": "high",
+                  "material_id": "mat_8d42b5f497924ba7b92aabff1c8941ae",
+                  "material_title": "lecture11-nn.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_8d42b5f497924ba7b92aabff1c8941ae/slides/mat_8d42b5f497924ba7b92aabff1c8941ae:slide:4/preview",
+                  "slide_id": "mat_8d42b5f497924ba7b92aabff1c8941ae:slide:4",
+                  "slide_number": 4,
+                  "snippet_text": "Overfitting Definition: The problem of overfitting is when the model captures the noise in the training data instead of the underlying structure Overfitting can occur in all the models we\u2019ve seen so far: \u2013 Decision Trees (e.g. when tree is too deep) \u2013 KNN (e.g. when k is small) \u2013 Perceptron (e.g. when sample isn\u2019t rep\u2026",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_8d42b5f497924ba7b92aabff1c8941ae/slides/mat_8d42b5f497924ba7b92aabff1c8941ae:slide:4/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                4
+              ],
+              "difficulty": "harder",
+              "estimated_minutes": 8,
+              "expected_answer": "",
+              "question_id": "question_f6e952364e23",
+              "question_type": "short_answer",
+              "rubric": [
+                {
+                  "criterion": "Core idea",
+                  "description": "Accurately states the main lecture-supported idea behind Overfitting Definition.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Grounded detail",
+                  "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Reasoning / application",
+                  "description": "Explains how the concept is used, connected, or checked in context.",
+                  "points": 3
+                }
+              ],
+              "scoring_guide_text": "A strong answer will accurately define overfitting as the model capturing noise instead of the underlying structure, and then identify a practical consequence such as poor generalization to unseen data or reduced model reliability, directly linked to this definition.",
+              "stem": "The lecture defines overfitting as a critical challenge in model development. First, articulate the core concept of overfitting, distinguishing it from a model accurately learning underlying patterns. Second, based solely on this definition, explain one significant practical implication or potential failure mode for a model that has overfit its training data."
+            },
+            {
+              "answer_choices": [],
+              "citations": [
+                {
+                  "citation_id": "cit_4839a04f5985f85c4d846b09",
+                  "confidence": "high",
+                  "material_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb",
+                  "material_title": "lecture12-backprop.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_e9a0cd06468140ef9d0b7065c6b90adb/slides/mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:4/preview",
+                  "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:4",
+                  "slide_number": 4,
+                  "snippet_text": "Neural Network Example: Neural Network with 2 Hidden Layers and 2 Hidden Units 7 \ud835\udc65! \ud835\udc67! (!) \ud835\udc65$ \ud835\udc65% \ud835\udc67$ (!) \ud835\udefc!! (!) \ud835\udefc!$ (!) \ud835\udefc!% (!) \ud835\udefc$! (!) \ud835\udefc$$ (!) \ud835\udefc$% (!) \ud835\udc67! ($) \ud835\udc67$ ($) \ud835\udefc!! ($) \ud835\udefc!$ ($) \ud835\udefc$! ($) \ud835\udefc$$ ($) \ud835\udc66 \ud835\udefd! \ud835\udefd$ \ud835\udc67! (!) = \u03c3(\ud835\udefc!! ! \ud835\udc65! + \ud835\udefc!$ ! \ud835\udc65$ + \ud835\udefc!% ! \ud835\udc65% + \ud835\udefc!& ! ) \ud835\udc67$ (!) = \u03c3(\ud835\udefc$! ! \ud835\udc65! + \ud835\udefc$$ ! \ud835\udc65$ + \ud835\udefc$% ! \ud835\udc65% + \ud835\udefc$& ! ) \ud835\udc67! ($) =\u2026",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_e9a0cd06468140ef9d0b7065c6b90adb/slides/mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:4/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                4
+              ],
+              "difficulty": "harder",
+              "estimated_minutes": 12,
+              "expected_answer": "",
+              "question_id": "question_509d44284dd6",
+              "question_type": "long_answer",
+              "rubric": [
+                {
+                  "criterion": "Core idea",
+                  "description": "Accurately states the main lecture-supported idea behind Neural Network Example.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Grounded detail",
+                  "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Reasoning / application",
+                  "description": "Explains how the concept is used, connected, or checked in context.",
+                  "points": 3
+                }
+              ],
+              "scoring_guide_text": "Full credit requires a correct explanation of Neural Network Example, a grounded connection to the lecture context, and one clearly stated caution or application detail.",
+              "stem": "Justify a design choice, trade-off, or failure case related to Neural Network Example. Explain what the lecture supports, connect it to the broader procedure or evaluation logic, and state one caution or evidence-backed detail that justifies your reasoning."
+            },
+            {
+              "answer_choices": [
+                "It is mainly used to report the final result after the important design choices are already locked.",
+                "Neural Network (Matrix Form) Example: Arbitrary Feed-forward Neural Network 8 \ud835\udc9b(!) = \u03c3((\ud835\udf36!",
+                "Objective, Loss Functions, Gradient Descent Objective Loss functions \u25aa Regression \u2192 Squared error: \u2113\ud835\udc66, \u0ddc\ud835\udc66= \ud835\udc66\u2212\u0ddc\ud835\udc662 \u25aa Classfication \u2192 Cross entropy: \u2113\ud835\udc9a, \u0ddd\ud835\udc9a= \u2212\u2211\ud835\udc58 \ud835\udc66\ud835\udc58log \u0ddc\ud835\udc66\ud835\udc58 Gradient descent while not converged \ud835\udf03\u2190\ud835\udf03\u2212\ud835\udefc \ud835\udf15\ud835\udc3d \ud835\udf15\ud835\udf03 \ud835\udc3d\ud835\udf03= 1 \ud835\udc41\u0dcd \ud835\udc56=1 \ud835\udc41 \ud835\udc3d(\ud835\udc56) \ud835\udf03 \ud835\udc3d(\ud835\udc56) \ud835\udf03= \u2113\ud835\udc66(\ud835\udc56), \u0ddc\ud835\udc66(\ud835\udc56) \u0ddc\ud835\udc66= \u210e(\ud835\udc65; \ud835\udf03).",
+                "It is mainly used to avoid trade-offs entirely by pretending the method needs no contextual checks."
+              ],
+              "citations": [
+                {
+                  "citation_id": "cit_afb76075939ab0256978231f",
+                  "confidence": "high",
+                  "material_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb",
+                  "material_title": "lecture12-backprop.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_e9a0cd06468140ef9d0b7065c6b90adb/slides/mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:5/preview",
+                  "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:5",
+                  "slide_number": 5,
+                  "snippet_text": "Neural Network (Matrix Form) Example: Arbitrary Feed-forward Neural Network 8 \ud835\udc9b(!) = \u03c3((\ud835\udf36! )'\ud835\udc99+ \ud835\udc83(!)) \ud835\udc65! \ud835\udc67! (!) \ud835\udc65$ \ud835\udc65% \ud835\udc67$ (!) \ud835\udf36(!) \ud835\udc67! ($) \ud835\udc67$ ($) \ud835\udf36($) \ud835\udc66 \ud835\udf37 \ud835\udc67&! (!) \u2026 \u2026 \ud835\udc67&\" ($) \u2026 \ud835\udc9b($) = \u03c3((\ud835\udf36$ )'\ud835\udc9b(!) + \ud835\udc83($)) \ud835\udc66= \u03c3((\ud835\udf37)'\ud835\udc9b($) + \ud835\udefd& ) \ud835\udf36! \u2208\u211d(\u00d7*' \ud835\udc83(!) \u2208\u211d*' \ud835\udf36$ \u2208\u211d*'\u00d7*( \ud835\udc83($) \u2208\u211d*( \ud835\udf37\u2208\u211d*( \ud835\udefd& \u2208\u211d",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_e9a0cd06468140ef9d0b7065c6b90adb/slides/mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:5/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                5
+              ],
+              "difficulty": "harder",
+              "estimated_minutes": 5,
+              "expected_answer": "",
+              "question_id": "question_d36ebfd9a650",
+              "question_type": "multiple_choice",
+              "rubric": [
+                {
+                  "criterion": "Core idea",
+                  "description": "Accurately states the main lecture-supported idea behind Neural Network.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Grounded detail",
+                  "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Reasoning / application",
+                  "description": "Explains how the concept is used, connected, or checked in context.",
+                  "points": 3
+                }
+              ],
+              "scoring_guide_text": "Award credit only for the option that best matches the cited lecture evidence.",
+              "stem": "Justify which statement best matches the lecture's discussion of Neural Network and the role it plays in the method or evaluation logic."
+            },
+            {
+              "answer_choices": [],
+              "citations": [
+                {
+                  "citation_id": "cit_c48c35b98cd1aecc7359e926",
+                  "confidence": "high",
+                  "material_id": "mat_bb59052d364446d2a30319b565c099ae",
+                  "material_title": "lecture13-backprop-ii.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:6/preview",
+                  "slide_id": "mat_bb59052d364446d2a30319b565c099ae:slide:6",
+                  "slide_number": 6,
+                  "snippet_text": "Objective, Loss Functions, Gradient Descent Objective Loss functions \u25aa Regression \u2192 Squared error: \u2113\ud835\udc66, \u0ddc\ud835\udc66= \ud835\udc66\u2212\u0ddc\ud835\udc662 \u25aa Classfication \u2192 Cross entropy: \u2113\ud835\udc9a, \u0ddd\ud835\udc9a= \u2212\u2211\ud835\udc58 \ud835\udc66\ud835\udc58log \u0ddc\ud835\udc66\ud835\udc58 Gradient descent while not converged \ud835\udf03\u2190\ud835\udf03\u2212\ud835\udefc \ud835\udf15\ud835\udc3d/\ud835\udf15\ud835\udf03 \ud835\udc3d\ud835\udf03= 1 \ud835\udc41\u0dcd \ud835\udc56=1 \ud835\udc41 \ud835\udc3d(\ud835\udc56) \ud835\udf03 \ud835\udc3d(\ud835\udc56) \ud835\udf03= \u2113\ud835\udc66(\ud835\udc56), \u0ddc\ud835\udc66(\ud835\udc56) \u0ddc\ud835\udc66= \u210e(\ud835\udc65; \ud835\udf03)",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_bb59052d364446d2a30319b565c099ae/slides/mat_bb59052d364446d2a30319b565c099ae:slide:6/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                6
+              ],
+              "difficulty": "harder",
+              "estimated_minutes": 8,
+              "expected_answer": "",
+              "question_id": "question_352d07a828bb",
+              "question_type": "short_answer",
+              "rubric": [
+                {
+                  "criterion": "Core idea",
+                  "description": "Accurately states the main lecture-supported idea behind Objective Loss.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Grounded detail",
+                  "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Reasoning / application",
+                  "description": "Explains how the concept is used, connected, or checked in context.",
+                  "points": 3
+                }
+              ],
+              "scoring_guide_text": null,
+              "stem": "Analyze the lecture's discussion of Objective Loss in your own words, then identify one practical implication, limitation, trade-off, or failure mode supported by the material."
+            },
+            {
+              "answer_choices": [],
+              "citations": [
+                {
+                  "citation_id": "cit_cc31367146a2e9af83564575",
+                  "confidence": "high",
+                  "material_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb",
+                  "material_title": "lecture12-backprop.pdf",
+                  "preview_url": "http://127.0.0.1:38410/v1/materials/mat_e9a0cd06468140ef9d0b7065c6b90adb/slides/mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:6/preview",
+                  "slide_id": "mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:6",
+                  "slide_number": 6,
+                  "snippet_text": "Deeper Networks 12 \u2026 \u2026 Output Input Hidden Layer 1 Q: How many layers should we use?",
+                  "source_open_url": "http://127.0.0.1:38410/v1/materials/mat_e9a0cd06468140ef9d0b7065c6b90adb/slides/mat_e9a0cd06468140ef9d0b7065c6b90adb:slide:6/source",
+                  "support_type": "explicit"
+                }
+              ],
+              "covered_slides": [
+                6
+              ],
+              "difficulty": "harder",
+              "estimated_minutes": 12,
+              "expected_answer": "",
+              "question_id": "question_1b98ffc90ab9",
+              "question_type": "long_answer",
+              "rubric": [
+                {
+                  "criterion": "Core idea",
+                  "description": "Accurately states the main lecture-supported idea behind Deeper Networks.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Grounded detail",
+                  "description": "Uses a lecture-supported detail, condition, or implication rather than a vague restatement.",
+                  "points": 2
+                },
+                {
+                  "criterion": "Reasoning / application",
+                  "description": "Explains how the concept is used, connected, or checked in context.",
+                  "points": 3
+                }
+              ],
+              "scoring_guide_text": "Full credit requires a correct explanation of Deeper Networks, a grounded connection to the lecture context, and one clearly stated caution or application detail.",
+              "stem": "Justify a design choice, trade-off, or failure case related to Deeper Networks. Explain what the lecture supports, connect it to the broader procedure or evaluation logic, and state one caution or evidence-backed detail that justifies your reasoning."
+            }
+          ],
+          "template_style_summary": null,
+          "topic_text": "",
+          "workspace_id": "workspace_f58b1a34802a"
+        },
         "practice_set_d192a37dedaa": {
           "coverage_report": {
             "cited_slide_count": 2,
@@ -3625,8 +4104,8 @@
       "selected_active_conversation_id": "conversation_3ffa00391ea6",
       "status": {
         "last_successful_sync": {
-          "content": "2026-04-29T15:59:43Z",
-          "learning": "2026-04-29T15:59:43Z"
+          "content": "2026-04-29T16:07:44Z",
+          "learning": "2026-04-29T16:07:45Z"
         },
         "services": {
           "content": {
@@ -3636,7 +4115,7 @@
               "storage_available": true
             },
             "health_status": "ok",
-            "last_checked_at": "2026-04-29T15:59:43Z",
+            "last_checked_at": "2026-04-29T16:07:45Z",
             "mode": "integrated",
             "ready": true
           },
@@ -3654,7 +4133,7 @@
               "standalone_mode_available": true
             },
             "health_status": "ok",
-            "last_checked_at": "2026-04-29T15:59:43Z",
+            "last_checked_at": "2026-04-29T16:07:45Z",
             "mode": "integrated",
             "ready": true
           }
@@ -3690,7 +4169,7 @@
       "history": [],
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
-      "last_opened_at": "2026-04-29T15:59:43Z",
+      "last_opened_at": "2026-04-29T16:07:45Z",
       "local_edits": {},
       "material_preferences": {
         "material_fixture_notes": "default",
@@ -3844,7 +4323,7 @@
               "storage_available": true
             },
             "health_status": "ok",
-            "last_checked_at": "2026-04-29T15:59:43Z",
+            "last_checked_at": "2026-04-29T16:07:45Z",
             "mode": "integrated",
             "ready": true
           },
@@ -3862,7 +4341,7 @@
               "standalone_mode_available": true
             },
             "health_status": "ok",
-            "last_checked_at": "2026-04-29T15:59:43Z",
+            "last_checked_at": "2026-04-29T16:07:45Z",
             "mode": "integrated",
             "ready": true
           }

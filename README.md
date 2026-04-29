@@ -29,6 +29,8 @@ The final UI does not use the earlier study-plan concept. The final demonstrated
 
 ## Open-source code and libraries used
 
+Heavily used Codex and Claude Code while prompting guides design choices, bug fixes, etc.
+
 This repository does not vendor a separate starter application or copied third-party app codebase. The project code in `01_app_shell`, `02_content_service`, and `03_learning_service` was implemented for this project.
 
 We do rely on open-source libraries and APIs, including:

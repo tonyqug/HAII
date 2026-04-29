@@ -1,19 +1,19 @@
 {
-  "created_at": "2026-04-22T21:55:24Z",
+  "created_at": "2026-04-29T16:07:10Z",
   "error": {
     "code": null,
     "message": null,
     "retryable": false
   },
-  "job_id": "job_fc51b8f45f50",
+  "job_id": "job_2768e325efcc",
   "job_type": "practice_set",
   "message": "Practice set created.",
   "progress": 100,
-  "result_id": "practice_set_e4ec9e1f2bee",
+  "result_id": "practice_set_bb2775bd4dc5",
   "result_type": "practice_set",
   "stage": "done",
   "status": "succeeded",
-  "updated_at": "2026-04-22T21:55:24Z",
+  "updated_at": "2026-04-29T16:07:42Z",
   "user_action": {
     "kind": null,
     "options": [],

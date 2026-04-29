@@ -336,7 +336,7 @@ function defaultPracticeDraft(workspace) {
   return {
     topic_text: preferences.topic_text || '',
     question_count: preferences.question_count || 6,
-    generation_mode: preferences.generation_mode || 'mixed',
+    generation_mode: 'short_answer',
     difficulty_profile: preferences.difficulty_profile || 'harder',
     coverage_mode: preferences.coverage_mode || 'balanced',
     grounding_mode: workspace?.grounding_mode || 'lecture_with_fallback',
@@ -757,7 +757,7 @@ function renderWorkspaceOverview() {
           <div class="workflow-step">
             <div class="workflow-step-number">1</div>
             <strong>Set the scope</strong>
-            <span class="small muted">Materials, grounding mode, topic, and format are explicit user choices.</span>
+            <span class="small muted">Materials, grounding mode, topic, and difficulty are explicit user choices.</span>
           </div>
           <div class="workflow-step">
             <div class="workflow-step-number">2</div>
@@ -1073,10 +1073,6 @@ function renderChat() {
   });
 }
 
-function formatQuestionType(questionType) {
-  return titleCaseLabel(questionType || 'question');
-}
-
 function latestPracticeUserAction() {
   const jobs = state.activeWorkspace?.jobs || [];
   return jobs
@@ -1134,8 +1130,8 @@ function renderPracticePreflight() {
           <div>${escapeHtml(draft.topic_text || 'All ready lecture materials')}</div>
         </div>
         <div class="review-item">
-          <div class="small muted">Format and size</div>
-          <div>${escapeHtml(titleCaseLabel(draft.generation_mode))} | ${escapeHtml(String(draft.question_count))} questions</div>
+          <div class="small muted">Question count</div>
+          <div>${escapeHtml(String(draft.question_count))} questions</div>
         </div>
         <div class="review-item">
           <div class="small muted">Difficulty and coverage</div>
@@ -1231,7 +1227,7 @@ function renderPracticeQuestion(question, index) {
       <div class="question-header">
         <div>
           <div><strong>Question ${index + 1}</strong></div>
-          <div class="small muted">${escapeHtml(formatQuestionType(question.question_type))} | ${escapeHtml(titleCaseLabel(question.difficulty || 'mixed'))} | ${escapeHtml(String(question.estimated_minutes || '?'))} min</div>
+          <div class="small muted">${escapeHtml(titleCaseLabel(question.difficulty || 'mixed'))} | ${escapeHtml(String(question.estimated_minutes || '?'))} min</div>
         </div>
         <div class="question-controls">
           <label class="inline-toggle">
@@ -1302,7 +1298,6 @@ function renderPractice() {
   const draft = ensurePracticeDraft(workspace);
   const topicInput = document.getElementById('practice-topic-text');
   const countInput = document.getElementById('practice-count');
-  const modeInput = document.getElementById('practice-mode');
   const difficultyInput = document.getElementById('practice-difficulty');
   const coverageInput = document.getElementById('practice-coverage');
   const groundingInput = document.getElementById('practice-grounding-mode');
@@ -1310,7 +1305,6 @@ function renderPractice() {
   const rubricsInput = document.getElementById('practice-rubrics');
   if (topicInput && topicInput.value !== draft.topic_text) topicInput.value = draft.topic_text || '';
   if (countInput && String(countInput.value) !== String(draft.question_count)) countInput.value = draft.question_count || 6;
-  if (modeInput) modeInput.value = draft.generation_mode || 'mixed';
   if (difficultyInput) difficultyInput.value = draft.difficulty_profile || 'harder';
   if (coverageInput) coverageInput.value = draft.coverage_mode || 'balanced';
   if (groundingInput) groundingInput.value = draft.grounding_mode || workspace.grounding_mode || 'lecture_with_fallback';
@@ -1336,14 +1330,12 @@ function renderPractice() {
           <h3>Active grounded practice test</h3>
         </div>
         <div class="card-chip-row">
-          ${badge(titleCaseLabel(practice.generation_mode || 'mixed'))}
           ${badge(`${practice.questions?.length || 0} questions`)}
           ${badge(`${practice.estimated_duration_minutes || '?'} min`)}
         </div>
       </div>
       ${practice.topic_text ? `<div class="small"><strong>Topic focus:</strong> ${escapeHtml(practice.topic_text)}</div>` : ''}
       <div class="small muted" style="margin-top:8px;">${escapeHtml(coverage.notes || 'Coverage notes are not available yet.')}</div>
-      ${coverage.uncited_or_skipped_slides?.length ? `<div class="service-note warning small" style="margin-top:12px;">Areas still marked as weak or uncovered: slides ${escapeHtml(coverage.uncited_or_skipped_slides.join(', '))}</div>` : ''}
     </div>
     ${renderHumanLoopSummary(practice.human_loop_summary)}
     <div class="audit-summary-card">
@@ -1538,7 +1530,7 @@ function buildPracticeRequestFromForm() {
   return {
     topic_text: document.getElementById('practice-topic-text').value.trim(),
     question_count: optionalPositiveIntegerValue('practice-count') || 6,
-    generation_mode: document.getElementById('practice-mode').value,
+    generation_mode: 'short_answer',
     difficulty_profile: document.getElementById('practice-difficulty').value,
     coverage_mode: document.getElementById('practice-coverage').value,
     grounding_mode: document.getElementById('practice-grounding-mode').value,
@@ -1619,7 +1611,6 @@ function renderDecisionReview() {
 function buildPracticeReviewSections(request) {
   return [
     { label: 'Topic', value: request.topic_text || 'All ready lecture materials' },
-    { label: 'Format', value: titleCaseLabel(request.generation_mode) },
     { label: 'Question count', value: String(request.question_count) },
     { label: 'Difficulty', value: titleCaseLabel(request.difficulty_profile) },
     { label: 'Coverage', value: titleCaseLabel(request.coverage_mode) },
@@ -1766,7 +1757,7 @@ function bindEvents() {
     openDecisionReview({
       kicker: 'Human approval before generation',
       title: 'Review this grounded practice request',
-      description: 'The system should only generate after you confirm the exact topic, format, coverage, difficulty, and grounding behavior.',
+      description: 'The system should only generate after you confirm the exact topic, coverage, difficulty, and grounding behavior.',
       sections: buildPracticeReviewSections(request),
       footnote: 'If the topic is weakly grounded, the service can pause and request clarification instead of silently producing a brittle draft.',
       confirmLabel: 'Generate grounded draft',

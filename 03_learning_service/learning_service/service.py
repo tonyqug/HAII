@@ -852,9 +852,7 @@ class LearningService:
         data = self._ensure_mapping(payload)
         workspace_id = self._required_text(data.get("workspace_id"), "workspace_id")
         material_ids, evidence_bundle = self._normalize_grounding_input(data)
-        generation_mode = self._required_text(data.get("generation_mode"), "generation_mode")
-        if generation_mode not in ALLOWED_GENERATION_MODES:
-            raise RequestValidationError(f"generation_mode must be one of {sorted(ALLOWED_GENERATION_MODES)}")
+        generation_mode = "short_answer"
         coverage_mode = self._optional_text(data.get("coverage_mode")) or "balanced"
         if coverage_mode not in ALLOWED_COVERAGE_MODES:
             raise RequestValidationError(f"coverage_mode must be one of {sorted(ALLOWED_COVERAGE_MODES)}")
@@ -862,8 +860,6 @@ class LearningService:
         if difficulty_profile not in ALLOWED_DIFFICULTIES:
             raise RequestValidationError(f"difficulty_profile must be one of {sorted(ALLOWED_DIFFICULTIES)}")
         template_material_id = self._optional_text(data.get("template_material_id"))
-        if generation_mode == "template_mimic" and not template_material_id:
-            raise RequestValidationError("template_material_id is required when generation_mode is template_mimic")
         return {
             "workspace_id": workspace_id,
             "material_ids": material_ids,

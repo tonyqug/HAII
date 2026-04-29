@@ -844,7 +844,6 @@ class GroundedGenerator(HeuristicGroundedGenerator):
                 "Return a single JSON object whose questions array preserves question_index values exactly."
             ),
             user_prompt=prompt,
-            max_output_tokens=max(3200, min(8192, 900 * len(questions))),
             response_json_schema=self._practice_batch_response_schema(
                 id_field="question_index",
                 include_answer_key=include_answer_key,
@@ -1258,7 +1257,6 @@ class GroundedGenerator(HeuristicGroundedGenerator):
                 "Return a single JSON object whose questions array preserves question_id values exactly."
             ),
             user_prompt=prompt,
-            max_output_tokens=max(2800, min(8192, 900 * len(editable))),
             response_json_schema=self._practice_batch_response_schema(
                 id_field="question_id",
                 include_answer_key=True,

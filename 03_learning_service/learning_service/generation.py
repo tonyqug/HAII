@@ -106,7 +106,6 @@ class OptionalGeminiClient:
             "provider": "gemini",
             "generation_path": "llm",
             "used_model": None,
-            "finish_reason": None,
             "reasoning_enabled": False,
             "reasoning_mode": None,
             "attempted_models": [],
@@ -150,23 +149,6 @@ class OptionalGeminiClient:
         joiner = "" if response_mime_type == "application/json" else "\n"
         combined = joiner.join(text_parts).strip()
         return combined or None
-
-    def _candidate_finish_reason(self, payload: Dict[str, Any]) -> Optional[str]:
-        candidates = payload.get("candidates") or []
-        if not candidates:
-            return None
-        reason = (candidates[0] or {}).get("finishReason")
-        return reason if isinstance(reason, str) and reason else None
-
-    def _looks_like_truncated_json(self, text: str) -> bool:
-        stripped = text.strip()
-        if not stripped:
-            return False
-        if stripped.startswith("{") and not stripped.endswith("}"):
-            return True
-        if stripped.startswith("[") and not stripped.endswith("]"):
-            return True
-        return False
 
     def _failure_reason_for_response(self, response: requests.Response) -> str:
         if response.status_code == RATE_LIMIT_STATUS_CODE:
@@ -429,11 +411,9 @@ class OptionalGeminiClient:
                         advance_model = True
                         break
 
-                    finish_reason = self._candidate_finish_reason(data)
                     self.last_call_info.update(
                         {
                             "used_model": model,
-                            "finish_reason": finish_reason,
                             "reasoning_enabled": bool(thinking_variant),
                             "reasoning_mode": "dynamic" if thinking_variant else None,
                             "failure_reason": None,
@@ -503,38 +483,22 @@ class OptionalGeminiClient:
                 else "Return exactly one valid JSON object and nothing else."
             )
         )
-        token_budgets = [max_output_tokens]
-        retry_budget = min(max_output_tokens * 2, 8192)
-        if response_json_schema is not None and retry_budget > max_output_tokens:
-            token_budgets.append(retry_budget)
-        last_text = ""
-        for budget_index, token_budget in enumerate(token_budgets):
-            text = self._generate_content(
-                system_instruction=strict_system_instruction,
-                user_prompt=user_prompt,
-                max_output_tokens=token_budget,
-                response_mime_type="application/json",
-                response_json_schema=response_json_schema,
-            )
-            if not text:
-                return None
-            last_text = text
-            payload = self._parse_json_object(text)
-            if payload is not None:
-                return payload
-            if budget_index + 1 < len(token_budgets):
-                finish_reason = (self.last_call_info.get("finish_reason") or "").upper()
-                if finish_reason == "MAX_TOKENS" or self._looks_like_truncated_json(text):
-                    LOGGER.warning(
-                        "Gemini structured output looked incomplete (finish_reason=%s); retrying once with a larger token budget.",
-                        finish_reason or "unknown",
-                    )
-                    continue
-                break
+        text = self._generate_content(
+            system_instruction=strict_system_instruction,
+            user_prompt=user_prompt,
+            max_output_tokens=max_output_tokens,
+            response_mime_type="application/json",
+            response_json_schema=response_json_schema,
+        )
+        if not text:
+            return None
+        payload = self._parse_json_object(text)
+        if payload is not None:
+            return payload
         self.last_call_info["failure_reason"] = "invalid_response_json"
         self.last_call_info["failure_detail"] = "Gemini returned text that could not be parsed as JSON."
-        self.last_call_info["raw_response_preview"] = self.last_call_info.get("raw_response_preview") or last_text[:400]
-        LOGGER.warning("Gemini returned text that could not be parsed as JSON. Preview: %s", last_text[:400])
+        self.last_call_info["raw_response_preview"] = self.last_call_info.get("raw_response_preview") or text[:400]
+        LOGGER.warning("Gemini returned text that could not be parsed as JSON. Preview: %s", text[:400])
         return None
 
     def external_supplement(self, question_text: str, grounded_answer: str) -> Optional[str]:

@@ -82,6 +82,52 @@
       "user_action": null,
       "workspace_id": "workspace_f58b1a34802a"
     },
+    "job_48d66d23bb3e": {
+      "context": {
+        "normalized_request": {
+          "coverage_mode": "balanced",
+          "difficulty_profile": "harder",
+          "generation_mode": "mixed",
+          "grounding_mode": "strict_lecture_only",
+          "include_annotations": true,
+          "include_answer_key": false,
+          "include_rubrics": true,
+          "material_ids": [
+            "mat_8d42b5f497924ba7b92aabff1c8941ae",
+            "mat_bb59052d364446d2a30319b565c099ae",
+            "mat_e9a0cd06468140ef9d0b7065c6b90adb"
+          ],
+          "question_count": 6,
+          "workspace_id": "workspace_f58b1a34802a"
+        },
+        "warnings": []
+      },
+      "created_at": "2026-04-29T15:51:55Z",
+      "error": {
+        "code": "primary_generation_fallback_blocked",
+        "message": "Primary Gemini practice generation failed (path=heuristic_fallback, reason=invalid_response_json_payload). Deterministic fallback is disabled for demo reliability. Expected a top-level JSON object for the practice set response. Attempted models: gemini-3-flash-preview.",
+        "retryable": false
+      },
+      "finalized": true,
+      "job_id": "job_48d66d23bb3e",
+      "message": "Primary Gemini practice generation failed (path=heuristic_fallback, reason=invalid_response_json_payload). Deterministic fallback is disabled for demo reliability. Expected a top-level JSON object for the practice set response. Attempted models: gemini-3-flash-preview.",
+      "operation": "practice_generate",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_d3ff51270300",
+      "result_id": null,
+      "result_type": null,
+      "service": "learning",
+      "stage": "failed",
+      "status": "failed",
+      "updated_at": "2026-04-29T15:52:13Z",
+      "user_action": {
+        "kind": null,
+        "options": [],
+        "prompt": null
+      },
+      "workspace_id": "workspace_f58b1a34802a"
+    },
     "job_4de039474e90": {
       "context": {
         "dedup_key": "slides:0765d1483ddeaf0ab4f5ab8c369d2a86a05b8546d9f5e8f7c50b2c1e85fffb34",
@@ -113,6 +159,51 @@
       "updated_at": "2026-04-22T20:29:55Z",
       "user_action": null,
       "workspace_id": "workspace_f58b1a34802a"
+    },
+    "job_5240ffe109a8": {
+      "context": {
+        "normalized_request": {
+          "coverage_mode": "balanced",
+          "difficulty_profile": "mixed",
+          "generation_mode": "mixed",
+          "grounding_mode": "strict_lecture_only",
+          "include_annotations": true,
+          "include_answer_key": true,
+          "include_rubrics": true,
+          "material_ids": [
+            "material_fixture_notes",
+            "material_fixture_slides"
+          ],
+          "question_count": 3,
+          "workspace_id": "workspace_fixture_demo"
+        },
+        "warnings": []
+      },
+      "created_at": "2026-04-29T15:51:25Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": false,
+      "job_id": "job_5240ffe109a8",
+      "message": "I need lecture evidence before I can generate a practice set.",
+      "operation": "practice_generate",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_df81b0a6df39",
+      "result_id": null,
+      "result_type": null,
+      "service": "learning",
+      "stage": "needs_user_input",
+      "status": "needs_user_input",
+      "updated_at": "2026-04-29T15:51:25Z",
+      "user_action": {
+        "kind": "clarification",
+        "options": [],
+        "prompt": "I need lecture evidence before I can generate a practice set."
+      },
+      "workspace_id": "workspace_fixture_demo"
     },
     "job_8902655b9c69": {
       "context": {
@@ -310,6 +401,51 @@
         "prompt": null
       },
       "workspace_id": "workspace_f58b1a34802a"
+    },
+    "job_cd5cc0c4ae91": {
+      "context": {
+        "normalized_request": {
+          "coverage_mode": "balanced",
+          "difficulty_profile": "mixed",
+          "generation_mode": "mixed",
+          "grounding_mode": "strict_lecture_only",
+          "include_annotations": true,
+          "include_answer_key": true,
+          "include_rubrics": true,
+          "material_ids": [
+            "material_fixture_notes",
+            "material_fixture_slides"
+          ],
+          "question_count": 3,
+          "workspace_id": "workspace_fixture_demo"
+        },
+        "warnings": []
+      },
+      "created_at": "2026-04-29T15:51:06Z",
+      "error": {
+        "code": null,
+        "message": null,
+        "retryable": false
+      },
+      "finalized": false,
+      "job_id": "job_cd5cc0c4ae91",
+      "message": "I need lecture evidence before I can generate a practice set.",
+      "operation": "practice_generate",
+      "poll_count": 0,
+      "progress": 100,
+      "remote_job_id": "job_f04173d13e0f",
+      "result_id": null,
+      "result_type": null,
+      "service": "learning",
+      "stage": "needs_user_input",
+      "status": "needs_user_input",
+      "updated_at": "2026-04-29T15:51:06Z",
+      "user_action": {
+        "kind": "clarification",
+        "options": [],
+        "prompt": "I need lecture evidence before I can generate a practice set."
+      },
+      "workspace_id": "workspace_fixture_demo"
     },
     "job_ce4b691cef6f": {
       "context": {
@@ -634,7 +770,7 @@
         "conversation_3ffa00391ea6"
       ],
       "known_practice_set_ids": [],
-      "last_opened_at": "2026-04-29T15:47:49Z",
+      "last_opened_at": "2026-04-29T15:52:14Z",
       "local_edits": {},
       "material_preferences": {
         "mat_8d42b5f497924ba7b92aabff1c8941ae": "default",
@@ -2955,13 +3091,21 @@
         }
       },
       "pending_user_actions": [],
-      "practice_preferences": {},
+      "practice_preferences": {
+        "coverage_mode": "balanced",
+        "difficulty_profile": "harder",
+        "generation_mode": "mixed",
+        "include_answer_key": false,
+        "include_rubrics": true,
+        "question_count": 6,
+        "topic_text": ""
+      },
       "practice_sets": {},
       "selected_active_conversation_id": "conversation_3ffa00391ea6",
       "status": {
         "last_successful_sync": {
-          "content": "2026-04-24T20:12:47Z",
-          "learning": "2026-04-24T20:12:47Z"
+          "content": "2026-04-29T15:52:14Z",
+          "learning": "2026-04-29T15:52:14Z"
         },
         "services": {
           "content": {
@@ -2971,7 +3115,7 @@
               "storage_available": true
             },
             "health_status": "ok",
-            "last_checked_at": "2026-04-29T15:47:49Z",
+            "last_checked_at": "2026-04-29T15:52:14Z",
             "mode": "integrated",
             "ready": true
           },
@@ -2989,7 +3133,7 @@
               "standalone_mode_available": true
             },
             "health_status": "ok",
-            "last_checked_at": "2026-04-29T15:47:49Z",
+            "last_checked_at": "2026-04-29T15:52:14Z",
             "mode": "integrated",
             "ready": true
           }
@@ -3025,7 +3169,7 @@
       "history": [],
       "known_conversation_ids": [],
       "known_practice_set_ids": [],
-      "last_opened_at": "2026-04-29T15:50:23Z",
+      "last_opened_at": "2026-04-29T15:52:14Z",
       "local_edits": {},
       "material_preferences": {
         "material_fixture_notes": "default",
@@ -3137,7 +3281,24 @@
           "workspace_id": "workspace_fixture_demo"
         }
       },
-      "pending_user_actions": [],
+      "pending_user_actions": [
+        {
+          "job_id": "job_cd5cc0c4ae91",
+          "user_action": {
+            "kind": "clarification",
+            "options": [],
+            "prompt": "I need lecture evidence before I can generate a practice set."
+          }
+        },
+        {
+          "job_id": "job_5240ffe109a8",
+          "user_action": {
+            "kind": "clarification",
+            "options": [],
+            "prompt": "I need lecture evidence before I can generate a practice set."
+          }
+        }
+      ],
       "practice_preferences": {
         "coverage_mode": "balanced",
         "difficulty_profile": "mixed",
@@ -3151,8 +3312,8 @@
       "selected_active_conversation_id": null,
       "status": {
         "last_successful_sync": {
-          "content": "2026-04-29T15:50:23Z",
-          "learning": "2026-04-29T15:50:23Z"
+          "content": "2026-04-29T15:51:26Z",
+          "learning": "2026-04-29T15:51:26Z"
         },
         "services": {
           "content": {
@@ -3162,7 +3323,7 @@
               "storage_available": true
             },
             "health_status": "ok",
-            "last_checked_at": "2026-04-29T15:50:23Z",
+            "last_checked_at": "2026-04-29T15:52:14Z",
             "mode": "integrated",
             "ready": true
           },
@@ -3180,7 +3341,7 @@
               "standalone_mode_available": true
             },
             "health_status": "ok",
-            "last_checked_at": "2026-04-29T15:50:23Z",
+            "last_checked_at": "2026-04-29T15:52:14Z",
             "mode": "integrated",
             "ready": true
           }

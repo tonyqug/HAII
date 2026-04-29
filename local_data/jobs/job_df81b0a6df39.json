@@ -1,0 +1,22 @@
+{
+  "created_at": "2026-04-29T15:51:25Z",
+  "error": {
+    "code": null,
+    "message": null,
+    "retryable": false
+  },
+  "job_id": "job_df81b0a6df39",
+  "job_type": "practice_set",
+  "message": "I need lecture evidence before I can generate a practice set.",
+  "progress": 100,
+  "result_id": null,
+  "result_type": null,
+  "stage": "needs_user_input",
+  "status": "needs_user_input",
+  "updated_at": "2026-04-29T15:51:25Z",
+  "user_action": {
+    "kind": "clarification",
+    "options": [],
+    "prompt": "I need lecture evidence before I can generate a practice set."
+  }
+}

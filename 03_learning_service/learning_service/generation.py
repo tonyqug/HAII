@@ -48,6 +48,11 @@ DEFAULT_GEMINI_MODEL_LADDER = (
     "gemini-2.5-flash",
     "gemini-2.5-flash-lite",
 )
+DEFAULT_STRUCTURED_OUTPUT_MODEL_LADDER = (
+    "gemini-2.5-flash",
+    "gemini-2.5-flash-lite",
+    "gemini-3-flash-preview",
+)
 RATE_LIMIT_STATUS_CODE = 429
 TRANSIENT_GEMINI_STATUS_CODES = {503}
 MODEL_COMPATIBILITY_STATUS_CODES = {400, 403, 404}
@@ -118,6 +123,21 @@ class OptionalGeminiClient:
             # Enable dynamic reasoning across the 2.5 fallback ladder, including Flash-Lite.
             return {"thinkingBudget": -1}
         return {}
+
+    def _model_ladder_for_request(
+        self,
+        *,
+        response_mime_type: Optional[str],
+        response_json_schema: Optional[Dict[str, Any]],
+    ) -> Tuple[str, ...]:
+        if response_mime_type != "application/json" or response_json_schema is None:
+            return self.model_ladder
+        preferred = list(DEFAULT_STRUCTURED_OUTPUT_MODEL_LADDER)
+        configured_primary = self.settings.gemini_model.strip()
+        if configured_primary and configured_primary not in preferred:
+            preferred.insert(0, configured_primary)
+        preferred.extend(self.model_ladder)
+        return tuple(dict.fromkeys(model for model in preferred if model))
 
     def _extract_text(self, payload: Dict[str, Any], *, response_mime_type: Optional[str] = None) -> Optional[str]:
         candidates = payload.get("candidates") or []
@@ -203,7 +223,11 @@ class OptionalGeminiClient:
             "Content-Type": "application/json",
         }
 
-        for model in self.model_ladder:
+        request_model_ladder = self._model_ladder_for_request(
+            response_mime_type=response_mime_type,
+            response_json_schema=response_json_schema,
+        )
+        for model in request_model_ladder:
             self.last_call_info["attempted_models"].append(model)
             base_generation_config: Dict[str, Any] = {
                 "temperature": 0.0 if response_mime_type == "application/json" else 0.2,

@@ -99,12 +99,24 @@ class GroundedGenerator(HeuristicGroundedGenerator):
         include_answer_key: bool,
     ) -> Dict[str, Any]:
         properties: Dict[str, Any] = {
-            id_field: {"type": "integer" if id_field == "question_index" else "string"},
-            "stem": {"type": "string"},
-            "scoring_guide_text": {"type": "string"},
+            id_field: {
+                "type": "integer" if id_field == "question_index" else "string",
+                "description": "Preserve the original question identifier exactly.",
+            },
+            "stem": {
+                "type": "string",
+                "description": "A rewritten question stem that stays grounded in the supplied lecture evidence.",
+            },
+            "scoring_guide_text": {
+                "type": "string",
+                "description": "A short grading note describing what a strong answer should include.",
+            },
         }
         if include_answer_key:
-            properties["expected_answer"] = {"type": "string"}
+            properties["expected_answer"] = {
+                "type": "string",
+                "description": "A concise expected answer grounded in the supplied lecture evidence.",
+            }
         return {
             "type": "object",
             "properties": properties,
@@ -112,27 +124,31 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             "additionalProperties": False,
         }
 
-    def _practice_generation_response_schema(
-        self,
-        *,
-        question_count: int,
-        include_answer_key: bool,
-    ) -> Dict[str, Any]:
+    def _single_practice_generation_response_schema(self, *, include_answer_key: bool) -> Dict[str, Any]:
+        properties: Dict[str, Any] = {
+            "question_index": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "The same question index from the input question.",
+            },
+            "stem": {
+                "type": "string",
+                "description": "A rewritten exam-style stem grounded in the lecture evidence.",
+            },
+            "scoring_guide_text": {
+                "type": "string",
+                "description": "A short grading note that describes what a strong answer should mention.",
+            },
+        }
+        if include_answer_key:
+            properties["expected_answer"] = {
+                "type": "string",
+                "description": "A concise expected answer grounded in the lecture evidence.",
+            }
         return {
             "type": "object",
-            "properties": {
-                "template_style_summary": {"type": "string"},
-                "questions": {
-                    "type": "array",
-                    "items": self._practice_question_update_schema(
-                        id_field="question_index",
-                        include_answer_key=include_answer_key,
-                    ),
-                    "minItems": 1,
-                    "maxItems": question_count,
-                },
-            },
-            "required": ["questions"],
+            "properties": properties,
+            "required": ["question_index", "stem"],
             "additionalProperties": False,
         }
 
@@ -802,73 +818,23 @@ class GroundedGenerator(HeuristicGroundedGenerator):
         if not questions:
             return None
 
-        prompt_questions: List[Dict[str, Any]] = []
-        for index, question in enumerate(questions, start=1):
-            evidence_preview = [
-                safe_excerpt(citation.get("snippet_text") or "", 180)
-                for citation in (question.get("citations") or [])[:2]
-                if self._safe_text(citation.get("snippet_text"))
-            ]
-            prompt_questions.append(
-                {
-                    "question_index": index,
-                    "question_type": question.get("question_type"),
-                    "difficulty": question.get("difficulty"),
-                    "covered_slides": question.get("covered_slides") or [],
-                    "current_stem": question.get("stem"),
-                    "current_expected_answer": question.get("expected_answer") if include_answer_key else "",
-                    "current_answer_choices": question.get("answer_choices") if question.get("question_type") == "multiple_choice" else [],
-                    "current_rubric": question.get("rubric") if include_rubrics else [],
-                    "current_scoring_guide_text": question.get("scoring_guide_text") or "",
-                    "evidence_preview": evidence_preview,
-                }
-            )
-
-        prompt = (
-            f"Topic focus: {topic_text or 'all ready grounded materials'}\n"
-            f"Generation mode: {generation_mode}\n"
-            f"Coverage mode: {coverage_mode}\n"
-            f"Difficulty profile: {difficulty_profile}\n"
-            f"Question count: {question_count}\n"
-            f"Grounding mode: {grounding_mode}\n"
-            f"Template material id: {template_material_id or ''}\n"
-            f"Include answer key: {include_answer_key}\n"
-            f"Include rubrics: {include_rubrics}\n"
-            f"Current template style summary: {base_artifact.get('template_style_summary') or ''}\n"
-            "Current grounded practice draft:\n"
-            f"{json.dumps(prompt_questions, ensure_ascii=False)}\n\n"
-            "Keep the same number of questions and the same question_type already given for each question_index.\n"
-            "Return at least one improved question.\n"
-            "For each returned question, keep the same question_index and only rewrite stem, expected_answer, and scoring_guide_text.\n"
-            "Do not rewrite question_type, answer_choices, rubric, difficulty, estimated_minutes, citations, or slide coverage.\n"
-            "You are improving an already grounded draft, not inventing a new artifact format.\n"
-            "Do not include citation ids, slide numbers, question ids, or commentary outside the JSON object.\n"
-            "Make the stems and answer keys sound like serious exam questions rather than copied lecture bullets.\n"
-            "Do not quote or closely mirror the evidence preview; paraphrase it.\n"
-            "If a current draft is already strong, you may keep its structure and make only light edits.\n"
-        )
-        payload = self.gemini.generate_json(
-            system_instruction=(
-                "You improve already grounded practice questions from lecture evidence. "
-                "Preserve the question_index mapping and keep each question aligned with its existing grounded coverage."
-            ),
-            user_prompt=prompt,
-            max_output_tokens=2200,
-            response_json_schema=self._practice_generation_response_schema(
-                question_count=len(questions),
-                include_answer_key=include_answer_key,
-            ),
-        )
-        if not isinstance(payload, dict):
-            return self._reject_gemini_output("practice set", "Expected a top-level JSON object for the practice set response.", payload=payload)
-
-        updates = self._practice_question_updates_by_index(payload.get("questions"), len(questions))
         updated_count = 0
+        last_success_info: Optional[Dict[str, Any]] = None
         enhanced_questions: List[Dict[str, Any]] = []
         for index, question in enumerate(questions, start=1):
+            update = self._improve_single_practice_question_via_gemini(
+                question_index=index,
+                question=question,
+                topic_text=topic_text,
+                generation_mode=generation_mode,
+                coverage_mode=coverage_mode,
+                difficulty_profile=difficulty_profile,
+                include_answer_key=include_answer_key,
+                grounding_mode=grounding_mode,
+            )
             enhanced_question, was_updated = self._merge_practice_question_update(
                 base_question=question,
-                raw_update=updates.get(index),
+                raw_update=update,
                 include_answer_key=include_answer_key,
                 include_rubrics=include_rubrics,
                 difficulty_profile=difficulty_profile,
@@ -876,22 +842,18 @@ class GroundedGenerator(HeuristicGroundedGenerator):
             enhanced_questions.append(enhanced_question)
             if was_updated:
                 updated_count += 1
+                last_success_info = copy.deepcopy(getattr(self.gemini, "last_call_info", {}) or {})
 
-        current_style_summary = base_artifact.get("template_style_summary")
-        template_style_summary = self._safe_text(payload.get("template_style_summary"), fallback="")
-        if not template_style_summary:
-            template_style_summary = current_style_summary
-        template_changed = bool(template_style_summary != current_style_summary)
-        if updated_count == 0 and not template_changed:
+        if updated_count == 0:
             return self._reject_gemini_output(
                 "practice set",
                 "Gemini did not produce any usable question improvements for the grounded practice draft.",
-                payload=payload,
                 reason="no_usable_question_updates",
             )
 
+        if last_success_info:
+            self.gemini.last_call_info = last_success_info
         artifact = copy.deepcopy(base_artifact)
-        artifact["template_style_summary"] = template_style_summary
         artifact["questions"] = enhanced_questions
         artifact["estimated_duration_minutes"] = sum(int(question.get("estimated_minutes") or 0) for question in enhanced_questions)
         artifact.setdefault("_meta", {})["llm_enhanced_questions"] = updated_count
@@ -902,6 +864,69 @@ class GroundedGenerator(HeuristicGroundedGenerator):
         )
         artifact.setdefault("_meta", {})["generation_path"] = "gemini"
         return artifact
+
+    def _improve_single_practice_question_via_gemini(
+        self,
+        *,
+        question_index: int,
+        question: Dict[str, Any],
+        topic_text: Optional[str],
+        generation_mode: str,
+        coverage_mode: str,
+        difficulty_profile: str,
+        include_answer_key: bool,
+        grounding_mode: str,
+    ) -> Optional[Dict[str, Any]]:
+        evidence_preview = [
+            safe_excerpt(citation.get("snippet_text") or "", 180)
+            for citation in (question.get("citations") or [])[:2]
+            if self._safe_text(citation.get("snippet_text"))
+        ]
+        prompt_question = {
+            "question_index": question_index,
+            "question_type": question.get("question_type"),
+            "difficulty": question.get("difficulty"),
+            "covered_slides": question.get("covered_slides") or [],
+            "current_stem": question.get("stem"),
+            "current_expected_answer": question.get("expected_answer") if include_answer_key else "",
+            "current_scoring_guide_text": question.get("scoring_guide_text") or "",
+            "evidence_preview": evidence_preview,
+        }
+        if question.get("question_type") == "multiple_choice":
+            prompt_question["current_answer_choices"] = question.get("answer_choices") or []
+
+        prompt = (
+            f"Topic focus: {topic_text or 'all ready grounded materials'}\n"
+            f"Generation mode: {generation_mode}\n"
+            f"Coverage mode: {coverage_mode}\n"
+            f"Difficulty profile: {difficulty_profile}\n"
+            f"Grounding mode: {grounding_mode}\n"
+            f"Include answer key: {include_answer_key}\n"
+            "Rewrite this one grounded practice question.\n"
+            f"{json.dumps(prompt_question, ensure_ascii=False)}\n\n"
+            "Keep the same question_index.\n"
+            "Only rewrite stem, expected_answer, and scoring_guide_text.\n"
+            "Do not rewrite question_type, answer_choices, rubric, difficulty, estimated_minutes, citations, or slide coverage.\n"
+            "Make the wording sound like a serious exam question rather than copied lecture bullets.\n"
+            "Do not quote or closely mirror the evidence preview; paraphrase it.\n"
+            "Return one JSON object only.\n"
+        )
+        payload = self.gemini.generate_json(
+            system_instruction=(
+                "You improve one grounded practice question from lecture evidence. "
+                "Preserve the question_index and keep the question aligned with its existing grounded coverage."
+            ),
+            user_prompt=prompt,
+            max_output_tokens=700,
+            response_json_schema=self._single_practice_generation_response_schema(
+                include_answer_key=include_answer_key,
+            ),
+        )
+        if not isinstance(payload, dict):
+            return None
+        if int(payload.get("question_index") or 0) != question_index:
+            return None
+        return payload
 
     def _practice_question_updates_by_index(self, value: Any, question_count: int) -> Dict[int, Dict[str, Any]]:
         updates: Dict[int, Dict[str, Any]] = {}
